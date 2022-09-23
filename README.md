@@ -4,4 +4,4 @@ Link: WIP
 
 ## Dokumentáció:
 - Felhasználói kézikönyv: WIP
-- Fejlesztői útmutató: WIP
+- Fejlesztői leírás: WIP
