@@ -1,5 +1,6 @@
 # Gump
 Webes és mobilos alkalmazás, mely lehetővé teszi a receptek moduláris összeállítását, megtekintését és megosztását.
+
 Link: https://gump.netlify.app
 
 ## Dokumentáció:
