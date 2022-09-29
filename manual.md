@@ -1,6 +1,9 @@
 # Gump - Felhasználói kézikönyv
 Funkciók, leírások, tanácsok az appot használóknak.
 
+## Előszó
+A csapatunknak célja egy olyan webes és mobilos alkalmazás készítése, mely lehetővé teszi a receptek moduláris összeállítását, megtekintését és megosztását.
+
 ## Főoldal
 A főoldalon egyből látni lehet néhány kiemelt receptet, napi ajánlást, barátok feed-et és egy menü sávot, ahonnan az oldal többi részét is el lehet érni.
 
