@@ -5,4 +5,4 @@ Link: https://gump.netlify.app (WIP)
 
 ## Dokumentáció:
 - [Felhasználói kézikönyv](https://github.com/14A-A-Lyedlik-Devs/gump-docs/blob/main/manual.md)
-- [Fejlesztői leírás](https://github.com/14A-A-Lyedlik-Devs/gump-docs/blob/main/dev.md)
+- [Specifikáció](https://github.com/14A-A-Lyedlik-Devs/gump-docs/blob/main/dev.md)
