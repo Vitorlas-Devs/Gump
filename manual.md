@@ -20,7 +20,7 @@ Egy véletlenszerűen kivásztott recept kap egy saját kis részt a főoldalon,
 Itt látható, hogy aznap melyik barát, milyen ételt készít/készített. A barátok egymás mentéseit is megtekinthetik, valamint küldhetnek egymásnak recepteket. Csak bejelentkezett felhasználóknak érhető el.
 
 ### Menü sáv
-Reszponzív sáv - számítógépen felül, mobilon alul jelenik meg - innen lehet receptekre keresni, ki-bejelentkeyzi/regisztrálni, saját profilt megtekinteni, vagy a mentések között böngészni.
+Reszponzív sáv - számítógépen felül, mobilon alul jelenik meg - innen lehet receptekre keresni, ki-bejelentkezni/regisztrálni, saját profilt megtekinteni, vagy a mentések között böngészni.
 
 ### I'm feeling lucky
 Az eddig leírt receptböngészési megoldásokon túl lehet használni az 'I'm feeling lucky' ('Jó napom van') gombot, ami egy véletlenszerűen kiválasztott receptet dob fel.
