@@ -1,50 +1,104 @@
-# Gump - Felhasználói kézikönyv
-Funkciók, leírások, tanácsok az appot használóknak.
+# Gump – Specifikáció
 
 ## Előszó
-Csapatunk célja egy olyan webes és mobilos alkalmazás készítése, mely lehetővé teszi a receptek moduláris összeállítását, megtekintését és megosztását.
 
-## Főoldal
-A főoldalon egyből látni lehet néhány kiemelt receptet, napi ajánlást, barátok feed-et és egy menü sávot, ahonnan az oldal többi részét is el lehet érni.
+A Gump egy professzionális webes és mobilos alkalmazás kedvenc receptjeink összeállítására, megtekintésére, valamint megosztására. Egyedülálló módon az elkészítés lépéseit modulokból állítja össze az alkalmazás, melyek az egyes hozzávalók elkészítését is magába foglalják. Ezek tetszés szerint alakíthatóak, kombinálhatóak egyéb receptekkel, így lehetővé téve a moduláris felhasználást. 
+Reméljük ezzel a kis bevezetővel már sokak figyelmét felkeltettük és aktív felhasználói lesznek a Gump-nak.
 
-### Kiemelt receptek
-Alapértelmezetten személyre szabott recept ajánlások, de átváltható más nézetekre is:
-- **Új**: A legújabb receptek
-- **Felkapott**: Sok mentést szerző receptek
-- **Legjobb**: Legtöbbet elmentett receptek
+## Szerepkörök
 
-### Napi ajánlás
-Egy véletlenszerűen kivásztott recept kap egy saját kis részt a főoldalon, ahol a legjobb találatokat ajánlja fel. Bejelentkezett felhasználóknál [személyre szabott ajánlás](#személyre-szabott-ajánlás) is elérhető.
+Alapvetően 2 féle felhasználót különböztet meg az alkalmazás. A regisztrálatlan és a regisztrált felhasználót. Regisztrált felhasználóink továbbá lehetnek olvasók, szerkesztők, moderátorok vagy szakvégzett szakácsok/séfek/cukrászok.
 
-### Barátok-feed
-Itt látható, hogy aznap melyik barát, milyen ételt készít/készített. A barátok egymás mentéseit is megtekinthetik, valamint küldhetnek egymásnak recepteket. Csak bejelentkezett felhasználóknak érhető el.
+## Felhasználói jogok
 
-### Menü sáv
-Reszponzív sáv - számítógépen felül, mobilon alul jelenik meg - innen lehet receptekre keresni, ki-bejelentkezni/regisztrálni, saját profilt megtekinteni, vagy a mentések között böngészni.
+Regisztrálatlan felhasználók: Lehetőségük van valamennyi nyilvánosan elérhető receptet megtekinteni és telefonjukon lementeni offline felhasználásra.
 
-### I'm feeling lucky
-Az eddig leírt receptböngészési megoldásokon túl lehet használni az 'I'm feeling lucky' ('Jó napom van') gombot, ami egy véletlenszerűen kiválasztott receptet dob fel.
+### Regisztrált felhasználók
 
-## Receptek
-Minden, amit a receptek működéséről tudni kell, az lentebb olvasható
+- **Olvasók**: Azon felhasználók, akik még egyetlen receptet sem töltöttek olvasóként vannak megjelölve. Nekik már van felhasználónevük, tehát a közösségi felületet is igénybe vehetik. Részt tudnak venni kihívásokban, ismerőseiket fel tudják venni a barátok listára, rendelkeznek idővonallal, ahova fényképet tudnak feltölteni elkészített ételeikről és a lementett receptjeik bármilyen okoseszközről megtekinthetik. Természetesen offline mentésre is lehetőségük van, ha majd olyan helyen szeretnék a receptet megtekinteni, ahol nem áll rendelkezésre internetkapcsolat.
+- **Szerkesztők**: Az olvasók valamennyi jogával rendelkeznek, azzal a különbséggel, hogy ők már töltöttek fel legalább egy receptet a felületre. A szerkesztőket, illetve azok receptjeit is lehet értékelni, ezzel egyfajta népszerűségi sorrendet kialakítva a szerkesztők és a receptek között.
+- **Szakvégzett szakácsok/séfek/cukrászok**: Ez egy speciális szerepkör, ami azon szerkesztők kiváltásága, akik rendelkeznek valamilyen szakács bizonyítvánnyal. Az ilyen szerkesztőket hiteles forrásként tekintjük és a felhasználóknak lehetőségük van szakmai segítséget kérni tőlük, ha elakadnának a sütés/főzés során. A szakvégzett szerepkört a felhasználó neve melletti pipa ikon jelzi.
+- **Moderátorok**: Ezen felhasználók feladata, hogy folyamatosan ellenőrizzék az oldalra felkerül tartalmakat és oda nem illő tartalom esetén megtegyék a megfelelő intézkedéseket. Ez lehet a recept levétele vagy a receptet feltöltő felhasználó végleges kitiltása.
 
-### Olvasás
-Egy recept megnyitásakor az oldal összegyűjt mindent, és egyetlen receptként jeleníti meg az olvasónak. Az egyes szakaszok (alreceptek) bezárhatóak, kinyithatóak, menthetőek, stb.
+## Alkalmazás felépítése
 
-Egy kisegítő funkció, hogy a lap görgetése megoldható mutogatással, ha van kamera az eszközön.
+Most, hogy megnéztük, kiket különböztetünk meg az oldalon tekintsük át az alkalmazás felépítését.
 
-### Szerkesztés
-3 féle megoldás lehetséges:
-1. **Minimális**: Minden recept a lehető legegyszerűbb utasítás sorból és a lehető legkevesebb hozzávalóból áll. Hozzávalóknak már létező recepteket kell megadni, azok ID-ként lesznek elmentve és betöltésnél azok hozzávalóit jeleníti meg az oldal. Az utasításokhoz kötelező kártyákként kerülnek a beimportált receptek.
-2. **Komplex**: A rendelkezésre álló eszközök segítségével az író a teljes receptet írja meg, azt szekciókra tördelve, amit az oldal szed szét több különböző receptre és optimalizálja az első pont szerint. A hozzávalókba megadja az összes alapanyagot felsorolva. Az elkészítés menetét kártyákkal kell összeállítani: Minden lépés egy új kártya. Egy kártyán belül új kártyákat is létre lehet hozni, ilyenkor egy nevet kell adni a nagy kártyának (egy önálló receptnek kell minősülnie → beállítások gombbal egyéb recept beállításokat lehet hozzáadni, pl. labelek). Hozzávaló hivatkozásokat kell tenni a lépésekbe, amiben megadható, hogy milyen mennyiségben, mit kell használni (Külön gomb, de a szövegből megpróbál rájönni az oldal, hogy mit ír a szerző).
-3. **Nyers**: Hozzávalók ugyanúgy működnek, mint az előző két esetben, de az utasítások megírása már kártyák nélkül történik. Egy átlagos receptleírás adható meg, amiből az oldal magától próbál akár összefűzött kártyákat alkotni. Segíthetjük az oldal munkáját markdown-nal, hogy például az egyes szekciókat megfelelően jelöljük.
-*A megoldásokat lehet vegyíteni, a leghatékonyabb szeerkesztési élményért.*
+### Kezdőlap
 
-### Személyre szabott ajánlás
-Az elmentett receptek alapján az oldal olyanokat keres, amikre olyan felhasználók is kerestek, akik hasonló recepteket mentettek el.
+A kezdőlap több szekcióra van felbontva, melyeken az alábbi kategóriák szerint lehet recepteket böngészni:
 
-#### Legjobb recept összerakás
-Egy receptre kereséskor az oldal olyanokat is feldob, amiket maga állított össze a meglévőkből ajánlások illetve mentések alapján a következőképpen: Kereséskor megkeresi a legjobb receptet, majd annak az alreceptjeit kicseréli a legjobb olyan receptekre, amik megegyező névvel rendelkeznek, mint azok. Rekurzívan végigmegy az összes alrecepten, majd kiad egy olyat, ami valószínűleg tökéletesen megfelel az olvasó számára.
+- Menü:
+  + Ez egy reszponzív navigációs sáv, mely számítógépen felül, okostelefonon alul jelenik meg. Itt kap helyet a keresőmező, a regisztrációs gomb, a ki-, és bejelentkező gomb, a saját profil elérése, valamint az eddig lementett receptek megtekintése.
+- Kiemelt receptek:
+  +	Ebben a szekcióban a felhasználó az alábbi nézetek szerint tudja befolyásolni a megjelenő recepteket.
+  +	Személyre szabott: A keresési és megtekintési előzmények alapján hasonló kategóriájú recepteket jelenít meg.
+  +	Új: Időrendi sorrendben megjeleníti a recepteket.
+  +	Felkapott: Olyan receptek kerülnek ide, melyeket rövid idő alatt sok felhasználó mentett le.
+  +	Legjobb: Azon receptek, melyeket összességében a legtöbben mentettek le.
+-	Napi ajánlás:
+    + Ebben a részben az alkalmazás véletlenszerűen kiválaszt egy ételt, majd az arról szóló receptek közül a legfelkapottabbat jeleníti meg.
+-	Barátok-feed:
+    +	Mint, ahogy a szerepköröknél említettük, a regisztrált felhasználóknak lehetőségük van ismerőseiket felvenni a barátok listára. Itt a barátaink idővonalára feltöltött fényképek, illetve az általuk feltöltött új receptek kapnak helyet.
+-	I’m feeling lucky:
+    +	A napi ajánlással ellentétben ez egy konkrét receptet választ ki véletlenszerűen, függetlenül attól, hogy felkapott-e vagy sem. Abban az esetben, ha a keresőmező nem üres, akkor a benne lévő kulcsszavak alapján választ ki véletlenszerűen egy receptet.
+-	Legjobb recept összeállítás:
+    +	Bizonyára mindenki kíváncsi a létező legtutibb receptre. Az oldal feldob az összes receptet analizálva, egy receptet, ami jobb, mint bármelyik más.
+    +	Legjobb lehet mentések alapján, értékelések alapján, vagy a bejelentkezett felhasználóknál akár személyre szabva.
+    +	!Fun fact!: Egy receptre kereséskor az oldal kilistázza a legjobb recepteket, illetve feldob egy olyan receptet, melyet az oldal állított össze, a legjobb receptből, úgy, hogy annak a receptnek az alreceptjeit lecserélte azok legjobb alternatíváira.
 
-## To be continued
-Ezek még csak a kezdeti tervek. További hasznos funkciókra lehet még számítani...
+### Saját profil
+
+Nevéhez hűen, itt felhasználói fiókunk beállítását tudjuk megadni. Ilyen a felhasználónév, email cím, megjelenítési név, profilkép megadása, stb. Az eddig feltöltött receptjeink és fényképeink is itt jelennek meg, itt van lehetőség új receptet létrehozni, továbbá a barátok listát szerkeszteni.
+
+- Elmentett receptek: Elmentett receptjeink jelennek meg ezen az oldalon. A rendezésüket lehet módosítani az alábbiak szerint:
+  +	Legutóbb hozzáadott
+  +	Legrégebben hozzáadott
+  +	ABC sorrend, cím szerint növekvő
+  +	ABC sorrend, cím szerint csökkentő
+  +	Felkapott
+  +	Legnépszerűbb
+
+Tisztában vagyunk azzal, hogy minden ember ízlése eltérő, ezért a Gump lehetőséget biztosít a regisztrált felhasználóknak az elmentett receptek módosítására, kiegészítésére. Így biztosítjuk azt, hogy mindenki saját ízlésére alakíthassa kedvenc receptjeit.
+
+### Receptek
+
+Ideje néhány szót ejteni a receptek megtekintéséről és létrehozásáról.
+
+#### Receptek megtekintése
+
+Abban az esetben, ha sikerül kiválasztanunk egy receptet az a következők szerint fog megjelenni.
+
+-	Recept cím
+-	Kategória
+-	Értékelés
+-	Mentések száma
+-	Elkészítési idő
+-	Hozzávalók
+-	Elkészítés
+
+Mint, ahogyan az a bevezetőből kiderült a receptek modulokból épülnek fel. A Gump a modulokat kártyáknak nevezi. Az étel elkészítésének minden egyes lépése különálló kártyaként jelenik meg. Léteznek egymásba ágyazott kártyák, azokkal lehet alreceptekre bontani a receptet.
+
+#### Segítségkérés
+
+A felhasználók szakmai segítséget a szakvégzett szakácsoktól tudnak kérni. A szakvégzettek listája egy különálló oldalon jelenik meg. A segítségnyújtást a Community Discord szerveren biztosítjuk.
+
+#### Recept létrehozása
+
+Receptek létrehozásához 3 féle megoldás létezik. Ezek a Minimális, Komplex és Nyers megadási módok, amik közül az alapértelmezett a Komplex megadási mód.
+
+Minimális megadási mód esetén a recept egyes hozzávalóinak feldolgozása nem kerül kifejtésre, helyette ki kell választani, más már létező recepteket és azokból fog összeállni az étel receptje.
+
+A Komplex megadási mód a teljes recept leírása, ahol a szerkesztő választja ki a receptben az alrecepteket. Ilyenkor nem történik utalás más receptekre.
+
+A klasszikus megadási mód, a Nyers. Ilyenkor nem kártyákkal történik a recept elkészítése, hanem mondatok leírásával. Ebben az esetben a program a mondatokat értelmezve felismeri az utasításokat és automatikusan összeállítja a kártyákat. A Gump működését segíthetjük azzal, hogy minden különálló utasítást külön bekezdésbe teszünk, ezzel biztosítva a megfelelő értelemzést.
+
+Természetesen a leghatékonyabb elkészítés érdekében a három módszert együttesen is lehet alkalmazni.
+
+#### Recept törlése
+
+A receptek teljes törlésére akkor van lehetőség, ha a törlendő receptet más felhasználó még nem mentette el magának vagy még nem történt rá hivatkozás másik receptben. Ellenkező esetben a receptet csak archiválni lehet. Ez azt jelenti, hogy az adatbázisban továbbra is jelen lesz a recept, csak a keresésekben nem fog találatként megjelenni.
+
+#### Recept módosítása
+
+Az oldalon lehetőség van meglévő recepteket módosítani, ami ugyanúgy működik, mint a létrehozási felület.
