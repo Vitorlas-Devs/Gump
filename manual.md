@@ -11,7 +11,9 @@ Alapvetően 2 féle felhasználót különböztet meg az alkalmazás. A regisztr
 
 ## Felhasználói jogok
 
-Regisztrálatlan felhasználók: Lehetőségük van valamennyi nyilvánosan elérhető receptet megtekinteni és telefonjukon lementeni offline felhasználásra.
+### Regisztrálatlan felhasználók
+
+Lehetőségük van valamennyi nyilvánosan elérhető receptet megtekinteni és telefonjukon lementeni offline felhasználásra.
 
 ### Regisztrált felhasználók
 
