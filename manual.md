@@ -118,3 +118,17 @@ Példa: Ha az alapanyagnak a neve az, hogy "tojás", akkor egy kosár ikonra kat
 ### Ráklámok
 
 A szokásos formában is megjelenhetnek reklámok, ha egy partner/szponzor ezért fizet. Ezek a reklámok az oldalon különböző helyen jelennének meg, mikor az olvasók a receptek között böngésznek.
+
+## Technikai adatok
+
+### Recept létrehozás/mentés/módosítás/törlés
+
+Minden recept **létrehozás**ánál az bekerül az adatbázisba, az író profilján pedig a `recipes` listába kerül annak az ID-ja.
+
+Ha valaki **lement**i azt a receptet, akkor a recept `saveCount`-ja növekszik egyel (elmentés visszavonásával pedig csökken). A lementő profilján pedig bekerül a `recipes` listájába a recept ID-ja. Az oldal abból különbözteti meg, hogy csak lementve van, vagy Ő is írta, hogy megnézi a szerző ID-ját. (Ha megegyezik, akkor Ő készítette, ha nem, akkor csak lementette.)
+
+Ha a **szerző módosít**ani szeretné a receptjét, de vannak rá hivatkozások máshol, akkor az nem az eredeti recept entry-t módosítja, hanem létrehoz egy teljesen újat, de más ID-jút. Így lesz a szerzőnek a profilján két recept, ahol az egyik a másiknak egy régebbi változata. Hogy a profilon ne jelenjenek meg ezek egymás mellett, az oldal cím alapján egybeteszi őket és csak a legújabbakat mutatja. A régebbieket meg lehet nézni, ha a recept olvasásánál kiválasztunk egy régebbi verziót. Az ID nem random, hanem egy számláló, így az újabb receptek ID-ja magasabb lesz, mint a régieké, ezért ezt könnyedén használhatjuk a receptek verzióinak nyomonküvetésére. Ha az eredeti receptre nem hivatkozik senki a saját receptjében, akkor ez a verziózás kihagyható, egyből az eredeti recept lesz módosí¤va, hogy ne foglaljon fölösleges helyet.
+
+Ha a **szerző töröl**ni szeretné a receptjét, de vannak rá hivatkozások máshol, akkor a recept nem törlődik, hanem az `isArchived` mezője kap igaz értéket. Az archivált receptek nem jelennek meg a szerző profilján, de az arra hivatkozó receptek nem lesznek hiányosak. Ha a receptet senki se használta a sajátjában, akkor nem szükséges archiválni, az adatbázisból egyből törölhető, hogy ne foglaljon fölösleges helyet.
+
+Ha **valaki módosít**ani szeretné más receptjét, akkor az oldal készít egy másolatot arról a receptről a módosító profiljára, amiben Ő lesz az új szerző, kap egy új ID-t is és ez az új ID bekerül az eredeti recept `forks` listájába, valamint az eredeti recept meg bekerül az új recept `originalRecipe` mezőjébe. Innentől a módosítás ugyan úgy történik, mint ahogy fentebb le lett írva a saját recept módosításánál.
