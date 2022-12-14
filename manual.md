@@ -104,3 +104,17 @@ A receptek teljes törlésére akkor van lehetőség, ha a törlendő receptet m
 #### Recept módosítása
 
 Az oldalon lehetőség van meglévő recepteket módosítani, ami ugyanúgy működik, mint a létrehozási felület.
+
+## Partnerek
+
+Monetizálás érdekében partnerségeket lehet kötni különböző szponzorokkal.
+
+### Alapanyag árulás
+
+A partnerek biztosíthatnak egy listát a náluk vásárolható termékekről és azuk árairól, hogy az oldalon az egyes alapanyagoknál megjelenjenek ezek a termékek és az olvasók ez alapján válogathasság össze, hogy honnan vásárolnak be a főzéshez/sütéshez. Lehetőség lenne akciókat is kimutatni. Egyszerű alapanyagoknál és recepteknél is mutatva lehet, mert nem ID-hoz, hanem névhez/címhez kötött.
+
+Példa: Ha az alapanyagnak a neve az, hogy "tojás", akkor egy kosár ikonra kattintva az oldal kilistázza az összes helyet és az árat, ahol árulnak olyan terméket, aminek az a neve, hogy "tojás". Ha az alapanyag hivatkozik egy receptre, aminek az a címe, hogy "Pizzaszósz", akkor a partnerek "pizzaszósz"-ait fogja kilistázni.
+
+### Ráklámok
+
+A szokásos formában is megjelenhetnek reklámok, ha egy partner/szponzor ezért fizet. Ezek a reklámok az oldalon különböző helyen jelennének meg, mikor az olvasók a receptek között böngésznek.
