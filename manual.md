@@ -115,7 +115,7 @@ A partnerek biztosíthatnak egy listát a náluk vásárolható termékekről é
 
 Példa: Ha az alapanyagnak a neve az, hogy "tojás", akkor egy kosár ikonra kattintva az oldal kilistázza az összes helyet és az árat, ahol árulnak olyan terméket, aminek az a neve, hogy "tojás". Ha az alapanyag hivatkozik egy receptre, aminek az a címe, hogy "Pizzaszósz", akkor a partnerek "pizzaszósz"-ait fogja kilistázni.
 
-### Ráklámok
+### Reklámok
 
 A szokásos formában is megjelenhetnek reklámok, ha egy partner/szponzor ezért fizet. Ezek a reklámok az oldalon különböző helyen jelennének meg, mikor az olvasók a receptek között böngésznek.
 
