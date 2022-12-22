@@ -1,3 +1,6 @@
 [submodule "gump-frontend"]
 	path = gump-frontend
 	url = https://github.com/14A-A-Lyedlik-Devs/gump-frontend
+[submodule "gump-backend"]
+	path = gump-backend
+	url = https://github.com/14A-A-Lyedlik-Devs/gump-backend
