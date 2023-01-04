@@ -1,0 +1,10 @@
+{
+	"locale": "hu_HU",
+	"badges": {
+		"hoarderBadgeName": "Halmozó",
+		"hoarderBadgeDescription": "Ments el legalább 100 receptet."
+	},
+	"ui": {
+		"HomeButton": "Főoldal"
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"locale": "en_US",
+	"badges": {
+		"hoarderBadgeName": "Hoarder",
+		"hoarderBadgeDescription": "Save at least 100 recipes"
+	},
+	"ui": {
+		"HomeButton": "Home"
+	}
+}
