@@ -11,8 +11,6 @@
 		// Backend (.NET C#)
 		"ms-dotnettools.csharp",
 		"jmrog.vscode-nuget-package-manager",
-		"editorconfig.editorconfig",
-		"teledemic.branch-warnings",
 		"k--kato.docomment",
 		"formulahendry.dotnet-test-explorer",
 
