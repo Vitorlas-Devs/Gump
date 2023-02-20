@@ -1,8 +1,8 @@
 {
 	"locale": "ko_KR",
 	"badges": {
-		"hoarderBadgeName": "수집광",
-		"hoarderBadgeDescription": "최소 100개의 레시피를 수집했어요."
+		"hoarderBadgeName": "레시피 수집광",
+		"hoarderBadgeDescription": "최소 100개 레시피를 저장해주세요."
 	},
 	"ui": {
 		"HomeButton": "홈"
