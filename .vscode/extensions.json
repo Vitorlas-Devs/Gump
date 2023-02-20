@@ -15,7 +15,6 @@
 		"formulahendry.dotnet-test-explorer",
 
 		// Frontend (Vue.ts)
-		"formulahendry.auto-close-tag",
 		"pranaygp.vscode-css-peek",
 		"dbaeumer.vscode-eslint",
 		"ecmel.vscode-html-css",
