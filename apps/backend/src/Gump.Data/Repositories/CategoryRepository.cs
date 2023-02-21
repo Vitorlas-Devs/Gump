@@ -6,17 +6,8 @@ namespace Gump.Data.Repositories;
 
 public class CategoryRepository : RepositoryBase<CategoryModel>
 {
-	public CategoryRepository(IMongoDatabase database) : base(database)
+	public CategoryRepository(MongoClient dbClient) : base(dbClient)
 	{
-	}
-
-	public override string CollectionName => "categories";
-
-	public override void CreateIndexes()
-	{
-		Collection.Indexes.CreateOne(new CreateIndexModel<CategoryModel>(
-			Builders<CategoryModel>.IndexKeys.Ascending(x => x.Name),
-			new CreateIndexOptions { Unique = true }));
 	}
 
 	public CategoryModel Create(string name)
