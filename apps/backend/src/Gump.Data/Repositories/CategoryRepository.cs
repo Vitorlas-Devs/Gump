@@ -42,7 +42,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 
 	public string GetById(int id)
 	{
-		CategoryModel category = Collection.Find(x => x.Id == id).FirstOrDefault();
+		CategoryModel category = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
 
 		if (category == null)
 		{
@@ -54,7 +54,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 
 	public List<CategoryModel> GetAll()
 	{
-		return Collection.Find(new BsonDocument()).ToList();
+		return Collection.AsQueryable().ToList();
 	}
 
 	public void Update(CategoryModel category)

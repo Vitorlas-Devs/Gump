@@ -10,15 +10,11 @@ namespace Gump.Data.Repositories
 	{
 		protected readonly MongoClient dbClient;
 
-		protected IMongoCollection<T> Collection => dbClient.GetDatabase("gump").GetCollection<T>(typeof(T).Name.ToLower());
+		protected IMongoCollection<T> Collection => dbClient.GetDatabase("gump").GetCollection<T>(typeof(T).Name.ToLower().Replace("Repository", string.Empty));
 
 		public RepositoryBase(MongoClient dbClient)
 		{
-#if DEBUG
-			this.dbClient = new("mongodb://localhost:27017");
-#else
 			this.dbClient = dbClient;
-#endif
 		}
 
 		protected int GetId()
