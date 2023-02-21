@@ -10,7 +10,7 @@ namespace Gump.Data.Repositories
 	{
 		protected readonly MongoClient dbClient;
 
-		protected IMongoCollection<T> Collection => dbClient.GetDatabase("gump").GetCollection<T>(typeof(T).Name.ToLower().Replace("Repository", string.Empty));
+		protected IMongoCollection<T> Collection => dbClient.GetDatabase("gump").GetCollection<T>(typeof(T).Name.ToLowerInvariant().Replace("Repository", string.Empty));
 
 		public RepositoryBase(MongoClient dbClient)
 		{
