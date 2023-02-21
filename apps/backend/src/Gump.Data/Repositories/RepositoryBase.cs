@@ -12,9 +12,9 @@ namespace Gump.Data.Repositories
 
 		protected IMongoCollection<T> Collection => dbClient.GetDatabase("gump").GetCollection<T>(typeof(T).Name.ToLowerInvariant().Replace("Repository", string.Empty));
 
-		public RepositoryBase(MongoClient dbClient)
+		public RepositoryBase(string connectionString)
 		{
-			this.dbClient = dbClient;
+			this.dbClient = new MongoClient(connectionString);
 		}
 
 		protected int GetId()

@@ -6,7 +6,7 @@ namespace Gump.Data.Repositories;
 
 public class CategoryRepository : RepositoryBase<CategoryModel>
 {
-	public CategoryRepository(MongoClient dbClient) : base(dbClient)
+	public CategoryRepository(string connectionString) : base(connectionString)
 	{
 	}
 
