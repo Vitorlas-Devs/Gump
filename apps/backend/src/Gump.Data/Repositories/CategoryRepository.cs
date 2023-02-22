@@ -38,7 +38,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 		return category;
 	}
 
-	public string GetById(int id)
+	public string GetById(ulong id)
 	{
 		CategoryModel category = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
 
@@ -77,7 +77,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 		}
 	}
 
-	public void Delete(int id)
+	public void Delete(ulong id)
 	{
 		CategoryModel category = Collection.Find(x => x.Id == id).FirstOrDefault();
 
