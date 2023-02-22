@@ -6,9 +6,7 @@ namespace Gump.Data.Repositories;
 
 public class CategoryRepository : RepositoryBase<CategoryModel>
 {
-	public CategoryRepository(string connectionString) : base(connectionString)
-	{
-	}
+	public CategoryRepository(string connectionString) : base(connectionString) { }
 
 	public CategoryModel Create(string name)
 	{
@@ -46,7 +44,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 
 		if (category == null)
 		{
-			throw new DocumentNotFoundException($"Document with id {id} not found.");
+			throw new ArgumentNullException($"Document with id {id} not found.");
 		}
 
 		return category.Name;
@@ -85,7 +83,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 
 		if (category == null)
 		{
-			throw new DocumentNotFoundException($"Document with id {id} not found.");
+			throw new ArgumentNullException($"Document with id {id} not found.");
 		}
 
 		try
