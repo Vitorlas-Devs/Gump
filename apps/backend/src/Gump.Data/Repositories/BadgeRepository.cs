@@ -7,21 +7,14 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 {
 	public BadgeRepository(string connectionString) : base(connectionString) { }
 
-	public BadgeModel Create(string name, string description, Uri imageUrl)
+	public BadgeModel Create(BadgeModel badge)
 	{
 
-		if (GetAll().Any(x => x.Name == name))
+		if (GetAll().Any(x => x.Name == badge.Name))
 		{
-			throw new ArgumentException("Badge already exists", nameof(name));
+			throw new ArgumentException($"Badge already exists with name {badge.Name}");
 		}
 
-		BadgeModel badge = new BadgeModel
-		{
-			Id = GetId(),
-			Name = name,
-			Description = description,
-			ImageUrl = imageUrl
-		};
 
 		ValidateFields(badge, "Name", "Description", "ImageUrl");
 
@@ -53,7 +46,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 
 	public BadgeModel Update(BadgeModel badge)
 	{
-		ValidateFields(badge, "Id", "Name", "Description", "ImageUrl");
+		ValidateFields(badge, true);
 
 		if (GetAll().Any(x => x.Name == badge.Name && x.Id != badge.Id))
 		{
