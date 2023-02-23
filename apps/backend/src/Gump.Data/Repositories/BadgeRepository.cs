@@ -25,7 +25,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new Exception("Error while creating badge", ex);
+			throw new AggregateException("Error while creating badge", ex);
 		}
 
 		return badge;
@@ -60,7 +60,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new Exception("Error while updating badge", ex);
+			throw new AggregateException("Error while updating badge", ex);
 		}
 
 		return badge;
@@ -74,7 +74,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new Exception("Error while deleting badge", ex);
+			throw new AggregateException("Error while deleting badge", ex);
 		}
 	}
 }
