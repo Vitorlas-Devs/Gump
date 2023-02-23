@@ -28,6 +28,9 @@ public class UserModel
 	[BsonElement("recipes")]
 	public List<ulong> Recipes { get; set; }
 
+	[BsonElement("likes")]
+	public List<RecipeModel> Likes { get; set; }
+
 	[BsonElement("following")]
 	public List<ulong> Following { get; set; }
 

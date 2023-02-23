@@ -1,8 +1,9 @@
+using Gump.Data.Repositories;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Gump.Data.Models;
 
-public class AdvertModel
+public class AdvertModel : IEntity
 {
 	[BsonId]
 	public ulong Id { get; set; }
