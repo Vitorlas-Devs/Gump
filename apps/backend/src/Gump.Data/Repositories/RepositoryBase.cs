@@ -45,12 +45,10 @@ public class RepositoryBase<T> where T : IEntity
 				throw new ArgumentNullException($"{field} cannot be empty");
 		}
 	}
-	// ValidateFields overload that checks all fields
-	protected void ValidateFields(T entity, bool checkAllFields)
+
+	protected void ValidateAllFields(T entity)
 	{
-		if (checkAllFields)
-			ValidateFields(entity, entity.GetType().GetProperties().Select(x => x.Name).ToArray());
-		else throw new ArgumentException("checkAllFields must be true what are you doing");
+		ValidateFields(entity, entity.GetType().GetProperties().Select(x => x.Name).ToArray());
 	}
 }
 

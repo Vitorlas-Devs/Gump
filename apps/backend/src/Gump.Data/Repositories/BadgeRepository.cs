@@ -47,7 +47,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 
 	public BadgeModel Update(BadgeModel badge)
 	{
-		ValidateFields(badge, true);
+		ValidateAllFields(badge);
 
 		if (GetAll().Any(x => x.Name == badge.Name && x.Id != badge.Id))
 		{
