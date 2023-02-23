@@ -30,7 +30,25 @@ public class RepositoryBase<T> where T : IEntity
 		var unusedId = ids.Select((id, index) => new { id, index }).FirstOrDefault(x => x.id != (ulong)x.index + 1);
 
 		// Return the first unused Id, or the maximum Id + 1 if there are no unused Ids
-		return unusedId != null ? unusedId.id : (ulong)ids.Count + 1;
+		return unusedId == null ? (ulong)ids.Count + 1 : unusedId.id;
+	}
+
+	// validation method that checks the given fields for null or whitespace
+	// fieldsToCheck should be an array of strings or just a string
+	protected void ValidateFields(T entity, params string[] fieldsToCheck)
+	{
+		foreach (var field in fieldsToCheck)
+		{
+			var value = entity.GetType().GetProperty(field).GetValue(entity);
+
+			if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
+				throw new ArgumentNullException($"{field} cannot be empty");
+		}
+	}
+
+	protected void ValidateAllFields(T entity)
+	{
+		ValidateFields(entity, entity.GetType().GetProperties().Select(x => x.Name).ToArray());
 	}
 }
 
