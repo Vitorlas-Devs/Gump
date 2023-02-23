@@ -10,11 +10,6 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 
 	public CategoryModel Create(string name)
 	{
-		if (string.IsNullOrWhiteSpace(name))
-		{
-			throw new ArgumentNullException("Category name cannot be empty");
-		}
-
 		if (GetAll().Any(x => x.Name == name))
 		{
 			throw new ArgumentException("Category already exists", nameof(name));
@@ -26,13 +21,15 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 			Name = name
 		};
 
+		ValidateFields(category, "Name");
+
 		try
 		{
 			Collection.InsertOne(category);
 		}
 		catch (MongoException ex)
 		{
-			throw new Exception("Error while creating category", ex);
+			throw new AggregateException("Error while creating category", ex);
 		}
 
 		return category;
@@ -42,10 +39,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 	{
 		CategoryModel category = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
 
-		if (category == null)
-		{
-			throw new ArgumentNullException($"Document with id {id} not found.");
-		}
+		ValidateFields(category, "Id");
 
 		return category.Name;
 	}
@@ -57,10 +51,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 
 	public void Update(CategoryModel category)
 	{
-		if (string.IsNullOrWhiteSpace(category.Name))
-		{
-			throw new ArgumentNullException("Category name cannot be empty");
-		}
+		ValidateAllFields(category);
 
 		if (GetAll().Any(x => x.Name == category.Name))
 		{
@@ -73,7 +64,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new Exception("Error while updating category", ex);
+			throw new AggregateException("Error while updating category", ex);
 		}
 	}
 
@@ -81,10 +72,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 	{
 		CategoryModel category = Collection.Find(x => x.Id == id).FirstOrDefault();
 
-		if (category == null)
-		{
-			throw new ArgumentNullException($"Document with id {id} not found.");
-		}
+		ValidateFields(category, "Id");
 
 		try
 		{
@@ -92,7 +80,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new Exception("Error while deleting category", ex);
+			throw new AggregateException("Error while deleting category", ex);
 		}
 	}
 }
