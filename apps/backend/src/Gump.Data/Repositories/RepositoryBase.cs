@@ -34,7 +34,7 @@ public class RepositoryBase<T> where T : IEntity
 	}
 
 	// validation method that checks the given fields for null or whitespace
-	// fieldsToCheck should be an array of strings or just a string, so we use params
+	// fieldsToCheck should be an array of strings or just a string
 	protected void ValidateFields(T entity, params string[] fieldsToCheck)
 	{
 		foreach (var field in fieldsToCheck)
@@ -42,10 +42,15 @@ public class RepositoryBase<T> where T : IEntity
 			var value = entity.GetType().GetProperty(field).GetValue(entity);
 
 			if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
-			{
 				throw new ArgumentNullException($"{field} cannot be empty");
-			}
 		}
+	}
+	// ValidateFields overload that checks all fields
+	protected void ValidateFields(T entity, bool checkAllFields)
+	{
+		if (checkAllFields)
+			ValidateFields(entity, entity.GetType().GetProperties().Select(x => x.Name).ToArray());
+		else throw new ArgumentException("checkAllFields must be true what are you doing");
 	}
 }
 
