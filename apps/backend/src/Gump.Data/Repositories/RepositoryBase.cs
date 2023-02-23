@@ -10,7 +10,7 @@ public interface IEntity
 }
 public class RepositoryBase<T> where T : IEntity
 {
-	protected readonly MongoClient dbClient;
+	private readonly MongoClient dbClient;
 
 	protected IMongoCollection<T> Collection => dbClient.GetDatabase("gump").GetCollection<T>(typeof(T).Name.ToLowerInvariant().Replace("Repository", string.Empty));
 
