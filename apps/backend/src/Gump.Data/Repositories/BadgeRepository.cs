@@ -15,6 +15,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 			throw new ArgumentException($"Badge already exists with name {badge.Name}");
 		}
 
+		badge.Id = GetId();
 
 		ValidateFields(badge, "Name", "Description", "ImageUrl");
 
