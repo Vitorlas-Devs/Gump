@@ -1,4 +1,3 @@
-using Gump.Data.Enums;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Gump.Data.Models;
@@ -35,6 +34,9 @@ public class RecipeModel
 	[BsonElement("saveCount")]
 	public int SaveCount { get; set; }
 
+	[BsonElement("likeCount")]
+	public int LikeCount { get; set; }
+
 	[BsonElement("isArchived")]
 	public bool IsArchived { get; set; }
 
@@ -44,8 +46,8 @@ public class RecipeModel
 	[BsonElement("originalRecipe")]
 	public ulong OriginalRecipeId { get; set; }
 
-	[BsonElement("visibility")]
-	public Visibility Visibility { get; set; }
+	[BsonElement("isPrivate")]
+	public bool IsPrivate { get; set; }
 
 	[BsonElement("visibleTo")]
 	public List<ulong> VisibleTo { get; set; }
