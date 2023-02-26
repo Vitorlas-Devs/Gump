@@ -35,8 +35,8 @@ public class RecipeModel : IEntity
 	[BsonElement("saveCount")]
 	public int SaveCount { get; set; }
 
-	[BsonElement("likeCount")]
-	public int LikeCount { get; set; }
+	[BsonElement("likes")]
+	public List<ulong> Likes { get; set; }
 
 	[BsonElement("referenceCount")]
 	public int ReferenceCount { get; set; }
