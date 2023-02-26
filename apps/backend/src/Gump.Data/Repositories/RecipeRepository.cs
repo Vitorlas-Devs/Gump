@@ -71,7 +71,7 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 		return recipe;
 	}
 
-	private RecipeModel Update(RecipeModel recipe)
+	public RecipeModel Update(RecipeModel recipe)
 	{
 		ValidateFields(recipe, "Title", "AuthorId", "Language", "Serves", "Categories", "Ingredients", "Steps", "OriginalRecipeId", "IsPrivate");
 
