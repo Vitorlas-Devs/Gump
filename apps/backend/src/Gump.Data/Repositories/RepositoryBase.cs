@@ -55,7 +55,15 @@ public class RepositoryBase<T> where T : IEntity
 	{
 		foreach (var field in fieldsToNullify)
 		{
-			entity.GetType().GetProperty(field).SetValue(entity, null);
+			var prop = entity.GetType().GetProperty(field);
+			if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+			{
+				prop.SetValue(entity, Activator.CreateInstance(prop.PropertyType));
+			}
+			else
+			{
+				prop.SetValue(entity, null);
+			}
 		}
 	}
 
