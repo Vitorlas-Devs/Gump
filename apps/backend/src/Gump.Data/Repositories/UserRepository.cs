@@ -75,6 +75,39 @@ public class UserRepository : RepositoryBase<UserModel>
 
 	}
 
+	public void Delete(ulong id)
+	{
+		UserModel user = GetById(id);
+		if (user == null)
+		{
+			throw new ArgumentException($"User with id {id} does not exist");
+		}
+
+		// other users' followers and following lists need to be updated
+		foreach (ulong followerId in user.Followers)
+		{
+			UserModel follower = GetById(followerId);
+			follower.Following.Remove(id);
+			Update(follower);
+		}
+
+		foreach (ulong followingId in user.Following)
+		{
+			UserModel following = GetById(followingId);
+			following.Followers.Remove(id);
+			Update(following);
+		}
+
+		try
+		{
+			Collection.DeleteOne(x => x.Id == id);
+		}
+		catch (MongoException ex)
+		{
+			throw new AggregateException("Error while deleting user", ex);
+		}
+	}
+
 	private string HashPassword(string password, string token)
 	{
 		byte[] salt;
@@ -98,5 +131,4 @@ public class UserRepository : RepositoryBase<UserModel>
 
 		return Convert.ToBase64String(hashBytes);
 	}
-
 }
