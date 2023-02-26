@@ -5,8 +5,8 @@ namespace Gump.Data.Models;
 public class VerificationModel
 {
 	[BsonElement("idPhotos")]
-	public List<Uri> IdPhotos { get; set; }
+	public List<ulong> IdPhotos { get; set; }
 
 	[BsonElement("professionPhotos")]
-	public List<Uri> ProfessionPhotos { get; set; }
+	public List<ulong> ProfessionPhotos { get; set; }
 }

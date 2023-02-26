@@ -14,6 +14,6 @@ public class BadgeModel : IEntity
 	[BsonElement("description")]
 	public string Description { get; set; }
 
-	[BsonElement("imageUrl")]
-	public Uri ImageUrl { get; set; }
+	[BsonElement("image")]
+	public ulong ImageId { get; set; }
 }

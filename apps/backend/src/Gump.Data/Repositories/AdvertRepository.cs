@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Gump.Data.Models;
+﻿using Gump.Data.Models;
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Misc;
 
 namespace Gump.Data.Repositories;
 
@@ -22,7 +16,7 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 
 		advert.Id = GetId();
 
-		ValidateFields(advert, "PartnerId", "Title", "ImageUrl");
+		ValidateFields(advert, "PartnerId", "Title", "ImageId");
 
 		try
 		{
