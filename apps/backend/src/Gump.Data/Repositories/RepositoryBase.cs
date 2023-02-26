@@ -45,10 +45,35 @@ public class RepositoryBase<T> where T : IEntity
 				throw new ArgumentNullException($"{field} cannot be empty");
 		}
 	}
-
 	protected void ValidateAllFields(T entity)
 	{
 		ValidateFields(entity, entity.GetType().GetProperties().Select(x => x.Name).ToArray());
+	}
+
+	// method to guarantee that given fields are null for the given entity
+	protected void NullifyFields(T entity, params string[] fieldsToNullify)
+	{
+		foreach (var field in fieldsToNullify)
+		{
+			entity.GetType().GetProperty(field).SetValue(entity, null);
+		}
+	}
+
+	// return a model with all the fields except the given fields
+	public static U CopyExcept<U>(U source, params string[] excludedProperties) where U : new()
+	{
+		var result = new U();
+		var properties = result.GetType().GetProperties();
+
+		foreach (var property in properties)
+		{
+			// If the property is not in the excluded properties, then copy the value from the source object
+			if (!excludedProperties.Contains(property.Name))
+			{
+				property.SetValue(result, property.GetValue(source));
+			}
+		}
+		return result;
 	}
 }
 
