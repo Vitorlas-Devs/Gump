@@ -34,16 +34,19 @@ public class UserRepository : RepositoryBase<UserModel>
 			rng.GetBytes(salt);
 		}
 
-		var pbkdf2 = new Rfc2898DeriveBytes(user.Password, salt, 10000, HashAlgorithmName.SHA256);
+		string pepper = "GumpIsAwesome";
+		string passwordWithPepper = user.Password + pepper;
+
+		// hash password with salt and pepper
+		var pbkdf2 = new Rfc2898DeriveBytes(passwordWithPepper, salt, 10000, HashAlgorithmName.SHA256);
 		byte[] hash = pbkdf2.GetBytes(20);
 
+		// combine salt and hash
 		byte[] hashBytes = new byte[36];
 		Array.Copy(salt, 0, hashBytes, 0, 16);
 		Array.Copy(hash, 0, hashBytes, 16, 20);
 
 		user.Password = Convert.ToBase64String(hashBytes);
-
-
 
 		try
 		{
