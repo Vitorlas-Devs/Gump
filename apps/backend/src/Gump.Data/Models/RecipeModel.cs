@@ -38,6 +38,9 @@ public class RecipeModel : IEntity
 	[BsonElement("likeCount")]
 	public int LikeCount { get; set; }
 
+	[BsonElement("referenceCount")]
+	public int ReferenceCount { get; set; }
+
 	[BsonElement("isArchived")]
 	public bool IsArchived { get; set; }
 

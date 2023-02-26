@@ -1,8 +1,9 @@
+using Gump.Data.Repositories;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Gump.Data.Models;
 
-public class UserModel
+public class UserModel : IEntity
 {
 	[BsonId]
 	public ulong Id { get; set; }
