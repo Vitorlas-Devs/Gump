@@ -62,13 +62,9 @@ public class RepositoryBase<T> where T : IEntity
 	// return a model with all the fields except the given fields
 	public static U CopyExcept<U>(U source, params string[] excludedProperties) where U : new()
 	{
-		// Create a new instance of the result object
 		var result = new U();
-
-		// Get all the properties of the result object
 		var properties = result.GetType().GetProperties();
 
-		// Loop through each property
 		foreach (var property in properties)
 		{
 			// If the property is not in the excluded properties, then copy the value from the source object

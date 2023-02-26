@@ -23,30 +23,8 @@ public class UserRepository : RepositoryBase<UserModel>
 		user.PfpUrl = new Uri("https://cdn.discordapp.com/embed/avatars/0.png");
 		user.Language = "en_US";
 
-		Guid guid = Guid.NewGuid();
-		user.Token = guid.ToString();
-		byte[] guidBytes = guid.ToByteArray();
-
-		byte[] salt;
-		using (var rng = RandomNumberGenerator.Create())
-		{
-			salt = new byte[16];
-			rng.GetBytes(salt);
-		}
-
-		string pepper = "GumpIsAwesome";
-		string passwordWithPepper = user.Password + pepper;
-
-		// hash password with salt and pepper
-		var pbkdf2 = new Rfc2898DeriveBytes(passwordWithPepper, salt, 10000, HashAlgorithmName.SHA256);
-		byte[] hash = pbkdf2.GetBytes(20);
-
-		// combine salt and hash
-		byte[] hashBytes = new byte[36];
-		Array.Copy(salt, 0, hashBytes, 0, 16);
-		Array.Copy(hash, 0, hashBytes, 16, 20);
-
-		user.Password = Convert.ToBase64String(hashBytes);
+		user.Token = Guid.NewGuid().ToString();
+		user.Password = HashPassword(user.Password, user.Token);
 
 		try
 		{
@@ -57,14 +35,68 @@ public class UserRepository : RepositoryBase<UserModel>
 			throw new AggregateException("Error while creating user", ex);
 		}
 
-		// return user without password, token and salt
 		return CopyExcept(user, "Password", "Token");
+	}
 
+	public UserModel GetById(ulong id)
+	{
+		UserModel user = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
+
+		ValidateFields(user, "Id");
+
+		// ⚠️ Password and Token are returned here ⚠️
+		return user;
 	}
 
 	public List<UserModel> GetAll()
 	{
 		return Collection.AsQueryable().ToList();
+	}
+
+	public UserModel Update(UserModel user)
+	{
+		ValidateFields(user, "Id", "Username", "Password", "Email");
+
+		if (GetAll().Any(x => x.Username == user.Username && x.Id != user.Id))
+		{
+			throw new ArgumentException($"User already exists with username {user.Username}");
+		}
+
+		// token is not modifiable so we need to get the old one
+		user.Token = GetById(user.Id).Token;
+
+		// if password is modified, we need to hash it
+		if (user.Password != GetById(user.Id).Password)
+		{
+			user.Password = HashPassword(user.Password, user.Token);
+		}
+
+		return CopyExcept(user, "Password", "Token");
+
+	}
+
+	private string HashPassword(string password, string token)
+	{
+		byte[] salt;
+		using (var rng = RandomNumberGenerator.Create())
+		{
+			salt = new byte[16];
+			rng.GetBytes(salt);
+		}
+
+		string pepper = "GumpIsAwesome";
+		string passwordConcant = password + token + pepper;
+
+		// hash password with salt and pepper
+		var pbkdf2 = new Rfc2898DeriveBytes(passwordConcant, salt, 10000, HashAlgorithmName.SHA256);
+		byte[] hash = pbkdf2.GetBytes(20);
+
+		// combine salt and hash
+		byte[] hashBytes = new byte[36];
+		Array.Copy(salt, 0, hashBytes, 0, 16);
+		Array.Copy(hash, 0, hashBytes, 16, 20);
+
+		return Convert.ToBase64String(hashBytes);
 	}
 
 }
