@@ -60,9 +60,9 @@ public class RepositoryBase<T> where T : IEntity
 	}
 
 	// return a model with all the fields except the given fields
-	public static U CopyExcept<U>(U source, params string[] excludedProperties) where U : new()
+	public static T2 CopyExcept<T2>(T2 source, params string[] excludedProperties) where T2 : new()
 	{
-		var result = new U();
+		var result = new T2();
 		var properties = result.GetType().GetProperties();
 
 		foreach (var property in properties)

@@ -20,8 +20,8 @@ public class UserModel : IEntity
 	[BsonElement("email")]
 	public string Email { get; set; }
 
-	[BsonElement("pfpUrl")]
-	public Uri PfpUrl { get; set; }
+	[BsonElement("profilePicture")]
+	public ulong ProfilePictureId { get; set; }
 
 	[BsonElement("language")]
 	public string Language { get; set; }
