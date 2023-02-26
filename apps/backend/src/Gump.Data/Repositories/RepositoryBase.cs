@@ -12,7 +12,7 @@ public class RepositoryBase<T> where T : IEntity
 {
 	private readonly MongoClient dbClient;
 
-	protected IMongoCollection<T> Collection => dbClient.GetDatabase("gump").GetCollection<T>(typeof(T).Name.ToLowerInvariant().Replace("Repository", string.Empty));
+	protected IMongoCollection<T> Collection => dbClient.GetDatabase("gump").GetCollection<T>($"{typeof(T).Name.ToLowerInvariant().Replace("model", string.Empty)}s");
 
 	public RepositoryBase(string connectionString)
 	{
