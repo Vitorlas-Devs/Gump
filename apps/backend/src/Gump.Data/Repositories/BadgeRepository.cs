@@ -35,6 +35,11 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 	{
 		BadgeModel badge = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
 
+		if (badge == null)
+		{
+			throw new ArgumentNullException($"Badge with id {id} does not exist");
+		}
+
 		ValidateFields(badge, "Id");
 
 		return badge;

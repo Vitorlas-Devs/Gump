@@ -39,6 +39,11 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 	{
 		CategoryModel category = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
 
+		if (category == null)
+		{
+			throw new ArgumentNullException($"Category with id {id} does not exist");
+		}
+
 		ValidateFields(category, "Id");
 
 		return category.Name;

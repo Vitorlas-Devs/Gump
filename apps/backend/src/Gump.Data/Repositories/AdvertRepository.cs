@@ -35,6 +35,11 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 	{
 		AdvertModel advert = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
 
+		if (advert == null)
+		{
+			throw new ArgumentNullException($"Advert with id {id} does not exist");
+		}
+		
 		ValidateFields(advert, "Id");
 
 		return advert;

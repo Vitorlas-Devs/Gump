@@ -42,6 +42,11 @@ public class UserRepository : RepositoryBase<UserModel>
 	{
 		UserModel user = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
 
+		if (user == null)
+		{
+			throw new ArgumentNullException($"User with id {id} does not exist");
+		}
+
 		ValidateFields(user, "Id");
 
 		// ⚠️ Password and Token are returned here ⚠️
