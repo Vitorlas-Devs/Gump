@@ -14,10 +14,7 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 	public AdvertModel Create(AdvertModel advert)
 	{
 		// check if partner exists
-		if (partnerRepository.GetById(advert.PartnerId) == null)
-		{
-			throw new ArgumentException($"Partner with id {advert.PartnerId} does not exist");
-		}
+		partnerRepository.GetById(advert.PartnerId);
 
 		advert.Id = GetId();
 

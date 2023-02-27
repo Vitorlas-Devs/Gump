@@ -41,10 +41,7 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 		if (recipe.OriginalRecipeId != 0)
 		{
 			var originalRecipe = GetById(recipe.OriginalRecipeId);
-			if (originalRecipe == null)
-			{
-				throw new ArgumentException($"Recipe with id {recipe.OriginalRecipeId} does not exist");
-			}
+			
 			originalRecipe.Forks.Add(recipe.Id);
 			originalRecipe.ReferenceCount++;
 			Update(originalRecipe);
@@ -87,20 +84,14 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 		{
 			foreach (var forkRecipeId in recipe.Forks)
 			{
-				if (GetById(forkRecipeId) == null)
-				{
-					throw new ArgumentException($"Fork recipe with id {forkRecipeId} does not exist");
-				}
+				GetById(forkRecipeId);
 			}
 		}
 
 		// check if recipe in originalRecipeId exists
 		if (recipe.OriginalRecipeId != 0)
 		{
-			if (GetById(recipe.OriginalRecipeId) == null)
-			{
-				throw new ArgumentException($"Original recipe with id {recipe.OriginalRecipeId} does not exist");
-			}
+			GetById(recipe.OriginalRecipeId);
 		}
 
 		// originalRecipeId cannot be changed
@@ -141,10 +132,7 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 	// checks that the create and update methods have in common
 	private void RecipeStuff(RecipeModel recipe)
 	{
-		if (userRepository.GetById(recipe.AuthorId) == null)
-		{
-			throw new ArgumentException($"User with id {recipe.AuthorId} does not exist");
-		}
+		userRepository.GetById(recipe.AuthorId);
 
 		foreach (var ingredient in recipe.Ingredients)
 		{
@@ -153,11 +141,6 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 			{
 				// if it has, check if the linked recipe exists
 				var linkedRecipe = GetById(ingredient.LinkedRecipeId);
-
-				if (linkedRecipe == null)
-				{
-					throw new ArgumentException($"Recipe with id {ingredient.LinkedRecipeId} does not exist");
-				}
 
 			}
 
@@ -174,19 +157,13 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 		// check if visibleTo users exist
 		foreach (var userId in recipe.VisibleTo)
 		{
-			if (userRepository.GetById(userId) == null)
-			{
-				throw new ArgumentException($"User with id {userId} does not exist");
-			}
+			userRepository.GetById(userId);
 		}
 
 		// check if categories exist
 		foreach (var categoryId in recipe.Categories)
 		{
-			if (categoryRepository.GetById(categoryId) == null)
-			{
-				throw new ArgumentException($"Category with id {categoryId} does not exist");
-			}
+			categoryRepository.GetById(categoryId);
 		}
 
 		// check language format
@@ -206,11 +183,6 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 	{
 		var recipe = GetById(id);
 
-		// check if recipe exists
-		if (recipe == null)
-		{
-			throw new ArgumentException($"Recipe with id {id} does not exist");
-		}
 
 		if (recipe.Forks.Count > 0)
 			throw new ArgumentException($"Recipe can only be archived, because it has forks");

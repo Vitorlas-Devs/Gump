@@ -95,10 +95,6 @@ public class UserRepository : RepositoryBase<UserModel>
 	public void Delete(ulong id)
 	{
 		UserModel user = GetById(id);
-		if (user == null)
-		{
-			throw new ArgumentException($"User with id {id} does not exist");
-		}
 
 		// other users' followers and following lists need to be updated
 		foreach (ulong followerId in user.Followers)
