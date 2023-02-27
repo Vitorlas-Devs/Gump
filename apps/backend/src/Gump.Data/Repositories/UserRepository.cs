@@ -23,9 +23,18 @@ public class UserRepository : RepositoryBase<UserModel>
 		user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
 		user.Language = "en_US";
 
-		var (password, token) = HashPassword(user.Password, user.Token, pepper);
-		user.Token = token;
+		string salt;
+		using (var rng = RandomNumberGenerator.Create())
+		{
+			var saltByte = new byte[16];
+			rng.GetBytes(saltByte);
+			salt = Convert.ToBase64String(saltByte);
+		}
+
+
+		var password = HashPassword(user.Password, salt, pepper);
 		user.Password = password;
+		user.Token = salt;
 
 		try
 		{
@@ -54,7 +63,7 @@ public class UserRepository : RepositoryBase<UserModel>
 		return Collection.AsQueryable().ToList();
 	}
 
-	
+
 	public UserModel Update(UserModel user) => Update(user, null);
 	public UserModel Update(UserModel user, string pepper)
 	{
@@ -71,7 +80,7 @@ public class UserRepository : RepositoryBase<UserModel>
 		// if password is modified, we need to hash it
 		if (user.Password != GetById(user.Id).Password)
 		{
-			user.Password = HashPassword(user.Password, user.Token, pepper).Item1;
+			user.Password = HashPassword(user.Password, user.Token, pepper);
 		}
 
 		return CopyExcept(user, "Password", "Token");
@@ -111,23 +120,20 @@ public class UserRepository : RepositoryBase<UserModel>
 		}
 	}
 
-	private static (string, string) HashPassword(string password, string token, string pepper)
+	private static string HashPassword(string password, string salt, string pepper)
 	{
-		byte[] salt;
-		using (var rng = RandomNumberGenerator.Create())
-		{
-			salt = new byte[16];
-			rng.GetBytes(salt);
-		}
+		// convert salt and pepper to byte arrays
+		byte[] saltByte = Convert.FromBase64String(salt);
+		byte[] pepperByte = Convert.FromBase64String(pepper);
 
 		// hash password with salt
-		var passwordSalty = new Rfc2898DeriveBytes(password, salt, 10000, HashAlgorithmName.SHA256);
+		var passwordSalty = new Rfc2898DeriveBytes(password, saltByte, 10000, HashAlgorithmName.SHA256);
 		byte[] hash = passwordSalty.GetBytes(32);
-		
-		// hash password with pepper
-		var passwordHashed = new Rfc2898DeriveBytes(hash, salt, 10000, HashAlgorithmName.SHA256);
 
-		// return the hashed password and the salt (token)
-		return (Convert.ToBase64String(passwordHashed.GetBytes(32)), Convert.ToBase64String(salt));
+		// hash password with pepper
+		var passwordHashed = new Rfc2898DeriveBytes(hash, pepperByte, 10000, HashAlgorithmName.SHA256);
+
+		// return the hashed password
+		return Convert.ToBase64String(passwordHashed.GetBytes(32));
 	}
 }
