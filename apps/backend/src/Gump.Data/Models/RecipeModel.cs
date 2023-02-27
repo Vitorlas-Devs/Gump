@@ -1,8 +1,9 @@
+using Gump.Data.Repositories;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Gump.Data.Models;
 
-public class RecipeModel
+public class RecipeModel : IEntity
 {
 	[BsonId]
 	public ulong Id { get; set; }
@@ -34,8 +35,8 @@ public class RecipeModel
 	[BsonElement("saveCount")]
 	public int SaveCount { get; set; }
 
-	[BsonElement("likeCount")]
-	public int LikeCount { get; set; }
+	[BsonElement("likes")]
+	public List<ulong> Likes { get; set; }
 
 	[BsonElement("referenceCount")]
 	public int ReferenceCount { get; set; }
