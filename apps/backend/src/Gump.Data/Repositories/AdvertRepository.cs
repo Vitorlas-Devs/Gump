@@ -5,13 +5,18 @@ namespace Gump.Data.Repositories;
 
 public class AdvertRepository : RepositoryBase<AdvertModel>
 {
-	public AdvertRepository(string connectionString) : base(connectionString) { }
+	private readonly PartnerRepository partnerRepository;
+	public AdvertRepository(string connectionString) : base(connectionString)
+	{
+		partnerRepository = new PartnerRepository(connectionString);
+	}
 
 	public AdvertModel Create(AdvertModel advert)
 	{
-		if (!GetAll().Any(x => x.PartnerId == advert.PartnerId))
+		// check if partner exists
+		if (partnerRepository.GetById(advert.PartnerId) == null)
 		{
-			throw new ArgumentException($"Partner does not exists with id {advert.PartnerId}");
+			throw new ArgumentException($"Partner with id {advert.PartnerId} does not exist");
 		}
 
 		advert.Id = GetId();

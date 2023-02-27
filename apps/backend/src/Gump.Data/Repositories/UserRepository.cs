@@ -8,7 +8,7 @@ public class UserRepository : RepositoryBase<UserModel>
 {
 	public UserRepository(string connectionString) : base(connectionString) { }
 
-	public UserModel Create(UserModel user)
+	public UserModel Create(UserModel user, string pepper)
 	{
 		if (GetAll().Any(x => x.Username == user.Username))
 		{
@@ -23,8 +23,18 @@ public class UserRepository : RepositoryBase<UserModel>
 		user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
 		user.Language = "en_US";
 
-		user.Token = Guid.NewGuid().ToString();
-		user.Password = HashPassword(user.Password, user.Token);
+		string salt;
+		using (var rng = RandomNumberGenerator.Create())
+		{
+			var saltByte = new byte[16];
+			rng.GetBytes(saltByte);
+			salt = Convert.ToBase64String(saltByte);
+		}
+
+
+		var password = HashPassword(user.Password, salt, pepper);
+		user.Password = password;
+		user.Token = salt;
 
 		try
 		{
@@ -53,7 +63,9 @@ public class UserRepository : RepositoryBase<UserModel>
 		return Collection.AsQueryable().ToList();
 	}
 
-	public UserModel Update(UserModel user)
+
+	public UserModel Update(UserModel user) => Update(user, null);
+	public UserModel Update(UserModel user, string pepper)
 	{
 		ValidateFields(user, "Id", "Username", "Password", "Email");
 
@@ -68,7 +80,7 @@ public class UserRepository : RepositoryBase<UserModel>
 		// if password is modified, we need to hash it
 		if (user.Password != GetById(user.Id).Password)
 		{
-			user.Password = HashPassword(user.Password, user.Token);
+			user.Password = HashPassword(user.Password, user.Token, pepper);
 		}
 
 		return CopyExcept(user, "Password", "Token");
@@ -108,27 +120,20 @@ public class UserRepository : RepositoryBase<UserModel>
 		}
 	}
 
-	private static string HashPassword(string password, string token)
+	private static string HashPassword(string password, string salt, string pepper)
 	{
-		byte[] salt;
-		using (var rng = RandomNumberGenerator.Create())
-		{
-			salt = new byte[16];
-			rng.GetBytes(salt);
-		}
+		// convert salt and pepper to byte arrays
+		byte[] saltByte = Convert.FromBase64String(salt);
+		byte[] pepperByte = Convert.FromBase64String(pepper);
 
-		string pepper = "GumpIsAwesome";
-		string passwordConcant = password + token + pepper;
+		// hash password with salt
+		var passwordSalty = new Rfc2898DeriveBytes(password, saltByte, 10000, HashAlgorithmName.SHA256);
+		byte[] hash = passwordSalty.GetBytes(32);
 
-		// hash password with salt and pepper
-		var pbkdf2 = new Rfc2898DeriveBytes(passwordConcant, salt, 10000, HashAlgorithmName.SHA256);
-		byte[] hash = pbkdf2.GetBytes(20);
+		// hash password with pepper
+		var passwordHashed = new Rfc2898DeriveBytes(hash, pepperByte, 10000, HashAlgorithmName.SHA256);
 
-		// combine salt and hash
-		byte[] hashBytes = new byte[36];
-		Array.Copy(salt, 0, hashBytes, 0, 16);
-		Array.Copy(hash, 0, hashBytes, 16, 20);
-
-		return Convert.ToBase64String(hashBytes);
+		// return the hashed password
+		return Convert.ToBase64String(passwordHashed.GetBytes(32));
 	}
 }
