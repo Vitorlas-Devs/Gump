@@ -17,7 +17,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 
 		badge.Id = GetId();
 
-		ValidateFields(badge, "Name", "Description", "ImageUrl");
+		ValidateFields(badge, "Name", "Description", "ImageId");
 
 		try
 		{

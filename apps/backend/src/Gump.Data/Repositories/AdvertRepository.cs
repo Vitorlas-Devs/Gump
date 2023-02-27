@@ -21,7 +21,7 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 
 		advert.Id = GetId();
 
-		ValidateFields(advert, "PartnerId", "Title", "ImageUrl");
+		ValidateFields(advert, "PartnerId", "Title", "ImageId");
 
 		try
 		{

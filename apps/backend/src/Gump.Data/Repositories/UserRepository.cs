@@ -18,9 +18,9 @@ public class UserRepository : RepositoryBase<UserModel>
 		user.Id = GetId();
 
 		ValidateFields(user, "Username", "Password", "Email");
-		NullifyFields(user, "PfpUrl", "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator", "Verified");
+		NullifyFields(user, "ProfilePictureId", "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator", "Verified");
 
-		user.PfpUrl = new Uri("https://cdn.discordapp.com/embed/avatars/0.png");
+		user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
 		user.Language = "en_US";
 
 		user.Token = Guid.NewGuid().ToString();
@@ -108,7 +108,7 @@ public class UserRepository : RepositoryBase<UserModel>
 		}
 	}
 
-	private string HashPassword(string password, string token)
+	private static string HashPassword(string password, string token)
 	{
 		byte[] salt;
 		using (var rng = RandomNumberGenerator.Create())
