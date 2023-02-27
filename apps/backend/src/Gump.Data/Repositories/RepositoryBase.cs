@@ -84,9 +84,9 @@ public class RepositoryBase<T> where T : IEntity
 		return result;
 	}
 
-	public virtual List<T> GetAll()
+	public IEnumerable<T> GetAll()
 	{
-		return Collection.AsQueryable().ToList();
+		return Collection.AsQueryable();
 	}
 
 	public T GetById(ulong id)

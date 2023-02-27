@@ -117,8 +117,4 @@ public class UserRepository : RepositoryBase<UserModel>
 		return Convert.ToBase64String(passwordHashed.GetBytes(32));
 	}
 
-		public override List<UserModel> GetAll()
-	{
-		throw new NotSupportedException("You can not use GetAll() in User Repository");
-	}
 }

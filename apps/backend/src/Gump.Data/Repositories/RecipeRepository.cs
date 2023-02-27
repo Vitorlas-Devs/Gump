@@ -198,9 +198,4 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 			throw new AggregateException("Error while deleting recipe", ex);
 		}
 	}
-
-	public override List<RecipeModel> GetAll()
-	{
-		throw new NotSupportedException("You can not use GetAll() in Recipe Repository");
-	}
 }
