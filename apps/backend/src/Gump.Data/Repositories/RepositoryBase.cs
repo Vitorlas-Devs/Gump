@@ -8,7 +8,7 @@ public interface IEntity
 	// so all models must implement this interface, sorry
 	ulong Id { get; set; }
 }
-public class RepositoryBase<T> where T : IEntity
+public class RepositoryBase<T> where T : class, IEntity
 {
 	private readonly MongoClient dbClient;
 
@@ -82,6 +82,26 @@ public class RepositoryBase<T> where T : IEntity
 			}
 		}
 		return result;
+	}
+
+	public IEnumerable<T> GetAll()
+	{
+		return Collection.AsQueryable();
+	}
+
+	public T GetById(ulong id)
+	{
+		T entity = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
+
+		if (entity == null)
+		{
+			throw new ArgumentNullException($"{typeof(T).Name.Replace("Model", string.Empty)} with id {id} does not exist");
+		}
+
+		ValidateFields(entity, "Id");
+
+		return entity;
+
 	}
 }
 
