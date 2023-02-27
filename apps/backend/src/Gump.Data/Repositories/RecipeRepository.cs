@@ -66,6 +66,11 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 	{
 		RecipeModel recipe = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
 
+		if (recipe == null)
+		{
+			throw new ArgumentNullException($"Recipe with id {id} does not exist");
+		}
+
 		ValidateFields(recipe, "Id");
 
 		return recipe;
