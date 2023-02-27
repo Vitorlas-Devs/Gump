@@ -10,7 +10,7 @@
 
 		// Backend (.NET C#)
 		"ms-dotnettools.csharp",
-		"jmrog.vscode-nuget-package-manager",
+		"patcx.vscode-nuget-gallery",
 		"k--kato.docomment",
 		"formulahendry.dotnet-test-explorer",
 
