@@ -48,27 +48,6 @@ public class UserRepository : RepositoryBase<UserModel>
 		return CopyExcept(user, "Password", "Token");
 	}
 
-	public UserModel GetById(ulong id)
-	{
-		UserModel user = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
-
-		if (user == null)
-		{
-			throw new ArgumentNullException($"User with id {id} does not exist");
-		}
-
-		ValidateFields(user, "Id");
-
-		// ⚠️ Password and Token are returned here ⚠️
-		return user;
-	}
-
-	public List<UserModel> GetAll()
-	{
-		return Collection.AsQueryable().ToList();
-	}
-
-
 	public UserModel Update(UserModel user) => Update(user, null);
 	public UserModel Update(UserModel user, string pepper)
 	{
@@ -136,5 +115,10 @@ public class UserRepository : RepositoryBase<UserModel>
 
 		// return the hashed password
 		return Convert.ToBase64String(passwordHashed.GetBytes(32));
+	}
+
+		public override List<UserModel> GetAll()
+	{
+		throw new NotSupportedException("You can not use GetAll() in User Repository");
 	}
 }

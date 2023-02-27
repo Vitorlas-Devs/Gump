@@ -59,20 +59,6 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 		return recipe;
 	}
 
-	public RecipeModel GetById(ulong id)
-	{
-		RecipeModel recipe = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
-
-		if (recipe == null)
-		{
-			throw new ArgumentNullException($"Recipe with id {id} does not exist");
-		}
-
-		ValidateFields(recipe, "Id");
-
-		return recipe;
-	}
-
 	public RecipeModel Update(RecipeModel recipe)
 	{
 		ValidateFields(recipe, "Title", "AuthorId", "Language", "Serves", "Categories", "Ingredients", "Steps", "OriginalRecipeId", "IsPrivate");
@@ -211,5 +197,10 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 		{
 			throw new AggregateException("Error while deleting recipe", ex);
 		}
+	}
+
+	public override List<RecipeModel> GetAll()
+	{
+		throw new NotSupportedException("You can not use GetAll() in Recipe Repository");
 	}
 }

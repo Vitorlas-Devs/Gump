@@ -30,25 +30,6 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 		return partner;
 	}
 
-	public PartnerModel GetById(ulong id)
-	{
-		PartnerModel partner = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
-
-		if (partner == null)
-		{
-			throw new ArgumentNullException($"Partner with id {id} does not exist");
-		}
-
-		ValidateFields(partner, "Id");
-
-		return partner;
-	}
-
-	public List<PartnerModel> GetAll()
-	{
-		return Collection.AsQueryable().ToList();
-	}
-
 	public PartnerModel Update(PartnerModel partner)
 	{
 		ValidateFields(partner, "Id", "Name", "ContactUrl");

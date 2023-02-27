@@ -31,25 +31,6 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 		return badge;
 	}
 
-	public BadgeModel GetById(ulong id)
-	{
-		BadgeModel badge = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
-
-		if (badge == null)
-		{
-			throw new ArgumentNullException($"Badge with id {id} does not exist");
-		}
-
-		ValidateFields(badge, "Id");
-
-		return badge;
-	}
-
-	public List<BadgeModel> GetAll()
-	{
-		return Collection.AsQueryable().ToList();
-	}
-
 	public BadgeModel Update(BadgeModel badge)
 	{
 		ValidateAllFields(badge);

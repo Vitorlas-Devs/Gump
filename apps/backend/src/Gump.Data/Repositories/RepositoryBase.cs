@@ -83,5 +83,25 @@ public class RepositoryBase<T> where T : IEntity
 		}
 		return result;
 	}
+
+	public virtual List<T> GetAll()
+	{
+		return Collection.AsQueryable().ToList();
+	}
+
+	public T GetById(ulong id)
+	{
+		T entity = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
+
+		if (entity == null)
+		{
+			throw new ArgumentNullException($"{typeof(T).Name.Replace("Model", string.Empty)} with id {id} does not exist");
+		}
+
+		ValidateFields(entity, "Id");
+
+		return entity;
+
+	}
 }
 

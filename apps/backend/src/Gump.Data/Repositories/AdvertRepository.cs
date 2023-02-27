@@ -34,25 +34,6 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 
 	}
 
-	public AdvertModel GetById(ulong id)
-	{
-		AdvertModel advert = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
-
-		if (advert == null)
-		{
-			throw new ArgumentNullException($"Advert with id {id} does not exist");
-		}
-		
-		ValidateFields(advert, "Id");
-
-		return advert;
-	}
-
-	public List<AdvertModel> GetAll()
-	{
-		return Collection.AsQueryable().ToList();
-	}
-
 	public AdvertModel Update(AdvertModel advert)
 	{
 		ValidateAllFields(advert);
