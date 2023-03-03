@@ -56,6 +56,13 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 
 	public void Delete(ulong id)
 	{
+		var partner = partnerRepository.GetById(id);
+		partner.Ads.Remove(id);
+		partnerRepository.Update(partner);
+
+		var image = imageRepository.GetById(id);
+		imageRepository.Delete(image.Id);
+
 		try
 		{
 			Collection.DeleteOne(x => x.Id == id);
