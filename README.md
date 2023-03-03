@@ -1,5 +1,7 @@
 # Gump
 
+Blocks: https://blocks.githubnext.com/14A-A-Lyedlik-Devs/Gump
+
 Webes és mobilos alkalmazás, mely lehetővé teszi a receptek moduláris összeállítását,
 megtekintését és megosztását.
 

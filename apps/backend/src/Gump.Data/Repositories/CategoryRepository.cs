@@ -35,20 +35,6 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 		return category;
 	}
 
-	public string GetById(ulong id)
-	{
-		CategoryModel category = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
-
-		ValidateFields(category, "Id");
-
-		return category.Name;
-	}
-
-	public List<CategoryModel> GetAll()
-	{
-		return Collection.AsQueryable().ToList();
-	}
-
 	public void Update(CategoryModel category)
 	{
 		ValidateAllFields(category);

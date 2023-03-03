@@ -14,6 +14,6 @@ public class AdvertModel : IEntity
 	[BsonElement("title")]
 	public string Title { get; set; }
 
-	[BsonElement("imageUrl")]
-	public Uri ImageUrl { get; set; }
+	[BsonElement("image")]
+	public ulong ImageId { get; set; }
 }

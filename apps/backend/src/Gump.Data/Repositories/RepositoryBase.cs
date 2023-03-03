@@ -8,11 +8,11 @@ public interface IEntity
 	// so all models must implement this interface, sorry
 	ulong Id { get; set; }
 }
-public class RepositoryBase<T> where T : IEntity
+public class RepositoryBase<T> where T : class, IEntity
 {
 	private readonly MongoClient dbClient;
 
-	protected IMongoCollection<T> Collection => dbClient.GetDatabase("gump").GetCollection<T>(typeof(T).Name.ToLowerInvariant().Replace("Repository", string.Empty));
+	protected IMongoCollection<T> Collection => dbClient.GetDatabase("gump").GetCollection<T>($"{typeof(T).Name.ToLowerInvariant().Replace("model", string.Empty)}s");
 
 	public RepositoryBase(string connectionString)
 	{
@@ -68,9 +68,9 @@ public class RepositoryBase<T> where T : IEntity
 	}
 
 	// return a model with all the fields except the given fields
-	public static U CopyExcept<U>(U source, params string[] excludedProperties) where U : new()
+	public static T2 CopyExcept<T2>(T2 source, params string[] excludedProperties) where T2 : new()
 	{
-		var result = new U();
+		var result = new T2();
 		var properties = result.GetType().GetProperties();
 
 		foreach (var property in properties)
@@ -82,6 +82,26 @@ public class RepositoryBase<T> where T : IEntity
 			}
 		}
 		return result;
+	}
+
+	public IEnumerable<T> GetAll()
+	{
+		return Collection.AsQueryable();
+	}
+
+	public T GetById(ulong id)
+	{
+		T entity = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
+
+		if (entity == null)
+		{
+			throw new ArgumentNullException($"{typeof(T).Name.Replace("Model", string.Empty)} with id {id} does not exist");
+		}
+
+		ValidateFields(entity, "Id");
+
+		return entity;
+
 	}
 }
 

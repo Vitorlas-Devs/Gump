@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Gump.Data.Models;
+﻿using Gump.Data.Models;
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Misc;
 
 namespace Gump.Data.Repositories;
 
 public class AdvertRepository : RepositoryBase<AdvertModel>
 {
-	public AdvertRepository(string connectionString) : base(connectionString) { }
+	private readonly PartnerRepository partnerRepository;
+	
+	public AdvertRepository(string connectionString) : base(connectionString)
+	{
+		partnerRepository = new PartnerRepository(connectionString);
+	}
 
 	public AdvertModel Create(AdvertModel advert)
 	{
-		if (!GetAll().Any(x => x.PartnerId == advert.PartnerId))
-		{
-			throw new ArgumentException($"Partner does not exists with id {advert.PartnerId}");
-		}
+		// check if partner exists
+		partnerRepository.GetById(advert.PartnerId);
 
 		advert.Id = GetId();
 
-		ValidateFields(advert, "PartnerId", "Title", "ImageUrl");
+		ValidateFields(advert, "PartnerId", "Title", "ImageId");
 
 		try
 		{
@@ -35,20 +32,6 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 
 		return advert;
 
-	}
-
-	public AdvertModel GetById(ulong id)
-	{
-		AdvertModel advert = Collection.AsQueryable().FirstOrDefault(x => x.Id == id);
-
-		ValidateFields(advert, "Id");
-
-		return advert;
-	}
-
-	public List<AdvertModel> GetAll()
-	{
-		return Collection.AsQueryable().ToList();
 	}
 
 	public AdvertModel Update(AdvertModel advert)
