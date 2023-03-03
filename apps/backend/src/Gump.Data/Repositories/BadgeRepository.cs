@@ -5,7 +5,12 @@ namespace Gump.Data.Repositories;
 
 public class BadgeRepository : RepositoryBase<BadgeModel>
 {
+	private readonly ImageRepository imageRepository;
+  
 	public BadgeRepository(string connectionString, string databaseName) : base(connectionString, databaseName) { }
+	{
+		this.imageRepository = new(connectionString);
+	}
 
 	public BadgeModel Create(BadgeModel badge)
 	{
@@ -18,6 +23,8 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 		badge.Id = GetId();
 
 		ValidateFields(badge, "Name", "Description", "ImageId");
+
+		imageRepository.GetById(badge.ImageId);
 
 		try
 		{

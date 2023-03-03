@@ -6,7 +6,12 @@ namespace Gump.Data.Repositories;
 
 public class UserRepository : RepositoryBase<UserModel>
 {
+	private readonly ImageRepository imageRepository;
+  
 	public UserRepository(string connectionString, string databaseName) : base(connectionString, databaseName) { }
+	{
+		this.imageRepository = new(connectionString);
+	}
 
 	public UserModel Create(UserModel user, string pepper)
 	{
@@ -20,7 +25,15 @@ public class UserRepository : RepositoryBase<UserModel>
 		ValidateFields(user, "Username", "Password", "Email");
 		NullifyFields(user, "ProfilePictureId", "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator", "Verified");
 
-		user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
+		try
+		{
+			imageRepository.GetById(user.ProfilePictureId);
+		}
+		catch (Exception)
+		{
+			user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
+		}
+
 		user.Language = "en_US";
 
 		string salt;
@@ -58,6 +71,15 @@ public class UserRepository : RepositoryBase<UserModel>
 			throw new ArgumentException($"User already exists with username {user.Username}");
 		}
 
+		try
+		{
+			imageRepository.GetById(user.ProfilePictureId);
+		}
+		catch (Exception)
+		{
+			throw new ArgumentException($"Image with id {user.ProfilePictureId} does not exist");
+		}
+
 		// token is not modifiable so we need to get the old one
 		user.Token = GetById(user.Id).Token;
 
@@ -90,6 +112,11 @@ public class UserRepository : RepositoryBase<UserModel>
 			Update(following);
 		}
 
+		if (user.ProfilePictureId != 1)
+		{
+			imageRepository.Delete(user.ProfilePictureId);
+		}
+
 		try
 		{
 			Collection.DeleteOne(x => x.Id == id);
@@ -116,5 +143,4 @@ public class UserRepository : RepositoryBase<UserModel>
 		// return the hashed password
 		return Convert.ToBase64String(passwordHashed.GetBytes(32));
 	}
-
 }

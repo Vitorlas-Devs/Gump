@@ -8,6 +8,7 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 {
 	private readonly UserRepository userRepository;
 	private readonly CategoryRepository categoryRepository;
+  
 	public RecipeRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
 		userRepository = new UserRepository(connectionString, databaseName);
@@ -41,7 +42,7 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 		if (recipe.OriginalRecipeId != 0)
 		{
 			var originalRecipe = GetById(recipe.OriginalRecipeId);
-			
+
 			originalRecipe.Forks.Add(recipe.Id);
 			originalRecipe.ReferenceCount++;
 			Update(originalRecipe);
