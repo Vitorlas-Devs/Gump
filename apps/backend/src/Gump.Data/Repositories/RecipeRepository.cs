@@ -8,7 +8,7 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 {
 	private readonly UserRepository userRepository;
 	private readonly CategoryRepository categoryRepository;
-  
+
 	public RecipeRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
 		userRepository = new UserRepository(connectionString, databaseName);
@@ -90,19 +90,13 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 
 		// check if the referenceCount has changed
 		var existingRecipe = GetById(recipe.Id);
-		if (recipe.ReferenceCount != existingRecipe.ReferenceCount)
+		if (Math.Abs(recipe.ReferenceCount - existingRecipe.ReferenceCount) > 1)
 		{
-			// if yes determine if it has increased or decreased and update the referenceCount of the linked recipe
-			var newReferenceCount = recipe.ReferenceCount;
-			if (recipe.ReferenceCount > existingRecipe.ReferenceCount)
-			{
-				newReferenceCount = existingRecipe.ReferenceCount + (recipe.ReferenceCount - existingRecipe.ReferenceCount);
-			}
-			else
-			{
-				newReferenceCount = existingRecipe.ReferenceCount - (existingRecipe.ReferenceCount - recipe.ReferenceCount);
-			}
-			recipe.ReferenceCount = newReferenceCount;
+			throw new ArgumentException($"ReferenceCount can only be increased/decreased by 1");
+		}
+		if (Math.Abs(recipe.SaveCount - existingRecipe.SaveCount) > 1)
+		{
+			throw new ArgumentException($"SaveCount can only be increased/decreased by 1");
 		}
 
 		try
@@ -128,8 +122,7 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 			if (ingredient.LinkedRecipeId != 0)
 			{
 				// if it has, check if the linked recipe exists
-				var linkedRecipe = GetById(ingredient.LinkedRecipeId);
-
+				GetById(ingredient.LinkedRecipeId);
 			}
 
 			// if ingredient has value or volume, it must have both
@@ -170,7 +163,6 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 	public void Delete(ulong id)
 	{
 		var recipe = GetById(id);
-
 
 		if (recipe.Forks.Count > 0)
 			throw new ArgumentException($"Recipe can only be archived, because it has forks");
