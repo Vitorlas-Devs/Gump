@@ -2,21 +2,23 @@ namespace Gump.Data.Tests.Repositories;
 
 public class BaseRepositoryTests : IDisposable
 {
-	public readonly CategoryRepository Repository;
-	private readonly MongoClient _mongoClient;
-	private readonly IMongoDatabase _database;
+	private readonly MongoClient mongoClient;
+	private readonly IMongoDatabase database;
+
+	public CategoryRepository Repository { get; }
 
 	public BaseRepositoryTests()
 	{
 		var connectionString = "mongodb://localhost:27017";
 		var databaseName = "GumpTest";
-		_mongoClient = new MongoClient(connectionString);
-		_database = _mongoClient.GetDatabase(databaseName);
+		this.mongoClient = new MongoClient(connectionString);
+		this.database = this.mongoClient.GetDatabase(databaseName);
 		Repository = new CategoryRepository(connectionString, databaseName);
 	}
 
 	public void Dispose()
 	{
-		_mongoClient.DropDatabase(_database.DatabaseNamespace.DatabaseName);
+		GC.SuppressFinalize(this);
+		this.mongoClient.DropDatabase(this.database.DatabaseNamespace.DatabaseName);
 	}
 }

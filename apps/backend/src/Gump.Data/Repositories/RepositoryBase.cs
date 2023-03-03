@@ -11,9 +11,8 @@ public interface IEntity
 public class RepositoryBase<T> where T : class, IEntity
 {
 	private readonly MongoClient dbClient;
-	protected readonly string databaseName = "Gump";
 
-	protected IMongoCollection<T> Collection;
+	protected IMongoCollection<T> Collection { get; set; }
 
 	public RepositoryBase(string connectionString, string databaseName)
 	{
