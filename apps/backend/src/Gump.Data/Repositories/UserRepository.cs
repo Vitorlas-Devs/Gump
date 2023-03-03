@@ -112,6 +112,11 @@ public class UserRepository : RepositoryBase<UserModel>
 			Update(following);
 		}
 
+		if (user.ProfilePictureId != 1)
+		{
+			imageRepository.Delete(user.ProfilePictureId);
+		}
+
 		try
 		{
 			Collection.DeleteOne(x => x.Id == id);
@@ -138,5 +143,4 @@ public class UserRepository : RepositoryBase<UserModel>
 		// return the hashed password
 		return Convert.ToBase64String(passwordHashed.GetBytes(32));
 	}
-
 }
