@@ -8,9 +8,9 @@ public class UserRepository : RepositoryBase<UserModel>
 {
 	private readonly ImageRepository imageRepository;
 
-	public UserRepository(string connectionString) : base(connectionString)
+	public UserRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		this.imageRepository = new(connectionString);
+		this.imageRepository = new(connectionString, databaseName);
 	}
 
 	public UserModel Create(UserModel user, string pepper)

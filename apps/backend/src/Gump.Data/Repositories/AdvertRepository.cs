@@ -7,11 +7,11 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 {
 	private readonly ImageRepository imageRepository;
 	private readonly PartnerRepository partnerRepository;
-
-	public AdvertRepository(string connectionString) : base(connectionString)
+	
+	public AdvertRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
+		partnerRepository = new PartnerRepository(connectionString, databaseName);
 		this.imageRepository = new(connectionString);
-		this.partnerRepository = new(connectionString);
 	}
 
 	public AdvertModel Create(AdvertModel advert)
