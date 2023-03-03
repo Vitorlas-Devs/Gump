@@ -8,6 +8,7 @@ public interface IEntity
 	// so all models must implement this interface, sorry
 	ulong Id { get; set; }
 }
+
 public class RepositoryBase<T> where T : class, IEntity
 {
 	private readonly MongoClient dbClient;
