@@ -6,10 +6,10 @@ namespace Gump.Data.Repositories;
 public class BadgeRepository : RepositoryBase<BadgeModel>
 {
 	private readonly ImageRepository imageRepository;
-  
-	public BadgeRepository(string connectionString, string databaseName) : base(connectionString, databaseName) { }
+
+	public BadgeRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		this.imageRepository = new(connectionString);
+		this.imageRepository = new(connectionString, databaseName);
 	}
 
 	public BadgeModel Create(BadgeModel badge)

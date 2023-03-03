@@ -7,9 +7,9 @@ public class ImageRepository : RepositoryBase<ImageModel>
 {
 	private readonly UserRepository userRepository;
 
-	public ImageRepository(string connectionString) : base(connectionString)
+	public ImageRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		this.userRepository = new(connectionString);
+		this.userRepository = new(connectionString, databaseName);
 	}
 
 	public ImageModel Create(ImageModel image)
