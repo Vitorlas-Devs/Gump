@@ -5,7 +5,7 @@ namespace Gump.Data.Repositories;
 
 public class BadgeRepository : RepositoryBase<BadgeModel>
 {
-	private ImageRepository imageRepository;
+	private readonly ImageRepository imageRepository;
 
 	public BadgeRepository(string connectionString) : base(connectionString)
 	{

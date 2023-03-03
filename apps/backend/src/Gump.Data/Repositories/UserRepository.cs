@@ -6,7 +6,12 @@ namespace Gump.Data.Repositories;
 
 public class UserRepository : RepositoryBase<UserModel>
 {
-	public UserRepository(string connectionString) : base(connectionString) { }
+	private readonly ImageRepository imageRepository;
+
+	public UserRepository(string connectionString) : base(connectionString)
+	{
+		this.imageRepository = new(connectionString);
+	}
 
 	public UserModel Create(UserModel user, string pepper)
 	{
@@ -20,7 +25,15 @@ public class UserRepository : RepositoryBase<UserModel>
 		ValidateFields(user, "Username", "Password", "Email");
 		NullifyFields(user, "ProfilePictureId", "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator", "Verified");
 
-		user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
+		try
+		{
+			imageRepository.GetById(user.ProfilePictureId);
+		}
+		catch (Exception)
+		{
+			user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
+		}
+
 		user.Language = "en_US";
 
 		string salt;
