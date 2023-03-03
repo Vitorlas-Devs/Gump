@@ -10,16 +10,47 @@ public class CategoryRepositoryTests : IClassFixture<BaseRepositoryTests>
 	}
 
 	[Fact]
-	public void Create_WhenCategoryNameIsAlreadyTaken_ShouldThrowArgumentException()
+	public void Create()
 	{
 		// Arrange
 		string name = "Test";
 
 		// Act
-		fixture.Repository.Create(name);
+		CategoryModel category = fixture.Repository.Create(name);
 
 		// Assert
+		Assert.Equal(name, category.Name);
 		Assert.Throws<ArgumentException>(() => fixture.Repository.Create(name));
+	}
+
+	[Fact]
+	public void Update()
+	{
+		// Arrange
+		string name = "Test";
+		CategoryModel category = fixture.Repository.Create(name);
+
+		// Act
+		category.Name = "Test2";
+		fixture.Repository.Update(category);
+
+		// Assert
+		Assert.Equal("Test2", category.Name);
+		Assert.Throws<ArgumentException>(() => fixture.Repository.Update(category));
+	}
+
+	[Fact]
+	public void Delete()
+	{
+		// Arrange
+		string name = "Test";
+		CategoryModel category = fixture.Repository.Create(name);
+
+		// Act
+		fixture.Repository.Delete(category.Id);
+
+		// Assert
+		Assert.Throws<NullReferenceException>(() => fixture.Repository.Delete(category.Id));
 	}
 }
 

@@ -5,7 +5,6 @@ public class BaseRepositoryTests : IDisposable
 	public readonly CategoryRepository Repository;
 	private readonly MongoClient _mongoClient;
 	private readonly IMongoDatabase _database;
-	protected readonly BaseRepositoryTests fixture;
 
 	public BaseRepositoryTests()
 	{
@@ -14,7 +13,6 @@ public class BaseRepositoryTests : IDisposable
 		_mongoClient = new MongoClient(connectionString);
 		_database = _mongoClient.GetDatabase(databaseName);
 		Repository = new CategoryRepository(connectionString, databaseName);
-		fixture = this;
 	}
 
 	public void Dispose()
