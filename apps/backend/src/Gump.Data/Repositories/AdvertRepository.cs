@@ -5,11 +5,13 @@ namespace Gump.Data.Repositories;
 
 public class AdvertRepository : RepositoryBase<AdvertModel>
 {
+	private readonly ImageRepository imageRepository;
 	private readonly PartnerRepository partnerRepository;
-	
+
 	public AdvertRepository(string connectionString) : base(connectionString)
 	{
-		partnerRepository = new PartnerRepository(connectionString);
+		this.imageRepository = new(connectionString);
+		this.partnerRepository = new(connectionString);
 	}
 
 	public AdvertModel Create(AdvertModel advert)
@@ -20,6 +22,8 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 		advert.Id = GetId();
 
 		ValidateFields(advert, "PartnerId", "Title", "ImageId");
+
+		imageRepository.GetById(advert.ImageId);
 
 		try
 		{
