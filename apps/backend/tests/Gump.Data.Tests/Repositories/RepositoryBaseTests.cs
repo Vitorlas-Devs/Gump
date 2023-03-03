@@ -2,7 +2,7 @@ namespace Gump.Data.Tests.Repositories;
 
 public class BaseRepositoryTests : IDisposable
 {
-	private readonly CategoryRepository Repository;
+	public readonly CategoryRepository Repository;
 	private readonly MongoClient _mongoClient;
 	private readonly IMongoDatabase _database;
 
