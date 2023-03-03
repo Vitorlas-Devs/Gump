@@ -5,7 +5,7 @@ namespace Gump.Data.Repositories;
 
 public class BadgeRepository : RepositoryBase<BadgeModel>
 {
-	public BadgeRepository(string connectionString) : base(connectionString) { }
+	public BadgeRepository(string connectionString, string databaseName) : base(connectionString, databaseName) { }
 
 	public BadgeModel Create(BadgeModel badge)
 	{

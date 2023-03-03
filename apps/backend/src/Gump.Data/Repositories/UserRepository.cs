@@ -6,7 +6,7 @@ namespace Gump.Data.Repositories;
 
 public class UserRepository : RepositoryBase<UserModel>
 {
-	public UserRepository(string connectionString) : base(connectionString) { }
+	public UserRepository(string connectionString, string databaseName) : base(connectionString, databaseName) { }
 
 	public UserModel Create(UserModel user, string pepper)
 	{

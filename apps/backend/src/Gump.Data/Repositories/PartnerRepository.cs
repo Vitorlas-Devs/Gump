@@ -5,7 +5,7 @@ namespace Gump.Data.Repositories;
 
 public class PartnerRepository : RepositoryBase<PartnerModel>
 {
-	public PartnerRepository(string connectionString) : base(connectionString) { }
+	public PartnerRepository(string connectionString, string databaseName) : base(connectionString, databaseName) { }
 
 	public PartnerModel Create(PartnerModel partner)
 	{

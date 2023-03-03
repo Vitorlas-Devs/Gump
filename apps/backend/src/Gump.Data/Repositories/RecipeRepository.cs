@@ -8,10 +8,10 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 {
 	private readonly UserRepository userRepository;
 	private readonly CategoryRepository categoryRepository;
-	public RecipeRepository(string connectionString) : base(connectionString)
+	public RecipeRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		userRepository = new UserRepository(connectionString);
-		categoryRepository = new CategoryRepository(connectionString);
+		userRepository = new UserRepository(connectionString, databaseName);
+		categoryRepository = new CategoryRepository(connectionString, databaseName);
 	}
 
 	public RecipeModel Create(RecipeModel recipe)

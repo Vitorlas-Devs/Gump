@@ -6,7 +6,8 @@ namespace Gump.Data.Repositories;
 
 public class CategoryRepository : RepositoryBase<CategoryModel>
 {
-	public CategoryRepository(string connectionString) : base(connectionString) { }
+
+	public CategoryRepository(string connectionString, string databaseName) : base(connectionString, databaseName) { }
 
 	public CategoryModel Create(string name)
 	{

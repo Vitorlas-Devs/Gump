@@ -7,9 +7,9 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 {
 	private readonly PartnerRepository partnerRepository;
 	
-	public AdvertRepository(string connectionString) : base(connectionString)
+	public AdvertRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		partnerRepository = new PartnerRepository(connectionString);
+		partnerRepository = new PartnerRepository(connectionString, databaseName);
 	}
 
 	public AdvertModel Create(AdvertModel advert)

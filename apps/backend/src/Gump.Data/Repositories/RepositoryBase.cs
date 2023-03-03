@@ -11,12 +11,14 @@ public interface IEntity
 public class RepositoryBase<T> where T : class, IEntity
 {
 	private readonly MongoClient dbClient;
+	protected readonly string databaseName = "Gump";
 
-	protected IMongoCollection<T> Collection => dbClient.GetDatabase("gump").GetCollection<T>($"{typeof(T).Name.ToLowerInvariant().Replace("model", string.Empty)}s");
+	protected IMongoCollection<T> Collection;
 
-	public RepositoryBase(string connectionString)
+	public RepositoryBase(string connectionString, string databaseName)
 	{
 		this.dbClient = new MongoClient(connectionString);
+		this.Collection = dbClient.GetDatabase(databaseName).GetCollection<T>($"{typeof(T).Name.ToLowerInvariant().Replace("model", string.Empty)}s");
 	}
 
 	protected ulong GetId()
