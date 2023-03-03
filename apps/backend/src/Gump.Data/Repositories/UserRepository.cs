@@ -71,6 +71,15 @@ public class UserRepository : RepositoryBase<UserModel>
 			throw new ArgumentException($"User already exists with username {user.Username}");
 		}
 
+		try
+		{
+			imageRepository.GetById(user.ProfilePictureId);
+		}
+		catch (Exception)
+		{
+			throw new ArgumentException($"Image with id {user.ProfilePictureId} does not exist");
+		}
+
 		// token is not modifiable so we need to get the old one
 		user.Token = GetById(user.Id).Token;
 
