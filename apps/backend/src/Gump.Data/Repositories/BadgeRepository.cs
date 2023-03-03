@@ -64,14 +64,14 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 	public void Delete(ulong id)
 	{
 		var badge = GetById(id);
+		var users = userRepository
+			.GetAll()
+			.Where(u => u.Badges.Contains(id));
 
-		foreach (var user in userRepository.GetAll())
+		foreach (var user in users)
 		{
-			if (user.Badges.Contains(id))
-			{
-				user.Badges.Remove(id);
-				userRepository.Update(user);
-			}
+			user.Badges.Remove(id);
+			userRepository.Update(user);
 		}
 
 		var image = imageRepository.GetById(badge.ImageId);
