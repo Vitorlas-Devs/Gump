@@ -6,8 +6,12 @@ namespace Gump.Data.Repositories;
 
 public class CategoryRepository : RepositoryBase<CategoryModel>
 {
+	private RecipeRepository recipeRepository;
 
-	public CategoryRepository(string connectionString, string databaseName) : base(connectionString, databaseName) { }
+	public CategoryRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	{
+		this.recipeRepository = new(connectionString, databaseName);
+	}
 
 	public CategoryModel Create(string name)
 	{
@@ -42,7 +46,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 
 		if (GetAll().Any(x => x.Name == category.Name))
 		{
-			throw new ArgumentException("Category already exists", nameof(category.Name));
+			throw new ArgumentException($"Category {nameof(category.Name)} already exists");
 		}
 
 		try
@@ -57,9 +61,19 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 
 	public void Delete(ulong id)
 	{
-		CategoryModel category = Collection.Find(x => x.Id == id).FirstOrDefault();
+		var category = GetById(id);
 
 		ValidateFields(category, "Id");
+
+		var recipes = recipeRepository
+			.GetAll()
+			.Where(r => r.Categories.Contains(id));
+
+		foreach (var recipe in recipes)
+		{
+			recipe.Categories.Remove(id);
+			recipeRepository.Update(recipe);
+		}
 
 		try
 		{

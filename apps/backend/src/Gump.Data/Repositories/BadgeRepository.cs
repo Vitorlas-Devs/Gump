@@ -6,10 +6,12 @@ namespace Gump.Data.Repositories;
 public class BadgeRepository : RepositoryBase<BadgeModel>
 {
 	private readonly ImageRepository imageRepository;
+	private readonly UserRepository userRepository;
 
 	public BadgeRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
 		this.imageRepository = new(connectionString, databaseName);
+		this.userRepository = new(connectionString, databaseName);
 	}
 
 	public BadgeModel Create(BadgeModel badge)
@@ -61,6 +63,20 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 
 	public void Delete(ulong id)
 	{
+		var badge = GetById(id);
+		var users = userRepository
+			.GetAll()
+			.Where(u => u.Badges.Contains(id));
+
+		foreach (var user in users)
+		{
+			user.Badges.Remove(id);
+			userRepository.Update(user);
+		}
+
+		var image = imageRepository.GetById(badge.ImageId);
+		imageRepository.Delete(image.Id);
+
 		try
 		{
 			Collection.DeleteOne(x => x.Id == id);
