@@ -2,4 +2,4 @@
 
 Ebben a mappában található a Gump frontendje.
 
-Vue, TypeScript, TailwindCSS, Vite, Netlify
+Vue, TypeScript, WindyCSS, Vite, Netlify
