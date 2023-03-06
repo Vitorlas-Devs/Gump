@@ -29,4 +29,28 @@ public class PartnerRepositoryTests : IClassFixture<RepositoryTestsBase<PartnerR
 		Assert.Throws<ArgumentException>(() => fixture.Repository.Create(partner));
 	}
 
+	[Fact]
+	public void Update()
+	{
+		// Arrange
+		const string name = "Test";
+
+		PartnerModel partner = new PartnerModel
+		{
+			Name = name,
+			ContactUrl = new Uri("http://www.g.hu"),
+			ApiUrl = new Uri("http://www.g.hu")
+		};
+
+		fixture.Repository.Create(partner);
+
+		// Act
+		partner.Name = "Test2";
+		fixture.Repository.Update(partner);
+
+		// Assert
+		Assert.Equal("Test2", partner.Name);
+		Assert.Throws<ArgumentException>(() => fixture.Repository.Update(partner));
+	}
+
 }
