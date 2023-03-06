@@ -1,18 +1,11 @@
 {
 	"recommendations": [
-		// General
 		"github.copilot",
 		"editorconfig.editorconfig",
 		"teledemic.branch-warnings",
 		"davidanson.vscode-markdownlint",
 		"christian-kohler.path-intellisense",
 		"esbenp.prettier-vscode",
-
-		// Backend (.NET C#)
-		"ms-dotnettools.csharp",
-		"patcx.vscode-nuget-gallery",
-		"k--kato.docomment",
-		"formulahendry.dotnet-test-explorer",
 
 		// Frontend (Vue.ts)
 		"pranaygp.vscode-css-peek",

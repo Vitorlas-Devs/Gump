@@ -1,0 +1,8 @@
+{
+	"recommendations": [
+		"ms-dotnettools.csharp",
+		"patcx.vscode-nuget-gallery",
+		"k--kato.docomment",
+		"formulahendry.dotnet-test-explorer"
+	]
+}

@@ -5,25 +5,28 @@ namespace Gump.Data.Repositories;
 
 public class AdvertRepository : RepositoryBase<AdvertModel>
 {
-	private readonly ImageRepository imageRepository;
-	private readonly PartnerRepository partnerRepository;
+	private readonly string connectionString;
+	private readonly string databaseName;
+
+	private ImageRepository ImageRepository => new(connectionString, databaseName);
+	private PartnerRepository PartnerRepository => new(connectionString, databaseName);
 
 	public AdvertRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		partnerRepository = new PartnerRepository(connectionString, databaseName);
-		this.imageRepository = new(connectionString, databaseName);
+		this.connectionString = connectionString;
+		this.databaseName = databaseName;
 	}
 
 	public AdvertModel Create(AdvertModel advert)
 	{
 		// check if partner exists
-		partnerRepository.GetById(advert.PartnerId);
+		PartnerRepository.GetById(advert.PartnerId);
 
 		advert.Id = GetId();
 
 		ValidateFields(advert, "PartnerId", "Title", "ImageId");
 
-		imageRepository.GetById(advert.ImageId);
+		ImageRepository.GetById(advert.ImageId);
 
 		try
 		{
@@ -58,12 +61,12 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 	{
 		var advert = GetById(id);
 
-		var partner = partnerRepository.GetById(advert.PartnerId);
+		var partner = PartnerRepository.GetById(advert.PartnerId);
 		partner.Ads.Remove(id);
-		partnerRepository.Update(partner);
+		PartnerRepository.Update(partner);
 
-		var image = imageRepository.GetById(advert.ImageId);
-		imageRepository.Delete(image.Id);
+		var image = ImageRepository.GetById(advert.ImageId);
+		ImageRepository.Delete(image.Id);
 
 		try
 		{
@@ -74,5 +77,4 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 			throw new AggregateException("Error while deleting advert", ex);
 		}
 	}
-
 }

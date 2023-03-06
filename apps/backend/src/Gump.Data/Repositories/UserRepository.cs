@@ -6,11 +6,15 @@ namespace Gump.Data.Repositories;
 
 public class UserRepository : RepositoryBase<UserModel>
 {
-	private readonly ImageRepository imageRepository;
+	private readonly string connectionString;
+	private readonly string databaseName;
+
+	private ImageRepository ImageRepository => new(connectionString, databaseName);
 
 	public UserRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		this.imageRepository = new(connectionString, databaseName);
+		this.connectionString = connectionString;
+		this.databaseName = databaseName;
 	}
 
 	public UserModel Create(UserModel user, string pepper)
@@ -27,7 +31,7 @@ public class UserRepository : RepositoryBase<UserModel>
 
 		try
 		{
-			imageRepository.GetById(user.ProfilePictureId);
+			ImageRepository.GetById(user.ProfilePictureId);
 		}
 		catch (Exception)
 		{
@@ -73,7 +77,7 @@ public class UserRepository : RepositoryBase<UserModel>
 
 		try
 		{
-			imageRepository.GetById(user.ProfilePictureId);
+			ImageRepository.GetById(user.ProfilePictureId);
 		}
 		catch (Exception)
 		{
@@ -114,7 +118,7 @@ public class UserRepository : RepositoryBase<UserModel>
 
 		if (user.ProfilePictureId != 1)
 		{
-			imageRepository.Delete(user.ProfilePictureId);
+			ImageRepository.Delete(user.ProfilePictureId);
 		}
 
 		try

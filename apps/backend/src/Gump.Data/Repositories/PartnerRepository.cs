@@ -5,11 +5,15 @@ namespace Gump.Data.Repositories;
 
 public class PartnerRepository : RepositoryBase<PartnerModel>
 {
-	private readonly AdvertRepository advertRepository;
+	private readonly string connectionString;
+	private readonly string databaseName;
+
+	private AdvertRepository AdvertRepository => new(connectionString, databaseName);
 
 	public PartnerRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		this.advertRepository = new(connectionString, databaseName);
+		this.connectionString = connectionString;
+		this.databaseName = databaseName;
 	}
 
 	public PartnerModel Create(PartnerModel partner)
@@ -62,7 +66,7 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 
 		foreach (var advertId in partner.Ads)
 		{
-			advertRepository.Delete(advertId);
+			AdvertRepository.Delete(advertId);
 		}
 
 		try

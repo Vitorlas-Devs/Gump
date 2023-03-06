@@ -50,7 +50,7 @@ public class CategoryRepositoryTests : IClassFixture<BaseRepositoryTests>
 		fixture.Repository.Delete(category.Id);
 
 		// Assert
-		Assert.Throws<NullReferenceException>(() => fixture.Repository.Delete(category.Id));
+		Assert.Throws<ArgumentNullException>(() => fixture.Repository.Delete(category.Id));
 	}
 }
 

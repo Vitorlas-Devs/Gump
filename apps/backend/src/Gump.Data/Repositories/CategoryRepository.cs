@@ -6,11 +6,15 @@ namespace Gump.Data.Repositories;
 
 public class CategoryRepository : RepositoryBase<CategoryModel>
 {
-	private RecipeRepository recipeRepository;
+	private readonly string connectionString;
+	private readonly string databaseName;
+
+	private RecipeRepository RecipeRepository => new(connectionString, databaseName);
 
 	public CategoryRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		this.recipeRepository = new(connectionString, databaseName);
+		this.connectionString = connectionString;
+		this.databaseName = databaseName;
 	}
 
 	public CategoryModel Create(string name)
@@ -65,14 +69,14 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 
 		ValidateFields(category, "Id");
 
-		var recipes = recipeRepository
+		var recipes = RecipeRepository
 			.GetAll()
 			.Where(r => r.Categories.Contains(id));
 
 		foreach (var recipe in recipes)
 		{
 			recipe.Categories.Remove(id);
-			recipeRepository.Update(recipe);
+			RecipeRepository.Update(recipe);
 		}
 
 		try
