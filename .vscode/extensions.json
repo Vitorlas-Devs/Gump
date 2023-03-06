@@ -20,6 +20,7 @@
 		"ecmel.vscode-html-css",
 		"christian-kohler.npm-intellisense",
 		"vue.vscode-typescript-vue-plugin",
-		"vue.volar"
+		"vue.volar",
+		"ms-playwright.playwright"
 	]
 }
