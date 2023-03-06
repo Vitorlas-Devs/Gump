@@ -57,7 +57,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while creating recipe", ex);
+			throw new AggregateException($"Error while creating {nameof(recipe)}", ex);
 		}
 
 
@@ -108,7 +108,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while updating recipe", ex);
+			throw new AggregateException($"Error while updating {nameof(recipe)}", ex);
 		}
 
 		return recipe;
@@ -129,12 +129,10 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 			}
 
 			// if ingredient has value or volume, it must have both
-			if (ingredient.Value != 0 || ingredient.Volume != null)
+			if (ingredient.Value != 0 || ingredient.Volume != null &&
+				ingredient.Value == 0 || ingredient.Volume == null)
 			{
-				if (ingredient.Value == 0 || ingredient.Volume == null)
-				{
-					throw new ArgumentException($"Ingredient must have both value and volume");
-				}
+				throw new ArgumentException($"Ingredient must have both value and volume");
 			}
 		}
 
@@ -171,16 +169,22 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		var recipe = GetById(id);
 
 		if (recipe.Forks.Count > 0)
+		{
 			throw new ArgumentException($"Recipe can only be archived, because it has forks");
+		}
 
 		if (recipe.ReferenceCount != 0)
+		{
 			throw new ArgumentException($"Recipe can only be archived, because it has references");
+		}
 
 		if (recipe.SaveCount != 0)
+		{
 			throw new ArgumentException($"Recipe can only be archived, because it has saves");
+		}
 
 		// Get all the users who have liked this recipe
-		var users = recipe.Likes.Select(x => UserRepository.GetById(x)).ToList();
+		var users = recipe.Likes.Select(UserRepository.GetById).ToList();
 
 		// For each user, remove the recipe from their list of liked recipes
 		foreach (var user in users)
@@ -195,7 +199,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while deleting recipe", ex);
+			throw new AggregateException($"Error while deleting {nameof(recipe)}", ex);
 		}
 	}
 }

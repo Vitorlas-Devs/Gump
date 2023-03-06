@@ -9,8 +9,8 @@ public class BaseRepositoryTests : IDisposable
 
 	public BaseRepositoryTests()
 	{
-		var connectionString = "mongodb://localhost:27017";
-		var databaseName = "GumpTest";
+		const string connectionString = "mongodb://localhost:27017";
+		const string databaseName = "GumpTest";
 		this.mongoClient = new MongoClient(connectionString);
 		this.database = this.mongoClient.GetDatabase(databaseName);
 		Repository = new CategoryRepository(connectionString, databaseName);

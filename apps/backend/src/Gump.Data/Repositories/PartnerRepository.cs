@@ -33,7 +33,7 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while creating partner", ex);
+			throw new AggregateException($"Error while creating {nameof(partner)}", ex);
 		}
 
 		return partner;
@@ -54,7 +54,7 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while updating partner", ex);
+			throw new AggregateException($"Error while updating {nameof(partner)}", ex);
 		}
 
 		return partner;
@@ -75,7 +75,7 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while deleting partner", ex);
+			throw new AggregateException($"Error while deleting {nameof(partner)}", ex);
 		}
 	}
 }

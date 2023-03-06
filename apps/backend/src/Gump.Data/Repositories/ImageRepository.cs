@@ -33,7 +33,7 @@ public class ImageRepository : RepositoryBase<ImageModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while creating image", ex);
+			throw new AggregateException($"Error while creating {nameof(image)}", ex);
 		}
 
 		return image;
@@ -41,13 +41,15 @@ public class ImageRepository : RepositoryBase<ImageModel>
 
 	public void Delete(ulong id)
 	{
+		var image = GetById(id);
+
 		try
 		{
 			Collection.DeleteOne(x => x.Id == id);
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while deleting image", ex);
+			throw new AggregateException($"Error while deleting {nameof(image)}", ex);
 		}
 	}
 }

@@ -59,7 +59,7 @@ public class UserRepository : RepositoryBase<UserModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while creating user", ex);
+			throw new AggregateException($"Error while creating {nameof(user)}", ex);
 		}
 
 		return CopyExcept(user, "Password", "Token");
@@ -127,7 +127,7 @@ public class UserRepository : RepositoryBase<UserModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while deleting user", ex);
+			throw new AggregateException($"Error while deleting {nameof(user)}", ex);
 		}
 	}
 

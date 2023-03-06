@@ -34,7 +34,7 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while creating advert", ex);
+			throw new AggregateException($"Error while creating {nameof(advert)}", ex);
 		}
 
 		return advert;
@@ -51,7 +51,7 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while updating advert", ex);
+			throw new AggregateException($"Error while updating {nameof(advert)}", ex);
 		}
 
 		return advert;
@@ -74,7 +74,7 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while deleting advert", ex);
+			throw new AggregateException($"Error while deleting {nameof(advert)}", ex);
 		}
 	}
 }

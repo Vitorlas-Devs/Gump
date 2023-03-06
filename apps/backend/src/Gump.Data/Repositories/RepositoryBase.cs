@@ -42,7 +42,9 @@ public class RepositoryBase<T> where T : class, IEntity
 			var value = entity.GetType().GetProperty(field).GetValue(entity);
 
 			if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
+			{
 				throw new ArgumentNullException($"{field} cannot be empty");
+			}
 		}
 	}
 	protected void ValidateAllFields(T entity)

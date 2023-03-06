@@ -13,7 +13,7 @@ public class CategoryRepositoryTests : IClassFixture<BaseRepositoryTests>
 	public void Create()
 	{
 		// Arrange
-		string name = "Test";
+		const string name = "Test";
 
 		// Act
 		CategoryModel category = fixture.Repository.Create(name);
@@ -27,7 +27,7 @@ public class CategoryRepositoryTests : IClassFixture<BaseRepositoryTests>
 	public void Update()
 	{
 		// Arrange
-		string name = "Test";
+		const string name = "Test";
 		CategoryModel category = fixture.Repository.Create(name);
 
 		// Act
@@ -43,7 +43,7 @@ public class CategoryRepositoryTests : IClassFixture<BaseRepositoryTests>
 	public void Delete()
 	{
 		// Arrange
-		string name = "Test";
+		const string name = "Test";
 		CategoryModel category = fixture.Repository.Create(name);
 
 		// Act

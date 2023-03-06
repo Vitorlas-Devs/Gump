@@ -38,7 +38,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while creating category", ex);
+			throw new AggregateException($"Error while creating {nameof(category)}", ex);
 		}
 
 		return category;
@@ -59,7 +59,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while updating category", ex);
+			throw new AggregateException($"Error while updating {nameof(category)}", ex);
 		}
 	}
 
@@ -85,7 +85,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while deleting category", ex);
+			throw new AggregateException($"Error while deleting {nameof(category)}", ex);
 		}
 	}
 }
