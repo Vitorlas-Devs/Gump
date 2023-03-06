@@ -1,10 +1,10 @@
 namespace Gump.Data.Tests.Repositories;
 
-public class CategoryRepositoryTests : IClassFixture<BaseRepositoryTests>
+public class CategoryRepositoryTests : IClassFixture<RepositoryTestsBase<CategoryRepository>>
 {
-	private readonly BaseRepositoryTests fixture;
+	private readonly RepositoryTestsBase<CategoryRepository> fixture;
 
-	public CategoryRepositoryTests(BaseRepositoryTests fixture)
+	public CategoryRepositoryTests(RepositoryTestsBase<CategoryRepository> fixture)
 	{
 		this.fixture = fixture;
 	}
