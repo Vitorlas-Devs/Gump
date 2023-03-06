@@ -5,13 +5,16 @@ namespace Gump.Data.Repositories;
 
 public class BadgeRepository : RepositoryBase<BadgeModel>
 {
-	private readonly ImageRepository imageRepository;
-	private readonly UserRepository userRepository;
+	private readonly string connectionString;
+	private readonly string databaseName;
+
+	private ImageRepository ImageRepository => new(connectionString, databaseName);
+	private UserRepository UserRepository => new(connectionString, databaseName);
 
 	public BadgeRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		this.imageRepository = new(connectionString, databaseName);
-		this.userRepository = new(connectionString, databaseName);
+		this.connectionString = connectionString;
+		this.databaseName = databaseName;
 	}
 
 	public BadgeModel Create(BadgeModel badge)
@@ -26,7 +29,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 
 		ValidateFields(badge, "Name", "Description", "ImageId");
 
-		imageRepository.GetById(badge.ImageId);
+		ImageRepository.GetById(badge.ImageId);
 
 		try
 		{
@@ -34,7 +37,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while creating badge", ex);
+			throw new AggregateException($"Error while creating {nameof(badge)}", ex);
 		}
 
 		return badge;
@@ -55,7 +58,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while updating badge", ex);
+			throw new AggregateException($"Error while updating {nameof(badge)}", ex);
 		}
 
 		return badge;
@@ -64,18 +67,18 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 	public void Delete(ulong id)
 	{
 		var badge = GetById(id);
-		var users = userRepository
+		var users = UserRepository
 			.GetAll()
 			.Where(u => u.Badges.Contains(id));
 
 		foreach (var user in users)
 		{
 			user.Badges.Remove(id);
-			userRepository.Update(user);
+			UserRepository.Update(user);
 		}
 
-		var image = imageRepository.GetById(badge.ImageId);
-		imageRepository.Delete(image.Id);
+		var image = ImageRepository.GetById(badge.ImageId);
+		ImageRepository.Delete(image.Id);
 
 		try
 		{
@@ -83,7 +86,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while deleting badge", ex);
+			throw new AggregateException($"Error while deleting {nameof(badge)}", ex);
 		}
 	}
 }

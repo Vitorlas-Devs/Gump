@@ -4,15 +4,18 @@ using MongoDB.Driver;
 
 namespace Gump.Data.Repositories;
 
-public class RecipeRepository : RepositoryBase<RecipeModel>
+public partial class RecipeRepository : RepositoryBase<RecipeModel>
 {
-	private readonly UserRepository userRepository;
-	private readonly CategoryRepository categoryRepository;
+	private readonly string connectionString;
+	private readonly string databaseName;
+
+	private UserRepository UserRepository => new(connectionString, databaseName);
+	private CategoryRepository CategoryRepository => new(connectionString, databaseName);
 
 	public RecipeRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		userRepository = new UserRepository(connectionString, databaseName);
-		categoryRepository = new CategoryRepository(connectionString, databaseName);
+		this.connectionString = connectionString;
+		this.databaseName = databaseName;
 	}
 
 	public RecipeModel Create(RecipeModel recipe)
@@ -54,7 +57,7 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while creating recipe", ex);
+			throw new AggregateException($"Error while creating {nameof(recipe)}", ex);
 		}
 
 
@@ -105,7 +108,7 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while updating recipe", ex);
+			throw new AggregateException($"Error while updating {nameof(recipe)}", ex);
 		}
 
 		return recipe;
@@ -114,7 +117,7 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 	// checks that the create and update methods have in common
 	private void RecipeStuff(RecipeModel recipe)
 	{
-		userRepository.GetById(recipe.AuthorId);
+		UserRepository.GetById(recipe.AuthorId);
 
 		foreach (var ingredient in recipe.Ingredients)
 		{
@@ -126,29 +129,27 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 			}
 
 			// if ingredient has value or volume, it must have both
-			if (ingredient.Value != 0 || ingredient.Volume != null)
+			if (ingredient.Value != 0 || ingredient.Volume != null &&
+				ingredient.Value == 0 || ingredient.Volume == null)
 			{
-				if (ingredient.Value == 0 || ingredient.Volume == null)
-				{
-					throw new ArgumentException($"Ingredient must have both value and volume");
-				}
+				throw new ArgumentException($"Ingredient must have both value and volume");
 			}
 		}
 
 		// check if visibleTo users exist
 		foreach (var userId in recipe.VisibleTo)
 		{
-			userRepository.GetById(userId);
+			UserRepository.GetById(userId);
 		}
 
 		// check if categories exist
 		foreach (var categoryId in recipe.Categories)
 		{
-			categoryRepository.GetById(categoryId);
+			CategoryRepository.GetById(categoryId);
 		}
 
 		// check language format
-		if (!Regex.IsMatch(recipe.Language, "^[a-z]{2}_[A-Z]{2}$"))
+		if (!LanguageFormat().IsMatch(recipe.Language))
 		{
 			throw new ArgumentException($"Language format is invalid");
 		}
@@ -160,27 +161,36 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 		}
 	}
 
+	[GeneratedRegex("^[a-z]{2}_[A-Z]{2}$")]
+	private static partial Regex LanguageFormat();
+
 	public void Delete(ulong id)
 	{
 		var recipe = GetById(id);
 
 		if (recipe.Forks.Count > 0)
+		{
 			throw new ArgumentException($"Recipe can only be archived, because it has forks");
+		}
 
 		if (recipe.ReferenceCount != 0)
+		{
 			throw new ArgumentException($"Recipe can only be archived, because it has references");
+		}
 
 		if (recipe.SaveCount != 0)
+		{
 			throw new ArgumentException($"Recipe can only be archived, because it has saves");
+		}
 
 		// Get all the users who have liked this recipe
-		var users = recipe.Likes.Select(x => userRepository.GetById(x)).ToList();
+		var users = recipe.Likes.Select(UserRepository.GetById).ToList();
 
 		// For each user, remove the recipe from their list of liked recipes
 		foreach (var user in users)
 		{
 			user.Likes.Remove(recipe);
-			userRepository.Update(user);
+			UserRepository.Update(user);
 		}
 
 		try
@@ -189,7 +199,7 @@ public class RecipeRepository : RepositoryBase<RecipeModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while deleting recipe", ex);
+			throw new AggregateException($"Error while deleting {nameof(recipe)}", ex);
 		}
 	}
 }
