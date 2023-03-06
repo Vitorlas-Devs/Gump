@@ -1,3 +1,3 @@
 # Localer
 
-Frontend app for Localer.
+Frontend for our beloved translator app, Localer.
