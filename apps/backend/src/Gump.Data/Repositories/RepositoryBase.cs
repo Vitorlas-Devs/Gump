@@ -11,13 +11,11 @@ public interface IEntity
 
 public class RepositoryBase<T> where T : class, IEntity
 {
-	private readonly MongoClient dbClient;
-
 	protected IMongoCollection<T> Collection { get; set; }
 
 	public RepositoryBase(string connectionString, string databaseName)
 	{
-		this.dbClient = new MongoClient(connectionString);
+		var dbClient = new MongoClient(connectionString);
 		this.Collection = dbClient.GetDatabase(databaseName).GetCollection<T>($"{typeof(T).Name.ToLowerInvariant().Replace("model", string.Empty)}s");
 	}
 
@@ -44,7 +42,9 @@ public class RepositoryBase<T> where T : class, IEntity
 			var value = entity.GetType().GetProperty(field).GetValue(entity);
 
 			if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
+			{
 				throw new ArgumentNullException($"{field} cannot be empty");
+			}
 		}
 	}
 	protected void ValidateAllFields(T entity)

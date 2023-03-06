@@ -5,11 +5,15 @@ namespace Gump.Data.Repositories;
 
 public class ImageRepository : RepositoryBase<ImageModel>
 {
-	private readonly UserRepository userRepository;
+	private readonly string connectionString;
+	private readonly string databaseName;
+
+	private UserRepository UserRepository => new(connectionString, databaseName);
 
 	public ImageRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
 	{
-		this.userRepository = new(connectionString, databaseName);
+		this.connectionString = connectionString;
+		this.databaseName = databaseName;
 	}
 
 	public ImageModel Create(ImageModel image)
@@ -20,7 +24,7 @@ public class ImageRepository : RepositoryBase<ImageModel>
 
 		if (image.OwnerId.HasValue)
 		{
-			userRepository.GetById(image.OwnerId.Value);
+			UserRepository.GetById(image.OwnerId.Value);
 		}
 
 		try
@@ -29,7 +33,7 @@ public class ImageRepository : RepositoryBase<ImageModel>
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while creating image", ex);
+			throw new AggregateException($"Error while creating {nameof(image)}", ex);
 		}
 
 		return image;
@@ -37,13 +41,15 @@ public class ImageRepository : RepositoryBase<ImageModel>
 
 	public void Delete(ulong id)
 	{
+		var image = GetById(id);
+
 		try
 		{
 			Collection.DeleteOne(x => x.Id == id);
 		}
 		catch (MongoException ex)
 		{
-			throw new AggregateException("Error while deleting image", ex);
+			throw new AggregateException($"Error while deleting {nameof(image)}", ex);
 		}
 	}
 }
