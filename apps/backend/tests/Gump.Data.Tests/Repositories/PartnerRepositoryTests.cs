@@ -53,4 +53,26 @@ public class PartnerRepositoryTests : IClassFixture<RepositoryTestsBase<PartnerR
 		Assert.Throws<ArgumentException>(() => fixture.Repository.Update(partner));
 	}
 
+	[Fact]
+	public void Delete()
+	{
+		// Arrange
+		const string name = "Test";
+
+		PartnerModel partner = new PartnerModel
+		{
+			Name = name,
+			ContactUrl = new Uri("http://www.g.hu"),
+			ApiUrl = new Uri("http://www.g.hu"),
+		};
+
+		fixture.Repository.Create(partner);
+
+		// Act
+		fixture.Repository.Delete(partner.Id);
+
+		// Assert
+		Assert.Throws<ArgumentNullException>(() => fixture.Repository.Delete(partner.Id));
+	}
+
 }

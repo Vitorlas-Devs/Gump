@@ -64,9 +64,12 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 	{
 		var partner = GetById(id);
 
-		foreach (var advertId in partner.Ads)
+		if (partner.Ads != null)
 		{
-			AdvertRepository.Delete(advertId);
+			foreach (var advertId in partner.Ads)
+			{
+				AdvertRepository.Delete(advertId);
+			}
 		}
 
 		try
