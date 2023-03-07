@@ -1,9 +1,9 @@
 namespace Gump.Data.Tests.Repositories;
 
-public class PartnerRepositoryTests : IClassFixture<RepositoryTestsBase<PartnerRepository>>
+public class PartnerRepositoryTests : IClassFixture<RepositoryTestsBase>
 {
-	private readonly RepositoryTestsBase<PartnerRepository> fixture;
-	public PartnerRepositoryTests(RepositoryTestsBase<PartnerRepository> fixture) 
+	private readonly RepositoryTestsBase fixture;
+	public PartnerRepositoryTests(RepositoryTestsBase fixture)
 	{
 		this.fixture = fixture;
 	}
@@ -22,11 +22,11 @@ public class PartnerRepositoryTests : IClassFixture<RepositoryTestsBase<PartnerR
 		};
 
 		// Act
-		fixture.Repository.Create(partner);
+		fixture.PartnerRepository.Create(partner);
 
 		// Assert
 		Assert.Equal(name, partner.Name);
-		Assert.Throws<ArgumentException>(() => fixture.Repository.Create(partner));
+		Assert.Throws<ArgumentException>(() => fixture.PartnerRepository.Create(partner));
 	}
 
 	[Fact]
@@ -42,15 +42,15 @@ public class PartnerRepositoryTests : IClassFixture<RepositoryTestsBase<PartnerR
 			ApiUrl = new Uri("http://www.g.hu")
 		};
 
-		fixture.Repository.Create(partner);
+		fixture.PartnerRepository.Create(partner);
 
 		// Act
 		partner.Name = "Test2";
-		fixture.Repository.Update(partner);
+		fixture.PartnerRepository.Update(partner);
 
 		// Assert
 		Assert.Equal("Test2", partner.Name);
-		Assert.Throws<ArgumentException>(() => fixture.Repository.Update(partner));
+		Assert.Throws<ArgumentException>(() => fixture.PartnerRepository.Update(partner));
 	}
 
 	[Fact]
@@ -66,13 +66,13 @@ public class PartnerRepositoryTests : IClassFixture<RepositoryTestsBase<PartnerR
 			ApiUrl = new Uri("http://www.g.hu"),
 		};
 
-		fixture.Repository.Create(partner);
+		fixture.PartnerRepository.Create(partner);
 
 		// Act
-		fixture.Repository.Delete(partner.Id);
+		fixture.PartnerRepository.Delete(partner.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.Repository.Delete(partner.Id));
+		Assert.Throws<ArgumentNullException>(() => fixture.PartnerRepository.Delete(partner.Id));
 	}
 
 }
