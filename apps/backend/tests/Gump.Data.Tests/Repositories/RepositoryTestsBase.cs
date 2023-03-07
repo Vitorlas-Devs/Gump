@@ -20,6 +20,6 @@ public class RepositoryTestsBase<T> : IDisposable
 	public void Dispose()
 	{
 		GC.SuppressFinalize(this);
-		mongoClient.DropDatabase(this.database.DatabaseNamespace.DatabaseName);
+		mongoClient.DropDatabase(database.DatabaseNamespace.DatabaseName);
 	}
 }
