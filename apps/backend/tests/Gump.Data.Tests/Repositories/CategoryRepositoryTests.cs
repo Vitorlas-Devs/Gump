@@ -1,10 +1,10 @@
 namespace Gump.Data.Tests.Repositories;
 
-public class CategoryRepositoryTests : IClassFixture<BaseRepositoryTests>
+public class CategoryRepositoryTests : IClassFixture<RepositoryTestsBase>
 {
-	private readonly BaseRepositoryTests fixture;
+	private readonly RepositoryTestsBase fixture;
 
-	public CategoryRepositoryTests(BaseRepositoryTests fixture)
+	public CategoryRepositoryTests(RepositoryTestsBase fixture)
 	{
 		this.fixture = fixture;
 	}
@@ -16,11 +16,11 @@ public class CategoryRepositoryTests : IClassFixture<BaseRepositoryTests>
 		const string name = "Test";
 
 		// Act
-		CategoryModel category = fixture.Repository.Create(name);
+		CategoryModel category = fixture.CategoryRepository.Create(name);
 
 		// Assert
 		Assert.Equal(name, category.Name);
-		Assert.Throws<ArgumentException>(() => fixture.Repository.Create(name));
+		Assert.Throws<ArgumentException>(() => fixture.CategoryRepository.Create(name));
 	}
 
 	[Fact]
@@ -28,15 +28,15 @@ public class CategoryRepositoryTests : IClassFixture<BaseRepositoryTests>
 	{
 		// Arrange
 		const string name = "Test";
-		CategoryModel category = fixture.Repository.Create(name);
+		CategoryModel category = fixture.CategoryRepository.Create(name);
 
 		// Act
 		category.Name = "Test2";
-		fixture.Repository.Update(category);
+		fixture.CategoryRepository.Update(category);
 
 		// Assert
 		Assert.Equal("Test2", category.Name);
-		Assert.Throws<ArgumentException>(() => fixture.Repository.Update(category));
+		Assert.Throws<ArgumentException>(() => fixture.CategoryRepository.Update(category));
 	}
 
 	[Fact]
@@ -44,13 +44,13 @@ public class CategoryRepositoryTests : IClassFixture<BaseRepositoryTests>
 	{
 		// Arrange
 		const string name = "Test";
-		CategoryModel category = fixture.Repository.Create(name);
+		CategoryModel category = fixture.CategoryRepository.Create(name);
 
 		// Act
-		fixture.Repository.Delete(category.Id);
+		fixture.CategoryRepository.Delete(category.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.Repository.Delete(category.Id));
+		Assert.Throws<ArgumentNullException>(() => fixture.CategoryRepository.Delete(category.Id));
 	}
 }
 
