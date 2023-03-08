@@ -43,7 +43,7 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 	{
 		ValidateFields(partner, "Id", "Name", "ContactUrl");
 
-		if (GetAll().Any(x => x.Name == partner.Name))
+		if (GetAll().Any(x => x.Name == partner.Name && x.Id != partner.Id))
 		{
 			throw new ArgumentException($"Partner already exists with name {partner.Name}");
 		}

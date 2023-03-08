@@ -9,7 +9,7 @@ public class ImageModel : IEntity
 	public ulong Id { get; set; }
 
 	[BsonElement("image")]
-	public ulong Image { get; set; }
+	public string Image { get; set; }
 
 	[BsonElement("owner")]
 	public ulong? OwnerId { get; set; }
