@@ -13,10 +13,8 @@ public class CategoryRepositoryTests : RepositoryTestsBase, IClassFixture<Reposi
 	[InlineData("First")]
 	public void GetById_Works(string name)
 	{
-		// Arrange
+		// Arrange & Act
 		CategoryModel category = fixture.CategoryRepository.Create(name);
-
-		// Act
 		CategoryModel category2 = fixture.CategoryRepository.GetById(category.Id);
 
 		// Assert
