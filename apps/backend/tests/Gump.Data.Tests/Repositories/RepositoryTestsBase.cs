@@ -36,7 +36,6 @@ public class RepositoryTestsBase : IDisposable
 	public ImageModel Image { get; set; } = new()
 	{
 		Image = "Test",
-		OwnerId = 1,
 	};
 	public IngredientModel Ingredient { get; set; } = new()
 	{

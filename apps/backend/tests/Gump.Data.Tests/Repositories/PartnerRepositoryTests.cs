@@ -87,9 +87,6 @@ public class PartnerRepositoryTests : RepositoryTestsBase, IClassFixture<Reposit
 		partner.Name = name;
 		fixture.PartnerRepository.Create(partner);
 
-		UserModel user = Get<UserModel>();
-		fixture.UserRepository.Create(user, "pepper");
-
 		ImageModel image = Get<ImageModel>();
 		fixture.ImageRepository.Create(image);
 
