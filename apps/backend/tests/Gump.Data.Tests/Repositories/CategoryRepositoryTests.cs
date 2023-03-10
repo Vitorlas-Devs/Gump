@@ -1,6 +1,6 @@
 namespace Gump.Data.Tests.Repositories;
 
-public class CategoryRepositoryTests : IClassFixture<RepositoryTestsBase>
+public class CategoryRepositoryTests : RepositoryTestsBase, IClassFixture<RepositoryTestsBase>
 {
 	private readonly RepositoryTestsBase fixture;
 
@@ -16,7 +16,12 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryTestsBase>
 		const string name = "Test";
 
 		// Act
-		CategoryModel category = fixture.CategoryRepository.Create(name);
+		// CategoryModel category = fixture.CategoryRepository.Create(name);
+		CategoryModel category = Get<CategoryModel>();
+
+		category.Name = name;
+
+		fixture.CategoryRepository.Create(name);
 
 		// Assert
 		Assert.Equal(name, category.Name);

@@ -1,6 +1,6 @@
 namespace Gump.Data.Tests.Repositories;
 
-public class PartnerRepositoryTests : IClassFixture<RepositoryTestsBase>
+public class PartnerRepositoryTests : RepositoryTestsBase, IClassFixture<RepositoryTestsBase>
 {
 	private readonly RepositoryTestsBase fixture;
 	public PartnerRepositoryTests(RepositoryTestsBase fixture)
@@ -12,14 +12,20 @@ public class PartnerRepositoryTests : IClassFixture<RepositoryTestsBase>
 	public void Create()
 	{
 		// Arrange
+
+
 		const string name = "Test";
-		
-		PartnerModel partner = new PartnerModel
-		{
-			Name = name,
-			ContactUrl = new Uri("http://www.g.hu"),
-			ApiUrl = new Uri("http://www.g.hu")
-		};
+
+		// PartnerModel partner = new PartnerModel
+		// {
+		// 	Name = name,
+		// 	ContactUrl = new Uri("http://www.g.hu"),
+		// 	ApiUrl = new Uri("http://www.g.hu")
+		// };
+
+		PartnerModel partner = Get<PartnerModel>();
+
+		partner.Name = name;
 
 		// Act
 		fixture.PartnerRepository.Create(partner);
@@ -29,7 +35,7 @@ public class PartnerRepositoryTests : IClassFixture<RepositoryTestsBase>
 		Assert.Throws<ArgumentException>(() => fixture.PartnerRepository.Create(partner));
 	}
 
-		[Fact]
+	[Fact]
 	public void Update()
 	{
 		// Arrange
@@ -89,7 +95,6 @@ public class PartnerRepositoryTests : IClassFixture<RepositoryTestsBase>
 	public void Delete_WithAds_AlreadyDeletedPartnerCannotBeDeleted()
 	{
 		// Arrange
-
 		const string name = "Test";
 
 		PartnerModel partner = new PartnerModel
