@@ -60,6 +60,22 @@ public class PartnerRepositoryTests : RepositoryTestsBase, IClassFixture<Reposit
 		Assert.Throws<ArgumentException>(() => fixture.PartnerRepository.Update(partner));
 	}
 
+	[Theory]
+	[InlineData("First")]
+	public void Delete_WithNoAds_Works(string name)
+	{
+		// Arrange
+		PartnerModel partner = Get<PartnerModel>();
+		partner.Name = name;
+		partner.Ads = new List<ulong>();
+		fixture.PartnerRepository.Create(partner);
+
+		// Act
+		fixture.PartnerRepository.Delete(partner.Id);
+
+		// Assert
+		Assert.Throws<ArgumentNullException>(() => fixture.PartnerRepository.GetById(partner.Id));
+	}
 
 	[Theory]
 	[InlineData("First")]
