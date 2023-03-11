@@ -1,7 +1,7 @@
 using System.Text;
 using Gump.Data;
 using Gump.Data.Repositories;
-using Gump.WebAPI;
+using Gump.WebApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 

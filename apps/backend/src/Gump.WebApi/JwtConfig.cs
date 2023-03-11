@@ -1,4 +1,4 @@
-namespace Gump.WebAPI;
+namespace Gump.WebApi;
 
 public class JwtConfig
 {
