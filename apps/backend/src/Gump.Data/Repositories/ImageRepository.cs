@@ -1,19 +1,16 @@
 using Gump.Data.Models;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Gump.Data.Repositories;
 
 public class ImageRepository : RepositoryBase<ImageModel>
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
+	private readonly UserRepository userRepository;
 
-	private UserRepository UserRepository => new(connectionString, databaseName);
-
-	public ImageRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public ImageRepository(IOptions<MongoDbConfig> mongoDbConfig) : base(mongoDbConfig)
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
+		userRepository = new(mongoDbConfig);
 	}
 
 	public ImageModel Create(ImageModel image)
@@ -24,7 +21,7 @@ public class ImageRepository : RepositoryBase<ImageModel>
 
 		if (image.OwnerId.HasValue)
 		{
-			UserRepository.GetById(image.OwnerId.Value);
+			userRepository.GetById(image.OwnerId.Value);
 		}
 
 		try

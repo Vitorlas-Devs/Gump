@@ -1,32 +1,30 @@
 ﻿using Gump.Data.Models;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Gump.Data.Repositories;
 
 public class AdvertRepository : RepositoryBase<AdvertModel>
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
+	private readonly ImageRepository imageRepository;
+	private readonly PartnerRepository partnerRepository;
 
-	private ImageRepository ImageRepository => new(connectionString, databaseName);
-	private PartnerRepository PartnerRepository => new(connectionString, databaseName);
-
-	public AdvertRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public AdvertRepository(IOptions<MongoDbConfig> mongoDbConfig) : base(mongoDbConfig)
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
+		imageRepository = new(mongoDbConfig);
+		partnerRepository = new(mongoDbConfig);
 	}
 
 	public AdvertModel Create(AdvertModel advert)
 	{
 		// check if partner exists
-		PartnerRepository.GetById(advert.PartnerId);
+		partnerRepository.GetById(advert.PartnerId);
 
 		advert.Id = GetId();
 
 		ValidateFields(advert, "PartnerId", "Title", "ImageId");
 
-		ImageRepository.GetById(advert.ImageId);
+		imageRepository.GetById(advert.ImageId);
 
 		try
 		{
@@ -61,12 +59,12 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 	{
 		var advert = GetById(id);
 
-		var partner = PartnerRepository.GetById(advert.PartnerId);
+		var partner = partnerRepository.GetById(advert.PartnerId);
 		partner.Ads.Remove(id);
-		PartnerRepository.Update(partner);
+		partnerRepository.Update(partner);
 
-		var image = ImageRepository.GetById(advert.ImageId);
-		ImageRepository.Delete(image.Id);
+		var image = imageRepository.GetById(advert.ImageId);
+		imageRepository.Delete(image.Id);
 
 		try
 		{

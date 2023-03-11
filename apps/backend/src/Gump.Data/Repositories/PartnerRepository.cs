@@ -1,19 +1,16 @@
 using Gump.Data.Models;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Gump.Data.Repositories;
 
 public class PartnerRepository : RepositoryBase<PartnerModel>
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
+	private readonly AdvertRepository advertRepository;
 
-	private AdvertRepository AdvertRepository => new(connectionString, databaseName);
-
-	public PartnerRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public PartnerRepository(IOptions<MongoDbConfig> mongoDbConfig) : base(mongoDbConfig)
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
+		advertRepository = new(mongoDbConfig);
 	}
 
 	public PartnerModel Create(PartnerModel partner)
@@ -68,7 +65,7 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 		{
 			foreach (var advertId in partner.Ads)
 			{
-				AdvertRepository.Delete(advertId);
+				advertRepository.Delete(advertId);
 			}
 		}
 

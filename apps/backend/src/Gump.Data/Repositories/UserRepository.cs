@@ -1,4 +1,5 @@
 using Gump.Data.Models;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.Security.Cryptography;
 
@@ -6,15 +7,11 @@ namespace Gump.Data.Repositories;
 
 public class UserRepository : RepositoryBase<UserModel>
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
+	private readonly ImageRepository imageRepository;
 
-	private ImageRepository ImageRepository => new(connectionString, databaseName);
-
-	public UserRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public UserRepository(IOptions<MongoDbConfig> mongoDbConfig) : base(mongoDbConfig)
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
+		imageRepository = new(mongoDbConfig);
 	}
 
 	public UserModel Create(UserModel user, string pepper)
@@ -31,7 +28,7 @@ public class UserRepository : RepositoryBase<UserModel>
 
 		try
 		{
-			ImageRepository.GetById(user.ProfilePictureId);
+			imageRepository.GetById(user.ProfilePictureId);
 		}
 		catch (Exception)
 		{
@@ -77,7 +74,7 @@ public class UserRepository : RepositoryBase<UserModel>
 
 		try
 		{
-			ImageRepository.GetById(user.ProfilePictureId);
+			imageRepository.GetById(user.ProfilePictureId);
 		}
 		catch (Exception)
 		{
@@ -118,7 +115,7 @@ public class UserRepository : RepositoryBase<UserModel>
 
 		if (user.ProfilePictureId != 1)
 		{
-			ImageRepository.Delete(user.ProfilePictureId);
+			imageRepository.Delete(user.ProfilePictureId);
 		}
 
 		try
