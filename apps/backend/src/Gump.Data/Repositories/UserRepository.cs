@@ -1,3 +1,4 @@
+using Gump.Data.Helpers;
 using Gump.Data.Models;
 using MongoDB.Driver;
 using System.Security.Cryptography;
@@ -19,6 +20,11 @@ public class UserRepository : RepositoryBase<UserModel>
 	{
 		this.imageRepository = new(mongoDbConfig);
 		this.pepper = pepper;
+	}
+
+	public UserModel GetByName(string username)
+	{
+		return Collection.AsQueryable().FirstOrDefault(x => x.Username == username);
 	}
 
 	public UserModel Create(UserModel user)
@@ -43,8 +49,8 @@ public class UserRepository : RepositoryBase<UserModel>
 		}
 
 		user.Language = "en_US";
-		user.Token = GenerateSalt();
-		user.Password = ComputeHash(user.Password, user.Token, this.pepper, 10);
+		user.Token = HashHelper.GenerateSalt();
+		user.Password = HashHelper.ComputeHash(user.Password, user.Token, this.pepper, 10);
 
 		try
 		{
@@ -82,8 +88,8 @@ public class UserRepository : RepositoryBase<UserModel>
 			{
 				throw new ArgumentNullException(nameof(this.pepper), "Pepper is not set");
 			}
-			user.Token = GenerateSalt();
-			user.Password = ComputeHash(user.Password, user.Token, this.pepper, 10);
+			user.Token = HashHelper.GenerateSalt();
+			user.Password = HashHelper.ComputeHash(user.Password, user.Token, this.pepper, 10);
 		}
 
 		return CopyExcept(user, "Password", "Token");
@@ -121,26 +127,5 @@ public class UserRepository : RepositoryBase<UserModel>
 		{
 			throw new AggregateException($"Error while deleting {nameof(user)}", ex);
 		}
-	}
-
-	public static string ComputeHash(string password, string salt, string pepper, int iterations)
-	{
-		if (iterations <= 0)
-		{
-			return password;
-		}
-		var passwordSaltPepper = $"{password}{salt}{pepper}";
-		var byteValue = Encoding.UTF8.GetBytes(passwordSaltPepper);
-		var byteHash = SHA256.HashData(byteValue);
-		var hash = Convert.ToBase64String(byteHash);
-		return ComputeHash(hash, salt, pepper, iterations - 1);
-	}
-
-	public static string GenerateSalt()
-	{
-		using var rng = RandomNumberGenerator.Create();
-		var saltByte = new byte[16];
-		rng.GetBytes(saltByte);
-		return Convert.ToBase64String(saltByte);
 	}
 }
