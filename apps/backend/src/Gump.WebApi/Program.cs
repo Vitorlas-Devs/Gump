@@ -7,12 +7,11 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder();
 
-var jwtConfig = builder.Configuration.GetSection("JwtConfig");
+var jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>();
+var mongoDbConfig = builder.Configuration.GetSection("MongoDbConfig").Get<MongoDbConfig>();
 
-builder.Services.Configure<MongoDbConfig>(
-	builder.Configuration.GetSection("MongoDbConfig")
-);
-builder.Services.Configure<JwtConfig>(jwtConfig);
+builder.Services.AddSingleton(mongoDbConfig);
+builder.Services.AddSingleton(jwtConfig);
 
 builder.Services.AddSingleton<AdvertRepository>();
 builder.Services.AddSingleton<BadgeRepository>();
@@ -52,7 +51,7 @@ builder.Services
 		{
 			ValidateIssuerSigningKey = true,
 			IssuerSigningKey = new SymmetricSecurityKey(
-				Encoding.ASCII.GetBytes(jwtConfig.Get<JwtConfig>().Secret)
+				Encoding.ASCII.GetBytes(jwtConfig.Secret)
 			),
 			ValidateIssuer = false,
 			ValidateAudience = false

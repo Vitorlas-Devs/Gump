@@ -1,5 +1,4 @@
 using Gump.Data.Models;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Gump.Data.Repositories;
@@ -8,7 +7,7 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 {
 	private readonly AdvertRepository advertRepository;
 
-	public PartnerRepository(IOptions<MongoDbConfig> mongoDbConfig) : base(mongoDbConfig)
+	public PartnerRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
 		advertRepository = new(mongoDbConfig);
 	}

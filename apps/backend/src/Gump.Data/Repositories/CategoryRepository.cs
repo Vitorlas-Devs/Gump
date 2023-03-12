@@ -1,6 +1,4 @@
 using Gump.Data.Models;
-using Microsoft.Extensions.Options;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Gump.Data.Repositories;
@@ -9,7 +7,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 {
 	private readonly RecipeRepository recipeRepository;
 
-	public CategoryRepository(IOptions<MongoDbConfig> mongoDbConfig) : base(mongoDbConfig)
+	public CategoryRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
 		recipeRepository = new(mongoDbConfig);
 	}

@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using MongoDbGenericRepository.Attributes;
 
@@ -15,10 +14,10 @@ public class RepositoryBase<T> where T : class, IEntity
 {
 	protected IMongoCollection<T> Collection { get; set; }
 
-	public RepositoryBase(IOptions<MongoDbConfig> mongoDbConfig)
+	public RepositoryBase(MongoDbConfig mongoDbConfig)
 	{
-		var dbClient = new MongoClient(mongoDbConfig.Value.ConnectionString);
-		var database = dbClient.GetDatabase(mongoDbConfig.Value.Name);
+		var dbClient = new MongoClient(mongoDbConfig.ConnectionString);
+		var database = dbClient.GetDatabase(mongoDbConfig.Name);
 
 		string collectionName = ((CollectionNameAttribute)Attribute
 			.GetCustomAttribute(

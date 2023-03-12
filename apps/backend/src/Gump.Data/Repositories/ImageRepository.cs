@@ -1,5 +1,4 @@
 using Gump.Data.Models;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Gump.Data.Repositories;
@@ -8,7 +7,7 @@ public class ImageRepository : RepositoryBase<ImageModel>
 {
 	private readonly UserRepository userRepository;
 
-	public ImageRepository(IOptions<MongoDbConfig> mongoDbConfig) : base(mongoDbConfig)
+	public ImageRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
 		userRepository = new(mongoDbConfig);
 	}

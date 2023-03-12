@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
 using Gump.Data.Models;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Gump.Data.Repositories;
@@ -10,7 +9,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	private readonly UserRepository userRepository;
 	private readonly CategoryRepository categoryRepository;
 
-	public RecipeRepository(IOptions<MongoDbConfig> mongoDbConfig) : base(mongoDbConfig)
+	public RecipeRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
 		userRepository = new(mongoDbConfig);
 		categoryRepository = new(mongoDbConfig);

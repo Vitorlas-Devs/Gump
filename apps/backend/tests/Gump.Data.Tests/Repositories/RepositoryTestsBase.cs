@@ -1,31 +1,32 @@
-using System.Reflection;
-using Gump.Data.Repositories;
-
 namespace Gump.Data.Tests.Repositories;
 
 public class RepositoryTestsBase : IDisposable
 {
 	private readonly MongoClient mongoClient;
-	private readonly string connectionString = "mongodb://localhost:27017";
-	private readonly string databaseName = "GumpTest";
-	public AdvertRepository AdvertRepository => new(connectionString, databaseName);
-	public BadgeRepository BadgeRepository => new(connectionString, databaseName);
-	public CategoryRepository CategoryRepository => new(connectionString, databaseName);
-	public ImageRepository ImageRepository => new(connectionString, databaseName);
-	public PartnerRepository PartnerRepository => new(connectionString, databaseName);
-	public RecipeRepository RecipeRepository => new(connectionString, databaseName);
-	public UserRepository UserRepository => new(connectionString, databaseName);
+	private readonly MongoDbConfig mongoDbConfig = new()
+	{
+		Name = "GumpTest",
+		Host = "localhost",
+		Port = 27017
+	};
+	public AdvertRepository AdvertRepository => new(mongoDbConfig);
+	public BadgeRepository BadgeRepository => new(mongoDbConfig);
+	public CategoryRepository CategoryRepository => new(mongoDbConfig);
+	public ImageRepository ImageRepository => new(mongoDbConfig);
+	public PartnerRepository PartnerRepository => new(mongoDbConfig);
+	public RecipeRepository RecipeRepository => new(mongoDbConfig);
+	public UserRepository UserRepository => new(mongoDbConfig);
 
 
 	public RepositoryTestsBase()
 	{
-		mongoClient = new MongoClient(connectionString);
-		mongoClient.GetDatabase(databaseName);
+		mongoClient = new MongoClient(mongoDbConfig.ConnectionString);
+		mongoClient.GetDatabase(mongoDbConfig.Name);
 	}
 
 	public void Dispose()
 	{
 		GC.SuppressFinalize(this);
-		mongoClient.DropDatabase(databaseName);
+		mongoClient.DropDatabase(mongoDbConfig.Name);
 	}
 }
