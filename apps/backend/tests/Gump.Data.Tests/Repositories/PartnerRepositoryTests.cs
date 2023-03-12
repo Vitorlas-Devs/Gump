@@ -9,25 +9,28 @@ public class PartnerRepositoryTests : RepositoryTestsBase, IClassFixture<Reposit
 	}
 
 	[Fact]
-	public void Create()
+	public void GetById_Works()
+	{
+		// Arrange & Act
+		PartnerModel partner = Get<PartnerModel>();
+		fixture.PartnerRepository.Create(partner);
+		PartnerModel partner2 = fixture.PartnerRepository.GetById(partner.Id);
+
+		// Assert
+		Assert.Equal(partner.Id, partner2.Id);
+		Assert.Equal(partner.Name, partner2.Name);
+	}
+
+
+	[Theory]
+	[InlineData("First")]
+	public void Create_CannotCreateDuplicate(string name)
 	{
 		// Arrange
-
-
-		const string name = "Test";
-
-		// PartnerModel partner = new PartnerModel
-		// {
-		// 	Name = name,
-		// 	ContactUrl = new Uri("http://www.g.hu"),
-		// 	ApiUrl = new Uri("http://www.g.hu")
-		// };
-
 		PartnerModel partner = Get<PartnerModel>();
 
-		partner.Name = name;
-
 		// Act
+		partner.Name = name;
 		fixture.PartnerRepository.Create(partner);
 
 		// Assert
@@ -35,53 +38,53 @@ public class PartnerRepositoryTests : RepositoryTestsBase, IClassFixture<Reposit
 		Assert.Throws<ArgumentException>(() => fixture.PartnerRepository.Create(partner));
 	}
 
-	[Fact]
-	public void Update()
+	[Theory]
+	[InlineData("First", "Second")]
+	public void Update_CannotUpdateToExistingName(string name, string name2)
 	{
 		// Arrange
-		const string name = "Első";
-
-		PartnerModel partner = new PartnerModel
-		{
-			Name = name,
-			ContactUrl = new Uri("http://www.g.hu"),
-			ApiUrl = new Uri("http://www.g.hu")
-		};
-
+		PartnerModel partner = Get<PartnerModel>();
+		partner.Name = name;
 		fixture.PartnerRepository.Create(partner);
 
-		const string name2 = "Második";
-
-		PartnerModel partner2 = new PartnerModel
-		{
-			Name = name2,
-			ContactUrl = new Uri("http://www.g.hu"),
-			ApiUrl = new Uri("http://www.g.hu")
-		};
-
+		PartnerModel partner2 = Get<PartnerModel>();
+		partner2.Name = name2;
 		fixture.PartnerRepository.Create(partner2);
 
 		// Act
-		partner2.Name = "Első";
+		partner.Name = name2;
 
 		// Assert
-		//Assert.Equal("Első", partner2.Name);
-		Assert.Throws<ArgumentException>(() => fixture.PartnerRepository.Update(partner2));
+		Assert.Equal(name2, partner.Name);
+		Assert.Equal(name2, partner2.Name);
+		Assert.Throws<ArgumentException>(() => fixture.PartnerRepository.Update(partner));
 	}
 
-	[Fact]
-	public void Delete_WithNoAds_AlreadyDeletedPartnerCannotBeDeleted()
+	[Theory]
+	[InlineData("First")]
+	public void Delete_WithNoAds_Works(string name)
 	{
 		// Arrange
-		const string name = "Test";
+		PartnerModel partner = Get<PartnerModel>();
+		partner.Name = name;
+		partner.Ads = new List<ulong>();
+		fixture.PartnerRepository.Create(partner);
 
-		PartnerModel partner = new PartnerModel
-		{
-			Name = name,
-			ContactUrl = new Uri("http://www.g.hu"),
-			ApiUrl = new Uri("http://www.g.hu"),
-		};
+		// Act
+		fixture.PartnerRepository.Delete(partner.Id);
 
+		// Assert
+		Assert.Throws<ArgumentNullException>(() => fixture.PartnerRepository.GetById(partner.Id));
+	}
+
+	[Theory]
+	[InlineData("First")]
+	public void Delete_WithNoAds_CannotDeleteNonExistent(string name)
+	{
+		// Arrange
+		PartnerModel partner = Get<PartnerModel>();
+		partner.Name = name;
+		partner.Ads = new List<ulong>();
 		fixture.PartnerRepository.Create(partner);
 
 		// Act
@@ -91,36 +94,20 @@ public class PartnerRepositoryTests : RepositoryTestsBase, IClassFixture<Reposit
 		Assert.Throws<ArgumentNullException>(() => fixture.PartnerRepository.Delete(partner.Id));
 	}
 
-	[Fact]
-	public void Delete_WithAds_AlreadyDeletedPartnerCannotBeDeleted()
+	[Theory]
+	[InlineData("First")]
+	public void Delete_WithAds_CannotDeleteNonExistent(string name)
 	{
 		// Arrange
-		const string name = "Test";
-
-		PartnerModel partner = new PartnerModel
-		{
-			Name = name,
-			ContactUrl = new Uri("http://www.g.hu"),
-			ApiUrl = new Uri("http://www.g.hu")
-		};
-
+		PartnerModel partner = Get<PartnerModel>();
+		partner.Name = name;
 		fixture.PartnerRepository.Create(partner);
 
-		ImageModel image = new ImageModel
-		{
-			Image = "fsfsf"
-		};
-
+		ImageModel image = Get<ImageModel>();
 		fixture.ImageRepository.Create(image);
 
-		AdvertModel advert = new AdvertModel
-		{
-			Title = "Test",
-			ImageId = 1,
-			PartnerId = 1
-		};
-
-
+		AdvertModel advert = Get<AdvertModel>();
+		advert.PartnerId = partner.Id;
 		fixture.AdvertRepository.Create(advert);
 
 		// Act
