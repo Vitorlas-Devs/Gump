@@ -1,23 +1,33 @@
+using Gump.Data.Helpers;
 using Gump.Data.Models;
 using MongoDB.Driver;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Gump.Data.Repositories;
 
 public class UserRepository : RepositoryBase<UserModel>
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
+	private readonly ImageRepository imageRepository;
+	private readonly string pepper;
 
-	private ImageRepository ImageRepository => new(connectionString, databaseName);
-
-	public UserRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public UserRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
+		this.imageRepository = new(mongoDbConfig);
 	}
 
-	public UserModel Create(UserModel user, string pepper)
+	public UserRepository(MongoDbConfig mongoDbConfig, string pepper) : base(mongoDbConfig)
+	{
+		this.imageRepository = new(mongoDbConfig);
+		this.pepper = pepper;
+	}
+
+	public UserModel GetByName(string username)
+	{
+		return Collection.AsQueryable().FirstOrDefault(x => x.Username == username);
+	}
+
+	public UserModel Create(UserModel user)
 	{
 		if (GetAll().Any(x => x.Username == user.Username))
 		{
@@ -31,7 +41,7 @@ public class UserRepository : RepositoryBase<UserModel>
 
 		try
 		{
-			ImageRepository.GetById(user.ProfilePictureId);
+			imageRepository.GetById(user.ProfilePictureId);
 		}
 		catch (Exception)
 		{
@@ -39,19 +49,8 @@ public class UserRepository : RepositoryBase<UserModel>
 		}
 
 		user.Language = "en_US";
-
-		string salt;
-		using (var rng = RandomNumberGenerator.Create())
-		{
-			var saltByte = new byte[16];
-			rng.GetBytes(saltByte);
-			salt = Convert.ToBase64String(saltByte);
-		}
-
-
-		var password = HashPassword(user.Password, salt, pepper);
-		user.Password = password;
-		user.Token = salt;
+		user.Token = HashHelper.GenerateSalt();
+		user.Password = HashHelper.ComputeHash(user.Password, user.Token, this.pepper, 10);
 
 		try
 		{
@@ -65,8 +64,7 @@ public class UserRepository : RepositoryBase<UserModel>
 		return CopyExcept(user, "Password", "Token");
 	}
 
-	public UserModel Update(UserModel user) => Update(user, null);
-	public UserModel Update(UserModel user, string pepper)
+	public UserModel Update(UserModel user)
 	{
 		ValidateFields(user, "Id", "Username", "Password", "Email");
 
@@ -77,24 +75,24 @@ public class UserRepository : RepositoryBase<UserModel>
 
 		try
 		{
-			ImageRepository.GetById(user.ProfilePictureId);
+			imageRepository.GetById(user.ProfilePictureId);
 		}
 		catch (Exception)
 		{
 			throw new ArgumentException($"Image with id {user.ProfilePictureId} does not exist");
 		}
 
-		// token is not modifiable so we need to get the old one
-		user.Token = GetById(user.Id).Token;
-
-		// if password is modified, we need to hash it
 		if (user.Password != GetById(user.Id).Password)
 		{
-			user.Password = HashPassword(user.Password, user.Token, pepper);
+			if (string.IsNullOrWhiteSpace(this.pepper))
+			{
+				throw new ArgumentNullException(nameof(this.pepper), "Pepper is not set");
+			}
+			user.Token = HashHelper.GenerateSalt();
+			user.Password = HashHelper.ComputeHash(user.Password, user.Token, this.pepper, 10);
 		}
 
 		return CopyExcept(user, "Password", "Token");
-
 	}
 
 	public void Delete(ulong id)
@@ -118,7 +116,7 @@ public class UserRepository : RepositoryBase<UserModel>
 
 		if (user.ProfilePictureId != 1)
 		{
-			ImageRepository.Delete(user.ProfilePictureId);
+			imageRepository.Delete(user.ProfilePictureId);
 		}
 
 		try
@@ -129,22 +127,5 @@ public class UserRepository : RepositoryBase<UserModel>
 		{
 			throw new AggregateException($"Error while deleting {nameof(user)}", ex);
 		}
-	}
-
-	private static string HashPassword(string password, string salt, string pepper)
-	{
-		// convert salt and pepper to byte arrays
-		byte[] saltByte = Convert.FromBase64String(salt);
-		byte[] pepperByte = Convert.FromBase64String(pepper);
-
-		// hash password with salt
-		var passwordSalty = new Rfc2898DeriveBytes(password, saltByte, 10000, HashAlgorithmName.SHA256);
-		byte[] hash = passwordSalty.GetBytes(32);
-
-		// hash password with pepper
-		var passwordHashed = new Rfc2898DeriveBytes(hash, pepperByte, 10000, HashAlgorithmName.SHA256);
-
-		// return the hashed password
-		return Convert.ToBase64String(passwordHashed.GetBytes(32));
 	}
 }

@@ -4,6 +4,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="*" />
+    <PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="3.1.2" />
   </ItemGroup>
 </Project>

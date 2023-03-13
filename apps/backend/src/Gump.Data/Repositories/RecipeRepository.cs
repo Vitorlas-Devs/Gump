@@ -6,16 +6,13 @@ namespace Gump.Data.Repositories;
 
 public partial class RecipeRepository : RepositoryBase<RecipeModel>
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
+	private readonly UserRepository userRepository;
+	private readonly CategoryRepository categoryRepository;
 
-	private UserRepository UserRepository => new(connectionString, databaseName);
-	private CategoryRepository CategoryRepository => new(connectionString, databaseName);
-
-	public RecipeRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public RecipeRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
+		userRepository = new(mongoDbConfig);
+		categoryRepository = new(mongoDbConfig);
 	}
 
 	public RecipeModel Create(RecipeModel recipe)
@@ -117,7 +114,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	// checks that the create and update methods have in common
 	private void RecipeStuff(RecipeModel recipe)
 	{
-		UserRepository.GetById(recipe.AuthorId);
+		userRepository.GetById(recipe.AuthorId);
 
 		foreach (var ingredient in recipe.Ingredients)
 		{
@@ -139,13 +136,13 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		// check if visibleTo users exist
 		foreach (var userId in recipe.VisibleTo)
 		{
-			UserRepository.GetById(userId);
+			userRepository.GetById(userId);
 		}
 
 		// check if categories exist
 		foreach (var categoryId in recipe.Categories)
 		{
-			CategoryRepository.GetById(categoryId);
+			categoryRepository.GetById(categoryId);
 		}
 
 		// check language format
@@ -184,13 +181,13 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		}
 
 		// Get all the users who have liked this recipe
-		var users = recipe.Likes.Select(UserRepository.GetById).ToList();
+		var users = recipe.Likes.Select(userRepository.GetById).ToList();
 
 		// For each user, remove the recipe from their list of liked recipes
 		foreach (var user in users)
 		{
 			user.Likes.Remove(recipe);
-			UserRepository.Update(user);
+			userRepository.Update(user);
 		}
 
 		try
