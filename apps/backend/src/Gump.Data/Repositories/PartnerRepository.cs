@@ -5,11 +5,12 @@ namespace Gump.Data.Repositories;
 
 public class PartnerRepository : RepositoryBase<PartnerModel>
 {
-	private readonly AdvertRepository advertRepository;
+	private readonly MongoDbConfig mongoDbConfig;
+	private  AdvertRepository AdvertRepository => new(mongoDbConfig);
 
 	public PartnerRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
-		advertRepository = new(mongoDbConfig);
+		this.mongoDbConfig = mongoDbConfig;
 	}
 
 	public PartnerModel Create(PartnerModel partner)
@@ -64,7 +65,7 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 		{
 			foreach (var advertId in partner.Ads)
 			{
-				advertRepository.Delete(advertId);
+				AdvertRepository.Delete(advertId);
 			}
 		}
 

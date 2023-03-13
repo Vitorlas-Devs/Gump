@@ -6,13 +6,13 @@ namespace Gump.Data.Repositories;
 
 public partial class RecipeRepository : RepositoryBase<RecipeModel>
 {
-	private readonly UserRepository userRepository;
-	private readonly CategoryRepository categoryRepository;
+	private readonly MongoDbConfig mongoDbConfig;
+	private UserRepository UserRepository => new(mongoDbConfig);
+	private CategoryRepository CategoryRepository => new(mongoDbConfig);
 
 	public RecipeRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
-		userRepository = new(mongoDbConfig);
-		categoryRepository = new(mongoDbConfig);
+		this.mongoDbConfig = mongoDbConfig;
 	}
 
 	public RecipeModel Create(RecipeModel recipe)
@@ -114,7 +114,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	// checks that the create and update methods have in common
 	private void RecipeStuff(RecipeModel recipe)
 	{
-		userRepository.GetById(recipe.AuthorId);
+		UserRepository.GetById(recipe.AuthorId);
 
 		foreach (var ingredient in recipe.Ingredients)
 		{
@@ -136,13 +136,13 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		// check if visibleTo users exist
 		foreach (var userId in recipe.VisibleTo)
 		{
-			userRepository.GetById(userId);
+			UserRepository.GetById(userId);
 		}
 
 		// check if categories exist
 		foreach (var categoryId in recipe.Categories)
 		{
-			categoryRepository.GetById(categoryId);
+			CategoryRepository.GetById(categoryId);
 		}
 
 		// check language format
@@ -181,13 +181,13 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		}
 
 		// Get all the users who have liked this recipe
-		var users = recipe.Likes.Select(userRepository.GetById).ToList();
+		var users = recipe.Likes.Select(UserRepository.GetById).ToList();
 
 		// For each user, remove the recipe from their list of liked recipes
 		foreach (var user in users)
 		{
 			user.Likes.Remove(recipe);
-			userRepository.Update(user);
+			UserRepository.Update(user);
 		}
 
 		try

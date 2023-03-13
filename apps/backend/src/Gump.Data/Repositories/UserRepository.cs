@@ -5,17 +5,18 @@ namespace Gump.Data.Repositories
 {
 	public class UserRepository : RepositoryBase<UserModel>
 	{
-		private readonly ImageRepository imageRepository;
+		private readonly MongoDbConfig mongoDbConfig;
+		private ImageRepository ImageRepository => new(mongoDbConfig);
 		private readonly string pepper;
 
 		public UserRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 		{
-			imageRepository = new(mongoDbConfig);
+			this.mongoDbConfig = mongoDbConfig;
 		}
 
 		public UserRepository(MongoDbConfig mongoDbConfig, string pepper) : base(mongoDbConfig)
 		{
-			imageRepository = new(mongoDbConfig);
+			this.mongoDbConfig = mongoDbConfig;
 			this.pepper = pepper;
 		}
 
@@ -38,7 +39,7 @@ namespace Gump.Data.Repositories
 
 			try
 			{
-				_ = imageRepository.GetById(user.ProfilePictureId);
+				_ = ImageRepository.GetById(user.ProfilePictureId);
 			}
 			catch (Exception)
 			{
@@ -72,7 +73,7 @@ namespace Gump.Data.Repositories
 
 			try
 			{
-				_ = imageRepository.GetById(user.ProfilePictureId);
+				_ = ImageRepository.GetById(user.ProfilePictureId);
 			}
 			catch (Exception)
 			{
@@ -113,7 +114,7 @@ namespace Gump.Data.Repositories
 
 			if (user.ProfilePictureId != 1)
 			{
-				imageRepository.Delete(user.ProfilePictureId);
+				ImageRepository.Delete(user.ProfilePictureId);
 			}
 
 			try

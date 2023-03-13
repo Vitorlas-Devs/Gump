@@ -5,11 +5,12 @@ namespace Gump.Data.Repositories;
 
 public class ImageRepository : RepositoryBase<ImageModel>
 {
-	private readonly UserRepository userRepository;
+	private readonly MongoDbConfig mongoDbConfig;
+	private UserRepository UserRepository => new(mongoDbConfig);
 
 	public ImageRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
-		userRepository = new(mongoDbConfig);
+		this.mongoDbConfig = mongoDbConfig;
 	}
 
 	public ImageModel Create(ImageModel image)
@@ -20,7 +21,7 @@ public class ImageRepository : RepositoryBase<ImageModel>
 
 		if (image.OwnerId.HasValue)
 		{
-			userRepository.GetById(image.OwnerId.Value);
+			UserRepository.GetById(image.OwnerId.Value);
 		}
 
 		try
