@@ -1,75 +1,74 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Gump.Data.Helpers;
 using Gump.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Gump.WebApi;
-
-[ApiController, Route("api/[controller]")]
-public class AuthController : ControllerBase
+namespace Gump.WebApi.Controllers
 {
-	private readonly string pepper;
-	private readonly JwtConfig jwtConfig;
-	private readonly UserRepository userRepository;
-
-	public AuthController(
-		string pepper,
-		IOptions<JwtConfig> jwtConfig,
-		UserRepository userRepository)
+	[ApiController, Route("api/[controller]")]
+	public class AuthController : ControllerBase
 	{
-		this.pepper = pepper;
-		this.jwtConfig = jwtConfig.Value;
-		this.userRepository = userRepository;
-	}
+		private readonly string pepper;
+		private readonly JwtConfig jwtConfig;
+		private readonly UserRepository userRepository;
 
-	[HttpPost("login")]
-	public IActionResult Login([FromBody] LoginDto loginDto)
-	{
-		var user = userRepository.GetByName(loginDto.Username);
-
-		if (user is null)
+		public AuthController(
+			string pepper,
+			IOptions<JwtConfig> jwtConfig,
+			UserRepository userRepository)
 		{
-			return Unauthorized();
+			this.pepper = pepper;
+			this.jwtConfig = jwtConfig.Value;
+			this.userRepository = userRepository;
 		}
 
-		var passwordHash = HashHelper.ComputeHash(loginDto.Password, user.Token, this.pepper, 10);
-
-		if (user.Password != passwordHash)
+		[HttpPost("login")]
+		public IActionResult Login([FromBody] LoginDto loginDto)
 		{
-			return Unauthorized();
-		}
+			var user = userRepository.GetByName(loginDto.Username);
 
-		var tokenDescriptor = new SecurityTokenDescriptor
-		{
-			Subject = new ClaimsIdentity(new[] 
+			if (user is null)
 			{
+				return Unauthorized();
+			}
+
+			var passwordHash = BCrypt.Net.BCrypt.HashPassword($"{loginDto.Password}{user.Token}{pepper}", 10);
+
+			if (user.Password != passwordHash)
+			{
+				return Unauthorized();
+			}
+
+			var tokenDescriptor = new SecurityTokenDescriptor
+			{
+				Subject = new ClaimsIdentity(new[]
+				{
 				new Claim(ClaimTypes.Name, user.Id.ToString())
 			}),
-			Expires = DateTime.UtcNow.AddMinutes(jwtConfig.Expiration),
-			SigningCredentials = new(
-				new SymmetricSecurityKey(
-					Encoding.ASCII.GetBytes(jwtConfig.Secret)
-				),
-				SecurityAlgorithms.HmacSha256Signature
-			)
-		};
+				Expires = DateTime.UtcNow.AddMinutes(jwtConfig.Expiration),
+				SigningCredentials = new(
+					new SymmetricSecurityKey(
+						Encoding.ASCII.GetBytes(jwtConfig.Secret)
+					),
+					SecurityAlgorithms.HmacSha256Signature
+				)
+			};
 
-		var tokenHandler = new JwtSecurityTokenHandler();
-		var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var securityToken = tokenHandler.CreateToken(tokenDescriptor);
 
-		string token = tokenHandler.WriteToken(securityToken);
+			var token = tokenHandler.WriteToken(securityToken);
 
-		if (string.IsNullOrWhiteSpace(token))
-			return Unauthorized();
-
-		return Ok(new
-		{
-			token,
-			user.Id
-		});
+			return string.IsNullOrWhiteSpace(token)
+				? Unauthorized()
+				: Ok(new
+				{
+					token,
+					user.Id
+				});
+		}
 	}
 }
