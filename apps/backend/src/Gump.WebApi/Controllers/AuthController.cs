@@ -27,16 +27,16 @@ public class AuthController : ControllerBase
 	}
 
 	[HttpPost("login")]
-	public IActionResult Login([FromBody] LoginDto login)
+	public IActionResult Login([FromBody] LoginDto loginDto)
 	{
-		var user = userRepository.GetByName(login.Username);
+		var user = userRepository.GetByName(loginDto.Username);
 
 		if (user is null)
 		{
 			return Unauthorized();
 		}
 
-		var passwordHash = HashHelper.ComputeHash(login.Password, user.Token, this.pepper, 10);
+		var passwordHash = HashHelper.ComputeHash(loginDto.Password, user.Token, this.pepper, 10);
 
 		if (user.Password != passwordHash)
 		{
@@ -45,7 +45,7 @@ public class AuthController : ControllerBase
 
 		var tokenDescriptor = new SecurityTokenDescriptor
 		{
-			Subject = new ClaimsIdentity(new Claim[]
+			Subject = new ClaimsIdentity(new[] 
 			{
 				new Claim(ClaimTypes.Name, user.Id.ToString())
 			}),
