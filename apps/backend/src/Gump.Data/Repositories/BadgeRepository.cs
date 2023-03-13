@@ -5,13 +5,13 @@ namespace Gump.Data.Repositories;
 
 public class BadgeRepository : RepositoryBase<BadgeModel>
 {
-	private readonly ImageRepository imageRepository;
-	private readonly UserRepository userRepository;
+	private readonly MongoDbConfig mongoDbConfig;
+	private ImageRepository ImageRepository => new(mongoDbConfig);
+	private UserRepository UserRepository => new(mongoDbConfig);
 
 	public BadgeRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
-		imageRepository = new(mongoDbConfig);
-		userRepository = new(mongoDbConfig);
+		this.mongoDbConfig = mongoDbConfig;
 	}
 
 	public BadgeModel Create(BadgeModel badge)
@@ -26,7 +26,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 
 		ValidateFields(badge, "Name", "Description", "ImageId");
 
-		imageRepository.GetById(badge.ImageId);
+		ImageRepository.GetById(badge.ImageId);
 
 		try
 		{
@@ -64,18 +64,18 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 	public void Delete(ulong id)
 	{
 		var badge = GetById(id);
-		var users = userRepository
+		var users = UserRepository
 			.GetAll()
 			.Where(u => u.Badges.Contains(id));
 
 		foreach (var user in users)
 		{
 			user.Badges.Remove(id);
-			userRepository.Update(user);
+			UserRepository.Update(user);
 		}
 
-		var image = imageRepository.GetById(badge.ImageId);
-		imageRepository.Delete(image.Id);
+		var image = ImageRepository.GetById(badge.ImageId);
+		ImageRepository.Delete(image.Id);
 
 		try
 		{
