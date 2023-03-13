@@ -1,150 +1,130 @@
 using Gump.Data.Models;
 using MongoDB.Driver;
-using System.Security.Cryptography;
 
-namespace Gump.Data.Repositories;
-
-public class UserRepository : RepositoryBase<UserModel>
+namespace Gump.Data.Repositories
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
-
-	private ImageRepository ImageRepository => new(connectionString, databaseName);
-
-	public UserRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public class UserRepository : RepositoryBase<UserModel>
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
-	}
+		private readonly MongoDbConfig mongoDbConfig;
+		private ImageRepository ImageRepository => new(mongoDbConfig);
+		private readonly string pepper;
 
-	public UserModel Create(UserModel user, string pepper)
-	{
-		if (GetAll().Any(x => x.Username == user.Username))
+		public UserRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 		{
-			throw new ArgumentException($"User already exists with username {user.Username}");
+			this.mongoDbConfig = mongoDbConfig;
 		}
 
-		user.Id = GetId();
-
-		ValidateFields(user, "Username", "Password", "Email");
-		NullifyFields(user, "ProfilePictureId", "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator", "Verified");
-
-		try
+		public UserRepository(MongoDbConfig mongoDbConfig, string pepper) : base(mongoDbConfig)
 		{
-			ImageRepository.GetById(user.ProfilePictureId);
-		}
-		catch (Exception)
-		{
-			user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
+			this.mongoDbConfig = mongoDbConfig;
+			this.pepper = pepper;
 		}
 
-		user.Language = "en_US";
-
-		string salt;
-		using (var rng = RandomNumberGenerator.Create())
+		public UserModel GetByName(string username)
 		{
-			var saltByte = new byte[16];
-			rng.GetBytes(saltByte);
-			salt = Convert.ToBase64String(saltByte);
+			return Collection.AsQueryable().FirstOrDefault(x => x.Username == username);
 		}
 
-
-		var password = HashPassword(user.Password, salt, pepper);
-		user.Password = password;
-		user.Token = salt;
-
-		try
+		public UserModel Create(UserModel user)
 		{
-			Collection.InsertOne(user);
-		}
-		catch (MongoException ex)
-		{
-			throw new AggregateException($"Error while creating {nameof(user)}", ex);
-		}
+			if (GetAll().Any(x => x.Username == user.Username))
+			{
+				throw new ArgumentException($"User already exists with username {user.Username}");
+			}
 
-		return CopyExcept(user, "Password", "Token");
-	}
+			user.Id = GetId();
 
-	public UserModel Update(UserModel user) => Update(user, null);
-	public UserModel Update(UserModel user, string pepper)
-	{
-		ValidateFields(user, "Id", "Username", "Password", "Email");
+			ValidateFields(user, "Username", "Password", "Email");
+			NullifyFields(user, "ProfilePictureId", "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator", "Verified");
 
-		if (GetAll().Any(x => x.Username == user.Username && x.Id != user.Id))
-		{
-			throw new ArgumentException($"User already exists with username {user.Username}");
-		}
+			try
+			{
+				_ = ImageRepository.GetById(user.ProfilePictureId);
+			}
+			catch (Exception)
+			{
+				user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
+			}
 
-		try
-		{
-			ImageRepository.GetById(user.ProfilePictureId);
-		}
-		catch (Exception)
-		{
-			throw new ArgumentException($"Image with id {user.ProfilePictureId} does not exist");
-		}
+			user.Language = "en_US";
+			user.Token = BCrypt.Net.BCrypt.GenerateSalt();
+			user.Password = BCrypt.Net.BCrypt.HashPassword($"{user.Password}{user.Token}{pepper}", 10);
 
-		// token is not modifiable so we need to get the old one
-		user.Token = GetById(user.Id).Token;
+			try
+			{
+				Collection.InsertOne(user);
+			}
+			catch (MongoException ex)
+			{
+				throw new AggregateException($"Error while creating {nameof(user)}", ex);
+			}
 
-		// if password is modified, we need to hash it
-		if (user.Password != GetById(user.Id).Password)
-		{
-			user.Password = HashPassword(user.Password, user.Token, pepper);
+			return CopyExcept(user, "Password", "Token");
 		}
 
-		return CopyExcept(user, "Password", "Token");
-
-	}
-
-	public void Delete(ulong id)
-	{
-		UserModel user = GetById(id);
-
-		// other users' followers and following lists need to be updated
-		foreach (ulong followerId in user.Followers)
+		public UserModel Update(UserModel user)
 		{
-			UserModel follower = GetById(followerId);
-			follower.Following.Remove(id);
-			Update(follower);
+			ValidateFields(user, "Id", "Username", "Password", "Email");
+
+			if (GetAll().Any(x => x.Username == user.Username && x.Id != user.Id))
+			{
+				throw new ArgumentException($"User already exists with username {user.Username}");
+			}
+
+			try
+			{
+				_ = ImageRepository.GetById(user.ProfilePictureId);
+			}
+			catch (Exception)
+			{
+				throw new ArgumentException($"Image with id {user.ProfilePictureId} does not exist");
+			}
+
+			if (user.Password != GetById(user.Id).Password)
+			{
+				if (string.IsNullOrWhiteSpace(pepper))
+				{
+					throw new ArgumentNullException(nameof(pepper), "Pepper is not set");
+				}
+				user.Token = BCrypt.Net.BCrypt.GenerateSalt();
+				user.Password = BCrypt.Net.BCrypt.HashPassword($"{user.Password}{user.Token}{pepper}", 10);
+			}
+
+			return CopyExcept(user, "Password", "Token");
 		}
 
-		foreach (ulong followingId in user.Following)
+		public void Delete(ulong id)
 		{
-			UserModel following = GetById(followingId);
-			following.Followers.Remove(id);
-			Update(following);
+			var user = GetById(id);
+
+			// other users' followers and following lists need to be updated
+			foreach (var followerId in user.Followers)
+			{
+				var follower = GetById(followerId);
+				_ = follower.Following.Remove(id);
+				_ = Update(follower);
+			}
+
+			foreach (var followingId in user.Following)
+			{
+				var following = GetById(followingId);
+				_ = following.Followers.Remove(id);
+				_ = Update(following);
+			}
+
+			if (user.ProfilePictureId != 1)
+			{
+				ImageRepository.Delete(user.ProfilePictureId);
+			}
+
+			try
+			{
+				_ = Collection.DeleteOne(x => x.Id == id);
+			}
+			catch (MongoException ex)
+			{
+				throw new AggregateException($"Error while deleting {nameof(user)}", ex);
+			}
 		}
-
-		if (user.ProfilePictureId != 1)
-		{
-			ImageRepository.Delete(user.ProfilePictureId);
-		}
-
-		try
-		{
-			Collection.DeleteOne(x => x.Id == id);
-		}
-		catch (MongoException ex)
-		{
-			throw new AggregateException($"Error while deleting {nameof(user)}", ex);
-		}
-	}
-
-	private static string HashPassword(string password, string salt, string pepper)
-	{
-		// convert salt and pepper to byte arrays
-		byte[] saltByte = Convert.FromBase64String(salt);
-		byte[] pepperByte = Convert.FromBase64String(pepper);
-
-		// hash password with salt
-		var passwordSalty = new Rfc2898DeriveBytes(password, saltByte, 10000, HashAlgorithmName.SHA256);
-		byte[] hash = passwordSalty.GetBytes(32);
-
-		// hash password with pepper
-		var passwordHashed = new Rfc2898DeriveBytes(hash, pepperByte, 10000, HashAlgorithmName.SHA256);
-
-		// return the hashed password
-		return Convert.ToBase64String(passwordHashed.GetBytes(32));
 	}
 }

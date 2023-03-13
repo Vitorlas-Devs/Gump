@@ -5,16 +5,13 @@ namespace Gump.Data.Repositories;
 
 public class AdvertRepository : RepositoryBase<AdvertModel>
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
+	private readonly MongoDbConfig mongoDbConfig;
+	private ImageRepository ImageRepository => new(mongoDbConfig);
+	private PartnerRepository PartnerRepository => new(mongoDbConfig);
 
-	private ImageRepository ImageRepository => new(connectionString, databaseName);
-	private PartnerRepository PartnerRepository => new(connectionString, databaseName);
-
-	public AdvertRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public AdvertRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
+		this.mongoDbConfig = mongoDbConfig;
 	}
 
 	public AdvertModel Create(AdvertModel advert)

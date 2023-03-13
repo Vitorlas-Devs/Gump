@@ -1,20 +1,16 @@
 using Gump.Data.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Gump.Data.Repositories;
 
 public class CategoryRepository : RepositoryBase<CategoryModel>
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
+	private readonly MongoDbConfig mongoDbConfig;
+	private RecipeRepository RecipeRepository => new(mongoDbConfig);
 
-	private RecipeRepository RecipeRepository => new(connectionString, databaseName);
-
-	public CategoryRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public CategoryRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
+		this.mongoDbConfig = mongoDbConfig;
 	}
 
 	public CategoryModel Create(string name)

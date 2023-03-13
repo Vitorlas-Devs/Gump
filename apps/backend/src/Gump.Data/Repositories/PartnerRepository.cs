@@ -5,15 +5,12 @@ namespace Gump.Data.Repositories;
 
 public class PartnerRepository : RepositoryBase<PartnerModel>
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
+	private readonly MongoDbConfig mongoDbConfig;
+	private  AdvertRepository AdvertRepository => new(mongoDbConfig);
 
-	private AdvertRepository AdvertRepository => new(connectionString, databaseName);
-
-	public PartnerRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public PartnerRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
+		this.mongoDbConfig = mongoDbConfig;
 	}
 
 	public PartnerModel Create(PartnerModel partner)
@@ -64,9 +61,12 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 	{
 		var partner = GetById(id);
 
-		foreach (var advertId in partner.Ads)
+		if (partner.Ads != null)
 		{
-			AdvertRepository.Delete(advertId);
+			foreach (var advertId in partner.Ads)
+			{
+				AdvertRepository.Delete(advertId);
+			}
 		}
 
 		try

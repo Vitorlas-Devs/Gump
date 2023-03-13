@@ -1,56 +1,83 @@
 namespace Gump.Data.Tests.Repositories;
 
-public class CategoryRepositoryTests : IClassFixture<BaseRepositoryTests>
+public class CategoryRepositoryTests : RepositoryTestsBase, IClassFixture<RepositoryTestsBase>
 {
-	private readonly BaseRepositoryTests fixture;
+	private readonly RepositoryTestsBase fixture;
 
-	public CategoryRepositoryTests(BaseRepositoryTests fixture)
+	public CategoryRepositoryTests(RepositoryTestsBase fixture)
 	{
 		this.fixture = fixture;
 	}
-
-	[Fact]
-	public void Create()
+	
+	[Theory]
+	[InlineData("First")]
+	public void GetById_Works(string name)
 	{
-		// Arrange
-		const string name = "Test";
+		// Arrange & Act
+		CategoryModel category = fixture.CategoryRepository.Create(name);
+		CategoryModel category2 = fixture.CategoryRepository.GetById(category.Id);
 
-		// Act
-		CategoryModel category = fixture.Repository.Create(name);
+		// Assert
+		Assert.Equal(category.Id, category2.Id);
+		Assert.Equal(category.Name, category2.Name);
+	}
+
+	[Theory]
+	[InlineData("First")]
+	public void Create_CannotCreateDuplicate(string name)
+	{
+		// Arrange & Act
+		CategoryModel category = fixture.CategoryRepository.Create(name);
 
 		// Assert
 		Assert.Equal(name, category.Name);
-		Assert.Throws<ArgumentException>(() => fixture.Repository.Create(name));
+		Assert.Throws<ArgumentException>(() => fixture.CategoryRepository.Create(name));
 	}
 
-	[Fact]
-	public void Update()
+	[Theory]
+	[InlineData("First", "Second")]
+	public void Update_CannotUpdateToExistingName(string name, string name2)
 	{
 		// Arrange
-		const string name = "Test";
-		CategoryModel category = fixture.Repository.Create(name);
+		CategoryModel category = fixture.CategoryRepository.Create(name);
+
+		CategoryModel category2 = fixture.CategoryRepository.Create(name2);
 
 		// Act
-		category.Name = "Test2";
-		fixture.Repository.Update(category);
+		category.Name = name2;
 
 		// Assert
-		Assert.Equal("Test2", category.Name);
-		Assert.Throws<ArgumentException>(() => fixture.Repository.Update(category));
+		Assert.Equal(name2, category.Name);
+		Assert.Equal(name2, category2.Name);
+		Assert.Throws<ArgumentException>(() => fixture.CategoryRepository.Update(category));
 	}
 
-	[Fact]
-	public void Delete()
+	[Theory]
+	[InlineData("First")]
+	public void Delete_Works(string name)
 	{
 		// Arrange
-		const string name = "Test";
-		CategoryModel category = fixture.Repository.Create(name);
+		CategoryModel category = fixture.CategoryRepository.Create(name);
 
 		// Act
-		fixture.Repository.Delete(category.Id);
+		fixture.CategoryRepository.Delete(category.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.Repository.Delete(category.Id));
+		Assert.Throws<ArgumentNullException>(() => fixture.CategoryRepository.GetById(category.Id));
+	}
+
+	[Theory]
+	[InlineData("First")]
+	public void Delete_CannotDeleteNonExistent(string name)
+	{
+		// Arrange
+		CategoryModel category = fixture.CategoryRepository.Create(name);
+
+		// Act
+		fixture.CategoryRepository.Delete(category.Id);
+
+		// Assert
+		Assert.Throws<ArgumentNullException>(() => fixture.CategoryRepository.Delete(category.Id));
 	}
 }
 

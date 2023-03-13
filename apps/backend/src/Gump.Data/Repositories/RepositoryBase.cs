@@ -1,4 +1,5 @@
 using MongoDB.Driver;
+using MongoDbGenericRepository.Attributes;
 
 namespace Gump.Data.Repositories;
 
@@ -13,10 +14,19 @@ public class RepositoryBase<T> where T : class, IEntity
 {
 	protected IMongoCollection<T> Collection { get; set; }
 
-	public RepositoryBase(string connectionString, string databaseName)
+	public RepositoryBase(MongoDbConfig mongoDbConfig)
 	{
-		var dbClient = new MongoClient(connectionString);
-		this.Collection = dbClient.GetDatabase(databaseName).GetCollection<T>($"{typeof(T).Name.ToLowerInvariant().Replace("model", string.Empty)}s");
+		var dbClient = new MongoClient(mongoDbConfig.ConnectionString);
+		var database = dbClient.GetDatabase(mongoDbConfig.Name);
+
+		string collectionName = ((CollectionNameAttribute)Attribute
+			.GetCustomAttribute(
+				typeof(T),
+				typeof(CollectionNameAttribute
+			)
+		)).Name;
+
+		this.Collection = database.GetCollection<T>(collectionName);
 	}
 
 	protected ulong GetId()

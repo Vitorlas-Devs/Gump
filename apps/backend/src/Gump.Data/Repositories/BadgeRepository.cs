@@ -5,16 +5,13 @@ namespace Gump.Data.Repositories;
 
 public class BadgeRepository : RepositoryBase<BadgeModel>
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
+	private readonly MongoDbConfig mongoDbConfig;
+	private ImageRepository ImageRepository => new(mongoDbConfig);
+	private UserRepository UserRepository => new(mongoDbConfig);
 
-	private ImageRepository ImageRepository => new(connectionString, databaseName);
-	private UserRepository UserRepository => new(connectionString, databaseName);
-
-	public BadgeRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public BadgeRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
+		this.mongoDbConfig = mongoDbConfig;
 	}
 
 	public BadgeModel Create(BadgeModel badge)

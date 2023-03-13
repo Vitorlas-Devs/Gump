@@ -6,16 +6,13 @@ namespace Gump.Data.Repositories;
 
 public partial class RecipeRepository : RepositoryBase<RecipeModel>
 {
-	private readonly string connectionString;
-	private readonly string databaseName;
+	private readonly MongoDbConfig mongoDbConfig;
+	private UserRepository UserRepository => new(mongoDbConfig);
+	private CategoryRepository CategoryRepository => new(mongoDbConfig);
 
-	private UserRepository UserRepository => new(connectionString, databaseName);
-	private CategoryRepository CategoryRepository => new(connectionString, databaseName);
-
-	public RecipeRepository(string connectionString, string databaseName) : base(connectionString, databaseName)
+	public RecipeRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
-		this.connectionString = connectionString;
-		this.databaseName = databaseName;
+		this.mongoDbConfig = mongoDbConfig;
 	}
 
 	public RecipeModel Create(RecipeModel recipe)
