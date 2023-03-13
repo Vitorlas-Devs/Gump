@@ -13,8 +13,15 @@ public class AdvertRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 	public void GetById_Works()
 	{
 		// Arrange & Act
+		PartnerModel partner = Get<PartnerModel>();
+		fixture.PartnerRepository.Create(partner);
+
+		ImageModel image = Get<ImageModel>();
+		fixture.ImageRepository.Create(image);
+
 		AdvertModel advert = Get<AdvertModel>();
 		fixture.AdvertRepository.Create(advert);
+
 		AdvertModel advert2 = fixture.AdvertRepository.GetById(advert.Id);
 
 		// Assert
