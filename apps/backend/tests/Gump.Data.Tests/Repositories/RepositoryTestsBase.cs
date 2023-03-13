@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace Gump.Data.Tests.Repositories;
 
 public class RepositoryTestsBase : IDisposable
