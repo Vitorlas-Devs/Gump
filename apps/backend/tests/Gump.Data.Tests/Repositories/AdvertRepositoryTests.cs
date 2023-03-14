@@ -53,7 +53,7 @@ public class AdvertRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 
 	[Theory]
 	[InlineData("First", "Second")]
-	public void Update_CanUpdateName(string name, string name2)
+	public void Update_UpdateNameWorks(string name, string name2)
 	{
 		// Arrange
 		// Arrange
