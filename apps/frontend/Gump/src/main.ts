@@ -7,17 +7,7 @@ import router from './router'
 import 'virtual:windi.css'
 import './assets/main.css'
 
-import { createI18n } from 'vue-i18n'
-import messages from "@intlify/unplugin-vue-i18n/messages";
-
-const i18n = createI18n({
-  legacy: false,
-  globalInjection: true,
-  locale: "en_US",
-  fallbackLocale: "en_US",
-  availableLocales: ["en_US", "hu_HU", "ko_KR"],
-  messages: messages,
-});
+import { i18n } from './i18n'
 
 const app = createApp(App)
 

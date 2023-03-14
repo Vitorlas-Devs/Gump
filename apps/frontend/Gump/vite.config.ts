@@ -10,7 +10,8 @@ export default defineConfig({
     vue(),
     WindiCSS(),
     VueI18nPlugin({
-      include: resolve(dirname(fileURLToPath(import.meta.url)), './../../../locales/**')
+      include: resolve(dirname(fileURLToPath(import.meta.url)), './../../../locales/**'),
+      runtimeOnly: false
     })
   ],
   resolve: {
