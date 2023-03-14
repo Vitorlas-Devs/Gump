@@ -1,7 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  @apply bg-gray-800 text-gray-200;
+}
+
 .title {
-    @apply text-2xl font-bold text-green-600;
+  @apply text-2xl font-bold text-green-400;
 }
 
 .locale-title {
-    @apply text-2xl font-bold text-blue-600;
+  @apply text-2xl font-bold text-blue-600;
+}
+
+.subtitle {
+  @apply text-xl text-green-600;
+}
+
+/* a style for select */
+.locale-changer {
+  @apply bg-gray-700 text-gray-200 border border-gray-600 rounded-md;
 }
