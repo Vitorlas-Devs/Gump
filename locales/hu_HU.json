@@ -5,6 +5,7 @@
 		"hoarderBadgeDescription": "Ments el legalább 100 receptet."
 	},
 	"ui": {
-		"HomeButton": "Főoldal"
+		"HomeButton": "Főoldal",
+		"Welcome": "Üdvözöljük, {username}!"
 	}
 }

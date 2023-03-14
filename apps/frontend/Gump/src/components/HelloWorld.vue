@@ -1,16 +1,17 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import LocaleSelect from '../components/LocaleSelect.vue'
+
+const usermame = 'Rettend'
+</script>
 
 <template>
   <div class="greetings">
-    <h1 class="locale-title">
-      {{ $t('ui.HomeButton') }}
-    </h1>
+    <div display="flex" justify-content="space-between" gap="10px">
+      <h1 class="title-secondary">{{ $t('ui.HomeButton') }}:</h1>
+      <h1 class="title-welcome" v-html="$t('ui.Welcome', { username: usermame })"></h1>
+    </div>
     <h3 class="title">$i18n.availableLocales: {{ $i18n.availableLocales }}</h3>
-    <select v-model="$i18n.locale" class="locale-changer">
-      <option v-for="locale in $i18n.availableLocales" :key="locale" :value="locale">
-        {{ locale }}
-      </option>
-    </select>
+    <LocaleSelect />
   </div>
 </template>
 
