@@ -56,7 +56,6 @@ public class AdvertRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 	public void Update_UpdateNameWorks(string name, string name2)
 	{
 		// Arrange
-		// Arrange
 		PartnerModel partner = Get<PartnerModel>();
 		fixture.PartnerRepository.Create(partner);
 
