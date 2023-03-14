@@ -1,0 +1,7 @@
+.title {
+    @apply text-2xl font-bold text-green-600;
+}
+
+.locale-title {
+    @apply text-2xl font-bold text-blue-600;
+}
