@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import 'virtual:windi.css'
+import 'virtual:fonts.css'
 import './assets/main.css'
 
 import { i18n } from './i18n'

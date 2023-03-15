@@ -1,12 +1,13 @@
 @font-face {
   font-family: 'Ubuntu';
   font-style: normal;
-  font-weight: 400;
+  font-weight: normal;
   font-display: swap;
   src: local('Ubuntu'), local('Ubuntu-Regular');
 }
 
 body {
+  font-family: 'Ubuntu', sans-serif;
   @apply bg-gray-800 text-gray-200;
 }
 
