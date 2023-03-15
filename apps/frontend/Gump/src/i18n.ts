@@ -17,15 +17,15 @@ export const i18n = createI18n({
 export async function setLocalee(locale: string) {
   // Load locale if not available yet.
   if (!i18n.global.availableLocales.includes(locale)) {
-    const messages = await loadLocale(locale)
+    const localeMessages = await loadLocale(locale)
 
     // fetch() error occurred.
-    if (messages === undefined) {
+    if (localeMessages === undefined) {
       return
     }
 
     // Add locale.
-    i18n.global.setLocaleMessage(locale, messages)
+    i18n.global.setLocaleMessage(locale, localeMessages)
   }
 
   // Set locale.
