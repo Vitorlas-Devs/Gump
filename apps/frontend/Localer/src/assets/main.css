@@ -15,8 +15,3 @@ body {
 .scrollbar__thumb {
   @apply bg-gradient-to-t from-emerald-700 to-emerald-500;
 }
-
-/* scroll to top button */
-.button-top {
-  @apply fixed bottom-4 right-4 bg-emerald-500 text-white rounded-full p-2 transition duration-300 ease-in-out transform hover:scale-110 z-50;
-}

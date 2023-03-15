@@ -14,8 +14,7 @@ const app = createApp(App)
 
 app.use(createPinia())
 
-const translationStore = useTranslationStore()
-translationStore.loadTranslations()
+app.use(useTranslationStore().loadTranslations)
 
 app.use(router)
 
