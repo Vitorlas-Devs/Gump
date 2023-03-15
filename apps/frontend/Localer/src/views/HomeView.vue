@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import TheNavigation from '@/components/TheNavigation.vue'
+import MainContent from '@/components/MainContent.vue'
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
+  <main class="flex flex-row w-full h-screen">
+    <TheNavigation />
+    <h1>Home</h1>
+    <MainContent />
   </main>
 </template>

@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: local('Ubuntu'), local('Ubuntu-Regular');
+}
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  @apply bg-gray-800 text-gray-200;
+  overflow: hidden;
+}
+
+.scrollbar__thumb {
+  @apply bg-gradient-to-t from-emerald-700 to-emerald-500;
+}
+
+/* scroll to top button */
+.button-top {
+  @apply fixed bottom-4 right-4 bg-emerald-500 text-white rounded-full p-2 transition duration-300 ease-in-out transform hover:scale-110 z-50;
+}
