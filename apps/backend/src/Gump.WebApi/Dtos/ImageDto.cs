@@ -9,7 +9,7 @@ public class ImageDto
 	public string Image { get; init; } = string.Empty;
 
 	[Required, JsonProperty("isPrivate")]
-	public bool IsPrivate { get; init; } = false;
+	public bool IsPrivate { get; init; }
 
 	public override string ToString()
 	{
