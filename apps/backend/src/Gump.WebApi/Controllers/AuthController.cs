@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using Gump.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Gump.WebApi.Controllers
@@ -17,11 +16,11 @@ namespace Gump.WebApi.Controllers
 
 		public AuthController(
 			string pepper,
-			IOptions<JwtConfig> jwtConfig,
+			JwtConfig jwtConfig,
 			UserRepository userRepository)
 		{
 			this.pepper = pepper;
-			this.jwtConfig = jwtConfig.Value;
+			this.jwtConfig = jwtConfig;
 			this.userRepository = userRepository;
 		}
 
