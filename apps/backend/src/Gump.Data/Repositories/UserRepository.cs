@@ -35,15 +35,20 @@ namespace Gump.Data.Repositories
 			user.Id = GetId();
 
 			ValidateFields(user, "Username", "Password", "Email");
-			NullifyFields(user, "ProfilePictureId", "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator");
+			NullifyFields(user, "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator");
 
 			try
 			{
-				_ = ImageRepository.GetById(user.ProfilePictureId);
+				ImageRepository.GetById(user.ProfilePictureId);
 			}
 			catch (Exception)
 			{
 				user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
+			}
+
+			if (string.IsNullOrWhiteSpace(pepper))
+			{
+				throw new ArgumentNullException(nameof(pepper), "Pepper is not set");
 			}
 
 			user.Language = "en_US";
@@ -73,7 +78,7 @@ namespace Gump.Data.Repositories
 
 			try
 			{
-				_ = ImageRepository.GetById(user.ProfilePictureId);
+				ImageRepository.GetById(user.ProfilePictureId);
 			}
 			catch (Exception)
 			{
@@ -101,15 +106,15 @@ namespace Gump.Data.Repositories
 			foreach (var followerId in user.Followers)
 			{
 				var follower = GetById(followerId);
-				_ = follower.Following.Remove(id);
-				_ = Update(follower);
+				follower.Following.Remove(id);
+				Update(follower);
 			}
 
 			foreach (var followingId in user.Following)
 			{
 				var following = GetById(followingId);
-				_ = following.Followers.Remove(id);
-				_ = Update(following);
+				following.Followers.Remove(id);
+				Update(following);
 			}
 
 			if (user.ProfilePictureId != 1)
@@ -119,7 +124,7 @@ namespace Gump.Data.Repositories
 
 			try
 			{
-				_ = Collection.DeleteOne(x => x.Id == id);
+				Collection.DeleteOne(x => x.Id == id);
 			}
 			catch (MongoException ex)
 			{
