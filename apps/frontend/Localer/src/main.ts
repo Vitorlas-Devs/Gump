@@ -23,7 +23,7 @@ app.component(CustomScrollbar.name, CustomScrollbar)
 app.mount('#app')
 
 declare module 'vue' {
-  export interface GlobalComponents {
+  export interface IGlobalComponents {
     CustomScrollbar: typeof CustomScrollbar
   }
 }
