@@ -24,28 +24,10 @@ namespace Gump.WebApi.Controllers
 		[HttpGet("{id}")]
 		public IActionResult GetImage(ulong id) => this.Run(() =>
 		{
-			ImageModel image;
-			try
-			{
-				image = imageRepository.GetById(id);
-			}
-			catch (ArgumentNullException e)
-			{
-				return NotFound(e);
-			}
+			ImageModel image = imageRepository.GetById(id);
 
 			ulong userId = ulong.Parse(User.Identity.Name);
-
-			UserModel user;
-
-			try
-			{
-				user = userId == 0 ? new() : userRepository.GetById(userId);
-			}
-			catch (ArgumentNullException e)
-			{
-				return NotFound(e);
-			}
+			UserModel user = userId == 0 ? new() : userRepository.GetById(userId);
 
 			if (image.OwnerId.HasValue &&
 				image.OwnerId.Value != userId &&
@@ -61,7 +43,7 @@ namespace Gump.WebApi.Controllers
 		public IActionResult CreateImage([FromBody] ImageDto imageDto) => this.Run(() =>
 		{
 			var user = userRepository.GetById(ulong.Parse(User.Identity.Name));
-			
+
 			ImageModel image = new()
 			{
 				Image = imageDto.Image,
