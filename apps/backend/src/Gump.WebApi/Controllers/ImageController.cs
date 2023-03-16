@@ -1,10 +1,7 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using Gump.Data.Models;
 using Gump.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Gump.WebApi.Controllers
 {
@@ -27,15 +24,28 @@ namespace Gump.WebApi.Controllers
 		[HttpGet("{id}")]
 		public IActionResult GetImage(ulong id)
 		{
-			var image = imageRepository.GetById(id);
-
-			if (image is null)
+			ImageModel image;
+			try
 			{
-				return NotFound();
+				image = imageRepository.GetById(id);
+			}
+			catch (ArgumentNullException e)
+			{
+				return NotFound(e);
 			}
 
 			ulong userId = ulong.Parse(User.Identity.Name);
-			var user = userId == 0 ? new() : userRepository.GetById(userId);
+
+			UserModel user;
+
+			try
+			{
+				user = userId == 0 ? new() : userRepository.GetById(userId);
+			}
+			catch (ArgumentNullException e)
+			{
+				return NotFound(e);
+			}
 
 			if (
 				image.OwnerId.HasValue &&

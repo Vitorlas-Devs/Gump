@@ -16,10 +16,9 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 
 	public BadgeModel Create(BadgeModel badge)
 	{
-
 		if (GetAll().Any(x => x.Name == badge.Name))
 		{
-			throw new ArgumentException($"Badge already exists with name {badge.Name}");
+			throw new DuplicateException($"Badge already exists with name {badge.Name}");
 		}
 
 		badge.Id = GetId();
@@ -46,7 +45,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 
 		if (GetAll().Any(x => x.Name == badge.Name && x.Id != badge.Id))
 		{
-			throw new ArgumentException($"Badge already exists with name {badge.Name}");
+			throw new DuplicateException($"Badge already exists with name {badge.Name}");
 		}
 
 		try

@@ -17,7 +17,7 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 	{
 		if (GetAll().Any(x => x.Name == partner.Name))
 		{
-			throw new ArgumentException($"Partner already exists with name {partner.Name}");
+			throw new DuplicateException($"Partner already exists with name {partner.Name}");
 		}
 
 		partner.Id = GetId();
@@ -42,7 +42,7 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 
 		if (GetAll().Any(x => x.Name == partner.Name && x.Id != partner.Id))
 		{
-			throw new ArgumentException($"Partner already exists with name {partner.Name}");
+			throw new DuplicateException($"Partner already exists with name {partner.Name}");
 		}
 
 		try
