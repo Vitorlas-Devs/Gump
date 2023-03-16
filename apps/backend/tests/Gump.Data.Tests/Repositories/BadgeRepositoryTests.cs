@@ -119,7 +119,7 @@ public class BadgeRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 		badge.Name = name;
 		fixture.BadgeRepository.Create(badge);
 
-		CategoryModel category = fixture.CategoryRepository.Create(name);
+		fixture.CategoryRepository.Create(name);
 
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);

@@ -67,20 +67,20 @@ public class RepositoryBase<T> where T : class, IEntity
 	{
 		foreach (var field in fieldsToNullify)
 		{
-			var prop = entity.GetType().GetProperty(field);
+			var property = entity.GetType().GetProperty(field);
 			
-			if (prop == null)
+			if (property == null)
 			{
 				throw new ArgumentException($"Property {field} does not exist");
 			}
 
-			if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+			if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
 			{
-				prop.SetValue(entity, Activator.CreateInstance(prop.PropertyType));
+				property.SetValue(entity, Activator.CreateInstance(property.PropertyType));
 			}
 			else
 			{
-				prop.SetValue(entity, null);
+				property.SetValue(entity, null);
 			}
 		}
 	}
