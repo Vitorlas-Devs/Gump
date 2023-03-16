@@ -2,9 +2,9 @@
 
 <template>
   <h1 class="title">
-    {{ $t('badges.hoarderBadgeName') }}
+    {{ $t('hoarderBadgeName') }}
   </h1>
   <h2 class="subtitle">
-    {{ $t('badges.hoarderBadgeDescription') }}
+    {{ $t('hoarderBadgeDescription') }}
   </h2>
 </template>
