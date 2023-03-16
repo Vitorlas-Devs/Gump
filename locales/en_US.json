@@ -5,6 +5,7 @@
 		"hoarderBadgeDescription": "Save at least 100 recipes."
 	},
 	"ui": {
-		"HomeButton": "Home"
+		"HomeButton": "Home",
+		"Welcome": "Welcome, {username}!"
 	}
 }

@@ -5,6 +5,7 @@
 		"hoarderBadgeDescription": "최소 100개 레시피를 저장해주세요."
 	},
 	"ui": {
-		"HomeButton": "홈"
+		"HomeButton": "홈",
+		"Welcome": "{username} 환영합니다!"
 	}
 }
