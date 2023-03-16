@@ -38,7 +38,7 @@ public class ImageRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 		image.OwnerId = 1;
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.ImageRepository.Create(image));
+		Assert.Throws<NotFoundException>(() => fixture.ImageRepository.Create(image));
 	}
 
 	[Fact]
@@ -51,7 +51,7 @@ public class ImageRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 		image.Image = null;
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.ImageRepository.Create(image));
+		Assert.Throws<RestrictedException>(() => fixture.ImageRepository.Create(image));
 	}
 
 	[Theory]
@@ -67,7 +67,7 @@ public class ImageRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 		fixture.ImageRepository.Delete(image.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.ImageRepository.GetById(image.Id));
+		Assert.Throws<NotFoundException>(() => fixture.ImageRepository.GetById(image.Id));
 	}
 
 	[Fact]
@@ -81,7 +81,6 @@ public class ImageRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 		fixture.ImageRepository.Delete(image.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.ImageRepository.Delete(image.Id));
+		Assert.Throws<NotFoundException>(() => fixture.ImageRepository.Delete(image.Id));
 	}
-
 }

@@ -68,6 +68,65 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Image",
+			"item": [
+				{
+					"name": "Get Image By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Image/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Image",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Image"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Image/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Image",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Image"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
 		}
 	],
 	"auth": {

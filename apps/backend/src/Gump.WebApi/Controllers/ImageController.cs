@@ -47,8 +47,7 @@ namespace Gump.WebApi.Controllers
 				return NotFound(e);
 			}
 
-			if (
-				image.OwnerId.HasValue &&
+			if (image.OwnerId.HasValue &&
 				image.OwnerId.Value != userId &&
 				!user.IsModerator)
 			{
