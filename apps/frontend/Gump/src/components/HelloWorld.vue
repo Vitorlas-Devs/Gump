@@ -7,8 +7,8 @@ const usermame = 'Rettend'
 <template>
   <div class="greetings">
     <div display="flex" justify-content="space-between" gap="10px">
-      <h1 class="title-secondary">{{ $t('ui.HomeButton') }}:</h1>
-      <h1 class="title-welcome" v-html="$t('ui.Welcome', { username: usermame })"></h1>
+      <h1 class="title-secondary">{{ $t('HomeButton') }}:</h1>
+      <h1 class="title-welcome" v-html="$t('Welcome', { username: usermame })"></h1>
     </div>
     <h3 class="title">$i18n.availableLocales: {{ $i18n.availableLocales }}</h3>
     <LocaleSelect />
