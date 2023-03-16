@@ -11,6 +11,7 @@ export const useTranslationStore = defineStore({
     translationsForKey: (state) => (key: string) =>
       state.locales.reduce((acc, locale) => {
         acc[locale] = state.translations[locale]?.[key] ?? null
+
         return acc
       }, {} as Record<string, string>)
   },
@@ -21,6 +22,7 @@ export const useTranslationStore = defineStore({
         Object.entries(translationModules).map(async ([path, loader]) => {
           const locale = path.match(/\/(\w+)\.json$/)?.[1] ?? ''
           const module = (await loader()) as { default: Record<string, string> }
+
           return [locale, module.default] as const
         })
       )
