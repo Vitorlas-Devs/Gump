@@ -3,16 +3,6 @@ import { watch, reactive, onMounted, computed } from 'vue'
 import { useTranslationStore } from '@/stores/translationStore'
 import { useRouter } from 'vue-router'
 
-// translations:Object {
-// en_US:Object {
-// HomeButton:"Home"
-// Welcome:"Welcome, {username}!"
-// hoarderBadgeDescription:"Save at least 100 recipes."
-// hoarderBadgeName:"Recipe Hoarder"
-// locale:"en_US"
-// }
-// }
-
 const router = useRouter()
 
 const translate = useTranslationStore()
@@ -38,11 +28,7 @@ watch(
 )
 
 onMounted(() => {
-  console.log('selectedKey', selectedKey.value)
-  // state.translations[selectedKey.value][locales[0]]
-  console.log('translationsForKey', translationsForKey(selectedKey.value))
   if (!translate.checkKey(selectedKey.value)) {
-    console.log('not found', translate.checkKey(selectedKey.value))
     router.push({ name: 'not-found' })
   }
 })

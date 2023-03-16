@@ -1,14 +1,4 @@
 import { defineStore } from 'pinia'
-// en_US.json
-// {
-//	"locale": "en_US",
-// 	"hoarderBadgeName": "Recipe Hoarder",
-// 	"hoarderBadgeDescription": "Save at least 100 recipes.",
-// 	"HomeButton": "Home",
-// 	"Welcome": "Welcome, {username}!"
-// }
-
-// const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
 
 export const useTranslationStore = defineStore({
   id: 'translation',
@@ -36,18 +26,6 @@ export const useTranslationStore = defineStore({
       )
       this.translations = Object.fromEntries(translations)
     },
-    // check the given key and redirect to not-found if it's not found
-    // const state = reactive({
-    //   translations: {} as Record<string, Record<string, string>>
-    // })
-    // state.translations = {
-    //   [selectedKey.value]: translationsForKey(selectedKey.value)
-    // }
-    // if (state.translations[selectedKey.value][locales[0]] === null) {
-    //   console.log('redirecting to not-found')
-    //   router.push({ name: 'not-found' })
-    // }
-
     checkKey(key: string) {
       return this.translationsForKey(key)[this.locales[0]] !== null
     }

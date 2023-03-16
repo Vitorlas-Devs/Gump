@@ -16,11 +16,9 @@ if (router) {
     const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
 
     watch(
-      () => router.currentRoute.value.params.key.toString(),
+      () => selectedKey,
       (key) => {
-        console.log('selectedKey', selectedKey.value)
-        if (!translate.checkKey(key)) {
-          console.log('not found', translate.checkKey(key))
+        if (!translate.checkKey(key.value)) {
           router.push({ name: 'not-found' })
         }
       }
