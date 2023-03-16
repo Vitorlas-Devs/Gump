@@ -22,7 +22,7 @@ namespace Gump.WebApi.Controllers
 
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public IActionResult GetImage(ulong id)
+		public IActionResult GetImage(ulong id) => this.Run(() =>
 		{
 			ImageModel image;
 			try
@@ -56,6 +56,6 @@ namespace Gump.WebApi.Controllers
 			}
 
 			return Ok(image.Image);
-		}
+		});
 	}
 }

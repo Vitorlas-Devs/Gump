@@ -25,7 +25,7 @@ namespace Gump.WebApi.Controllers
 		}
 
 		[HttpPost("login")]
-		public IActionResult Login([FromBody] LoginDto loginDto)
+		public IActionResult Login([FromBody] LoginDto loginDto) => this.Run(() =>
 		{
 			var user = userRepository.GetByName(loginDto.Username);
 
@@ -68,6 +68,6 @@ namespace Gump.WebApi.Controllers
 					token,
 					user.Id
 				});
-		}
+		});
 	}
 }
