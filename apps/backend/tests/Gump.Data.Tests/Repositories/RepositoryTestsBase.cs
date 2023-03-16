@@ -2,6 +2,7 @@ using System.Reflection;
 
 namespace Gump.Data.Tests.Repositories;
 
+[Collection("RepositoryTests")]
 public class RepositoryTestsBase : IDisposable
 {
 	private readonly MongoClient mongoClient;

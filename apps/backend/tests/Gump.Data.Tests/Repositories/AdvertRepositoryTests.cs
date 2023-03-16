@@ -1,5 +1,6 @@
 namespace Gump.Data.Tests.Repositories;
 
+[Collection("RepositoryTests")]
 public class AdvertRepositoryTests : RepositoryTestsBase, IClassFixture<RepositoryTestsBase>
 {
 	private readonly RepositoryTestsBase fixture;
@@ -63,7 +64,7 @@ public class AdvertRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		fixture.ImageRepository.Create(image);
 
 		AdvertModel advert = Get<AdvertModel>();
-		
+
 
 		// Act
 		advert.Title = name;

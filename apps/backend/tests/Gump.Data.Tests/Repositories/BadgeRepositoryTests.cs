@@ -1,5 +1,6 @@
 namespace Gump.Data.Tests.Repositories;
 
+[Collection("RepositoryTests")]
 public class BadgeRepositoryTests : RepositoryTestsBase, IClassFixture<RepositoryTestsBase>
 {
 	private readonly RepositoryTestsBase fixture;
