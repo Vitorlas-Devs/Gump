@@ -68,6 +68,12 @@ public class RepositoryBase<T> where T : class, IEntity
 		foreach (var field in fieldsToNullify)
 		{
 			var prop = entity.GetType().GetProperty(field);
+			
+			if (prop == null)
+			{
+				throw new ArgumentException($"Property {field} does not exist");
+			}
+
 			if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
 			{
 				prop.SetValue(entity, Activator.CreateInstance(prop.PropertyType));
