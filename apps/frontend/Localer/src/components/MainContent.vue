@@ -1,39 +1,62 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { watch, reactive, onMounted, computed } from 'vue'
 import { useTranslationStore } from '@/stores/translationStore'
+import { useRouter } from 'vue-router'
 
-const { locales, translationsForKey, translations } = useTranslationStore()
-const selectedKey = ref('')
+// translations:Object {
+// en_US:Object {
+// HomeButton:"Home"
+// Welcome:"Welcome, {username}!"
+// hoarderBadgeDescription:"Save at least 100 recipes."
+// hoarderBadgeName:"Recipe Hoarder"
+// locale:"en_US"
+// }
+// }
 
-watch(selectedKey, (key) => {
-  translations.value = translationsForKey(key)
+const router = useRouter()
+
+const translate = useTranslationStore()
+
+const { locales, translationsForKey, translations } = translate
+const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
+
+const state = reactive({
+  translations: {} as Record<string, Record<string, string>>
+})
+
+state.translations = {
+  [selectedKey.value]: translationsForKey(selectedKey.value)
+}
+
+watch(
+  () => selectedKey,
+  (key) => {
+    state.translations = {
+      [key.value]: translationsForKey(key.value)
+    }
+  }
+)
+
+onMounted(() => {
+  console.log('selectedKey', selectedKey.value)
+  // state.translations[selectedKey.value][locales[0]]
+  console.log('translationsForKey', translationsForKey(selectedKey.value))
+  if (!translate.checkKey(selectedKey.value)) {
+    console.log('not found', translate.checkKey(selectedKey.value))
+    router.push({ name: 'not-found' })
+  }
 })
 </script>
 
 <template>
   <div class="w-3/4">
-    <h3>{{ selectedKey }}</h3>
-
-    <div class="flex flex-row gap-4">
-      <label class="w-12">en_US</label>
-      <input
-        type="text"
-        v-model="translations.en_US"
-        class="bg-gray-800 border rounded flex-grow"
-        readonly
-      />
-    </div>
-
-    <div
-      v-for="locale in locales.filter((locale) => locale !== 'en_US')"
-      :key="locale"
-      class="flex flex-row gap-4"
-    >
+    <div v-for="locale in locales" :key="locale" class="flex flex-row gap-4">
       <label class="w-12"> {{ locale }}</label>
       <input
         type="text"
-        v-model="translations[locale]"
+        v-model="translations[locale][selectedKey]"
         class="bg-gray-800 border rounded flex-grow"
+        :readonly="locale === 'en_US'"
       />
     </div>
   </div>

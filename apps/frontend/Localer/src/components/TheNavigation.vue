@@ -1,8 +1,32 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
+import { watch, computed } from 'vue'
 
-const { keys } = useTranslationStore()
+const router = useRouter()
+
+const translate = useTranslationStore()
+
+const { keys } = translate
+
+console.log('router.currentRoute.value.fullPath', router.currentRoute.value.fullPath)
+
+if (router) {
+  if (router.currentRoute.value.fullPath.includes('/translate/')) {
+    const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
+
+    watch(
+      () => router.currentRoute.value.params.key.toString(),
+      (key) => {
+        console.log('selectedKey', selectedKey.value)
+        if (!translate.checkKey(key)) {
+          console.log('not found', translate.checkKey(key))
+          router.push({ name: 'not-found' })
+        }
+      }
+    )
+  }
+}
 </script>
 
 <template>
@@ -25,7 +49,7 @@ const { keys } = useTranslationStore()
           :key="i"
           class="flex flex-row items-center w-full h-10 px-4 border border-gray-800"
         >
-          {{ i }}
+          <RouterLink :to="{ name: 'translate', params: { key: i } }"> empty {{ i }} </RouterLink>
         </li>
       </ul>
 
