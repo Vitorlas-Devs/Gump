@@ -56,5 +56,21 @@ namespace Gump.WebApi.Controllers
 
 			return Ok(image.Image);
 		});
+
+		[HttpPost]
+		public IActionResult CreateImage([FromBody] ImageDto imageDto) => this.Run(() =>
+		{
+			var user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+			
+			ImageModel image = new()
+			{
+				Image = imageDto.Image,
+				OwnerId = imageDto.IsPrivate ? user.Id : null
+			};
+
+			this.imageRepository.Create(image);
+
+			return Created(nameof(image), image.Id);
+		});
 	}
 }
