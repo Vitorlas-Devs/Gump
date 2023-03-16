@@ -126,8 +126,8 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 			}
 
 			// if ingredient has value or volume, it must have both
-			if (ingredient.Value != 0 || ingredient.Volume != null &&
-				ingredient.Value == 0 || ingredient.Volume == null)
+			if ((ingredient.Value != 0 || !string.IsNullOrWhiteSpace(ingredient.Volume)) &&
+				(ingredient.Value == 0 || string.IsNullOrWhiteSpace(ingredient.Volume)))
 			{
 				throw new ArgumentException($"Ingredient must have both value and volume");
 			}

@@ -35,7 +35,7 @@ namespace Gump.Data.Repositories
 			user.Id = GetId();
 
 			ValidateFields(user, "Username", "Password", "Email");
-			NullifyFields(user, "ProfilePictureId", "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator", "Verified");
+			NullifyFields(user, "ProfilePictureId", "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator");
 
 			try
 			{
