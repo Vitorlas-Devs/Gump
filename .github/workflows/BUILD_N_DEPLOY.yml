@@ -21,4 +21,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           branch: production
-          folder: /home/runner/work/Gump/apps/frontend/Localer/dist
+          folder: /apps/frontend/Localer/dist
