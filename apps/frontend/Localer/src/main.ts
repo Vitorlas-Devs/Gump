@@ -14,16 +14,16 @@ const app = createApp(App)
 
 app.use(createPinia())
 
-app.use(useTranslationStore().loadTranslations)
+app.mixin({
+  created() {
+    useTranslationStore().loadTranslations()
+  }
+})
+
+useTranslationStore().loadInitialTranslations()
 
 app.use(router)
 
 app.component(CustomScrollbar.name, CustomScrollbar)
 
 app.mount('#app')
-
-declare module 'vue' {
-  export interface IGlobalComponents {
-    CustomScrollbar: typeof CustomScrollbar
-  }
-}
