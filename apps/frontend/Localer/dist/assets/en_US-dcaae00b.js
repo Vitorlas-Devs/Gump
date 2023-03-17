@@ -1,1 +1,0 @@
-const e="Recipe Hoarder",o="Save at least 100 recipes.",a="Home",r="Welcome, {username}!",t={hoarderBadgeName:e,hoarderBadgeDescription:o,HomeButton:a,Welcome:r};export{a as HomeButton,r as Welcome,t as default,o as hoarderBadgeDescription,e as hoarderBadgeName};

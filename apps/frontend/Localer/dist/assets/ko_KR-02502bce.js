@@ -1,1 +1,0 @@
-const e="레시피 수집광",o="최소 100개 레시피를 저장해주세요.",a="홈",t="{username} 환영합니다!",r={hoarderBadgeName:e,hoarderBadgeDescription:o,HomeButton:a,Welcome:t};export{a as HomeButton,t as Welcome,r as default,o as hoarderBadgeDescription,e as hoarderBadgeName};

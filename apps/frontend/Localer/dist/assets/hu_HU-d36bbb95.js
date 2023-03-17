@@ -1,1 +1,0 @@
-const e="Recept Halmozó",o="Ments el legalább 100 receptet.",t="Főoldal",a="Üdvözöljük, {username}!",r={hoarderBadgeName:e,hoarderBadgeDescription:o,HomeButton:t,Welcome:a};export{t as HomeButton,a as Welcome,r as default,o as hoarderBadgeDescription,e as hoarderBadgeName};
