@@ -15,3 +15,8 @@ updates:
     directory: "/apps/frontend/Localer"
     schedule:
       interval: "weekly"
+
+  - package-ecosystem: "nuget"
+    directory: "/apps/backend"
+    schedule:
+      interval: "weekly"
