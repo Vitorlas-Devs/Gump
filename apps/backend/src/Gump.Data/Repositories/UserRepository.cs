@@ -29,7 +29,7 @@ namespace Gump.Data.Repositories
 		{
 			if (GetAll().Any(x => x.Username == user.Username))
 			{
-				throw new ArgumentException($"User already exists with username {user.Username}");
+				throw new DuplicateException($"User already exists with username {user.Username}");
 			}
 
 			user.Id = GetId();
@@ -39,7 +39,7 @@ namespace Gump.Data.Repositories
 
 			try
 			{
-				_ = ImageRepository.GetById(user.ProfilePictureId);
+				ImageRepository.GetById(user.ProfilePictureId);
 			}
 			catch (Exception)
 			{
@@ -68,23 +68,16 @@ namespace Gump.Data.Repositories
 
 			if (GetAll().Any(x => x.Username == user.Username && x.Id != user.Id))
 			{
-				throw new ArgumentException($"User already exists with username {user.Username}");
+				throw new DuplicateException($"User already exists with username {user.Username}");
 			}
 
-			try
-			{
-				_ = ImageRepository.GetById(user.ProfilePictureId);
-			}
-			catch (Exception)
-			{
-				throw new ArgumentException($"Image with id {user.ProfilePictureId} does not exist");
-			}
+			ImageRepository.GetById(user.ProfilePictureId);
 
 			if (user.Password != GetById(user.Id).Password)
 			{
 				if (string.IsNullOrWhiteSpace(pepper))
 				{
-					throw new ArgumentNullException(nameof(pepper), "Pepper is not set");
+					throw new ArgumentException($"{nameof(pepper)} is not set");
 				}
 				user.Token = BCrypt.Net.BCrypt.GenerateSalt();
 				user.Password = BCrypt.Net.BCrypt.HashPassword($"{user.Password}{user.Token}{pepper}", 10);
@@ -101,15 +94,15 @@ namespace Gump.Data.Repositories
 			foreach (var followerId in user.Followers)
 			{
 				var follower = GetById(followerId);
-				_ = follower.Following.Remove(id);
-				_ = Update(follower);
+				follower.Following.Remove(id);
+				Update(follower);
 			}
 
 			foreach (var followingId in user.Following)
 			{
 				var following = GetById(followingId);
-				_ = following.Followers.Remove(id);
-				_ = Update(following);
+				following.Followers.Remove(id);
+				Update(following);
 			}
 
 			if (user.ProfilePictureId != 1)
@@ -119,7 +112,7 @@ namespace Gump.Data.Repositories
 
 			try
 			{
-				_ = Collection.DeleteOne(x => x.Id == id);
+				Collection.DeleteOne(x => x.Id == id);
 			}
 			catch (MongoException ex)
 			{

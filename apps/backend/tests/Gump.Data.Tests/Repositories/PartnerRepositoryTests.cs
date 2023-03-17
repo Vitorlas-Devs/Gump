@@ -36,7 +36,7 @@ public class PartnerRepositoryTests : RepositoryTestsBase, IClassFixture<Reposit
 
 		// Assert
 		Assert.Equal(name, partner.Name);
-		Assert.Throws<ArgumentException>(() => fixture.PartnerRepository.Create(partner));
+		Assert.Throws<DuplicateException>(() => fixture.PartnerRepository.Create(partner));
 	}
 
 	[Theory]
@@ -58,7 +58,7 @@ public class PartnerRepositoryTests : RepositoryTestsBase, IClassFixture<Reposit
 		// Assert
 		Assert.Equal(name2, partner.Name);
 		Assert.Equal(name2, partner2.Name);
-		Assert.Throws<ArgumentException>(() => fixture.PartnerRepository.Update(partner));
+		Assert.Throws<DuplicateException>(() => fixture.PartnerRepository.Update(partner));
 	}
 
 	[Theory]
@@ -75,7 +75,7 @@ public class PartnerRepositoryTests : RepositoryTestsBase, IClassFixture<Reposit
 		fixture.PartnerRepository.Delete(partner.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.PartnerRepository.GetById(partner.Id));
+		Assert.Throws<NotFoundException>(() => fixture.PartnerRepository.GetById(partner.Id));
 	}
 
 	[Theory]
@@ -92,7 +92,7 @@ public class PartnerRepositoryTests : RepositoryTestsBase, IClassFixture<Reposit
 		fixture.PartnerRepository.Delete(partner.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.PartnerRepository.Delete(partner.Id));
+		Assert.Throws<NotFoundException>(() => fixture.PartnerRepository.Delete(partner.Id));
 	}
 
 	[Theory]
@@ -115,7 +115,7 @@ public class PartnerRepositoryTests : RepositoryTestsBase, IClassFixture<Reposit
 		fixture.PartnerRepository.Delete(partner.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.PartnerRepository.Delete(partner.Id));
+		Assert.Throws<NotFoundException>(() => fixture.PartnerRepository.Delete(partner.Id));
 	}
 
 }

@@ -85,18 +85,18 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		// originalRecipeId cannot be changed
 		if (recipe.OriginalRecipeId != GetById(recipe.Id).OriginalRecipeId)
 		{
-			throw new ArgumentException($"OriginalRecipeId cannot be changed");
+			throw new RestrictedException($"{nameof(recipe.OriginalRecipeId)} cannot be changed");
 		}
 
 		// check if the referenceCount has changed
 		var existingRecipe = GetById(recipe.Id);
 		if (Math.Abs(recipe.ReferenceCount - existingRecipe.ReferenceCount) > 1)
 		{
-			throw new ArgumentException($"ReferenceCount can only be increased/decreased by 1");
+			throw new RestrictedException($"{nameof(recipe.ReferenceCount)} can only be increased/decreased by 1");
 		}
 		if (Math.Abs(recipe.SaveCount - existingRecipe.SaveCount) > 1)
 		{
-			throw new ArgumentException($"SaveCount can only be increased/decreased by 1");
+			throw new RestrictedException($"{nameof(recipe.SaveCount)} can only be increased/decreased by 1");
 		}
 
 		try
@@ -129,7 +129,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 			if ((ingredient.Value != 0 || !string.IsNullOrWhiteSpace(ingredient.Volume)) &&
 				(ingredient.Value == 0 || string.IsNullOrWhiteSpace(ingredient.Volume)))
 			{
-				throw new ArgumentException($"Ingredient must have both value and volume");
+				throw new RestrictedException($"{nameof(ingredient)} must have both value and volume or neither");
 			}
 		}
 
@@ -148,13 +148,13 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		// check language format
 		if (!LanguageFormat().IsMatch(recipe.Language))
 		{
-			throw new ArgumentException($"Language format is invalid");
+			throw new ArgumentException($"{nameof(recipe.Language)} format is invalid");
 		}
 
 		// serves must be at least 1
 		if (recipe.Serves < 1)
 		{
-			throw new ArgumentException($"Serves must be at least 1");
+			throw new ArgumentException($"{nameof(recipe.Serves)} must be at least 1");
 		}
 	}
 
@@ -167,17 +167,17 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 
 		if (recipe.Forks.Count > 0)
 		{
-			throw new ArgumentException($"Recipe can only be archived, because it has forks");
+			throw new RestrictedException("Recipe can only be archived, because it has forks");
 		}
 
 		if (recipe.ReferenceCount != 0)
 		{
-			throw new ArgumentException($"Recipe can only be archived, because it has references");
+			throw new RestrictedException("Recipe can only be archived, because it has references");
 		}
 
 		if (recipe.SaveCount != 0)
 		{
-			throw new ArgumentException($"Recipe can only be archived, because it has saves");
+			throw new RestrictedException("Recipe can only be archived, because it has saves");
 		}
 
 		// Get all the users who have liked this recipe
