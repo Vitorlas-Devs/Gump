@@ -14,7 +14,10 @@ const saveChanges = () => {
 
 <template>
   <div>
-    <RouterLink to="/">Home</RouterLink>
+    <div class="flex flex-row gap-4 mx-5 my-2">
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/translate-home">Translate</RouterLink>
+    </div>
     <RouterView :key="$route.fullPath" />
   </div>
   <div class="fixed bottom-0 mx-auto left-0 right-0 w-max" v-if="dirty">

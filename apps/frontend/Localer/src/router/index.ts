@@ -18,6 +18,11 @@ const router = createRouter({
       path: '/translate/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/NotFoundView.vue')
+    },
+    {
+      path: '/translate-home',
+      name: 'translate-home',
+      component: () => import('../views/TranslateHomeView.vue')
     }
   ]
 })
