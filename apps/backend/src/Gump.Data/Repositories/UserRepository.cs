@@ -11,9 +11,6 @@ namespace Gump.Data.Repositories
 		private ImageRepository ImageRepository => new(mongoDbConfig);
 		private readonly string pepper;
 
-		[GeneratedRegex("^[A-Za-z0-9.\\-_]+@[A-Za-z0-9.\\-_]+\\.[a-zA-Z]{2,}$")]
-		private static partial Regex emailValidatorRegex();
-
 		public UserRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 		{
 			this.mongoDbConfig = mongoDbConfig;
@@ -43,7 +40,7 @@ namespace Gump.Data.Repositories
 			NullifyFields(user, "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator");
 
 			//Check if email is valid
-			if (!emailValidatorRegex().IsMatch(user.Email))
+			if (!EmailValidatorRegex().IsMatch(user.Email))
 			{
 				throw new ArgumentException("Email is not valid");
 			}
@@ -88,7 +85,7 @@ namespace Gump.Data.Repositories
 			}
 
 			//Check if email is valid
-			if (!emailValidatorRegex().IsMatch(user.Email))
+			if (!EmailValidatorRegex().IsMatch(user.Email))
 			{
 				throw new ArgumentException("Email is not valid");
 			}
@@ -123,6 +120,9 @@ namespace Gump.Data.Repositories
 
 			return CopyExcept(user, "Password", "Token");
 		}
+		
+		[GeneratedRegex("^[A-Za-z0-9.\\-_]+@[A-Za-z0-9.\\-_]+\\.[a-zA-Z]{2,}$")]
+		private static partial Regex EmailValidatorRegex();
 
 		public void Delete(ulong id)
 		{
