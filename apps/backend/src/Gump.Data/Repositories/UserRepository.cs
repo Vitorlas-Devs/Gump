@@ -1,13 +1,18 @@
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using Gump.Data.Models;
 using MongoDB.Driver;
 
 namespace Gump.Data.Repositories
 {
-	public class UserRepository : RepositoryBase<UserModel>
+	public partial class UserRepository : RepositoryBase<UserModel>
 	{
 		private readonly MongoDbConfig mongoDbConfig;
 		private ImageRepository ImageRepository => new(mongoDbConfig);
 		private readonly string pepper;
+
+		[GeneratedRegex("^[A-Za-z0-9.\\-_]+@[A-Za-z0-9.\\-_]+\\.[a-zA-Z]{2,}$")]
+		private static partial Regex emailValidatorRegex();
 
 		public UserRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 		{
@@ -36,6 +41,12 @@ namespace Gump.Data.Repositories
 
 			ValidateFields(user, "Username", "Password", "Email");
 			NullifyFields(user, "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator");
+
+			//Check if email is valid
+			if (!emailValidatorRegex().IsMatch(user.Email))
+			{
+				throw new ArgumentException("Email is not valid");
+			}
 
 			try
 			{
@@ -76,13 +87,19 @@ namespace Gump.Data.Repositories
 				throw new ArgumentException($"User already exists with username {user.Username}");
 			}
 
+			//Check if email is valid
+			if (!emailValidatorRegex().IsMatch(user.Email))
+			{
+				throw new ArgumentException("Email is not valid");
+			}
+
 			try
 			{
 				ImageRepository.GetById(user.ProfilePictureId);
 			}
 			catch (Exception)
 			{
-				throw new ArgumentException($"Image with id {user.ProfilePictureId} does not exist");
+				user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
 			}
 
 			if (user.Password != GetById(user.Id).Password)
@@ -93,6 +110,15 @@ namespace Gump.Data.Repositories
 				}
 				user.Token = BCrypt.Net.BCrypt.GenerateSalt();
 				user.Password = BCrypt.Net.BCrypt.HashPassword($"{user.Password}{user.Token}{pepper}", 10);
+			}
+
+			try
+			{
+				Collection.ReplaceOne(x => x.Id == user.Id, user);
+			}
+			catch (MongoException ex)
+			{
+				throw new AggregateException($"Error while updating {nameof(user)}", ex);
 			}
 
 			return CopyExcept(user, "Password", "Token");

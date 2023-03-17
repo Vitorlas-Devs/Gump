@@ -18,7 +18,7 @@ public class RepositoryTestsBase : IDisposable
 	public ImageRepository ImageRepository => new(mongoDbConfig);
 	public PartnerRepository PartnerRepository => new(mongoDbConfig);
 	public RecipeRepository RecipeRepository => new(mongoDbConfig);
-	public UserRepository UserRepository => new(mongoDbConfig);
+	public UserRepository UserRepository => new(mongoDbConfig, "test");
 
 	// examples
 	public AdvertModel Advert { get; set; } = new()
@@ -77,7 +77,7 @@ public class RepositoryTestsBase : IDisposable
 	public UserModel User { get; set; } = new()
 	{
 		Badges = new List<ulong> { 1 },
-		Email = "Test",
+		Email = "test@test.test",
 		IsModerator = false,
 		Language = "Test",
 		Password = "Test",
