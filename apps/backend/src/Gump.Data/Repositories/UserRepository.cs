@@ -34,7 +34,7 @@ namespace Gump.Data.Repositories
 		{
 			if (GetAll().Any(x => x.Username == user.Username))
 			{
-				throw new ArgumentException($"User already exists with username {user.Username}");
+				throw new DuplicateException($"User already exists with username {user.Username}");
 			}
 
 			user.Id = GetId();
@@ -84,7 +84,7 @@ namespace Gump.Data.Repositories
 
 			if (GetAll().Any(x => x.Username == user.Username && x.Id != user.Id))
 			{
-				throw new ArgumentException($"User already exists with username {user.Username}");
+				throw new DuplicateException($"User already exists with username {user.Username}");
 			}
 
 			//Check if email is valid
@@ -106,7 +106,7 @@ namespace Gump.Data.Repositories
 			{
 				if (string.IsNullOrWhiteSpace(pepper))
 				{
-					throw new ArgumentNullException(nameof(pepper), "Pepper is not set");
+					throw new ArgumentException($"{nameof(pepper)} is not set");
 				}
 				user.Token = BCrypt.Net.BCrypt.GenerateSalt();
 				user.Password = BCrypt.Net.BCrypt.HashPassword($"{user.Password}{user.Token}{pepper}", 10);

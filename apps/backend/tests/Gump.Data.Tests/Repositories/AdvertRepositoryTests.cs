@@ -96,9 +96,9 @@ public class AdvertRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		fixture.AdvertRepository.Delete(advert.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.AdvertRepository.GetById(advert.Id));
+		Assert.Throws<NotFoundException>(() => fixture.AdvertRepository.GetById(advert.Id));
 
-		Assert.Throws<ArgumentNullException>(() => fixture.ImageRepository.GetById(image.Id));
+		Assert.Throws<NotFoundException>(() => fixture.ImageRepository.GetById(image.Id));
 
 		Assert.DoesNotContain(advert.Id, fixture.PartnerRepository.GetById(advert.PartnerId).Ads);
 	}
@@ -122,6 +122,6 @@ public class AdvertRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		fixture.AdvertRepository.Delete(advert.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.AdvertRepository.Delete(advert.Id));
+		Assert.Throws<NotFoundException>(() => fixture.AdvertRepository.Delete(advert.Id));
 	}
 }

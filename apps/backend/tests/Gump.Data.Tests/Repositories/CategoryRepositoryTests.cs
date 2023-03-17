@@ -32,7 +32,7 @@ public class CategoryRepositoryTests : RepositoryTestsBase, IClassFixture<Reposi
 
 		// Assert
 		Assert.Equal(name, category.Name);
-		Assert.Throws<ArgumentException>(() => fixture.CategoryRepository.Create(name));
+		Assert.Throws<DuplicateException>(() => fixture.CategoryRepository.Create(name));
 	}
 
 	[Theory]
@@ -50,7 +50,7 @@ public class CategoryRepositoryTests : RepositoryTestsBase, IClassFixture<Reposi
 		// Assert
 		Assert.Equal(name2, category.Name);
 		Assert.Equal(name2, category2.Name);
-		Assert.Throws<ArgumentException>(() => fixture.CategoryRepository.Update(category));
+		Assert.Throws<DuplicateException>(() => fixture.CategoryRepository.Update(category));
 	}
 
 	[Theory]
@@ -64,7 +64,7 @@ public class CategoryRepositoryTests : RepositoryTestsBase, IClassFixture<Reposi
 		fixture.CategoryRepository.Delete(category.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.CategoryRepository.GetById(category.Id));
+		Assert.Throws<NotFoundException>(() => fixture.CategoryRepository.GetById(category.Id));
 	}
 
 	[Theory]
@@ -78,7 +78,7 @@ public class CategoryRepositoryTests : RepositoryTestsBase, IClassFixture<Reposi
 		fixture.CategoryRepository.Delete(category.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.CategoryRepository.Delete(category.Id));
+		Assert.Throws<NotFoundException>(() => fixture.CategoryRepository.Delete(category.Id));
 	}
 }
 

@@ -53,7 +53,7 @@ public class RepositoryBase<T> where T : class, IEntity
 
 			if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
 			{
-				throw new ArgumentNullException($"{field} cannot be empty");
+				throw new RestrictedException($"{field} cannot be empty");
 			}
 		}
 	}
@@ -68,10 +68,10 @@ public class RepositoryBase<T> where T : class, IEntity
 		foreach (var field in fieldsToNullify)
 		{
 			var property = entity.GetType().GetProperty(field);
-			
+
 			if (property == null)
 			{
-				throw new ArgumentException($"Property {field} does not exist");
+				throw new NotFoundException($"Property {field} does not exist");
 			}
 
 			if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
@@ -113,13 +113,12 @@ public class RepositoryBase<T> where T : class, IEntity
 
 		if (entity == null)
 		{
-			throw new ArgumentNullException($"{typeof(T).Name.Replace("Model", string.Empty)} with id {id} does not exist");
+			throw new NotFoundException($"{typeof(T).Name.Replace("Model", string.Empty)} with id {id} does not exist");
 		}
 
 		ValidateFields(entity, "Id");
 
 		return entity;
-
 	}
 }
 

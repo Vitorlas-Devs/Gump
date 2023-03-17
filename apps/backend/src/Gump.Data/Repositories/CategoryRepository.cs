@@ -17,7 +17,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 	{
 		if (GetAll().Any(x => x.Name == name))
 		{
-			throw new ArgumentException("Category already exists", nameof(name));
+			throw new DuplicateException($"Category with name {nameof(name)} already exists");
 		}
 
 		CategoryModel category = new CategoryModel
@@ -46,7 +46,7 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 
 		if (GetAll().Any(x => x.Name == category.Name))
 		{
-			throw new ArgumentException($"Category {nameof(category.Name)} already exists");
+			throw new DuplicateException($"Category {nameof(category.Name)} already exists");
 		}
 
 		try

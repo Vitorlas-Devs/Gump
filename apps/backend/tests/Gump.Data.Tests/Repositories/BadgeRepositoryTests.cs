@@ -43,7 +43,7 @@ public class BadgeRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 
 		// Assert
 		Assert.Equal(name, badge.Name);
-		Assert.Throws<ArgumentException>(() => fixture.BadgeRepository.Create(badge));
+		Assert.Throws<DuplicateException>(() => fixture.BadgeRepository.Create(badge));
 	}
 
 	[Fact]
@@ -53,21 +53,21 @@ public class BadgeRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 		BadgeModel badge = Get<BadgeModel>();
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.BadgeRepository.Create(badge));
+		Assert.Throws<NotFoundException>(() => fixture.BadgeRepository.Create(badge));
 	}
 
 	[Fact]
 	public void Create_CannotCreateWithEmptyName()
 	{
 		// Arrange
-		
+
 		BadgeModel badge = Get<BadgeModel>();
 
 		// Act
 		badge.Name = string.Empty;
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.BadgeRepository.Create(badge));
+		Assert.Throws<RestrictedException>(() => fixture.BadgeRepository.Create(badge));
 	}
 
 	[Fact]
@@ -80,7 +80,7 @@ public class BadgeRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 		badge.Description = string.Empty;
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.BadgeRepository.Create(badge));
+		Assert.Throws<RestrictedException>(() => fixture.BadgeRepository.Create(badge));
 	}
 
 	[Theory]
@@ -105,7 +105,7 @@ public class BadgeRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 		// Assert
 		Assert.Equal(name2, badge.Name);
 		Assert.Equal(name2, badge2.Name);
-		Assert.Throws<ArgumentException>(() => fixture.BadgeRepository.Update(badge));
+		Assert.Throws<DuplicateException>(() => fixture.BadgeRepository.Update(badge));
 	}
 
 	[Theory]
@@ -132,9 +132,9 @@ public class BadgeRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 		fixture.BadgeRepository.Delete(badge.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.BadgeRepository.GetById(badge.Id));
+		Assert.Throws<NotFoundException>(() => fixture.BadgeRepository.GetById(badge.Id));
 
-		Assert.Throws<ArgumentNullException>(() => fixture.ImageRepository.GetById(image.Id));
+		Assert.Throws<NotFoundException>(() => fixture.ImageRepository.GetById(image.Id));
 
 		Assert.DoesNotContain(badge.Id, fixture.UserRepository.GetById(user.Id).Badges);
 	}
@@ -155,6 +155,6 @@ public class BadgeRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 		fixture.BadgeRepository.Delete(badge.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.BadgeRepository.Delete(badge.Id));
+		Assert.Throws<NotFoundException>(() => fixture.BadgeRepository.Delete(badge.Id));
 	}
 }
