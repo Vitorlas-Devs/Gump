@@ -21,7 +21,7 @@
 		"@playwright/test": "^1.31.2",
 		"@rushstack/eslint-patch": "^1.2.0",
 		"@types/node": "^18.14.2",
-		"@vitejs/plugin-vue": "^4.0.0",
+		"@vitejs/plugin-vue": "^4.1.0",
 		"@vue/eslint-config-prettier": "^7.1.0",
 		"@vue/eslint-config-typescript": "^11.0.2",
 		"@vue/tsconfig": "^0.1.3",
