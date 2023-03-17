@@ -42,7 +42,7 @@ namespace Gump.Data.Repositories
 			//Check if email is valid
 			if (!EmailValidatorRegex().IsMatch(user.Email))
 			{
-				throw new ArgumentException("Email is not valid");
+				throw new ArgumentException($"{nameof(user.Email)} is not valid");
 			}
 
 			try
@@ -56,7 +56,7 @@ namespace Gump.Data.Repositories
 
 			if (string.IsNullOrWhiteSpace(pepper))
 			{
-				throw new ArgumentNullException(nameof(pepper), "Pepper is not set");
+				throw new RestrictedException($"{nameof(pepper)} cannot be empty");
 			}
 
 			user.Language = "en_US";
@@ -87,7 +87,7 @@ namespace Gump.Data.Repositories
 			//Check if email is valid
 			if (!EmailValidatorRegex().IsMatch(user.Email))
 			{
-				throw new ArgumentException("Email is not valid");
+				throw new ArgumentException($"{nameof(user.Email)} is not valid");
 			}
 
 			try
@@ -103,7 +103,7 @@ namespace Gump.Data.Repositories
 			{
 				if (string.IsNullOrWhiteSpace(pepper))
 				{
-					throw new ArgumentException($"{nameof(pepper)} is not set");
+					throw new RestrictedException($"{nameof(pepper)} cannot be empty");
 				}
 				user.Token = BCrypt.Net.BCrypt.GenerateSalt();
 				user.Password = BCrypt.Net.BCrypt.HashPassword($"{user.Password}{user.Token}{pepper}", 10);
