@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
-import { watch } from 'vue'
+import { computed, watch } from 'vue'
 
 const router = useRouter()
 
 const translate = useTranslationStore()
 
-const { keys } = translate
+const keys = computed(() => translate.keys)
 
 if (router) {
   if (router.currentRoute.value.fullPath.includes('/translate/')) {
@@ -21,6 +21,7 @@ if (router) {
     )
   }
 }
+
 </script>
 
 <template>
@@ -46,8 +47,6 @@ if (router) {
           <RouterLink :to="{ name: 'translate', params: { key: i } }"> empty {{ i }} </RouterLink>
         </li>
       </ul>
-
-      <RouterView />
     </custom-scrollbar>
   </div>
 </template>

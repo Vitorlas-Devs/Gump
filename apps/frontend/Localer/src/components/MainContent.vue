@@ -7,7 +7,7 @@ const router = useRouter()
 
 const translate = useTranslationStore()
 
-const { locales, translationsForKey, translations } = translate
+const { locales, translationsForKey, translations, checkDirty, initialTranslations } = translate
 const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
 
 const state = reactive({
@@ -32,6 +32,7 @@ onMounted(() => {
     router.push({ name: 'not-found' })
   }
 })
+
 </script>
 
 <template>
@@ -41,7 +42,12 @@ onMounted(() => {
       <input
         type="text"
         v-model="translations[locale][selectedKey]"
+        @change="checkDirty()"
         class="bg-gray-800 border rounded flex-grow"
+        :class="{
+          'border-red-500':
+            translations[locale][selectedKey] !== initialTranslations[locale][selectedKey]
+        }"
         :readonly="locale === 'en_US'"
       />
     </div>
