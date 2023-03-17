@@ -51,7 +51,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 
 		// Assert
 		Assert.Equal(name, user.Username);
-		Assert.Throws<ArgumentException>(() => fixture.UserRepository.Create(user));
+		Assert.Throws<DuplicateException>(() => fixture.UserRepository.Create(user));
 	}
 
 	[Theory]
@@ -80,7 +80,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		user.Username = string.Empty;
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.UserRepository.Create(user));
+		Assert.Throws<RestrictedException>(() => fixture.UserRepository.Create(user));
 	}
 
 	[Fact]
@@ -93,7 +93,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		user.Password = string.Empty;
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.UserRepository.Create(user));
+		Assert.Throws<RestrictedException>(() => fixture.UserRepository.Create(user));
 	}
 
 	[Theory]
@@ -143,7 +143,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		// Assert
 		Assert.Equal(name2, user.Username);
 		Assert.Equal(name2, user2.Username);
-		Assert.Throws<ArgumentException>(() => fixture.UserRepository.Update(user));
+		Assert.Throws<DuplicateException>(() => fixture.UserRepository.Update(user));
 	}
 
 	[Theory]
@@ -158,7 +158,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		user.Id = id;
 
 		// Assert
-		Assert.Throws<ArgumentException>(() => fixture.UserRepository.Update(user));
+		Assert.Throws<DuplicateException>(() => fixture.UserRepository.Update(user));
 	}
 
 	[Theory]
@@ -194,9 +194,9 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		fixture.UserRepository.Delete(user1.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.UserRepository.GetById(user1.Id));
+		Assert.Throws<NotFoundException>(() => fixture.UserRepository.GetById(user1.Id));
 
-		Assert.Throws<ArgumentNullException>(() => fixture.ImageRepository.GetById(profileImage.Id));
+		Assert.Throws<NotFoundException>(() => fixture.ImageRepository.GetById(profileImage.Id));
 
 		Assert.DoesNotContain(user1.Id, fixture.UserRepository.GetById(user2.Id).Following);
 
@@ -214,6 +214,6 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		fixture.UserRepository.Delete(user.Id);
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => fixture.UserRepository.Delete(user.Id));
+		Assert.Throws<NotFoundException>(() => fixture.UserRepository.Delete(user.Id));
 	}
 }
