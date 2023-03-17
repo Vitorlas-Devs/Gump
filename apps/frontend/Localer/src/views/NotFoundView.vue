@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>404</h1>
+  <div class="flex flex-col items-center mt-10 w-full h-full">
+    <h1 class="text-9xl text-emerald-500">404</h1>
   </div>
 </template>
 
