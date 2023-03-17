@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using Gump.Data.Models;
 using MongoDB.Driver;
 
 namespace Gump.Data.Repositories
 {
-	public class UserRepository : RepositoryBase<UserModel>
+	public partial class UserRepository : RepositoryBase<UserModel>
 	{
 		private readonly MongoDbConfig mongoDbConfig;
 		private ImageRepository ImageRepository => new(mongoDbConfig);
@@ -35,7 +37,13 @@ namespace Gump.Data.Repositories
 			user.Id = GetId();
 
 			ValidateFields(user, "Username", "Password", "Email");
-			NullifyFields(user, "ProfilePictureId", "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator");
+			NullifyFields(user, "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator");
+
+			//Check if email is valid
+			if (!EmailValidatorRegex().IsMatch(user.Email))
+			{
+				throw new ArgumentException($"{nameof(user.Email)} is not valid");
+			}
 
 			try
 			{
@@ -44,6 +52,11 @@ namespace Gump.Data.Repositories
 			catch (Exception)
 			{
 				user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
+			}
+
+			if (string.IsNullOrWhiteSpace(pepper))
+			{
+				throw new RestrictedException($"{nameof(pepper)} cannot be empty");
 			}
 
 			user.Language = "en_US";
@@ -71,20 +84,45 @@ namespace Gump.Data.Repositories
 				throw new DuplicateException($"User already exists with username {user.Username}");
 			}
 
-			ImageRepository.GetById(user.ProfilePictureId);
+			//Check if email is valid
+			if (!EmailValidatorRegex().IsMatch(user.Email))
+			{
+				throw new ArgumentException($"{nameof(user.Email)} is not valid");
+			}
+
+			try
+			{
+				ImageRepository.GetById(user.ProfilePictureId);
+			}
+			catch (Exception)
+			{
+				user.ProfilePictureId = 1; // A default pfp Id-je 1 lesz
+			}
 
 			if (user.Password != GetById(user.Id).Password)
 			{
 				if (string.IsNullOrWhiteSpace(pepper))
 				{
-					throw new ArgumentException($"{nameof(pepper)} is not set");
+					throw new RestrictedException($"{nameof(pepper)} cannot be empty");
 				}
 				user.Token = BCrypt.Net.BCrypt.GenerateSalt();
 				user.Password = BCrypt.Net.BCrypt.HashPassword($"{user.Password}{user.Token}{pepper}", 10);
 			}
 
+			try
+			{
+				Collection.ReplaceOne(x => x.Id == user.Id, user);
+			}
+			catch (MongoException ex)
+			{
+				throw new AggregateException($"Error while updating {nameof(user)}", ex);
+			}
+
 			return CopyExcept(user, "Password", "Token");
 		}
+		
+		[GeneratedRegex("^[A-Za-z0-9.\\-_]+@[A-Za-z0-9.\\-_]+\\.[a-zA-Z]{2,}$")]
+		private static partial Regex EmailValidatorRegex();
 
 		public void Delete(ulong id)
 		{
