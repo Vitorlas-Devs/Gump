@@ -19,7 +19,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	{
 		recipe.Id = GetId();
 
-		ValidateFields(recipe, "Title", "AuthorId", "Language", "Serves", "Categories", "Ingredients", "Steps", "OriginalRecipeId", "IsPrivate");
+		ValidateFields(recipe, "Title", "AuthorId", "Language", "Serves", "Categories", "Ingredients", "Steps", "IsPrivate");
 		NullifyFields(recipe, "Forks", "Likes", "SaveCount", "ReferenceCount");
 
 		RecipeStuff(recipe);
@@ -36,6 +36,15 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 			}
 		}
 
+		try
+		{
+			Collection.InsertOne(recipe);
+		}
+		catch (MongoException ex)
+		{
+			throw new AggregateException($"Error while creating {nameof(recipe)}", ex);
+		}
+
 		// if originalRecipeId is not 0, check if it exists
 		// and add this recipe to the original recipe's forks list
 		// and increase the referenceCount of the original recipe
@@ -47,16 +56,6 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 			originalRecipe.ReferenceCount++;
 			Update(originalRecipe);
 		}
-
-		try
-		{
-			Collection.InsertOne(recipe);
-		}
-		catch (MongoException ex)
-		{
-			throw new AggregateException($"Error while creating {nameof(recipe)}", ex);
-		}
-
 
 		return recipe;
 	}
@@ -74,12 +73,6 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 			{
 				GetById(forkRecipeId);
 			}
-		}
-
-		// check if recipe in originalRecipeId exists
-		if (recipe.OriginalRecipeId != 0)
-		{
-			GetById(recipe.OriginalRecipeId);
 		}
 
 		// originalRecipeId cannot be changed
@@ -126,7 +119,8 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 			}
 
 			// if ingredient has value or volume, it must have both
-			if ((ingredient.Value != 0 || !string.IsNullOrWhiteSpace(ingredient.Volume)) &&
+			if ((ingredient.Value != 0 || !string.IsNullOrWhiteSpace
+				(ingredient.Volume)) &&
 				(ingredient.Value == 0 || string.IsNullOrWhiteSpace(ingredient.Volume)))
 			{
 				throw new RestrictedException($"{nameof(ingredient)} must have both value and volume or neither");
@@ -134,9 +128,12 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		}
 
 		// check if visibleTo users exist
-		foreach (var userId in recipe.VisibleTo)
+		if (recipe.IsPrivate)
 		{
-			UserRepository.GetById(userId);
+			foreach (var userId in recipe.VisibleTo)
+			{
+				UserRepository.GetById(userId);
+			}
 		}
 
 		// check if categories exist
@@ -180,16 +177,6 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 			throw new RestrictedException("Recipe can only be archived, because it has saves");
 		}
 
-		// Get all the users who have liked this recipe
-		var users = recipe.Likes.Select(UserRepository.GetById).ToList();
-
-		// For each user, remove the recipe from their list of liked recipes
-		foreach (var user in users)
-		{
-			user.Likes.Remove(recipe);
-			UserRepository.Update(user);
-		}
-
 		try
 		{
 			Collection.DeleteOne(x => x.Id == id);
@@ -197,6 +184,15 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		catch (MongoException ex)
 		{
 			throw new AggregateException($"Error while deleting {nameof(recipe)}", ex);
+		}
+
+		// Get all the users who have liked this recipe
+		var users = recipe.Likes.Select(UserRepository.GetById).ToList();
+		foreach (var user in users)
+		{
+			user.Likes.Where(x => x.Id == recipe.Id).ToList().ForEach(x => user.Likes.Remove(x));
+			
+			UserRepository.Update(user);
 		}
 	}
 }

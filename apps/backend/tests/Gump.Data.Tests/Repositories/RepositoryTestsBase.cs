@@ -41,13 +41,6 @@ public class RepositoryTestsBase : IDisposable
 	{
 		Image = "Test",
 	};
-	public IngredientModel Ingredient { get; set; } = new()
-	{
-		LinkedRecipeId = 1,
-		Name = "Test",
-		Value = 1,
-		Volume = "Test",
-	};
 	public PartnerModel Partner { get; set; } = new()
 	{
 		Name = "Test",
@@ -59,13 +52,11 @@ public class RepositoryTestsBase : IDisposable
 	{
 		AuthorId = 1,
 		Categories = new List<ulong> { 1 },
-		Forks = new List<ulong> { 1 },
 		Ingredients = new List<IngredientModel> { new() { Name = "Test", Value = 1, Volume = "Test" } },
 		IsArchived = false,
 		IsOriginal = true,
 		IsPrivate = false,
 		Language = "hu_HU",
-		Likes = new List<ulong> { 1 },
 		ReferenceCount = 1,
 		SaveCount = 1,
 		Serves = 1,

@@ -13,10 +13,11 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 	[Fact]
 	public void GetById_Works()
 	{
-		// Arrange & Act
+		// Arrange
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
 
+		// Act
 		UserModel user2 = fixture.UserRepository.GetById(user.Id);
 
 		// Assert
@@ -27,10 +28,11 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 	[Fact]
 	public void GetByName_Works()
 	{
-		// Arrange & Act
+		// Arrange
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
 
+		// Act
 		UserModel user2 = fixture.UserRepository.GetByName(user.Username);
 
 		// Assert
@@ -201,6 +203,28 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		Assert.DoesNotContain(user1.Id, fixture.UserRepository.GetById(user2.Id).Following);
 
 		Assert.DoesNotContain(user1.Id, fixture.UserRepository.GetById(user2.Id).Followers);
+	}
+
+	[Fact]
+	public void Delete_DeleteUserIdFromLikedList()
+	{
+		// Arrange
+		UserModel user = Get<UserModel>();
+		fixture.UserRepository.Create(user);
+
+		fixture.CategoryRepository.Create("Category");
+
+		RecipeModel recipe = Get<RecipeModel>();
+		fixture.RecipeRepository.Create(recipe);
+
+		user.Likes.Add(recipe);
+		fixture.UserRepository.Update(user);
+
+		// Act
+		fixture.UserRepository.Delete(user.Id);
+
+		// Assert
+		Assert.DoesNotContain(user.Id, fixture.RecipeRepository.GetById(recipe.Id).Likes);
 	}
 
 	[Fact]
