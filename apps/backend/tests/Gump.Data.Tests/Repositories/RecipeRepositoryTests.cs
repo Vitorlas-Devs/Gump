@@ -205,7 +205,7 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 
 		fixture.CategoryRepository.Create("Category");
 
-		IngredientModel ingredient = new IngredientModel()
+		IngredientModel ingredient = new()
 		{
 			Name = "Ingredient",
 			Value = 1,
