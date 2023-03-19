@@ -66,7 +66,7 @@ public class AuthController : ControllerBase
 			: Ok(new
 			{
 				token,
-				user.Id
+				id = user.Id
 			});
 	});
 }
