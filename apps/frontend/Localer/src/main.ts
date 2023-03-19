@@ -14,13 +14,7 @@ const app = createApp(App)
 
 app.use(createPinia())
 
-app.mixin({
-  created() {
-    useTranslationStore().loadTranslations()
-  }
-})
-
-useTranslationStore().loadInitialTranslations()
+useTranslationStore().loadTranslations()
 
 app.use(router)
 
