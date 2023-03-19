@@ -9,7 +9,7 @@ const keys = computed(() => translate.keys)
 </script>
 
 <template>
-  <div class="flex flex-col w-auto h-screen shadow-inner">
+  <div class="flex flex-col w-auto h-screen shadow-inner rounded-tr-xl">
     <custom-scrollbar :style="{ width: '250px', height: '100vh' }" :auto-expand="false">
       <ul class="flex flex-col w-full h-full mb-12">
         <li

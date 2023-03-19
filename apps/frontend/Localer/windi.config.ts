@@ -14,7 +14,11 @@ export default defineConfig({
       blue: '0px 0px 6px rgba(8, 66, 160, 0.4)'
     },
     boxShadow: {
-      inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)'
+      orange: '0px 8px 11px -4px rgba(243, 88, 39, 0.3)',
+      crimsonUp: '0px -8px 15px -5px rgba(209, 44, 95, 0.3)',
+      // crimsonDown: '0px 8px 15px -5px rgba(209, 44, 95, 0.3)',
+      crimsonDown: '0px 5px 15px -3px rgba(209, 44, 95, 0.3)',
+      inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)',
     },
     colors: {
       crimson: {
