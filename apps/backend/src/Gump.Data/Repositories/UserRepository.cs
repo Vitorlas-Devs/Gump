@@ -29,6 +29,20 @@ namespace Gump.Data.Repositories
 			return Collection.AsQueryable().FirstOrDefault(x => x.Username == username);
 		}
 
+		public IEnumerable<UserModel> Search(string searchTerm, int limit)
+		{
+			return Collection.AsQueryable()
+				.Where(x =>
+					x.Username
+						.ToLowerInvariant()
+						.Contains(searchTerm.ToLowerInvariant()) ||
+					x.Email
+						.ToLowerInvariant()
+						.Contains(searchTerm.ToLowerInvariant())
+				).OrderBy(x => x.Username)
+				.Take(limit);
+		}
+
 		public UserModel Create(UserModel user)
 		{
 			if (GetAll().Any(x => x.Username == user.Username))
@@ -133,7 +147,7 @@ namespace Gump.Data.Repositories
 
 			return CopyExcept(user, "Password", "Token");
 		}
-		
+
 		[GeneratedRegex("^[A-Za-z0-9.\\-_]+@[A-Za-z0-9.\\-_]+\\.[a-zA-Z]{2,}$")]
 		private static partial Regex EmailValidatorRegex();
 
@@ -165,7 +179,7 @@ namespace Gump.Data.Repositories
 			foreach (var recipe in user.Likes)
 			{
 				var currentRecipe = RecipeRepository.GetById(recipe.Id);
-				
+
 				currentRecipe.Likes.Remove(user.Id);
 				RecipeRepository.Update(currentRecipe);
 			}

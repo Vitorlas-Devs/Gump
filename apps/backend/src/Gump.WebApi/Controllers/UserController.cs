@@ -34,4 +34,21 @@ public class UserController : ControllerBase
 			badges = user.Badges
 		});
 	});
+
+	[AllowAnonymous]
+	[HttpGet("search")]
+	public IActionResult SearchUsers([FromBody] SearchDto search) => this.Run(() =>
+	{
+		var users = userRepository.Search(
+			search.SearchTerm,
+			search.Limit > 100 ? 100 : search.Limit
+		);
+
+		return Ok(users.Select(user => new
+		{
+			id = user.Id,
+			username = user.Username,
+			profilePicture = user.ProfilePictureId,
+		}));
+	});
 }
