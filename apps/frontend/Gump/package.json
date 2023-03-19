@@ -16,7 +16,7 @@
 		"ionic:serve": "npm run dev"
 	},
 	"dependencies": {
-		"@capacitor/android": "^4.7.0",
+		"@capacitor/android": "^4.7.1",
 		"@capacitor/core": "^4.7.0",
 		"@intlify/unplugin-vue-i18n": "^0.9.2",
 		"pinia": "^2.0.32",
