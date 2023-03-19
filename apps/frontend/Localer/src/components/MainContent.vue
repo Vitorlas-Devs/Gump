@@ -16,17 +16,27 @@ onMounted(() => {
   if (!translate.checkKey(selectedKey.value)) {
     router.push({ name: 'not-found' })
   }
+  locales.forEach((locale) => {
+    resize({ target: document.getElementById(locale) } as Event)
+  })
 })
 
-// set text area height to fit content
-const textArea = document.getElementById('translationArea')
-
-const resize = () => {
-  if (!textArea) return
-  textArea.style.height = 'auto'
-  textArea.style.height = textArea.scrollHeight + 'px'
+const resize = (event: Event) => {
+  const target = event.target as HTMLTextAreaElement
+  target.style.height = 'auto'
+  target.style.height = target.scrollHeight + 'px'
 }
 
+// watch not working
+// watch(
+//   () => dirty.value,
+//   () => {
+//     console.log('resized')
+//     locales.forEach((locale) => {
+//       resize({ target: document.getElementById(locale) } as Event)
+//     })
+//   }
+// )
 </script>
 
 <template>
@@ -38,13 +48,13 @@ const resize = () => {
     >
       <label class="w-16 text-xl"> {{ locale }}</label>
       <textarea
-        id="translationArea"
+        :id="locale"
         v-model="translations[locale][selectedKey]"
         type="text"
         class="rounded flex-grow p-3 shadow-inner bg-crimson-50 rounded-3xl min-h-12 h-max"
         :readonly="locale === 'en_US'"
         @change="checkDirty()"
-        @input="resize"
+        @input="resize($event)"
       />
       <div
         :class="{
