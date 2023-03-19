@@ -1,55 +1,70 @@
 <script setup lang="ts">
-import { watch, reactive, onMounted, computed } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useTranslationStore } from '@/stores/translationStore'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 
 const translate = useTranslationStore()
 
-const { locales, translationsForKey, translations, checkDirty, initialTranslations } = translate
+const { locales, checkDirty, initialTranslations } = translate
 const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
+const { translations } = storeToRefs(translate)
 
-const state = reactive({
-  translations: {} as Record<string, Record<string, string>>
-})
-
-state.translations = {
-  [selectedKey.value]: translationsForKey(selectedKey.value)
+const resize = (event: Event) => {
+  const target = event.target as HTMLTextAreaElement
+  target.style.height = 'auto'
+  target.style.height = target.scrollHeight + 'px'
 }
-
-watch(
-  () => selectedKey,
-  (key) => {
-    state.translations = {
-      [key.value]: translationsForKey(key.value)
-    }
-  }
-)
 
 onMounted(() => {
   if (!translate.checkKey(selectedKey.value)) {
     router.push({ name: 'not-found' })
   }
+  locales.forEach((locale) => {
+    resize({ target: document.getElementById(locale) } as Event)
+  })
 })
 
+// watch not working
+// watch(
+//   () => dirty.value,
+//   () => {
+//     console.log('resized')
+//     locales.forEach((locale) => {
+//       resize({ target: document.getElementById(locale) } as Event)
+//     })
+//   }
+// )
 </script>
 
 <template>
-  <div class="w-3/4">
-    <div v-for="locale in locales" :key="locale" class="flex flex-row gap-4">
-      <label class="w-12"> {{ locale }}</label>
-      <input
-        type="text"
+  <div class="w-4/5">
+    <div
+      v-for="locale in locales"
+      :key="locale"
+      class="flex flex-row gap-4 my-6 place-items-center"
+    >
+      <label class="w-16 text-xl"> {{ locale }}</label>
+      <textarea
+        :id="locale"
         v-model="translations[locale][selectedKey]"
-        @change="checkDirty()"
-        class="bg-gray-800 border rounded flex-grow"
-        :class="{
-          'border-red-500':
-            translations[locale][selectedKey] !== initialTranslations[locale][selectedKey]
-        }"
+        type="text"
+        class="rounded flex-grow p-3 shadow-inner bg-crimson-50 rounded-3xl min-h-12 h-max"
         :readonly="locale === 'en_US'"
+        @change="checkDirty()"
+        @input="resize($event)"
       />
+      <div
+        :class="{
+          'bg-crimson-500':
+            translations[locale][selectedKey] !== initialTranslations[locale][selectedKey],
+          'bg-crimson-50':
+            translations[locale][selectedKey] === initialTranslations[locale][selectedKey]
+        }"
+        class="w-2 h-8 rounded-full drop-shadow-md"
+      ></div>
     </div>
   </div>
 </template>

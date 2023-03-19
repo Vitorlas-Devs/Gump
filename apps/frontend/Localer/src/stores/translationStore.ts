@@ -10,9 +10,9 @@ export const useTranslationStore = defineStore({
     dirty: false
   }),
   getters: {
-    translationsForKey: (state) => (key: string) =>
-      state.locales.reduce((acc, locale) => {
-        acc[locale] = state.translations[locale]?.[key] ?? null
+    translationsForLocale: (state) => (locale: string) =>
+      state.keys.reduce((acc, key) => {
+        acc[key] = state.translations[locale]?.[key] ?? null
 
         return acc
       }, {} as Record<string, string>)
@@ -28,25 +28,13 @@ export const useTranslationStore = defineStore({
           return [locale, module.default] as const
         })
       )
-      this.translations = Object.fromEntries(translations)
+      this.initialTranslations = Object.fromEntries(translations)
+      this.translations = JSON.parse(JSON.stringify(this.initialTranslations))
       this.locales = Object.keys(this.translations)
       this.keys = Object.keys(this.translations[this.locales[0]])
     },
-    async loadInitialTranslations() {
-      const translationModules = import.meta.glob('../../../../../locales/*.json')
-      const translations = await Promise.all(
-        Object.entries(translationModules).map(async ([path, loader]) => {
-          const locale = path.match(/\/(\w+)\.json$/)?.[1] ?? 'en_US'
-          const module = (await loader()) as { default: Record<string, string> }
-
-          return [locale, module.default] as const
-        })
-      )
-      this.translations = Object.fromEntries(translations)
-      this.initialTranslations = JSON.parse(JSON.stringify(this.translations))
-    },
     checkKey(key: string) {
-      return this.translationsForKey(key)[this.locales[0]] !== null
+      return this.keys.includes(key)
     },
     checkDirty() {
       const dirty = this.locales.some((locale) => {
@@ -56,6 +44,15 @@ export const useTranslationStore = defineStore({
         )
       })
       this.dirty = dirty
+    },
+    saveChanges() {
+      this.locales.forEach((locale) => {
+        const keys = Object.keys(this.translations[locale])
+        keys.forEach((key) => {
+          this.translations[locale][key] = this.initialTranslations[locale][key]
+        })
+      })
+      this.dirty = false
     }
   }
 })
