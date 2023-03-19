@@ -12,6 +12,12 @@ const { locales, checkDirty, initialTranslations } = translate
 const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
 const { translations } = storeToRefs(translate)
 
+const resize = (event: Event) => {
+  const target = event.target as HTMLTextAreaElement
+  target.style.height = 'auto'
+  target.style.height = target.scrollHeight + 'px'
+}
+
 onMounted(() => {
   if (!translate.checkKey(selectedKey.value)) {
     router.push({ name: 'not-found' })
@@ -20,12 +26,6 @@ onMounted(() => {
     resize({ target: document.getElementById(locale) } as Event)
   })
 })
-
-const resize = (event: Event) => {
-  const target = event.target as HTMLTextAreaElement
-  target.style.height = 'auto'
-  target.style.height = target.scrollHeight + 'px'
-}
 
 // watch not working
 // watch(
