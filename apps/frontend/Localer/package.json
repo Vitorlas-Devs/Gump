@@ -15,7 +15,7 @@
 		"@vueuse/components": "^9.13.0",
 		"@vueuse/core": "^9.13.0",
 		"custom-vue-scrollbar": "^0.0.7",
-		"pinia": "^2.0.32",
+		"pinia": "^2.0.33",
 		"vue": "^3.2.47",
 		"vue-router": "^4.1.6"
 	},
