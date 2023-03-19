@@ -344,6 +344,62 @@
 							"body": null
 						}
 					]
+				},
+				{
+					"name": "Follow User",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/User/follow/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"User",
+								"follow",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the User to follow/unfollow"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/User/follow/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										"follow",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the User to follow/unfollow"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				}
 			],
 			"description": "User methods"

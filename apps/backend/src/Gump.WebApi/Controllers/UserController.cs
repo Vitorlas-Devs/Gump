@@ -51,4 +51,28 @@ public class UserController : ControllerBase
 			profilePicture = user.ProfilePictureId,
 		}));
 	});
+
+	[HttpPatch("follow/{id}")]
+	public IActionResult FollowUser(ulong id) => this.Run(() =>
+	{
+		UserModel user = userRepository.GetById(id);
+		UserModel currentUser = userRepository.GetById(ulong.Parse(User.Identity.Name));
+
+		if (user.Followers.Contains(currentUser.Id))
+		{
+			user.Followers.Remove(currentUser.Id);
+			currentUser.Following.Remove(user.Id);
+			userRepository.Update(user);
+			userRepository.Update(currentUser);
+
+			return Ok("unfollowed");
+		}
+
+		user.Followers.Add(currentUser.Id);
+		currentUser.Following.Add(user.Id);
+		userRepository.Update(user);
+		userRepository.Update(currentUser);
+
+		return Ok("followed");
+	});
 }
