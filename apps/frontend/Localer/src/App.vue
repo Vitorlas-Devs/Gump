@@ -3,7 +3,6 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed } from 'vue'
 import { createPullRequestFromContent } from './octokit'
-import { storeToRefs } from 'pinia'
 
 const translate = useTranslationStore()
 
@@ -13,27 +12,27 @@ const translate = useTranslationStore()
 const dirty = computed(() => translate.dirty)
 
 const saveChanges = () => {
-  translate.saveChanges()
   ;(async () => {
-    const { locales, translations } = translate
-    // branch is username
-    // filename is locale
-    // content is translations[locale] json
-    const username = 'rettend'
-    const filename = locales[0]
-    console.log('filename', filename)
-    const content = JSON.stringify(translations[filename], null, 4)
-    console.log('content', content)
-    // send request and log status code
-    const {
-      getMainBranchStatus,
-      createBranchStatus,
-      status,
-      createPullRequestStatus
-    } = await createPullRequestFromContent(username, filename, content)
+    const { locales, translations, initialTranslations } = translate
 
+    // go through all locales and if there is a difference between the initial and current translation, put them in changedLocales
+    const changedLocales = locales.filter((locale) => {
+      return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
+    })
     
+
+    const username = 'Rettend'
+    const filenames = changedLocales
+    console.log('filenames', filenames)
+    // const content = JSON.stringify(translations[filenames], null, 4)
+    const content = changedLocales.map((locale) => {
+      return JSON.stringify(translations[locale], null, 4)
+    })
+    console.log('content', content)
+    await createPullRequestFromContent(username, filenames, content)
   })()
+
+  translate.saveChanges()
 }
 </script>
 

@@ -1,20 +1,21 @@
 import { Octokit } from '@octokit/core'
+import { Base64 } from 'js-base64'
 
 const octokit = new Octokit({
   auth: import.meta.env.VITE_GITHUB_TOKEN
 })
 
-export const getMainBranchSha = async (): Promise<{ getMainBranchStatus: number; sha: string }> => {
+export const getMainBranchSha = async (): Promise<string> => {
   const response = await octokit.request('GET /repos/{owner}/{repo}/git/ref/heads/{ref}', {
     owner: '14A-A-Lyedlik-Devs',
     repo: 'Gump',
     ref: 'main'
   })
   console.log('GET main branch:', response.status)
-  return { getMainBranchStatus: response.status, sha: response.data.object.sha }
+  return response.data.object.sha
 }
 
-export const getOrCreateBranch = async (branchName: string, sha: string): Promise<number> => {
+export const getOrCreateBranch = async (branchName: string, sha: string) => {
   try {
     const response = await octokit.request('GET /repos/{owner}/{repo}/git/ref/heads/{ref}', {
       owner: '14A-A-Lyedlik-Devs',
@@ -22,8 +23,7 @@ export const getOrCreateBranch = async (branchName: string, sha: string): Promis
       ref: branchName
     })
     // branch exists, return status
-    console.log('CREATE branch (exists):', response.status)
-    return response.status
+    console.log(`GET ${branchName} branch:`, response.status)
   } catch (error) {
     // branch does not exist, create it
     const response = await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
@@ -33,21 +33,7 @@ export const getOrCreateBranch = async (branchName: string, sha: string): Promis
       sha: sha
     })
     console.log('CREATE branch:', response.status)
-    return response.status
   }
-}
-
-export const getFile = async (fileName: string): Promise<{ status: number; response: any }> => {
-  const response = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
-    owner: '14A-A-Lyedlik-Devs',
-    repo: 'Gump',
-    path: `locales/${fileName}.json`
-  })
-  console.log('GET file:', response.status)
-  console.log('data:', response.data)
-  const sha = getSha(response)
-  console.log('sha:', sha)
-  return { response: response, status: response.status }
 }
 
 // this is the most utterly fucked up function I have ever written
@@ -63,29 +49,26 @@ const getSha = (response: any): string => {
 export const createFileAndCommit = async (
   branchName: string,
   fileName: string,
-  content: string
-): Promise<{ status: number; response: any }> => {
+  content: string,
+) => {
   try {
     const response = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
       owner: '14A-A-Lyedlik-Devs',
       repo: 'Gump',
       path: `locales/${fileName}.json`
     })
-    console.log('CREATE file and commit (get):', response.status)
-    console.log(response.data)
-    console.log(getSha(response))
+    console.log('GET commit', response.status)
     // file exists, update it
     const updateResponse = await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: '14A-A-Lyedlik-Devs',
       repo: 'Gump',
       path: `locales/${fileName}.json`,
       message: `${branchName} changed ${fileName}.json`,
-      content: btoa(content),
+      content: Base64.encode(content),
       branch: branchName,
       sha: getSha(response)
     })
-    console.log('CREATE file and commit (update):', updateResponse.status)
-    return { response: response, status: updateResponse.status }
+    console.log('UPDATE commit:', updateResponse.status)
   } catch (error) {
     // file does not exist, create it
     const createResponse = await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
@@ -93,15 +76,14 @@ export const createFileAndCommit = async (
       repo: 'Gump',
       path: `locales/${fileName}.json`,
       message: `${branchName} created ${fileName}.json`,
-      content: btoa(content),
+      content: Base64.encode(content),
       branch: branchName
     })
-    console.log('CREATE file and commit (create):', createResponse.status)
-    return { response: createResponse, status: createResponse.status }
+    console.log('CREATE commit:', createResponse.status)
   }
 }
 
-export const createPullRequest = async (branchName: string): Promise<number> => {
+export const createPullRequest = async (branchName: string) => {
   const response = await octokit.request('POST /repos/{owner}/{repo}/pulls', {
     owner: '14A-A-Lyedlik-Devs',
     repo: 'Gump',
@@ -110,33 +92,18 @@ export const createPullRequest = async (branchName: string): Promise<number> => 
     base: 'main'
   })
   console.log('CREATE pull request:', response.status)
-  return response.status
 }
 
 export const createPullRequestFromContent = async (
   branchName: string,
-  fileName: string,
-  content: string
-): Promise<{
-  getMainBranchStatus: number
-  createBranchStatus: number
-  status: number
-  createPullRequestStatus: number
-}> => {
-  const { getMainBranchStatus, sha } = await getMainBranchSha()
+  fileName: string[],
+  content: string[],
+) => {
+  const sha = await getMainBranchSha()
 
-  const createBranchStatus = await getOrCreateBranch(branchName, sha)
+  await getOrCreateBranch(branchName, sha)
 
-  await getFile(fileName)
+  await createFileAndCommit(branchName, fileName, content)
 
-  const createFileAndCommitStatus = await createFileAndCommit(branchName, fileName, content)
-  const status = createFileAndCommitStatus.status
-
-  const createPullRequestStatus = await createPullRequest(branchName)
-  return {
-    getMainBranchStatus,
-    createBranchStatus,
-    status,
-    createPullRequestStatus
-  }
+  await createPullRequest(branchName)
 }
