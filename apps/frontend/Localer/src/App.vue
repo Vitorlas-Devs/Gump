@@ -8,7 +8,7 @@ const translate = useTranslationStore()
 const dirty = computed(() => translate.dirty)
 
 const saveChanges = () => {
-  console.log('Saving changes...')
+  translate.saveChanges()
 }
 </script>
 
@@ -20,14 +20,14 @@ const saveChanges = () => {
     </div>
     <RouterView :key="$route.fullPath" />
   </div>
-  <div class="fixed bottom-0 mx-auto left-0 right-0 w-max" v-if="dirty">
+  <div v-if="dirty" class="fixed bottom-0 mx-auto left-0 right-0 w-max">
     <div
-      class="flex flex-row m-5 items-center gap-4 bg-emerald-100 border border-emerald-400 text-emerald-700 px-4 py-2 rounded-xl relative"
+      class="flex flex-row m-5 items-center gap-4 bg-crimson-50 text-crimson-500 shadow-crimsonDown px-4 py-2 rounded-xl relative"
     >
       <strong class="font-bold">You have unsaved changes!</strong>
-      <span class="block sm:inline">Please save your changes.</span>
+      <span class="block sm:inline">Click here when you're done.</span>
       <button
-        class="bg-emerald-500 hover:bg-emerald-600 transition text-white font-bold py-2 px-4 ml-4 rounded-lg"
+        class="bg-crimson-500 hover:bg-crimson-600 transition text-crimson-50 font-bold shadow-crimsonDown py-2 px-4 ml-4 rounded-lg"
         @click="saveChanges"
       >
         Save

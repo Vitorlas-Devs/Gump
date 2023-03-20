@@ -8,6 +8,8 @@ namespace Gump.Data.Repositories
 	public partial class UserRepository : RepositoryBase<UserModel>
 	{
 		private readonly MongoDbConfig mongoDbConfig;
+
+		private RecipeRepository RecipeRepository => new(mongoDbConfig);
 		private ImageRepository ImageRepository => new(mongoDbConfig);
 		private readonly string pepper;
 
@@ -118,6 +120,17 @@ namespace Gump.Data.Repositories
 				throw new AggregateException($"Error while updating {nameof(user)}", ex);
 			}
 
+			//Update Likes list in RecipeRepository what the user liked
+			foreach (var recipe in user.Likes)
+			{
+				var currentRecipe = RecipeRepository.GetById(recipe.Id);
+				if (!currentRecipe.Likes.Contains(user.Id))
+				{
+					currentRecipe.Likes.Add(user.Id);
+					RecipeRepository.Update(currentRecipe);
+				}
+			}
+
 			return CopyExcept(user, "Password", "Token");
 		}
 		
@@ -146,6 +159,15 @@ namespace Gump.Data.Repositories
 			if (user.ProfilePictureId != 1)
 			{
 				ImageRepository.Delete(user.ProfilePictureId);
+			}
+
+			//Delete Likes list in RecipeRepository what the user liked
+			foreach (var recipe in user.Likes)
+			{
+				var currentRecipe = RecipeRepository.GetById(recipe.Id);
+				
+				currentRecipe.Likes.Remove(user.Id);
+				RecipeRepository.Update(currentRecipe);
 			}
 
 			try

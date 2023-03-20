@@ -43,6 +43,8 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 	{
 		ValidateAllFields(badge);
 
+		ImageRepository.GetById(badge.ImageId);
+
 		if (GetAll().Any(x => x.Name == badge.Name && x.Id != badge.Id))
 		{
 			throw new DuplicateException($"Badge already exists with name {badge.Name}");

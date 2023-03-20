@@ -12,6 +12,8 @@
 		"format": "prettier --write src/"
 	},
 	"dependencies": {
+		"@vueuse/components": "^9.13.0",
+		"@vueuse/core": "^9.13.0",
 		"custom-vue-scrollbar": "^0.0.7",
 		"pinia": "^2.0.32",
 		"vue": "^3.2.47",

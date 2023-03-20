@@ -8,11 +8,11 @@
 
 body {
   font-family: 'Ubuntu', sans-serif;
-  @apply bg-gray-800 text-gray-200;
+  @apply bg-crimson-50 text-brown-500;
   overflow: hidden;
 }
 
 .scrollbar__thumb {
-  @apply bg-gradient-to-t from-emerald-700 to-emerald-500;
+  @apply bg-gradient-to-t from-crimson-500 to-orange-500;
   cursor: default;
 }

@@ -42,6 +42,8 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 	{
 		ValidateAllFields(advert);
 
+		ImageRepository.GetById(advert.ImageId);
+
 		try
 		{
 			Collection.ReplaceOne(x => x.Id == advert.Id, advert);

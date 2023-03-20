@@ -1,3 +1,4 @@
+using System.Collections;
 using MongoDB.Driver;
 using MongoDbGenericRepository.Attributes;
 
@@ -49,11 +50,23 @@ public class RepositoryBase<T> where T : class, IEntity
 	{
 		foreach (var field in fieldsToCheck)
 		{
-			var value = entity.GetType().GetProperty(field).GetValue(entity);
+			var property = entity.GetType().GetProperty(field);
 
-			if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
+			var value = property.GetValue(entity);
+
+			if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
 			{
-				throw new RestrictedException($"{field} cannot be empty");
+				if (value == null || ((IList)value).Count == 0)
+				{
+					throw new RestrictedException($"{field} cannot be empty");
+				}
+			}
+			else
+			{
+				if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
+				{
+					throw new RestrictedException($"{field} cannot be empty");
+				}
 			}
 		}
 	}
