@@ -44,42 +44,49 @@ const getSha = (response: any): string => {
   return sha
 }
 
-// first try to get the file sha, if it exists update it
-// if it does not exist, create it
-export const createFileAndCommit = async (
+// first try to get the file sha, if it exists update it else create it
+export const createFilesAndCommit = async (
   branchName: string,
-  fileName: string,
-  content: string,
+  fileNames: string[],
+  contents: string[]
 ) => {
   try {
-    const response = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
-      owner: '14A-A-Lyedlik-Devs',
-      repo: 'Gump',
-      path: `locales/${fileName}.json`
-    })
-    console.log('GET commit', response.status)
-    // file exists, update it
-    const updateResponse = await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner: '14A-A-Lyedlik-Devs',
-      repo: 'Gump',
-      path: `locales/${fileName}.json`,
-      message: `${branchName} changed ${fileName}.json`,
-      content: Base64.encode(content),
-      branch: branchName,
-      sha: getSha(response)
-    })
-    console.log('UPDATE commit:', updateResponse.status)
+    for (let i = 0; i < fileNames.length; i++) {
+      const fileName = fileNames[i]
+      const content = contents[i]
+      const response = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+        owner: '14A-A-Lyedlik-Devs',
+        repo: 'Gump',
+        path: `locales/${fileName}.json`
+      })
+      console.log('GET commit', response.status)
+      // file exists, update it
+      const updateResponse = await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+        owner: '14A-A-Lyedlik-Devs',
+        repo: 'Gump',
+        path: `locales/${fileName}.json`,
+        message: `${branchName} changed ${fileName}.json`,
+        content: Base64.encode(content),
+        branch: branchName,
+        sha: getSha(response)
+      })
+      console.log('UPDATE commit:', updateResponse.status)
+    }
   } catch (error) {
     // file does not exist, create it
-    const createResponse = await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner: '14A-A-Lyedlik-Devs',
-      repo: 'Gump',
-      path: `locales/${fileName}.json`,
-      message: `${branchName} created ${fileName}.json`,
-      content: Base64.encode(content),
-      branch: branchName
-    })
-    console.log('CREATE commit:', createResponse.status)
+    for (let i = 0; i < fileNames.length; i++) {
+      const fileName = fileNames[i]
+      const content = contents[i]
+      const createResponse = await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+        owner: '14A-A-Lyedlik-Devs',
+        repo: 'Gump',
+        path: `locales/${fileName}.json`,
+        message: `${branchName} created ${fileName}.json`,
+        content: Base64.encode(content),
+        branch: branchName
+      })
+      console.log('CREATE commit:', createResponse.status)
+    }
   }
 }
 
@@ -87,7 +94,7 @@ export const createPullRequest = async (branchName: string) => {
   const response = await octokit.request('POST /repos/{owner}/{repo}/pulls', {
     owner: '14A-A-Lyedlik-Devs',
     repo: 'Gump',
-    title: `${branchName} committed new translations`,
+    title: `[Translate] ${branchName}`,
     head: branchName,
     base: 'main'
   })
@@ -97,13 +104,13 @@ export const createPullRequest = async (branchName: string) => {
 export const createPullRequestFromContent = async (
   branchName: string,
   fileName: string[],
-  content: string[],
+  content: string[]
 ) => {
   const sha = await getMainBranchSha()
 
   await getOrCreateBranch(branchName, sha)
 
-  await createFileAndCommit(branchName, fileName, content)
+  await createFilesAndCommit(branchName, fileName, content)
 
   await createPullRequest(branchName)
 }

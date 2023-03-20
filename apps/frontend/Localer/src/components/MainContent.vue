@@ -45,7 +45,6 @@ const inputFuncs = (e: Event) => {
         v-model="translations[locale][selectedKey]"
         type="text"
         class="rounded flex-grow p-3 shadow-inner bg-crimson-50 rounded-3xl min-h-12 h-max"
-        :readonly="locale === 'en_US'"
         @input="inputFuncs($event)"
       />
       <div

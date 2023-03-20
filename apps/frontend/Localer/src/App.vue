@@ -15,21 +15,21 @@ const saveChanges = () => {
   ;(async () => {
     const { locales, translations, initialTranslations } = translate
 
-    // go through all locales and if there is a difference between the initial and current translation, put them in changedLocales
     const changedLocales = locales.filter((locale) => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
     })
-    
 
     const username = 'Rettend'
+
     const filenames = changedLocales
     console.log('filenames', filenames)
-    // const content = JSON.stringify(translations[filenames], null, 4)
-    const content = changedLocales.map((locale) => {
+
+    const contents = changedLocales.map((locale) => {
       return JSON.stringify(translations[locale], null, 4)
     })
-    console.log('content', content)
-    await createPullRequestFromContent(username, filenames, content)
+    console.log('contents', contents)
+    
+    await createPullRequestFromContent(username, filenames, contents)
   })()
 
   translate.saveChanges()
