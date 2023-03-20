@@ -1,6 +1,4 @@
 using Gump.Data;
-using Gump.Data.Models;
-using Gump.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gump.WebApi;

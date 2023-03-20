@@ -75,4 +75,20 @@ public class UserController : ControllerBase
 
 		return Ok("followed");
 	});
+
+	[AllowAnonymous]
+	[HttpPost("create")]
+	public IActionResult CreateUser([FromBody] RegisterDto register) => this.Run(() =>
+	{
+		UserModel user = new()
+		{
+			Username = register.Username,
+			Email = register.Email,
+			Password = register.Password,
+		};
+
+		this.userRepository.Create(user);
+
+		return Created(nameof(user), user.Id);
+	});
 }

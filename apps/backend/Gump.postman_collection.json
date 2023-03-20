@@ -38,7 +38,7 @@
 					},
 					"response": [
 						{
-							"name": "TestUser",
+							"name": "TestUser-123",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -52,13 +52,41 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/Auth/login",
+									"raw": "{{baseUrl}}/Auth/login",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
+										"Auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "TestUser-secret",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"TestUser\",\r\n    \"password\": \"secret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
 										"Auth",
 										"login"
 									]
@@ -108,13 +136,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/Image/:id",
+									"raw": "{{baseUrl}}/Image/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"Image",
 										":id"
 									],
@@ -175,13 +201,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/Image",
+									"raw": "{{baseUrl}}/Image",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"Image"
 									]
 								}
@@ -258,13 +282,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/User/:id",
+									"raw": "{{baseUrl}}/User/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"User",
 										":id"
 									],
@@ -391,6 +413,64 @@
 											"value": "1",
 											"description": "Id of the User to follow/unfollow"
 										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"\",\r\n    \"email\": \"\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/User/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"User",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "TestUser",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"TestUser\",\r\n    \"email\": \"user@test.com\",\r\n    \"password\": \"secret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/User/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										"create"
 									]
 								}
 							},
