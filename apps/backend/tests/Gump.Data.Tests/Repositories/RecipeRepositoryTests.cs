@@ -296,7 +296,7 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		RecipeModel recipe = Get<RecipeModel>();
 		fixture.RecipeRepository.Create(recipe);
 
-		user.Likes.Add(recipe);
+		user.Likes.Add(recipe.Id);
 		fixture.UserRepository.Update(user);
 
 		// Act
@@ -305,7 +305,7 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		// Assert
 		Assert.Throws<NotFoundException>(() => fixture.RecipeRepository.GetById(recipe.Id));
 
-		Assert.DoesNotContain(recipe, fixture.UserRepository.GetById(user.Id).Likes);
+		Assert.DoesNotContain(recipe.Id, fixture.UserRepository.GetById(user.Id).Likes);
 	}
 
 	[Fact]

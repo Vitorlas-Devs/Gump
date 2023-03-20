@@ -55,7 +55,7 @@ namespace Gump.Data.Repositories
 			ValidateFields(user, "Username", "Password", "Email");
 			NullifyFields(user, "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator");
 
-			//Check if email is valid
+			// Check if email is valid
 			if (!EmailValidatorRegex().IsMatch(user.Email))
 			{
 				throw new ArgumentException($"{nameof(user.Email)} is not valid");
@@ -100,7 +100,7 @@ namespace Gump.Data.Repositories
 				throw new DuplicateException($"User already exists with username {user.Username}");
 			}
 
-			//Check if email is valid
+			// Check if email is valid
 			if (!EmailValidatorRegex().IsMatch(user.Email))
 			{
 				throw new ArgumentException($"{nameof(user.Email)} is not valid");
@@ -134,11 +134,16 @@ namespace Gump.Data.Repositories
 				throw new AggregateException($"Error while updating {nameof(user)}", ex);
 			}
 
-			//Update Likes list in RecipeRepository what the user liked
-			foreach (var recipe in user.Likes)
+			// Update Likes list in RecipeRepository that the user liked
+			foreach (var recipeId in user.Likes)
 			{
-				var currentRecipe = RecipeRepository.GetById(recipe.Id);
-				if (!currentRecipe.Likes.Contains(user.Id))
+				var currentRecipe = RecipeRepository.GetById(recipeId);
+				if (currentRecipe.Likes.Contains(user.Id))
+				{
+					currentRecipe.Likes.Remove(user.Id);
+					RecipeRepository.Update(currentRecipe);
+				}
+				else
 				{
 					currentRecipe.Likes.Add(user.Id);
 					RecipeRepository.Update(currentRecipe);
@@ -175,10 +180,10 @@ namespace Gump.Data.Repositories
 				ImageRepository.Delete(user.ProfilePictureId);
 			}
 
-			//Delete Likes list in RecipeRepository what the user liked
-			foreach (var recipe in user.Likes)
+			// Delete Likes list in RecipeRepository what the user liked
+			foreach (var recipeId in user.Likes)
 			{
-				var currentRecipe = RecipeRepository.GetById(recipe.Id);
+				var currentRecipe = RecipeRepository.GetById(recipeId);
 
 				currentRecipe.Likes.Remove(user.Id);
 				RecipeRepository.Update(currentRecipe);

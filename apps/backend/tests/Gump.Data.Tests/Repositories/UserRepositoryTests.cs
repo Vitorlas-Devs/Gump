@@ -234,7 +234,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		RecipeModel recipe = Get<RecipeModel>();
 		fixture.RecipeRepository.Create(recipe);
 
-		user.Likes.Add(recipe);
+		user.Likes.Add(recipe.Id);
 		fixture.UserRepository.Update(user);
 
 		// Act

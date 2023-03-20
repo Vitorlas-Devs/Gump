@@ -7,8 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder();
 
-var jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>();
 var mongoDbConfig = builder.Configuration.GetSection("MongoDbConfig").Get<MongoDbConfig>();
+var jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>();
 var pepper = builder.Configuration["Pepper"];
 
 builder.Services.AddSingleton(mongoDbConfig);
