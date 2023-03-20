@@ -277,7 +277,7 @@
 					},
 					"response": [
 						{
-							"name": "1",
+							"name": "1-TestUser",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -296,6 +296,74 @@
 											"value": "1",
 											"description": "Id of the User"
 										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "2-Gordon Ramsay",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/User/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2",
+											"description": "Id of the User"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/User/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"User",
+								"me"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Current User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/User/me",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										"me"
 									]
 								}
 							},
@@ -393,7 +461,7 @@
 					},
 					"response": [
 						{
-							"name": "1",
+							"name": "2-Gordon Ramsay",
 							"originalRequest": {
 								"method": "PATCH",
 								"header": [],
@@ -410,7 +478,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1",
+											"value": "2",
 											"description": "Id of the User to follow/unfollow"
 										}
 									]
@@ -478,6 +546,36 @@
 							"header": null,
 							"cookie": [],
 							"body": null
+						},
+						{
+							"name": "Gordon Ramsay",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Gordon Ramsay\",\r\n    \"email\": \"gordon.ramsay@hellskitchen.com\",\r\n    \"password\": \"burgir\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/User/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
 						}
 					]
 				}
@@ -486,7 +584,14 @@
 		}
 	],
 	"auth": {
-		"type": "bearer"
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
 	},
 	"event": [
 		{

@@ -9,11 +9,14 @@ namespace Gump.WebApi.Controllers;
 [ApiController, Route("api/[controller]")]
 public class UserController : ControllerBase
 {
+	private readonly RecipeRepository recipeRepository;
 	private readonly UserRepository userRepository;
 
 	public UserController(
+		RecipeRepository recipeRepository,
 		UserRepository userRepository)
 	{
+		this.recipeRepository = recipeRepository;
 		this.userRepository = userRepository;
 	}
 
@@ -22,6 +25,13 @@ public class UserController : ControllerBase
 	public IActionResult GetUser(ulong id) => this.Run(() =>
 	{
 		UserModel user = userRepository.GetById(id);
+		foreach (var recipe in user.Recipes.Select(recipeRepository.GetById).ToList())
+		{
+			if (recipe.AuthorId != user.Id)
+			{
+				user.Recipes.Remove(recipe.Id);
+			}
+		}
 
 		return Ok(new
 		{
@@ -32,6 +42,26 @@ public class UserController : ControllerBase
 			followingCount = user.Following.Count,
 			followerCount = user.Followers.Count,
 			badges = user.Badges
+		});
+	});
+
+	[HttpGet("me")]
+	public IActionResult GetCurrentUser() => this.Run(() =>
+	{
+		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+
+		return Ok(new
+		{
+			id = user.Id,
+			username = user.Username,
+			profilePicture = user.ProfilePictureId,
+			language = user.Language,
+			recipes = user.Recipes,
+			likes = user.Likes,
+			following = user.Following,
+			follower = user.Followers,
+			badges = user.Badges,
+			isModerator = user.IsModerator
 		});
 	});
 
