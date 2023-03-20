@@ -2,13 +2,38 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed } from 'vue'
+import { createPullRequestFromContent } from './octokit'
+import { storeToRefs } from 'pinia'
 
 const translate = useTranslationStore()
+
+// const { locales } = translate
+// const { translations } = storeToRefs(translate)
 
 const dirty = computed(() => translate.dirty)
 
 const saveChanges = () => {
   translate.saveChanges()
+  ;(async () => {
+    const { locales, translations } = translate
+    // branch is username
+    // filename is locale
+    // content is translations[locale] json
+    const username = 'rettend'
+    const filename = locales[0]
+    console.log('filename', filename)
+    const content = JSON.stringify(translations[filename], null, 4)
+    console.log('content', content)
+    // send request and log status code
+    const {
+      getMainBranchStatus,
+      createBranchStatus,
+      status,
+      createPullRequestStatus
+    } = await createPullRequestFromContent(username, filename, content)
+
+    
+  })()
 }
 </script>
 

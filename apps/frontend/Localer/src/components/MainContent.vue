@@ -4,9 +4,8 @@ import { useTranslationStore } from '@/stores/translationStore'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
-const router = useRouter()
-
 const translate = useTranslationStore()
+const router = useRouter()
 
 const { locales, checkDirty, initialTranslations } = translate
 const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
