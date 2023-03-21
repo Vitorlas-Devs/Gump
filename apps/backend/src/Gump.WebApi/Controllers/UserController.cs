@@ -121,4 +121,26 @@ public class UserController : ControllerBase
 
 		return Created(nameof(user), user.Id);
 	});
+
+	[HttpPatch("update")]
+	public IActionResult UpdateUser([FromBody] UpdateUserDto update) => this.Run(() =>
+	{
+		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+		UserModel modifiedUser = userRepository.GetById(update.Id);
+
+		if (update.Id != user.Id && !user.IsModerator)
+		{
+			return Unauthorized();
+		}
+
+		modifiedUser.Username = update.Username;
+		modifiedUser.Email = update.Email;
+		modifiedUser.Password = update.Password;
+		modifiedUser.ProfilePictureId = update.ProfilePictureId;
+		modifiedUser.Language = update.Language;
+
+		userRepository.Update(modifiedUser);
+
+		return Ok();
+	});
 }
