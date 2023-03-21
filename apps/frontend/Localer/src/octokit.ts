@@ -58,27 +58,20 @@ export const createFilesAndCommit = async (
     for (let i = 0; i < fileNames.length; i++) {
       const fileName = fileNames[i]
       const content = contents[i]
-      const response = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
-        owner: OWNER,
-        repo: REPO,
-        path: `locales/${fileName}.json`,
-        ref: branchName
-      })
-      console.log('GET commit', response.status)
-      console.log('GET commit sha', getSha(response))
+      const getContentResponse = await octokit.request(
+        'GET /repos/{owner}/{repo}/contents/{path}',
+        {
+          owner: OWNER,
+          repo: REPO,
+          path: `locales/${fileName}.json`,
+          ref: branchName
+        }
+      )
+      console.log('GET commit', getContentResponse.status)
+      console.log('GET commit sha', getSha(getContentResponse))
 
       try {
-        // file exists, but we need to get the latest commit sha
-        const getLatestCommitResponse = await octokit.request(
-          'GET /repos/{owner}/{repo}/commits/{ref}',
-          {
-            owner: OWNER,
-            repo: REPO,
-            ref: branchName
-          }
-        )
-        console.log('GET latest commit:', getLatestCommitResponse.status)
-        console.log('GET latest commit sha', getSha(getLatestCommitResponse))
+        const getLatestCommitResponse = await getLatestCommit(branchName)
 
         // file exists, commit exists, update file
         const updateResponse = await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
@@ -100,7 +93,7 @@ export const createFilesAndCommit = async (
           message: `${branchName} changed ${fileName}.json`,
           content: Base64.encode(content),
           branch: branchName,
-          sha: getSha(response)
+          sha: getSha(getContentResponse)
         })
         console.log('UPDATE commit:', updateResponse.status)
       }
@@ -123,15 +116,41 @@ export const createFilesAndCommit = async (
   }
 }
 
-export const createPullRequest = async (branchName: string) => {
-  // get pull request or create it
+export const getLatestCommit = async (branchName: string) => {
+  const response = await octokit.request('GET /repos/{owner}/{repo}/commits/{ref}', {
+    owner: OWNER,
+    repo: REPO,
+    ref: branchName
+  })
+  console.log('GET latest commit:', response.status)
+  console.log('GET latest commit sha', getSha(response))
+}
+
+export const getPullRequest = async (branchName: string) => {
   const response = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
     owner: OWNER,
     repo: REPO,
     head: `${OWNER}:${branchName}`
   })
   console.log('GET pull request:', response.status)
-  if (response.data.length === 0) {
+  console.log('GET pull request data', response.data)
+}
+
+export const getContent = async (branchName: string, fileName: string) => {
+  const response = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+    owner: OWNER,
+    repo: REPO,
+    path: `locales/${fileName}.json`,
+    ref: branchName
+  })
+  console.log('GET content:', response.status)
+  console.log('GET content data', response.data)
+}
+
+export const createPullRequest = async (branchName: string) => {
+  try {
+    await getPullRequest(branchName)
+  } catch (error) {
     const response = await octokit.request('POST /repos/{owner}/{repo}/pulls', {
       owner: OWNER,
       repo: REPO,
