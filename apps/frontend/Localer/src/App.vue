@@ -19,7 +19,9 @@ const saveChanges = () => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
     })
 
-    const username = 'Rettend'
+    let username = 'Rettend'
+    // preprocess username so that it's a valid github branch name
+    username = username.replace(/ /g, '-')
 
     const filenames = changedLocales
     console.log('filenames', filenames)
