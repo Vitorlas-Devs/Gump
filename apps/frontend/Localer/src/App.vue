@@ -2,12 +2,9 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed } from 'vue'
-import { createPullRequestFromContent } from './octokit'
+import { CreateBranch, createFilesAndCommit, createPullRequest, getBranch } from './octokit'
 
 const translate = useTranslationStore()
-
-// const { locales } = translate
-// const { translations } = storeToRefs(translate)
 
 const dirty = computed(() => translate.dirty)
 
@@ -19,8 +16,7 @@ const saveChanges = () => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
     })
 
-    let username = 'Rettend'
-    // preprocess username so that it's a valid github branch name
+    let username = import.meta.env.VITE_USERNAME
     username = username.replace(/ /g, '-')
 
     const filenames = changedLocales
@@ -30,8 +26,11 @@ const saveChanges = () => {
       return JSON.stringify(translations[locale], null, 4)
     })
     console.log('contents', contents)
-    
-    await createPullRequestFromContent(username, filenames, contents)
+
+    const { sha } = await getBranch()
+    await CreateBranch(username, sha!)
+    await createFilesAndCommit(username, filenames, contents)
+    await createPullRequest(username)
   })()
 
   translate.saveChanges()

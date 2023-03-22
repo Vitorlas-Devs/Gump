@@ -7,9 +7,9 @@ import { storeToRefs } from 'pinia'
 const translate = useTranslationStore()
 const router = useRouter()
 
-const { locales, checkDirty, initialTranslations } = translate
+const { checkDirty } = translate
+const { translations, locales, initialTranslations } = storeToRefs(translate)
 const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
-const { translations } = storeToRefs(translate)
 
 const resize = (event: Event) => {
   const target = event.target as HTMLTextAreaElement
@@ -21,7 +21,7 @@ onMounted(() => {
   if (!translate.checkKey(selectedKey.value)) {
     router.push({ name: 'not-found' })
   }
-  locales.forEach((locale) => {
+  locales.value.forEach((locale) => {
     resize({ target: document.getElementById(locale) } as Event)
   })
 })
@@ -39,7 +39,7 @@ const inputFuncs = (e: Event) => {
       :key="locale"
       class="flex flex-row gap-4 my-6 place-items-center"
     >
-      <label class="w-16 text-xl"> {{ locale }}</label>
+      <label class="w-16 text-xl font-bold"> {{ locale }}</label>
       <textarea
         :id="locale"
         v-model="translations[locale][selectedKey]"
