@@ -1,3 +1,5 @@
+import { getContent } from '@/octokit'
+import { Base64 } from 'js-base64'
 import { defineStore } from 'pinia'
 
 export const useTranslationStore = defineStore({
@@ -18,7 +20,7 @@ export const useTranslationStore = defineStore({
       }, {} as Record<string, string>)
   },
   actions: {
-    async loadTranslations() {
+    async loadInitialTranslations() {
       const translationModules = import.meta.glob('../../../../../locales/*.json')
       const translations = await Promise.all(
         Object.entries(translationModules).map(async ([path, loader]) => {
@@ -32,6 +34,21 @@ export const useTranslationStore = defineStore({
       this.translations = JSON.parse(JSON.stringify(this.initialTranslations))
       this.locales = Object.keys(this.translations)
       this.keys = Object.keys(this.translations[this.locales[0]])
+    },
+    loadTranslations() {
+      let username = import.meta.env.VITE_USERNAME
+      username = username.replace(/ /g, '-')
+      this.locales.forEach(async (locale) => {
+        const contentRequest = await getContent(username, locale)
+        if (contentRequest.response) {
+          this.translations[locale] = JSON.parse(
+            Base64.decode(contentRequest.response.content)
+          )
+          this.initialTranslations[locale] = JSON.parse(
+            Base64.decode(contentRequest.response.content)
+          )
+        }
+      })
     },
     checkKey(key: string) {
       return this.keys.includes(key)

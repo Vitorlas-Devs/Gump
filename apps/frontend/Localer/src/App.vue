@@ -2,12 +2,35 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed } from 'vue'
+import { CreateBranch, createFilesAndCommit, createPullRequest, getBranch } from './octokit'
 
 const translate = useTranslationStore()
 
 const dirty = computed(() => translate.dirty)
 
 const saveChanges = () => {
+  ;(async () => {
+    const { locales, translations, initialTranslations } = translate
+
+    const changedLocales = locales.filter((locale) => {
+      return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
+    })
+
+    let username = import.meta.env.VITE_USERNAME
+    username = username.replace(/ /g, '-')
+
+    const filenames = changedLocales
+
+    const contents = changedLocales.map((locale) => {
+      return JSON.stringify(translations[locale], null, 4)
+    })
+
+    const { sha } = await getBranch()
+    await CreateBranch(username, sha)
+    await createFilesAndCommit(username, filenames, contents)
+    await createPullRequest(username)
+  })()
+
   translate.saveChanges()
 }
 </script>

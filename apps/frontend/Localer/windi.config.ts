@@ -18,7 +18,7 @@ export default defineConfig({
       crimsonUp: '0px -8px 15px -5px rgba(209, 44, 95, 0.3)',
       // crimsonDown: '0px 8px 15px -5px rgba(209, 44, 95, 0.3)',
       crimsonDown: '0px 5px 15px -3px rgba(209, 44, 95, 0.3)',
-      inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)',
+      inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)'
     },
     colors: {
       crimson: {

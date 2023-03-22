@@ -1,5 +1,8 @@
 {
     "githubPullRequests.ignoredPullRequestBranches": [
         "main"
+    ],
+    "i18n-ally.localesPaths": [
+        "../../../../../../../../../Users/hegyi/Documents/GitHub/Gump/locales"
     ]
 }
