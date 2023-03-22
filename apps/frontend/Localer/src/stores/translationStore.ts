@@ -42,10 +42,10 @@ export const useTranslationStore = defineStore({
         const contentRequest = await getContent(username, locale)
         if (contentRequest.response) {
           this.translations[locale] = JSON.parse(
-            Base64.decode(contentRequest.response.data.content)
+            Base64.decode(contentRequest.response.content)
           )
           this.initialTranslations[locale] = JSON.parse(
-            Base64.decode(contentRequest.response.data.content)
+            Base64.decode(contentRequest.response.content)
           )
         }
       })

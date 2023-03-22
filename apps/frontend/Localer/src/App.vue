@@ -26,7 +26,7 @@ const saveChanges = () => {
     })
 
     const { sha } = await getBranch()
-    await CreateBranch(username, sha!)
+    await CreateBranch(username, sha)
     await createFilesAndCommit(username, filenames, contents)
     await createPullRequest(username)
   })()

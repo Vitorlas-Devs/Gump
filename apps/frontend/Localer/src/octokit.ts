@@ -1,6 +1,8 @@
 import { Octokit } from '@octokit/core'
+// import { OctokitRest } from '@octokit/rest';
+import type { components } from '@octokit/openapi-types'
+import type { Endpoints } from '@octokit/types'
 import { Base64 } from 'js-base64'
-import type { OctokitResponse } from '@octokit/types'
 
 const OWNER = import.meta.env.VITE_OWNER
 const REPO = import.meta.env.VITE_REPO
@@ -9,24 +11,31 @@ const octokit = new Octokit({
   auth: import.meta.env.VITE_GITHUB_TOKEN
 })
 
+// GET TYPED YOU UNGRATEFUL, UNGAINLY, UNWASHED, UNWIELDY OCTOKIT RESPONSES
+type CreateBranchResponse = Endpoints['POST /repos/{owner}/{repo}/git/refs']['response']
+type GetCommitResponse = Endpoints['GET /repos/{owner}/{repo}/commits/{ref}']['response']['data']
+type GetPullRequestResponse = Endpoints['GET /repos/{owner}/{repo}/pulls']['response']['data'][0]
+type GetRepoContentResponseDataFile = components['schemas']['content-file']
+// getContent type is still broken: https://github.com/octokit/rest.js/issues/32
+
 /**
  * Gets the latest commit for a given branch. Useful to get the sha of the latest commit.
  * @async
  * @param { string } branchName - The name of the branch to get the latest commit for. This is the username.
- * @returns { Promise<{ response: OctokitResponse<any> | undefined; status: number; error?: any }> } The latest commit for the given branch.
+ * @returns { Promise<{ response: GetCommitResponse | undefined; status: number; error?: any }> } The latest commit for the given branch.
  */
 export const getLatestCommit = async (
   branchName: string
-): Promise<{ response: OctokitResponse<any> | undefined; status: number; error?: any }> => {
+): Promise<{ response: GetCommitResponse | undefined; status: number; error?: any }> => {
   try {
-    const response = await octokit.request('GET /repos/{owner}/{repo}/commits/{ref}', {
+    const { data, status } = await octokit.request('GET /repos/{owner}/{repo}/commits/{ref}', {
       owner: OWNER,
       repo: REPO,
       ref: branchName
     })
-    console.log('GET latest commit:', response.status)
+    console.log('GET latest commit:', status)
 
-    return { response, status: response.status }
+    return { response: data, status }
   } catch (error: any) {
     console.log('GET latest commit error:', error.status)
     console.log('GET latest commit error:', error)
@@ -39,12 +48,12 @@ export const getLatestCommit = async (
  * Gets the pull request for a given branch.
  * @async
  * @param { string } branchName - The name of the branch to get the pull request for. This is the username.
- * @returns { Promise<{ response: any | undefined; status: number; error?: any }> } The pull request for the given branch.
+ * @returns { Promise<{ GetPullRequestResponse: any | undefined; status: number; error?: any }> } The pull request for the given branch.
  * @throws { Error } If the pull request does not exist.
  */
 export const getPullRequest = async (
   branchName: string
-): Promise<{ response: any | undefined; status: number; error?: any }> => {
+): Promise<{ response: GetPullRequestResponse | undefined; status: number; error?: any }> => {
   try {
     const response = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
       owner: OWNER,
@@ -72,22 +81,26 @@ export const getPullRequest = async (
  * @async
  * @param { string } branchName - The name of the branch to get the content for. This is the username.
  * @param { string } fileName - The name of the file to get the content for. This is the locale.
- * @returns { Promise<{ response: OctokitResponse<any> | undefined; status: number; error?: any }> } The content for the given file or undefined if the file or branch does not exist.
+ * @returns { Promise<{ response: GetRepoContentResponseDataFile | undefined; status: number; error?: any }> } The content for the given file or undefined if the file or branch does not exist.
  */
 export const getContent = async (
   branchName: string,
   fileName: string
-): Promise<{ response: OctokitResponse<any> | undefined; status: number; error?: any }> => {
+): Promise<{
+  response: GetRepoContentResponseDataFile | undefined
+  status: number
+  error?: any
+}> => {
   try {
-    const response = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+    const { data, status } = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
       owner: OWNER,
       repo: REPO,
       path: `locales/${fileName}.json`,
       ref: branchName
     })
-    console.log('GET content:', response.status)
+    console.log('GET content:', status)
 
-    return { response, status: response.status }
+    return { response: data as GetRepoContentResponseDataFile, status: status }
   } catch (error: any) {
     console.log('GET content error:', error.status)
     console.log('GET content error:', error)
@@ -104,7 +117,7 @@ export const getContent = async (
  */
 export const getBranch = async (
   branchName?: string
-): Promise<{ sha: string | undefined; status: number; error?: any }> => {
+): Promise<{ sha: string; status: number; error?: any }> => {
   try {
     if (!branchName) {
       branchName = 'main'
@@ -121,7 +134,7 @@ export const getBranch = async (
     console.log(`GET ${branchName} branch error:`, error.status)
     console.log(`GET ${branchName} branch error:`, error)
 
-    return { sha: undefined, status: error.status, error }
+    return { sha: '', status: error.status, error }
   }
 }
 
@@ -130,15 +143,15 @@ export const getBranch = async (
  * @async
  * @param { string } branchName - The name of the branch to create. This is the username.
  * @param { string } sha - The sha of the commit to create the branch from.
- * @returns { Promise<{ branchName: string | undefined; status: number; error?: any }> } The response from the get branch request or the create branch request or undefined.
+ * @returns { Promise<{ response: CreateBranchResponse | undefined; status: number; error?: any }> } The response from the get branch request or the create branch request or undefined.
  */
 export const CreateBranch = async (
   branchName: string,
   sha: string
-): Promise<{ branchName: string | undefined; status: number; error?: any }> => {
+): Promise<{ response: CreateBranchResponse | undefined; status: number; error?: any }> => {
   const { status, error } = await getBranch(branchName)
   if (status === 200) {
-    return { branchName, status, error }
+    return { response: undefined, status, error }
   } else {
     try {
       const response = await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
@@ -149,12 +162,12 @@ export const CreateBranch = async (
       })
       console.log('CREATE branch:', response.status)
 
-      return { branchName, status: response.status }
+      return { response, status: response.status }
     } catch (error: any) {
       console.log('CREATE branch error:', error.status)
       console.log('CREATE branch error:', error)
 
-      return { branchName: undefined, status: error.status, error }
+      return { response: undefined, status: error.status, error }
     }
   }
 }
@@ -223,7 +236,7 @@ export const createFilesAndCommit = async (
         branchName,
         fileName,
         content,
-        getContentResponse?.data.sha
+        getContentResponse?.sha
       )
 
       console.log('CREATE latest commit:', updateResponse?.status)
@@ -232,16 +245,16 @@ export const createFilesAndCommit = async (
       } else {
         const { response: getLatestCommitResponse } = await getLatestCommit(branchName)
 
-        const updateResponse = await createOrUpdateFile(
+        const updateLatestResponse = await createOrUpdateFile(
           branchName,
           fileName,
           content,
-          getLatestCommitResponse?.data.sha
+          getLatestCommitResponse?.sha
         )
 
-        console.log('UPDATE latest commit:', updateResponse?.status)
+        console.log('UPDATE latest commit:', updateLatestResponse?.status)
 
-        return { status: updateResponse?.status }
+        return { status: updateLatestResponse?.status }
       }
     }
   } catch (error: any) {
@@ -268,9 +281,9 @@ export const createPullRequest = async (
   status: number
   error?: any
 }> => {
-  const { response, status } = await getPullRequest(branchName)
-  if (response) {
-    return { prNumber: response?.number, prUrl: response?.html_url, status }
+  const { response: getResponse, status } = await getPullRequest(branchName)
+  if (getResponse) {
+    return { prNumber: getResponse?.number, prUrl: getResponse?.html_url, status }
   } else {
     try {
       const response = await octokit.request('POST /repos/{owner}/{repo}/pulls', {
@@ -302,7 +315,7 @@ export const createPullRequestFromContent = async (
   content: string[]
 ) => {
   const { sha } = await getBranch()
-  await CreateBranch(branchName, sha!)
+  await CreateBranch(branchName, sha)
   await createFilesAndCommit(branchName, fileName, content)
   await createPullRequest(branchName)
 }
