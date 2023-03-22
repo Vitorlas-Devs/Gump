@@ -109,7 +109,6 @@ export const getBranch = async (
       ref: branchName
     })
     console.log(`GET ${branchName} branch:`, response.status)
-    console.log(`GET ${branchName} branch sha:`, response.data.object.sha)
     return { sha: response.data.object.sha, status: response.status }
   } catch (error: any) {
     console.log(`GET ${branchName} branch error:`, error.status)
@@ -157,7 +156,7 @@ export const CreateBranch = async (
  * @param { string } fileName - The name of the file to create. This is the locale.
  * @param { string } content - The content of the file to create.
  * @param { string } [ sha ] - The sha of the file to update. This is optional.
- * @returns { Promise<OctokitResponse<any> | undefined> } The response from the create or update file request or undefined.
+ * @returns { Promise<{ status: number; error?: any }> } The response from the create or update file request.
  */
 export const createOrUpdateFile = async (
   branchName: string,
@@ -205,11 +204,22 @@ export const createFilesAndCommit = async (
     for (let i = 0; i < fileNames.length; i++) {
       const fileName = fileNames[i]
       const content = contents[i]
-      // if there is a commit, get the latest commit and update the file
-      const { response: getLatestCommitResponse } = await getLatestCommit(branchName)
-      const mainSha = await getBranch()
-      
-      if (getLatestCommitResponse?.data.sha !== mainSha.sha) {
+
+      const { response: getContentResponse } = await getContent(branchName, fileName)
+
+      const updateResponse = await createOrUpdateFile(
+        branchName,
+        fileName,
+        content,
+        getContentResponse?.data.sha
+      )
+
+      console.log('CREATE latest commit:', updateResponse?.status)
+      if (updateResponse?.status === 200) {
+        return { status: updateResponse?.status }
+      } else {
+        const { response: getLatestCommitResponse } = await getLatestCommit(branchName)
+
         const updateResponse = await createOrUpdateFile(
           branchName,
           fileName,
@@ -218,19 +228,6 @@ export const createFilesAndCommit = async (
         )
 
         console.log('UPDATE latest commit:', updateResponse?.status)
-        return { status: updateResponse?.status }
-      } else {
-        // no commit, get file sha and update file
-        const { response: getContentResponse } = await getContent(branchName, fileName)
-
-        const updateResponse = await createOrUpdateFile(
-          branchName,
-          fileName,
-          content,
-          getContentResponse?.data.sha
-        )
-
-        console.log('CREATE latest commit:', updateResponse?.status)
         return { status: updateResponse?.status }
       }
     }
@@ -246,7 +243,7 @@ export const createFilesAndCommit = async (
  * Creates a pull request.
  * @async
  * @param { string } branchName - The name of the branch to create the pull request from. This is the username.
- * @returns { Promise<> } The response from the create pull request request or undefined.
+ * @returns { Promise<{ prNumber?: number; prUrl?: string; status: number; error?: any }> } The response from the create pull request request or undefined.
  */
 export const createPullRequest = async (
   branchName: string
@@ -258,7 +255,6 @@ export const createPullRequest = async (
 }> => {
   const { response, status } = await getPullRequest(branchName)
   if (response) {
-    console.log('PULL request already exists:', status)
     return { prNumber: response?.number, prUrl: response?.html_url, status }
   } else {
     try {

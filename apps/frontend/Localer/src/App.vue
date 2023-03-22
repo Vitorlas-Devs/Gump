@@ -20,12 +20,10 @@ const saveChanges = () => {
     username = username.replace(/ /g, '-')
 
     const filenames = changedLocales
-    console.log('filenames', filenames)
 
     const contents = changedLocales.map((locale) => {
       return JSON.stringify(translations[locale], null, 4)
     })
-    console.log('contents', contents)
 
     const { sha } = await getBranch()
     await CreateBranch(username, sha!)
