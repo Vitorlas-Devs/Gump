@@ -15,11 +15,9 @@ import App from './App.vue'
 
 const app = createApp(App)
 
-const pinia = createPinia()
-app.use(pinia)
+app.use(createPinia())
 
-const store = useTranslationStore()
-store.loadInitialTranslations()
+useTranslationStore().loadInitialTranslations()
 
 app.use(router)
 
@@ -29,5 +27,3 @@ library.add(fas)
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 
 app.mount('#app')
-
-export default pinia

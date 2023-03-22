@@ -10,7 +10,7 @@ export const useRequestErrorStore = defineStore({
     createPullRequestError: false
   }),
   actions: {
-    async resetErrors() {
+    resetErrors() {
       this.getContentError = false
       this.createBranchError = false
       this.createOrUpdateFileError = false

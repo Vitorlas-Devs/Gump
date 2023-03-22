@@ -25,10 +25,12 @@ export const getLatestCommit = async (
       ref: branchName
     })
     console.log('GET latest commit:', response.status)
+
     return { response, status: response.status }
   } catch (error: any) {
     console.log('GET latest commit error:', error.status)
     console.log('GET latest commit error:', error)
+
     return { response: undefined, status: error.status, error }
   }
 }
@@ -55,10 +57,12 @@ export const getPullRequest = async (
       console.log('GET pull request title:', response.data[0].title)
       console.log('GET pull request html_url:', response.data[0].html_url)
     }
+
     return { response: response.data[0], status: response.status }
   } catch (error: any) {
     console.log('GET pull request error:', error.status)
     console.log('GET pull request error:', error)
+
     return { response: undefined, status: error.status, error }
   }
 }
@@ -82,10 +86,12 @@ export const getContent = async (
       ref: branchName
     })
     console.log('GET content:', response.status)
+
     return { response, status: response.status }
   } catch (error: any) {
     console.log('GET content error:', error.status)
     console.log('GET content error:', error)
+
     return { response: undefined, status: error.status, error }
   }
 }
@@ -109,10 +115,12 @@ export const getBranch = async (
       ref: branchName
     })
     console.log(`GET ${branchName} branch:`, response.status)
+
     return { sha: response.data.object.sha, status: response.status }
   } catch (error: any) {
     console.log(`GET ${branchName} branch error:`, error.status)
     console.log(`GET ${branchName} branch error:`, error)
+
     return { sha: undefined, status: error.status, error }
   }
 }
@@ -140,10 +148,12 @@ export const CreateBranch = async (
         sha: sha
       })
       console.log('CREATE branch:', response.status)
+
       return { branchName, status: response.status }
     } catch (error: any) {
       console.log('CREATE branch error:', error.status)
       console.log('CREATE branch error:', error)
+
       return { branchName: undefined, status: error.status, error }
     }
   }
@@ -179,10 +189,12 @@ export const createOrUpdateFile = async (
     } else {
       console.log('CREATE file:', response.status)
     }
+
     return { status: response.status }
   } catch (error: any) {
     console.log('CREATE/UPDATE file error:', error.status)
     console.log('CREATE/UPDATE file error:', error)
+
     return { status: error.status, error }
   }
 }
@@ -228,14 +240,17 @@ export const createFilesAndCommit = async (
         )
 
         console.log('UPDATE latest commit:', updateResponse?.status)
+
         return { status: updateResponse?.status }
       }
     }
   } catch (error: any) {
     console.log('CREATE/UPDATE files error:', error.status)
     console.log('CREATE/UPDATE files error:', error)
+
     return { status: error.status, error }
   }
+
   return { status: 200 }
 }
 
@@ -266,6 +281,7 @@ export const createPullRequest = async (
         base: 'main'
       })
       console.log('CREATE pull request:', response.status)
+
       return {
         prNumber: response.data.number,
         prUrl: response.data.html_url,
@@ -274,6 +290,7 @@ export const createPullRequest = async (
     } catch (error: any) {
       console.log('CREATE pull request error:', error.status)
       console.log('CREATE pull request error:', error.message)
+
       return { status: error.status, error }
     }
   }
