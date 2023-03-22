@@ -143,4 +143,20 @@ public class UserController : ControllerBase
 
 		return Ok();
 	});
+
+	[HttpDelete("delete/{id}")]
+	public IActionResult DeleteUser(ulong id) => this.Run(() =>
+	{
+		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+		UserModel deletedUser = userRepository.GetById(id);
+
+		if (id != user.Id && !user.IsModerator)
+		{
+			return Unauthorized();
+		}
+
+		userRepository.Delete(deletedUser.Id);
+
+		return Ok();
+	});
 }
