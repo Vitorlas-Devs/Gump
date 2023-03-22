@@ -1,6 +1,6 @@
 {
-  "hoarderBadgeName": "Recipe Hoarder",
-  "hoarderBadgeDescription": "Save at least 100 recipes.",
-  "HomeButton": "Home",
-  "Welcome": "Welcome, {username}!"
+    "hoarderBadgeName": "Recipe Hoarder",
+    "hoarderBadgeDescription": "Save at least 100 recipes.",
+    "HomeButton": "Home",
+    "Welcome": "Welcome, {username}!"
 }
