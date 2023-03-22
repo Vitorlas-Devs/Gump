@@ -34,9 +34,7 @@ public class AuthController : ControllerBase
 			return Unauthorized();
 		}
 
-		var passwordHash = BCrypt.Net.BCrypt.HashPassword($"{loginDto.Password}{user.Token}{pepper}", 10);
-
-		if (user.Password != passwordHash)
+		if (!BCrypt.Net.BCrypt.Verify($"{loginDto.Password}{user.Token}{pepper}", user.Password))
 		{
 			return Unauthorized();
 		}
@@ -66,7 +64,7 @@ public class AuthController : ControllerBase
 			: Ok(new
 			{
 				token,
-				user.Id
+				id = user.Id
 			});
 	});
 }

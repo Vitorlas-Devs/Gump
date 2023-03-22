@@ -29,6 +29,20 @@ namespace Gump.Data.Repositories
 			return Collection.AsQueryable().FirstOrDefault(x => x.Username == username);
 		}
 
+		public IEnumerable<UserModel> Search(string searchTerm, int limit)
+		{
+			return Collection.AsQueryable()
+				.Where(x =>
+					x.Username
+						.ToLowerInvariant()
+						.Contains(searchTerm.ToLowerInvariant()) ||
+					x.Email
+						.ToLowerInvariant()
+						.Contains(searchTerm.ToLowerInvariant())
+				).OrderBy(x => x.Username)
+				.Take(limit);
+		}
+
 		public UserModel Create(UserModel user)
 		{
 			if (GetAll().Any(x => x.Username == user.Username))
@@ -41,7 +55,7 @@ namespace Gump.Data.Repositories
 			ValidateFields(user, "Username", "Password", "Email");
 			NullifyFields(user, "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator");
 
-			//Check if email is valid
+			// Check if email is valid
 			if (!EmailValidatorRegex().IsMatch(user.Email))
 			{
 				throw new ArgumentException($"{nameof(user.Email)} is not valid");
@@ -86,7 +100,7 @@ namespace Gump.Data.Repositories
 				throw new DuplicateException($"User already exists with username {user.Username}");
 			}
 
-			//Check if email is valid
+			// Check if email is valid
 			if (!EmailValidatorRegex().IsMatch(user.Email))
 			{
 				throw new ArgumentException($"{nameof(user.Email)} is not valid");
@@ -120,11 +134,16 @@ namespace Gump.Data.Repositories
 				throw new AggregateException($"Error while updating {nameof(user)}", ex);
 			}
 
-			//Update Likes list in RecipeRepository what the user liked
-			foreach (var recipe in user.Likes)
+			// Update Likes list in RecipeRepository that the user liked
+			foreach (var recipeId in user.Likes)
 			{
-				var currentRecipe = RecipeRepository.GetById(recipe.Id);
-				if (!currentRecipe.Likes.Contains(user.Id))
+				var currentRecipe = RecipeRepository.GetById(recipeId);
+				if (currentRecipe.Likes.Contains(user.Id))
+				{
+					currentRecipe.Likes.Remove(user.Id);
+					RecipeRepository.Update(currentRecipe);
+				}
+				else
 				{
 					currentRecipe.Likes.Add(user.Id);
 					RecipeRepository.Update(currentRecipe);
@@ -133,7 +152,7 @@ namespace Gump.Data.Repositories
 
 			return CopyExcept(user, "Password", "Token");
 		}
-		
+
 		[GeneratedRegex("^[A-Za-z0-9.\\-_]+@[A-Za-z0-9.\\-_]+\\.[a-zA-Z]{2,}$")]
 		private static partial Regex EmailValidatorRegex();
 
@@ -161,11 +180,11 @@ namespace Gump.Data.Repositories
 				ImageRepository.Delete(user.ProfilePictureId);
 			}
 
-			//Delete Likes list in RecipeRepository what the user liked
-			foreach (var recipe in user.Likes)
+			// Delete Likes list in RecipeRepository what the user liked
+			foreach (var recipeId in user.Likes)
 			{
-				var currentRecipe = RecipeRepository.GetById(recipe.Id);
-				
+				var currentRecipe = RecipeRepository.GetById(recipeId);
+
 				currentRecipe.Likes.Remove(user.Id);
 				RecipeRepository.Update(currentRecipe);
 			}

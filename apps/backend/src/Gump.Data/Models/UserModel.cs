@@ -34,7 +34,7 @@ public class UserModel : IEntity
 	public List<ulong> Recipes { get; set; }
 
 	[BsonElement("likes")]
-	public List<RecipeModel> Likes { get; set; }
+	public List<ulong> Likes { get; set; }
 
 	[BsonElement("following")]
 	public List<ulong> Following { get; set; }

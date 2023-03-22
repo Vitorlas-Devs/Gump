@@ -190,8 +190,8 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		var users = recipe.Likes.Select(UserRepository.GetById).ToList();
 		foreach (var user in users)
 		{
-			user.Likes.Where(x => x.Id == recipe.Id).ToList().ForEach(x => user.Likes.Remove(x));
-			
+			user.Likes.Remove(id);
+
 			UserRepository.Update(user);
 		}
 	}

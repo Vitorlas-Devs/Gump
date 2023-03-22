@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "0468bec0-b656-44d2-b07e-8529bcd0d19f",
+		"_postman_id": "f76d3bb0-54b8-467a-884d-5da6c47ba0ff",
 		"name": "Gump",
 		"description": "WebAPI collection to test and document endpoints.\n\nSome may need a bearer token for authorization. To get a token just log in and place the token in the collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "24694147"
+		"_exporter_id": "26477376"
 	},
 	"item": [
 		{
@@ -38,7 +38,7 @@
 					},
 					"response": [
 						{
-							"name": "TestUser",
+							"name": "TestUser-123",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -52,22 +52,50 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/Auth/login",
+									"raw": "{{baseUrl}}/Auth/login",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"Auth",
 										"login"
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
+						},
+						{
+							"name": "TestUser-secret",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"TestUser\",\r\n    \"password\": \"secret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
 						}
 					]
 				}
@@ -108,13 +136,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/Image/:id",
+									"raw": "{{baseUrl}}/Image/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"Image",
 										":id"
 									],
@@ -127,10 +153,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -175,21 +201,19 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/Image",
+									"raw": "{{baseUrl}}/Image",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"Image"
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "Private",
@@ -215,6 +239,444 @@
 									]
 								}
 							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"description": "Image methods"
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get User By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/User/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"User",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the User"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-TestUser",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/User/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the User"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "2-Gordon Ramsay",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/User/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2",
+											"description": "Id of the User"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/User/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"User",
+								"me"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Current User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/User/me",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										"me"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Search User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"searchTerm\": \"\",\r\n    \"limit\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/User/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"User",
+								"search"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "test",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/User/search",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										"search"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Follow User",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/User/follow/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"User",
+								"follow",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the User to follow/unfollow"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "2-Gordon Ramsay",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/User/follow/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										"follow",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2",
+											"description": "Id of the User to follow/unfollow"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"\",\r\n    \"email\": \"\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/User/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"User",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "TestUser",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"TestUser\",\r\n    \"email\": \"user@test.com\",\r\n    \"password\": \"secret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/User/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Gordon Ramsay",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Gordon Ramsay\",\r\n    \"email\": \"gordon.ramsay@hellskitchen.com\",\r\n    \"password\": \"burgir\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/User/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 0,\r\n    \"username\": \"\",\r\n    \"password\": \"\",\r\n    \"email\": \"\",\r\n    \"profilePicture\": 0,\r\n    \"language\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/User/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"User",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "TestUserModified",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"username\": \"TestUserModified\",\r\n    \"password\": \"test\",\r\n    \"email\": \"test.modified@test.hu\",\r\n    \"profilePicture\": 5,\r\n    \"language\" : \"hu_HU\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/User/update",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"User",
+										"update"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user/delete/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the User to delete"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-TestUser",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user/delete/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the User to delete"
+										}
+									]
+								}
+							},
 							"_postman_previewlanguage": null,
 							"header": null,
 							"cookie": [],
@@ -223,11 +685,18 @@
 					]
 				}
 			],
-			"description": "Image methods"
+			"description": "User methods"
 		}
 	],
 	"auth": {
-		"type": "bearer"
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
 	},
 	"event": [
 		{

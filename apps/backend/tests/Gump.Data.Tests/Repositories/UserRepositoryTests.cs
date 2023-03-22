@@ -40,6 +40,23 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		Assert.Equal(user.Username, user2.Username);
 	}
 
+	[Fact]
+	public void Search_Works()
+	{
+		// Arrange
+		UserModel user = Get<UserModel>();
+		user.Username = "TestUser";
+		fixture.UserRepository.Create(user);
+
+		// Act
+		IEnumerable<UserModel> users = fixture.UserRepository.Search("stus", 10);
+
+		// Assert
+		Assert.Single(users);
+		Assert.Equal(user.Id, users.First().Id);
+		Assert.Equal(user.Username, users.First().Username);
+	}
+
 	[Theory]
 	[InlineData("First")]
 	public void Create_CannotCreateDuplicate(string name)
@@ -69,7 +86,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 
 		// Assert
 		Assert.Equal<ulong>(1, user.ProfilePictureId);
-	
+
 	}
 
 	[Fact]
@@ -217,7 +234,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		RecipeModel recipe = Get<RecipeModel>();
 		fixture.RecipeRepository.Create(recipe);
 
-		user.Likes.Add(recipe);
+		user.Likes.Add(recipe.Id);
 		fixture.UserRepository.Update(user);
 
 		// Act
