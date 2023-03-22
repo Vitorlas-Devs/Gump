@@ -6,7 +6,7 @@ namespace Gump.WebApi;
 public class UpdateUserDto
 {
 	[Required, JsonProperty("id")]
-	public uint Id { get; init; } = 0;
+	public uint Id { get; init; }
 
 	[Required, JsonProperty("username")]
 	public string Username { get; init; } = string.Empty;
@@ -18,7 +18,7 @@ public class UpdateUserDto
 	public string Email { get; init; } = string.Empty;
 
 	[Required, JsonProperty("profilePicture")]
-	public uint ProfilePictureId { get; init; } = 0;
+	public uint ProfilePictureId { get; init; }
 
 	[Required, JsonProperty("language")]
 	public string Language { get; init; } = string.Empty;
