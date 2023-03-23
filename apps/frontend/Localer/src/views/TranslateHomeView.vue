@@ -29,7 +29,8 @@ if (!localStorage.getItem('access_token')) {
       },
       {
         headers: {
-          Accept: 'application/json'
+          Accept: 'application/json',
+          'Access-Control-Allow-Origin': '*'
         }
       }
     )
