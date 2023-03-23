@@ -10,39 +10,43 @@ const router = useRouter()
 // we need to exchange the code for an access token
 
 const code = router.currentRoute.value.query.code
-const state = router.currentRoute.value.query.state
+// const state = router.currentRoute.value.query.state
 
 // we need to send a post request to github to exchange the code for an access token
 
 const clientId = import.meta.env.VITE_CLIENT_ID
 const clientSecret = import.meta.env.VITE_CLIENT_SECRET
 
-axios
-  .post(
-    'https://github.com/login/oauth/access_token',
-    {
-      client_id: clientId,
-      client_secret: clientSecret,
-      code: code,
-      state: state
-    },
-    {
-      headers: {
-        Accept: 'application/json'
+if (!localStorage.getItem('access_token')) {
+  console.log('no access token, requesting one...')
+  axios
+    .post(
+      'https://github.com/login/oauth/access_token',
+      {
+        client_id: clientId,
+        client_secret: clientSecret,
+        code: code
+      },
+      {
+        headers: {
+          Accept: 'application/json'
+        }
       }
-    }
-  )
-  .then((response) => {
-    // we have the access token
-    // we can store it in local storage
-    // and redirect the user to the translate page
+    )
+    .then((response) => {
+      // we have the access token
+      // we can store it in local storage
+      // and redirect the user to the translate page
 
-    localStorage.setItem('access_token', response.data.access_token)
-    router.push('/translate/Welcome')
-  })
-  .catch((error) => {
-    console.log(error)
-  })
+      localStorage.setItem('access_token', response.data.access_token)
+      console.log('response', response)
+      console.log('access token', response.data.access_token)
+      router.push('/translate/Welcome')
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
 </script>
 
 <template>

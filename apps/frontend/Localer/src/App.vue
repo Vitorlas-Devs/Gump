@@ -38,12 +38,8 @@ const saveChanges = () => {
 
 const authenticate = () => {
   const clientId = import.meta.env.VITE_CLIENT_ID
-  const clientSecret = import.meta.env.VITE_CLIENT_SECRET
-  const redirectUri = 'http://localhost:5173/translate'
-  const scope = 'repo'
-  const state = Math.random().toString(36).substring(7)
 
-  const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&state=${state}`
+  const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`
 
   window.location.href = authUrl
 }
