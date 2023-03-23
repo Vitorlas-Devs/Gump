@@ -36,6 +36,9 @@ const saveChanges = () => {
   translate.saveChanges()
 }
 
+console.log(import.meta.env.VITE_CLIENT_ID)
+console.log(import.meta.env.VITE_REPO)
+
 const authenticate = () => {
   const clientId = import.meta.env.VITE_CLIENT_ID
 
