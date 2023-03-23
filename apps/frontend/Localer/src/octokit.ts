@@ -1,4 +1,5 @@
 import { Octokit } from '@octokit/core'
+import { createOAuthUserAuth } from '@octokit/auth-oauth-user'
 import type { components } from '@octokit/openapi-types'
 import type { Endpoints } from '@octokit/types'
 import { Base64 } from 'js-base64'
@@ -7,7 +8,7 @@ const OWNER = import.meta.env.VITE_OWNER
 const REPO = import.meta.env.VITE_REPO
 
 const octokit = new Octokit({
-  auth: import.meta.env.VITE_GITHUB_TOKEN
+  auth: localStorage.getItem('access_token')
 })
 
 // GET TYPED YOU UNGRATEFUL, UNGAINLY, UNWASHED, UNWIELDY OCTOKIT RESPONSES
