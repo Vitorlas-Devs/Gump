@@ -35,15 +35,13 @@ export const useTranslationStore = defineStore({
       this.locales = Object.keys(this.translations)
       this.keys = Object.keys(this.translations[this.locales[0]])
     },
-    loadTranslations() {
+    async loadTranslations() {
       let username = import.meta.env.VITE_USERNAME
       username = username.replace(/ /g, '-')
       this.locales.forEach(async (locale) => {
         const contentRequest = await getContent(username, locale)
         if (contentRequest.response) {
-          this.translations[locale] = JSON.parse(
-            Base64.decode(contentRequest.response.content)
-          )
+          this.translations[locale] = JSON.parse(Base64.decode(contentRequest.response.content))
           this.initialTranslations[locale] = JSON.parse(
             Base64.decode(contentRequest.response.content)
           )
