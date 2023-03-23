@@ -2,6 +2,7 @@
 import TheNavigation from '@/components/TheNavigation.vue'
 import MainContent from '@/components/MainContent.vue'
 import { useTranslationStore } from '@/stores/translationStore'
+import { getAuthenticatedUser } from '@/octokit';
 
 const translate = useTranslationStore()
 
@@ -9,7 +10,8 @@ const { loadTranslations } = translate
 
 const fetchTranslations = () => {
   ;(async () => {
-    await loadTranslations()
+    // await loadTranslations()
+    await getAuthenticatedUser()
   })()
 }
 </script>
