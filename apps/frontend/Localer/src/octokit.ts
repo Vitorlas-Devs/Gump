@@ -1,5 +1,4 @@
 import { Octokit } from '@octokit/core'
-// import { OctokitRest } from '@octokit/rest';
 import type { components } from '@octokit/openapi-types'
 import type { Endpoints } from '@octokit/types'
 import { Base64 } from 'js-base64'

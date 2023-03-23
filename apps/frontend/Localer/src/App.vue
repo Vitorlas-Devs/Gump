@@ -39,7 +39,7 @@ const saveChanges = () => {
   <div>
     <div class="flex flex-row gap-4 mx-5 my-2">
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/translate-home">Translate</RouterLink>
+      <RouterLink to="/translate">Translate</RouterLink>
     </div>
     <RouterView :key="$route.fullPath" />
   </div>
