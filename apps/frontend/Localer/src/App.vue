@@ -18,7 +18,7 @@ const saveChanges = () => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
     })
 
-    let username = import.meta.env.VITE_USERNAME
+    let username = 'Rettend'
     username = username.replace(/ /g, '-')
 
     const filenames = changedLocales
