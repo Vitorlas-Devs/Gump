@@ -42,6 +42,8 @@ public class CategoryRepository : RepositoryBase<CategoryModel>
 
 	public void Update(CategoryModel category)
 	{
+		GetById(category.Id);
+
 		ValidateAllFields(category);
 
 		if (GetAll().Any(x => x.Name == category.Name))

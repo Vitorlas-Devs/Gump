@@ -33,7 +33,7 @@ public class CategoryController : ControllerBase
 	});
 
 	[HttpPost("create")]
-	public IActionResult CreateCategory([FromBody] CategoryModel category) => this.Run(() =>
+	public IActionResult CreateCategory([FromBody] CreateCategoryDto category) => this.Run(() =>
 	{
 		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
 
@@ -42,9 +42,14 @@ public class CategoryController : ControllerBase
 			return Unauthorized();
 		}
 
-		category = categoryRepository.Create(category.Name);
+		CategoryModel newCategory = new()
+		{
+			Name = category.Name
+		};
 
-		return Created(nameof(category), category.Id);
+		newCategory = categoryRepository.Create(newCategory.Name);
+
+		return Created(nameof(newCategory), newCategory.Id);
 	});
 
 	[HttpPut("update")]

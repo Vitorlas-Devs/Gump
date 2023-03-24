@@ -745,7 +745,8 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": null,
+									"description": "Id of the Category"
 								}
 							]
 						}
@@ -768,7 +769,8 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1"
+											"value": "1",
+											"description": "Id of the Category"
 										}
 									]
 								}
@@ -921,7 +923,8 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": null,
+									"description": "Id of the Category to delete"
 								}
 							]
 						}
@@ -945,7 +948,8 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1"
+											"value": "1",
+											"description": "Id of the Category to delete"
 										}
 									]
 								}
