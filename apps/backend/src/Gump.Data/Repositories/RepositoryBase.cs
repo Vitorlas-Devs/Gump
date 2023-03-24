@@ -32,24 +32,10 @@ public class RepositoryBase<T> where T : class, IEntity
 
 	protected ulong GetId()
 	{
-		// Get all the Ids of the documents in the collection as a list
-		var ids = Collection.AsQueryable().Select(x => x.Id).ToList();
-		ids.Sort();
+		if (!GetAll().Any())
+			return 1;
 
-		ulong i = 1;
-		foreach (var usedId in ids)
-		{
-			if (usedId == i)
-			{
-				i++;
-			}
-			else if (usedId > i)
-			{
-				return i;
-			}
-		}
-
-		return ids[^1] + 1;
+		return Collection.AsQueryable().Max(x => x.Id) + 1;
 	}
 
 	// validation method that checks the given fields for null or whitespace
