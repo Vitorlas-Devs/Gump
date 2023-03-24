@@ -3,6 +3,7 @@ import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed } from 'vue'
 import { CreateBranch, createFilesAndCommit, createPullRequest, getBranch } from './octokit'
+import { processExpression } from '@vue/compiler-core'
 
 const router = useRouter()
 
@@ -36,8 +37,9 @@ const saveChanges = () => {
   translate.saveChanges()
 }
 
-console.log(import.meta.env.VITE_CLIENT_ID)
 console.log(import.meta.env.VITE_REPO)
+console.log('VITE_REPO')
+console.log('REPO')
 
 const authenticate = () => {
   const clientId = import.meta.env.VITE_CLIENT_ID
