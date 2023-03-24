@@ -38,6 +38,8 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 
 	public PartnerModel Update(PartnerModel partner)
 	{
+		GetById(partner.Id);
+		
 		ValidateFields(partner, "Id", "Name", "ContactUrl");
 
 		if (GetAll().Any(x => x.Name == partner.Name && x.Id != partner.Id))
