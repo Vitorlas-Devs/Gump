@@ -6,6 +6,18 @@ import { VitePluginFonts } from 'vite-plugin-fonts'
 import svgLoader from 'vite-svg-loader'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
+interface ViteEnv {
+  [key: string]: string
+}
+
+const viteEnv: ViteEnv = {}
+
+Object.keys(process.env).forEach((key) => {
+  if (key.startsWith('VITE_')) {
+    viteEnv[`import.meta.env.${key}`] = process.env[key]!
+  }
+})
+
 export default defineConfig({
   plugins: [
     vue(),
@@ -24,5 +36,6 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  define: viteEnv,
 })
