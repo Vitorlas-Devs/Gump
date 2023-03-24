@@ -36,7 +36,7 @@ export default ({ mode, command }: { mode: string; command: string }) => {
   }
   return defineConfig({
     define: {
-      'process.env.VITE_REPO': `'process.env.VITE_REPO'`,
+      'process.env.VITE_REPO': `process.env.VITE_REPO`,
       'process.env.VITE_DEV': 'false'
     },
     plugins: [
