@@ -36,6 +36,7 @@ const saveChanges = () => {
   translate.saveChanges()
 }
 
+console.log(import.meta.env.VITE_REPO)
 // @ts-ignore
 // eslint-disable-next-line no-undef
 console.log(process.env.VITE_REPO)
