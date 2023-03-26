@@ -32,16 +32,10 @@ public class RepositoryBase<T> where T : class, IEntity
 
 	protected ulong GetId()
 	{
-		// Get all the Ids of the documents in the collection as a list
-		var ids = Collection.AsQueryable().Select(x => x.Id).ToList();
-		ids.Sort();
+		if (!GetAll().Any())
+			return 1;
 
-		// Find the first unused Id, by finding the first Id that is not equal to its index + 1
-		// For example, if the Ids are [1, 2, 3, 5], then the first unused Id is 4
-		var unusedId = ids.Select((id, index) => new { id, index }).FirstOrDefault(x => x.id != (ulong)x.index + 1);
-
-		// Return the first unused Id, or the maximum Id + 1 if there are no unused Ids
-		return unusedId == null ? (ulong)ids.Count + 1 : unusedId.id;
+		return Collection.AsQueryable().Max(x => x.Id) + 1;
 	}
 
 	// validation method that checks the given fields for null or whitespace
