@@ -93,6 +93,8 @@ namespace Gump.Data.Repositories
 
 		public UserModel Update(UserModel user)
 		{
+			GetById(user.Id);
+			
 			ValidateFields(user, "Id", "Username", "Password", "Email");
 
 			if (GetAll().Any(x => x.Username == user.Username && x.Id != user.Id))

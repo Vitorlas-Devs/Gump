@@ -62,6 +62,8 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 
 	public RecipeModel Update(RecipeModel recipe)
 	{
+		GetById(recipe.Id);
+		
 		ValidateFields(recipe, "Title", "AuthorId", "Language", "Serves", "Categories", "Ingredients", "Steps", "OriginalRecipeId", "IsPrivate");
 
 		RecipeStuff(recipe);

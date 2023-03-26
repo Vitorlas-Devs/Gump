@@ -41,6 +41,8 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 
 	public BadgeModel Update(BadgeModel badge)
 	{
+		GetById(badge.Id);
+		
 		ValidateAllFields(badge);
 
 		ImageRepository.GetById(badge.ImageId);

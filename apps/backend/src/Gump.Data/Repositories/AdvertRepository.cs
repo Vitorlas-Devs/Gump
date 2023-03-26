@@ -40,6 +40,8 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 
 	public AdvertModel Update(AdvertModel advert)
 	{
+		GetById(advert.Id);
+		
 		ValidateAllFields(advert);
 
 		ImageRepository.GetById(advert.ImageId);
