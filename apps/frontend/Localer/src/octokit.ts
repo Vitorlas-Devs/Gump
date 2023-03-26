@@ -1,5 +1,5 @@
 import { Octokit } from '@octokit/core'
-// import { OctokitRest } from '@octokit/rest';
+import { createOAuthUserAuth } from '@octokit/auth-oauth-user'
 import type { components } from '@octokit/openapi-types'
 import type { Endpoints } from '@octokit/types'
 import { Base64 } from 'js-base64'
@@ -7,8 +7,10 @@ import { Base64 } from 'js-base64'
 const OWNER = import.meta.env.VITE_OWNER
 const REPO = import.meta.env.VITE_REPO
 
+const token = localStorage.getItem('access_token')
+
 const octokit = new Octokit({
-  auth: import.meta.env.VITE_GITHUB_TOKEN
+  auth: token
 })
 
 // GET TYPED YOU UNGRATEFUL, UNGAINLY, UNWASHED, UNWIELDY OCTOKIT RESPONSES
@@ -17,6 +19,15 @@ type GetCommitResponse = Endpoints['GET /repos/{owner}/{repo}/commits/{ref}']['r
 type GetPullRequestResponse = Endpoints['GET /repos/{owner}/{repo}/pulls']['response']['data'][0]
 type GetRepoContentResponseDataFile = components['schemas']['content-file']
 // getContent type is still broken: https://github.com/octokit/rest.js/issues/32
+
+export const getAuthenticatedUser = async () => {
+  const { data } = await octokit.request('GET /user', {
+    headers: {
+      authorization: `token ${token}`
+    }
+  })
+  console.log('GET authenticated user:', data)
+}
 
 /**
  * Gets the latest commit for a given branch. Useful to get the sha of the latest commit.

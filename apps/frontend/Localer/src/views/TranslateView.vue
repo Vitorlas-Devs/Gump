@@ -2,6 +2,7 @@
 import TheNavigation from '@/components/TheNavigation.vue'
 import MainContent from '@/components/MainContent.vue'
 import { useTranslationStore } from '@/stores/translationStore'
+import { getAuthenticatedUser } from '@/octokit';
 
 const translate = useTranslationStore()
 
@@ -9,7 +10,8 @@ const { loadTranslations } = translate
 
 const fetchTranslations = () => {
   ;(async () => {
-    await loadTranslations()
+    // await loadTranslations()
+    await getAuthenticatedUser()
   })()
 }
 </script>
@@ -28,11 +30,11 @@ const fetchTranslations = () => {
               .replace(/^./, (str) => str.toUpperCase())
           }}
         </h1>
-        <div class="flex flex-row">
-          <p class="text-orange-500 font-bold text-2xl text-shadow-orange">Fetch your data -></p>
-          <font-awesome-icon
-            icon="fa-solid fa-rotate"
-            class="fa-orange text-4xl mx-5 cursor-pointer text-orange-500"
+        <div class="flex flex-row place-items-center">
+          <p class="text-orange-500 font-bold text-2xl text-shadow-orange">Fetch your data</p>
+          <svg-icon
+            icon="rotate-left-solid"
+            class="icon-orange w-12 mx-5 cursor-pointer"
             @click="fetchTranslations"
           />
         </div>

@@ -10,6 +10,11 @@ const router = createRouter({
       component: HomeView
     },
     {
+      path: '/translate',
+      name: 'translate-home',
+      component: () => import('../views/TranslateHomeView.vue')
+    },
+    {
       path: '/translate/:key',
       name: 'translate',
       component: () => import('../views/TranslateView.vue')
@@ -18,11 +23,6 @@ const router = createRouter({
       path: '/translate/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/NotFoundView.vue')
-    },
-    {
-      path: '/translate-home',
-      name: 'translate-home',
-      component: () => import('../views/TranslateHomeView.vue')
     }
   ]
 })
