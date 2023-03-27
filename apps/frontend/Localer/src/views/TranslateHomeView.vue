@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import TheNavigation from '@/components/TheNavigation.vue'
+import { getAuthenticatedUser } from '@/octokit'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { useUserStore } from '@/stores/userStore'
+import { storeToRefs } from 'pinia'
+import { useTranslationStore } from '@/stores/translationStore'
 
+const translate = useTranslationStore()
+const { loadTranslations } = translate
+const user = useUserStore()
+const { token } = storeToRefs(user)
 const router = useRouter()
 
 const code = router.currentRoute.value.query.code
 
-if (!localStorage.getItem('access_token')) {
-  console.log('no access token, requesting one...')
+if (!token.value) {
   axios
     .get('http://46.101.114.190:3000/access_token/', {
       params: {
@@ -16,11 +23,14 @@ if (!localStorage.getItem('access_token')) {
       }
     })
     .then((response) => {
-      console.log('response', response)
       const access_token = response.data.split('=')[1].split('&')[0]
-      console.log('access token', access_token)
-      localStorage.setItem('access_token', access_token)
-      router.push('/translate/Welcome')
+      token.value = access_token
+      ;(async () => {
+        const { name, avatar } = await getAuthenticatedUser()
+        user.login(name, avatar)
+        await loadTranslations()
+      })()
+      router.push({ name: 'translate-home' })
     })
     .catch((error) => {
       console.log(error)

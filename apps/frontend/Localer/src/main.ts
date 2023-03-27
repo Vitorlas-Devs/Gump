@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { useTranslationStore } from '@/stores/translationStore'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import SvgIcon from '@/components/SvgIcon.vue'
 
 import router from './router'
@@ -13,7 +14,9 @@ import App from './App.vue'
 
 const app = createApp(App)
 
-app.use(createPinia())
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+app.use(pinia)
 
 useTranslationStore().loadInitialTranslations()
 

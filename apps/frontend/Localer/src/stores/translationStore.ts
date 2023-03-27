@@ -1,6 +1,7 @@
 import { getContent } from '@/octokit'
 import { Base64 } from 'js-base64'
 import { defineStore } from 'pinia'
+import { useUserStore } from './userStore'
 
 export const useTranslationStore = defineStore({
   id: 'translation',
@@ -36,8 +37,8 @@ export const useTranslationStore = defineStore({
       this.keys = Object.keys(this.translations[this.locales[0]])
     },
     async loadTranslations() {
-      let username = 'Rettend'
-      username = username.replace(/ /g, '-')
+      const user = useUserStore()
+      const username = user.username.replace(/ /g, '-')
       this.locales.forEach(async (locale) => {
         const contentRequest = await getContent(username, locale)
         if (contentRequest.response) {
