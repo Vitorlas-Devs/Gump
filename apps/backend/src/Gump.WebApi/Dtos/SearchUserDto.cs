@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Gump.WebApi;
 
-public class SearchDto
+public class SearchUserDto
 {
 	[Required, JsonProperty("searchTerm")]
 	public string SearchTerm { get; init; } = string.Empty;
