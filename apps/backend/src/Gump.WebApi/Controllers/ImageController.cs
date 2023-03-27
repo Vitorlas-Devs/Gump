@@ -26,7 +26,13 @@ public class ImageController : ControllerBase
 	{
 		ImageModel image = imageRepository.GetById(id);
 
-		ulong userId = ulong.Parse(User.Identity.Name);
+		ulong userId = 0;
+
+		if (User.Identity.IsAuthenticated)
+		{
+			userId = ulong.Parse(User.Identity.Name);
+		}
+
 		UserModel user = userId == 0 ? new() : userRepository.GetById(userId);
 
 		if (image.OwnerId.HasValue &&
@@ -36,7 +42,10 @@ public class ImageController : ControllerBase
 			return Unauthorized();
 		}
 
-		return Ok(image.Image);
+		string[] m = image.Image.Split(',');
+		string type = m[0].Split(':')[1].Split(';')[0];
+
+		return File(Convert.FromBase64String(m[1]), type);
 	});
 
 	[HttpPost]

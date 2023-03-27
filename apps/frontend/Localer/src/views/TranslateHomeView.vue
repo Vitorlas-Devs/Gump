@@ -5,17 +5,7 @@ import axios from 'axios'
 
 const router = useRouter()
 
-// this route gets redirected to if the user completes the github authentication
-// we have a code and state parameters in the url from github
-// we need to exchange the code for an access token
-
 const code = router.currentRoute.value.query.code
-// const state = router.currentRoute.value.query.state
-
-// we need to send a post request to github to exchange the code for an access token
-
-const clientId = import.meta.env.VITE_CLIENT_ID
-const clientSecret = import.meta.env.VITE_CLIENT_SECRET
 
 if (!localStorage.getItem('access_token')) {
   console.log('no access token, requesting one...')
