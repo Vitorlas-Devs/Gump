@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed } from 'vue'
 import { CreateBranch, createFilesAndCommit, createPullRequest, getBranch } from './octokit'
-
-const router = useRouter()
 
 const translate = useTranslationStore()
 
@@ -36,14 +34,6 @@ const saveChanges = () => {
   translate.saveChanges()
 }
 
-console.log(import.meta.env.VITE_REPO)
-// @ts-ignore
-// eslint-disable-next-line no-undef
-console.log(process.env.VITE_REPO)
-// @ts-ignore
-// eslint-disable-next-line no-undef
-console.log(process.env.VITE_DEV)
-
 const authenticate = () => {
   const clientId = import.meta.env.VITE_CLIENT_ID
 
@@ -57,8 +47,6 @@ const authenticate = () => {
   <div>
     <div class="flex flex-row gap-4 mx-5 my-2">
       <RouterLink to="/">Home</RouterLink>
-      <!-- <RouterLink to="/translate">Translate</RouterLink> -->
-      <!-- a button insead with even Authenticate -->
       <p class="cursor-pointer" @click="authenticate">Translate</p>
     </div>
     <RouterView :key="$route.fullPath" />
