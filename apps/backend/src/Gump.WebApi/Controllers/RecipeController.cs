@@ -26,18 +26,13 @@ public class RecipeController : ControllerBase
 	{
 		RecipeModel recipe = recipeRepository.GetById(id);
 
-		ulong userId = 0;
-
-		if (User.Identity.IsAuthenticated)
-		{
-			userId = ulong.Parse(User.Identity.Name);
-		}
-
-		UserModel user = userId == 0 ? new() : userRepository.GetById(userId);
+		var user = User.Identity.IsAuthenticated ?
+			userRepository.GetById(ulong.Parse(User.Identity.Name)) :
+			new UserModel();
 
 		if (recipe.IsPrivate &&
-			recipe.AuthorId != userId &&
-			!recipe.VisibleTo.Contains(userId) &&
+			recipe.AuthorId != user.Id &&
+			!recipe.VisibleTo.Contains(user.Id) &&
 			!user.IsModerator)
 		{
 			return Unauthorized();
@@ -55,7 +50,7 @@ public class RecipeController : ControllerBase
 			ingredients = recipe.Ingredients,
 			steps = recipe.Steps,
 			saveCount = recipe.SaveCount,
-			isLiked = recipe.Likes.Contains(userId),
+			isLiked = recipe.Likes.Contains(user.Id),
 			likeCount = recipe.Likes.Count,
 			referenceCount = recipe.ReferenceCount,
 			isArchived = recipe.IsArchived,
