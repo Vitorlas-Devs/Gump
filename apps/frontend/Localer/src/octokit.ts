@@ -1,5 +1,4 @@
 import { Octokit } from '@octokit/core'
-import { createOAuthUserAuth } from '@octokit/auth-oauth-user'
 import type { components } from '@octokit/openapi-types'
 import type { Endpoints } from '@octokit/types'
 import { Base64 } from 'js-base64'
@@ -21,6 +20,7 @@ type GetRepoContentResponseDataFile = components['schemas']['content-file']
 // getContent type is still broken: https://github.com/octokit/rest.js/issues/32
 
 export const getAuthenticatedUser = async () => {
+  const token = localStorage.getItem('access_token')
   const { data } = await octokit.request('GET /user', {
     headers: {
       authorization: `token ${token}`

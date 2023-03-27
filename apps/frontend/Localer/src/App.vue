@@ -48,7 +48,7 @@ const authenticate = () => {
   const clientId = import.meta.env.VITE_CLIENT_ID
 
   const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`
-
+  
   window.location.href = authUrl
 }
 </script>

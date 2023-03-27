@@ -20,28 +20,16 @@ const clientSecret = import.meta.env.VITE_CLIENT_SECRET
 if (!localStorage.getItem('access_token')) {
   console.log('no access token, requesting one...')
   axios
-    .post(
-      'https://github.com/login/oauth/access_token',
-      {
-        client_id: clientId,
-        client_secret: clientSecret,
+    .get('http://46.101.114.190:3000/access_token/', {
+      params: {
         code: code
-      },
-      {
-        headers: {
-          Accept: 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        }
       }
-    )
+    })
     .then((response) => {
-      // we have the access token
-      // we can store it in local storage
-      // and redirect the user to the translate page
-
-      localStorage.setItem('access_token', response.data.access_token)
       console.log('response', response)
-      console.log('access token', response.data.access_token)
+      const access_token = response.data.split('=')[1].split('&')[0]
+      console.log('access token', access_token)
+      localStorage.setItem('access_token', access_token)
       router.push('/translate/Welcome')
     })
     .catch((error) => {
