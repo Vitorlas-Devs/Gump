@@ -15,6 +15,21 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		this.mongoDbConfig = mongoDbConfig;
 	}
 
+	public ulong GetRandomId()
+	{
+		ulong biggestId = Collection.AsQueryable().Max(x => x.Id);
+
+		ulong randomId = 0;
+
+		do
+		{
+			randomId = new Random().NextUInt64(biggestId);
+		}
+		while (!Collection.AsQueryable().Any(x => x.Id == randomId));
+
+		return randomId;
+	}
+
 	public RecipeModel Create(RecipeModel recipe)
 	{
 		recipe.Id = GetId();
@@ -63,7 +78,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	public RecipeModel Update(RecipeModel recipe)
 	{
 		GetById(recipe.Id);
-		
+
 		ValidateFields(recipe, "Title", "AuthorId", "Language", "Serves", "Categories", "Ingredients", "Steps", "OriginalRecipeId", "IsPrivate");
 
 		RecipeStuff(recipe);
