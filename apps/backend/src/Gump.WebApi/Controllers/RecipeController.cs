@@ -65,4 +65,22 @@ public class RecipeController : ControllerBase
 			forks = recipe.Forks,
 		});
 	});
+
+	[AllowAnonymous]
+	[HttpGet("random")]
+	public IActionResult GetRandomRecipe() => this.Run(() =>
+	{
+		if (!recipeRepository.GetAll().Any())
+		{
+			return NotFound();
+		}
+
+		object recipe;
+		do
+		{
+			recipe = GetRecipe(recipeRepository.GetRandomId());
+		} while (recipe is UnauthorizedResult || recipe is NotFoundResult);
+
+		return Ok(recipe);
+	});
 }

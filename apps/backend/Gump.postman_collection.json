@@ -25,12 +25,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/Auth/login",
+							"raw": "{{baseUrl}}/auth/login",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"Auth",
+								"auth",
 								"login"
 							]
 						},
@@ -52,14 +52,12 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/Auth/login",
+									"raw": "{{baseUrl}}/auth/login",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
-										"Auth",
+										"auth",
 										"login"
 									]
 								}
@@ -84,12 +82,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/Auth/login",
+									"raw": "{{baseUrl}}/auth/login",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"Auth",
+										"auth",
 										"login"
 									]
 								}
@@ -113,19 +111,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/Image/:id",
+							"raw": "{{baseUrl}}/image/:id",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"Image",
+								"image",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": null,
-									"description": "Id of the Image"
+									"value": null
 								}
 							]
 						},
@@ -138,14 +135,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/Image/:id",
+									"raw": "{{baseUrl}}/image/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
-										"Image",
+										"image",
 										":id"
 									],
 									"variable": [
@@ -179,12 +174,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/Image",
+							"raw": "{{baseUrl}}/image",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"Image"
+								"image"
 							]
 						},
 						"description": "Posts an image for later use. It can be private to hide sensitive images from outsiders."
@@ -205,14 +200,12 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/Image",
+									"raw": "{{baseUrl}}/image",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
-										"Image"
+										"image"
 									]
 								}
 							},
@@ -236,12 +229,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/Image",
+									"raw": "{{baseUrl}}/image",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"Image"
+										"image"
 									]
 								}
 							},
@@ -264,12 +257,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/User/:id",
+							"raw": "{{baseUrl}}/user/:id",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								":id"
 							],
 							"variable": [
@@ -288,14 +281,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/User/:id",
+									"raw": "{{baseUrl}}/user/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
-										"User",
+										"user",
 										":id"
 									],
 									"variable": [
@@ -318,12 +309,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/User/:id",
+									"raw": "{{baseUrl}}/user/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"User",
+										"user",
 										":id"
 									],
 									"variable": [
@@ -348,12 +339,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/User/me",
+							"raw": "{{baseUrl}}/user/me",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								"me"
 							]
 						}
@@ -365,14 +356,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/User/me",
+									"raw": "{{baseUrl}}/user/me",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
-										"User",
+										"user",
 										"me"
 									]
 								}
@@ -402,12 +391,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/User/search",
+							"raw": "{{baseUrl}}/user/search",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								"search"
 							]
 						}
@@ -419,14 +408,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/User/search",
+									"raw": "{{baseUrl}}/user/search",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
-										"User",
+										"user",
 										"search"
 									]
 								}
@@ -444,12 +431,12 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/User/follow/:id",
+							"raw": "{{baseUrl}}/user/follow/:id",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								"follow",
 								":id"
 							],
@@ -469,14 +456,12 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/User/follow/:id",
+									"raw": "{{baseUrl}}/user/follow/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
-										"User",
+										"user",
 										"follow",
 										":id"
 									],
@@ -511,12 +496,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/User/create",
+							"raw": "{{baseUrl}}/user/create",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								"create"
 							]
 						}
@@ -537,14 +522,12 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/User/create",
+									"raw": "{{baseUrl}}/user/create",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
-										"User",
+										"user",
 										"create"
 									]
 								}
@@ -569,12 +552,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/User/create",
+									"raw": "{{baseUrl}}/user/create",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"User",
+										"user",
 										"create"
 									]
 								}
@@ -601,12 +584,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/User/update",
+							"raw": "{{baseUrl}}/user/update",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								"update"
 							]
 						}
@@ -627,14 +610,12 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/User/update",
+									"raw": "{{baseUrl}}/user/update",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
-										"User",
+										"user",
 										"update"
 									]
 								}
@@ -677,13 +658,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/user/delete/:id",
+									"raw": "{{baseUrl}}/user/delete/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"user",
 										"delete",
 										":id"
@@ -732,13 +711,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/category",
+									"raw": "{{baseUrl}}/category",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"category"
 									]
 								}
@@ -780,13 +757,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/category/:id",
+									"raw": "{{baseUrl}}/category/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"category",
 										":id"
 									],
@@ -854,13 +829,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/category/create",
+									"raw": "{{baseUrl}}/category/create",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"category",
 										"create"
 									]
@@ -914,13 +887,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/category/update",
+									"raw": "{{baseUrl}}/category/update",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"category",
 										"update"
 									]
@@ -964,13 +935,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/category/delete/:id",
+									"raw": "{{baseUrl}}/category/delete/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"category",
 										"delete",
 										":id"
@@ -1002,12 +971,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/Recipe/:id",
+							"raw": "{{baseUrl}}/recipe/:id",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"Recipe",
+								"recipe",
 								":id"
 							],
 							"variable": [
@@ -1026,12 +995,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/Recipe/:id",
+									"raw": "{{baseUrl}}/recipe/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"Recipe",
+										"recipe",
 										":id"
 									],
 									"variable": [
@@ -1040,6 +1009,46 @@
 											"value": "1",
 											"description": "Id of the Recipe"
 										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Random Recipe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/recipe/random",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"random"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Random Recipe",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/random",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"random"
 									]
 								}
 							},
