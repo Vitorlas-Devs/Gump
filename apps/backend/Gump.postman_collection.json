@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "44d1b422-d983-439c-bd56-93e7d0da22c5",
+		"_postman_id": "b8f10566-fdb2-4a21-af48-e0a8a1e0b80a",
 		"name": "Gump",
 		"description": "WebAPI collection to test and document endpoints.\n\nSome may need a bearer token for authorization. To get a token just log in and place the token in the collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26477376"
+		"_exporter_id": "24694147"
 	},
 	"item": [
 		{
@@ -52,11 +52,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/Auth/login",
+									"raw": "localhost:5135/api/Auth/login",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"Auth",
 										"login"
 									]
@@ -136,11 +138,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/Image/:id",
+									"raw": "localhost:5135/api/Image/:id",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"Image",
 										":id"
 									],
@@ -201,11 +205,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/Image",
+									"raw": "localhost:5135/api/Image",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"Image"
 									]
 								}
@@ -282,11 +288,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/User/:id",
+									"raw": "localhost:5135/api/User/:id",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"User",
 										":id"
 									],
@@ -357,11 +365,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/User/me",
+									"raw": "localhost:5135/api/User/me",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"User",
 										"me"
 									]
@@ -409,11 +419,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/User/search",
+									"raw": "localhost:5135/api/User/search",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"User",
 										"search"
 									]
@@ -457,11 +469,13 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/User/follow/:id",
+									"raw": "localhost:5135/api/User/follow/:id",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"User",
 										"follow",
 										":id"
@@ -523,11 +537,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/User/create",
+									"raw": "localhost:5135/api/User/create",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"User",
 										"create"
 									]
@@ -611,11 +627,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/User/update",
+									"raw": "localhost:5135/api/User/update",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"User",
 										"update"
 									]
@@ -659,11 +677,13 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/user/delete/:id",
+									"raw": "localhost:5135/api/user/delete/:id",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"user",
 										"delete",
 										":id"
@@ -712,19 +732,21 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/category",
+									"raw": "localhost:5135/api/category",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"category"
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -758,11 +780,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/category/:id",
+									"raw": "localhost:5135/api/category/:id",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"category",
 										":id"
 									],
@@ -775,10 +799,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -830,20 +854,22 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/category/create",
+									"raw": "localhost:5135/api/category/create",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"category",
 										"create"
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -888,20 +914,22 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/category/update",
+									"raw": "localhost:5135/api/category/update",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"category",
 										"update"
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -936,11 +964,13 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/category/delete/:id",
+									"raw": "localhost:5135/api/category/delete/:id",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"category",
 										"delete",
 										":id"
@@ -954,6 +984,65 @@
 									]
 								}
 							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Recipe",
+			"item": [
+				{
+					"name": "Get Recipe By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Recipe/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Recipe",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Recipe"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-Rántotta",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Recipe/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Recipe",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Recipe"
+										}
+									]
+								}
+							},
 							"_postman_previewlanguage": null,
 							"header": null,
 							"cookie": [],
@@ -961,7 +1050,8 @@
 						}
 					]
 				}
-			]
+			],
+			"description": "Recipe methods"
 		}
 	],
 	"auth": {
