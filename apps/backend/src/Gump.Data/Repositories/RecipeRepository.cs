@@ -15,7 +15,8 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		this.mongoDbConfig = mongoDbConfig;
 	}
 
-	public ulong GetRandomId()
+	public ulong GetRandomId() => GetRandomId(0);
+	public ulong GetRandomId(ulong categoryId)
 	{
 		ulong biggestId = Collection.AsQueryable().Max(x => x.Id);
 
@@ -25,7 +26,9 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		{
 			randomId = new Random().NextUInt64(biggestId);
 		}
-		while (!Collection.AsQueryable().Any(x => x.Id == randomId));
+		while (!Collection.AsQueryable().Any(
+			x => x.Id == randomId &&
+			(categoryId == 0 || x.Categories.Contains(categoryId))));
 
 		return randomId;
 	}

@@ -52,6 +52,7 @@ public class RecipeController : ControllerBase
 			tags = recipe.Tags,
 			ingredients = recipe.Ingredients,
 			steps = recipe.Steps,
+			viewCount = recipe.ViewCount,
 			saveCount = recipe.SaveCount,
 			isLiked = recipe.Likes.Contains(user.Id),
 			likeCount = recipe.Likes.Count,
@@ -86,12 +87,50 @@ public class RecipeController : ControllerBase
 	[HttpGet("search")]
 	public IActionResult SearchRecipes([FromBody] SearchRecipeDto search) => this.Run(() =>
 	{
-		return Ok(recipeRepository.Search(
+		var searchResult = recipeRepository.Search(
 			search.SearchTerm,
 			search.Limit,
 			search.Offset,
 			search.AuthorId,
 			search.CategoryId
-		));
+		);
+
+		return Ok(searchResult.Select(r => new
+		{
+			id = r.Id,
+			title = r.Title,
+			author = r.AuthorId,
+			viewCount = r.ViewCount,
+			saveCount = r.SaveCount,
+			likeCount = r.Likes.Count,
+			isPrivate = r.IsPrivate
+		}));
+	});
+
+	[AllowAnonymous]
+	[HttpGet("today/{categoryId}")]
+	public IActionResult GetTodaysRecipe(ulong categoryId) => this.Run(() =>
+	{
+		RecipeModel randomRecipe;
+		do
+		{
+			ulong randomId = recipeRepository.GetRandomId(categoryId);
+			randomRecipe = recipeRepository.GetById(randomId);
+		} while (
+			randomRecipe.IsPrivate ||
+			randomRecipe.IsArchived ||
+			!randomRecipe.Tags.Any()
+		);
+
+		Random r = new();
+		string randomTag = randomRecipe.Tags[r.Next(randomRecipe.Tags.Count)];
+
+		return Ok(SearchRecipes(new()
+		{
+			SearchTerm = randomTag,
+			Limit = 1,
+			Offset = 0,
+			CategoryId = categoryId
+		}));
 	});
 }
