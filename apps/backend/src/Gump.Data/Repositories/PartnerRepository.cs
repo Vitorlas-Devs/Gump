@@ -23,6 +23,7 @@ public class PartnerRepository : RepositoryBase<PartnerModel>
 		partner.Id = GetId();
 
 		ValidateFields(partner, "Name", "ContactUrl");
+		NullifyFields(partner, "Ads");
 
 		try
 		{
