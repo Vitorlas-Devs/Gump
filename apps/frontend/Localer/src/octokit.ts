@@ -24,6 +24,7 @@ export const getAuthenticatedUser = async () => {
       Authorization: `token ${token.value}`
     }
   })
+
   return { name: data.login, avatar: data.avatar_url }
 }
 

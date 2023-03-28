@@ -23,8 +23,8 @@ if (!token.value) {
       }
     })
     .then((response) => {
-      const access_token = response.data.split('=')[1].split('&')[0]
-      token.value = access_token
+      const accessToken = response.data.split('=')[1].split('&')[0]
+      token.value = accessToken
       ;(async () => {
         const { name, avatar } = await getAuthenticatedUser()
         user.login(name, avatar)
