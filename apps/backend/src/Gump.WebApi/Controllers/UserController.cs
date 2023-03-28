@@ -126,12 +126,13 @@ public class UserController : ControllerBase
 	public IActionResult UpdateUser([FromBody] UpdateUserDto update) => this.Run(() =>
 	{
 		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
-		UserModel modifiedUser = userRepository.GetById(update.Id);
 
 		if (update.Id != user.Id && !user.IsModerator)
 		{
 			return Unauthorized();
 		}
+
+		UserModel modifiedUser = userRepository.GetById(update.Id);
 
 		modifiedUser.Username = update.Username;
 		modifiedUser.Email = update.Email;
@@ -148,12 +149,13 @@ public class UserController : ControllerBase
 	public IActionResult DeleteUser(ulong id) => this.Run(() =>
 	{
 		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
-		UserModel deletedUser = userRepository.GetById(id);
 
 		if (id != user.Id && !user.IsModerator)
 		{
 			return Unauthorized();
 		}
+		
+		UserModel deletedUser = userRepository.GetById(id);
 
 		userRepository.Delete(deletedUser.Id);
 
