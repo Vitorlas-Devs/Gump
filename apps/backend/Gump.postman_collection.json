@@ -1238,6 +1238,275 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Partner",
+			"item": [
+				{
+					"name": "Get All Partners",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/partner",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"partner"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Partners",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/partner",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"partner"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Partner By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/partner/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"partner",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Partner"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-Tesco",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/partner/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"partner",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Partner"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create Partner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"contactUrl\": \"\",\r\n    \"apiUrl\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/partner/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"partner",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Tesco",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Tesco\",\r\n    \"contactUrl\": \"https://www.tesco.test\",\r\n    \"apiUrl\": \"https://www.tecso.test/api\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/partner/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"partner",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Partner",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 0,\r\n    \"name\": \"\",\r\n    \"contactUrl\": \"\",\r\n    \"apiUrl\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/partner/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"partner",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Tesco Super",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Tesco Super\",\r\n    \"contactUrl\": \"https://www.tesco.test\",\r\n    \"apiUrl\": \"https://www.tecso.test/api\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/partner/update",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"partner",
+										"update"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Partner",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/partner/delete/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"partner",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Partner to delete"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-Tesco",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/partner/delete/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"partner",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Partner to delete"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
 		}
 	],
 	"auth": {
