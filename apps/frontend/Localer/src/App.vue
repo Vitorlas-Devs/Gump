@@ -3,8 +3,14 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed } from 'vue'
 import { CreateBranch, createFilesAndCommit, createPullRequest, getBranch } from './octokit'
+import { useUserStore } from '@/stores/userStore'
+import { storeToRefs } from 'pinia'
+import router from './router'
 
 const translate = useTranslationStore()
+const user = useUserStore()
+const { token } = storeToRefs(user)
+const { username } = storeToRefs(user)
 
 const dirty = computed(() => translate.dirty)
 
@@ -16,9 +22,6 @@ const saveChanges = () => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
     })
 
-    let username = 'Rettend'
-    username = username.replace(/ /g, '-')
-
     const filenames = changedLocales
 
     const contents = changedLocales.map((locale) => {
@@ -26,28 +29,42 @@ const saveChanges = () => {
     })
 
     const { sha } = await getBranch()
-    await CreateBranch(username, sha)
-    await createFilesAndCommit(username, filenames, contents)
-    await createPullRequest(username)
+    await CreateBranch(username.value, sha)
+    await createFilesAndCommit(username.value, filenames, contents)
+    await createPullRequest(username.value)
   })()
 
   translate.saveChanges()
 }
 
 const authenticate = () => {
-  const clientId = import.meta.env.VITE_CLIENT_ID
+  if (!token.value) {
+    const clientId = import.meta.env.VITE_CLIENT_ID
 
-  const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`
+    const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`
 
-  window.location.href = authUrl
+    window.location.href = authUrl
+  } else {
+    router.push('/translate')
+  }
 }
+
+// watch the user store and update the profile name and avatar
 </script>
 
 <template>
   <div>
-    <div class="flex flex-row gap-4 mx-5 my-2">
-      <RouterLink to="/">Home</RouterLink>
-      <p class="cursor-pointer" @click="authenticate">Translate</p>
+    <div class="flex flex-row justify-between h-12 place-items-center text-lg font-bold">
+      <div class="flex flex-row gap-4 mx-5">
+        <RouterLink to="/">Home</RouterLink>
+        <p class="cursor-pointer" @click="authenticate">Translate</p>
+      </div>
+      <div v-if="user.username" class="flex flex-row gap-4 mx-5 place-items-center">
+        <p>
+          {{ user.username }}
+        </p>
+        <img :src="user.avatarUrl" class="rounded-full w-10 h-10" />
+      </div>
     </div>
     <RouterView :key="$route.fullPath" />
   </div>

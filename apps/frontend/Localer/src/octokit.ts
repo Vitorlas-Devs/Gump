@@ -1,16 +1,14 @@
-import { Octokit } from '@octokit/core'
+import { Octokit } from '@octokit/rest'
 import type { components } from '@octokit/openapi-types'
 import type { Endpoints } from '@octokit/types'
 import { Base64 } from 'js-base64'
+import { useUserStore } from './stores/userStore'
+import { storeToRefs } from 'pinia'
 
 const OWNER = import.meta.env.VITE_OWNER
 const REPO = import.meta.env.VITE_REPO
 
-const token = localStorage.getItem('access_token')
-
-const octokit = new Octokit({
-  auth: token
-})
+const octokit = new Octokit()
 
 // GET TYPED YOU UNGRATEFUL, UNGAINLY, UNWASHED, UNWIELDY OCTOKIT RESPONSES
 type CreateBranchResponse = Endpoints['POST /repos/{owner}/{repo}/git/refs']['response']
@@ -20,8 +18,14 @@ type GetRepoContentResponseDataFile = components['schemas']['content-file']
 // getContent type is still broken: https://github.com/octokit/rest.js/issues/32
 
 export const getAuthenticatedUser = async () => {
-  const { data } = await octokit.request('GET /user')
-  console.log('GET authenticated user:', data)
+  const { token } = storeToRefs(useUserStore())
+  const { data } = await octokit.request('GET /user', {
+    headers: {
+      Authorization: `token ${token.value}`
+    }
+  })
+
+  return { name: data.login, avatar: data.avatar_url }
 }
 
 /**
@@ -160,7 +164,11 @@ export const CreateBranch = async (
     return { response: undefined, status, error }
   } else {
     try {
+      const { token } = storeToRefs(useUserStore())
       const response = await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
+        headers: {
+          authorization: `token ${token.value}`
+        },
         owner: OWNER,
         repo: REPO,
         ref: `refs/heads/${branchName}`,
@@ -194,7 +202,11 @@ export const createOrUpdateFile = async (
   sha?: string
 ): Promise<{ status: number; error?: any }> => {
   try {
+    const { token } = storeToRefs(useUserStore())
     const response = await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+      headers: {
+        authorization: `token ${token.value}`
+      },
       owner: OWNER,
       repo: REPO,
       path: `locales/${fileName}.json`,
@@ -292,7 +304,11 @@ export const createPullRequest = async (
     return { prNumber: getResponse?.number, prUrl: getResponse?.html_url, status }
   } else {
     try {
+      const { token } = storeToRefs(useUserStore())
       const response = await octokit.request('POST /repos/{owner}/{repo}/pulls', {
+        headers: {
+          authorization: `token ${token.value}`
+        },
         owner: OWNER,
         repo: REPO,
         title: `[Translate] ${branchName}`,
