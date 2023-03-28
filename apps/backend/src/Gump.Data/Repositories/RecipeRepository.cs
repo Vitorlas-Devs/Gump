@@ -67,7 +67,11 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 
 		foreach (var term in searchTerm.Split(' '))
 		{
-			if (recipe.Title.ToLowerInvariant().Contains(term.ToLowerInvariant()))
+			if (recipe.Tags.Any(t => t.ToLowerInvariant().Contains(term.ToLowerInvariant())))
+			{
+				score++;
+			}
+			if (recipe.Tags.Any(t => term.ToLowerInvariant().Contains(t.ToLowerInvariant())))
 			{
 				score++;
 			}

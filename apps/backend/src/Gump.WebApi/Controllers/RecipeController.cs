@@ -81,4 +81,17 @@ public class RecipeController : ControllerBase
 
 		return Ok(recipe);
 	});
+
+	[AllowAnonymous]
+	[HttpGet("search")]
+	public IActionResult SearchRecipes([FromBody] SearchRecipeDto search) => this.Run(() =>
+	{
+		return Ok(recipeRepository.Search(
+			search.SearchTerm,
+			search.Limit,
+			search.Offset,
+			search.AuthorId,
+			search.CategoryId
+		));
+	});
 }
