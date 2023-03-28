@@ -30,6 +30,52 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		return randomId;
 	}
 
+	public IEnumerable<RecipeModel> Search(
+		string searchTerm, int limit, int offset, ulong authorId, ulong categoryId)
+	{
+		return GetAll()
+			.Where(r => FilterLogic(r, authorId, categoryId))
+			.OrderByDescending(CalculatePopularity)
+			.GroupBy(r => CalculateScore(r, searchTerm))
+			.OrderByDescending(g => g.Key)
+			.SelectMany(g => g)
+			.Skip(offset)
+			.Take(limit);
+	}
+
+	private static bool FilterLogic(
+		RecipeModel recipe, ulong authorId, ulong categoryId)
+	{
+		if (authorId != 0 && recipe.AuthorId != authorId ||
+			categoryId != 0 && !recipe.Categories.Contains(categoryId))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	private static double CalculatePopularity(RecipeModel recipe)
+	{
+		double ratio = (double)recipe.Likes.Count / recipe.ViewCount;
+		double popularity = (recipe.Likes.Count + recipe.ViewCount) * ratio;
+		return popularity;
+	}
+
+	private static int CalculateScore(RecipeModel recipe, string searchTerm)
+	{
+		int score = 0;
+
+		foreach (var term in searchTerm.Split(' '))
+		{
+			if (recipe.Title.ToLowerInvariant().Contains(term.ToLowerInvariant()))
+			{
+				score++;
+			}
+		}
+
+		return score;
+	}
+
 	public RecipeModel Create(RecipeModel recipe)
 	{
 		recipe.Id = GetId();
