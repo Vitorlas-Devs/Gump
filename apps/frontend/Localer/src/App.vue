@@ -22,15 +22,13 @@ const saveChanges = () => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
     })
 
-    const filenames = changedLocales
-
     const contents = changedLocales.map((locale) => {
       return JSON.stringify(translations[locale], null, 4)
     })
 
     const { sha } = await getBranch()
     await CreateBranch(username.value, sha)
-    await createFilesAndCommit(username.value, filenames, contents)
+    await createFilesAndCommit(username.value, changedLocales, contents)
     await createPullRequest(username.value)
   })()
 
@@ -39,6 +37,7 @@ const saveChanges = () => {
 
 const authenticate = () => {
   if (!token.value) {
+    console.log(import.meta.env.VITE_CLIENT_ID)
     const clientId = import.meta.env.VITE_CLIENT_ID
 
     const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`
