@@ -30,7 +30,7 @@ if (!token.value) {
         user.login(name, avatar)
         await loadTranslations()
       })()
-      router.push({ name: 'translate-home' })
+      router.push('/translate')
     })
     .catch((error) => {
       console.log(error)
