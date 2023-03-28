@@ -48,7 +48,6 @@ const authenticate = () => {
   }
 }
 
-// watch the user store and update the profile name and avatar
 </script>
 
 <template>
