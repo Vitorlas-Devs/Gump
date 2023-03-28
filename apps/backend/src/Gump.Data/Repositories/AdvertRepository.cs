@@ -34,6 +34,11 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 			throw new AggregateException($"Error while creating {nameof(advert)}", ex);
 		}
 
+		//Add advert to partner repository
+		var partner = PartnerRepository.GetById(advert.PartnerId);
+		partner.Ads.Add(advert.Id);
+		PartnerRepository.Update(partner);
+
 		return advert;
 
 	}
