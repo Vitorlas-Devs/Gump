@@ -38,6 +38,9 @@ public class RecipeController : ControllerBase
 			return Unauthorized();
 		}
 
+		recipe.ViewCount++;
+		recipeRepository.Update(recipe);
+
 		return Ok(new
 		{
 			id = recipe.Id,
