@@ -53,6 +53,11 @@ if (!token.value) {
       <vue-select
         v-model="user.languages"
         w="72"
+        class="select"
+        shadow="inner"
+        rounded="xl"
+        p="2"
+        font="bold"
         :options="translate.locales"
         :multiple="true"
         :close-on-select="false"
@@ -65,4 +70,16 @@ if (!token.value) {
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.select {
+  --vs-search-input-bg: rgb(243, 88, 39);
+  --vs-controls-color: rgb(151, 39, 4);
+  --vs-selected-bg: transparent;
+  --vs-selected-color: rgb(151, 39, 4);
+  --vs-selected-border-color: rgba(151, 39, 4, 0.5);
+  --vs-border-width: 0px;
+  --vs-border-radius: 20px;
+  --vs-dropdown-option-bg: rgb(243, 88, 39);
+  --vs-dropdown-option--active-bg: rgb(243, 88, 39);
+}
+</style>
