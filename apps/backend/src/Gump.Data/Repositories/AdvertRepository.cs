@@ -1,5 +1,6 @@
 ﻿using Gump.Data.Models;
 using MongoDB.Driver;
+using Gump.Data;
 
 namespace Gump.Data.Repositories;
 
@@ -12,6 +13,21 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 	public AdvertRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
 		this.mongoDbConfig = mongoDbConfig;
+	}
+
+	public ulong GetRandomId()
+	{
+		ulong biggestId = Collection.AsQueryable().Max(x => x.Id);
+
+		ulong randomId = 0;
+
+		do
+		{
+			randomId = new Random().NextUInt64(biggestId);
+		}
+		while (!Collection.AsQueryable().Any(x => x.Id == randomId));
+
+		return randomId;
 	}
 
 	public AdvertModel Create(AdvertModel advert)
@@ -46,7 +62,7 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 	public AdvertModel Update(AdvertModel advert)
 	{
 		GetById(advert.Id);
-		
+
 		ValidateAllFields(advert);
 
 		ImageRepository.GetById(advert.ImageId);

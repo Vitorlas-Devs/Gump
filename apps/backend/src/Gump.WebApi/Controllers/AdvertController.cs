@@ -19,10 +19,16 @@ public class AdvertController : ControllerBase
 		this.userRepository = userRepository;
 	}
 
-	[AllowAnonymous]
 	[HttpGet]
 	public IActionResult GetAllAdverts() => this.Run(() =>
 	{
+		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+
+		if (!user.IsModerator)
+		{
+			return Unauthorized();
+		}
+
 		return Ok(advertRepository.GetAll());
 	});
 
@@ -31,6 +37,24 @@ public class AdvertController : ControllerBase
 	public IActionResult GetAdvert(ulong id) => this.Run(() =>
 	{
 		return Ok(advertRepository.GetById(id));
+	});
+
+	[AllowAnonymous]
+	[HttpGet("random")]
+	public IActionResult GetRandomAdvert() => this.Run(() =>
+	{
+		if (!advertRepository.GetAll().Any())
+		{
+			return NotFound();
+		}
+
+		object advert;
+		do
+		{
+			advert = GetAdvert(advertRepository.GetRandomId());
+		} while (advert is UnauthorizedResult || advert is NotFoundResult);
+
+		return Ok(advert);
 	});
 
 	[HttpPost("create")]
