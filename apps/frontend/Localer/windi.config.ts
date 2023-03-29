@@ -43,7 +43,8 @@ export default defineConfig({
         700: '#3A3A3A',
         800: '#2A2A2A',
         900: '#1A1A1A'
-      }
+      },
+      transparent: 'transparent'
     }
   }
 })

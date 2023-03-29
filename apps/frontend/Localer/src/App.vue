@@ -77,7 +77,7 @@ const authenticate = () => {
     <RouterView :key="$route.fullPath" />
   </div>
   <Transition name="bounce">
-    <div v-if="dirty" fixed="~" bottom="0" left="0" right="0" mx="auto" w="max">
+    <div v-if="dirty" fixed="~" bottom="0" left="0" right="0" mx="auto" w="max" z="50">
       <div
         flex="~ col md:row"
         gap="2 md:4"
