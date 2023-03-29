@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { useUIStore } from '@/stores/uiStore'
 import { useUserStore } from '@/stores/userStore'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import SvgIcon from './SvgIcon.vue'
@@ -52,6 +52,31 @@ const emptyValuesCount = (key: string) => {
   })
   return count
 }
+
+const isEditing = ref(false)
+const newKey = ref('')
+
+const saveNewKey = () => {
+  if (newKey.value === '' || keys.value.includes(newKey.value)) {
+    return
+  }
+  translate.addKey(newKey.value)
+  isEditing.value = false
+  translate.checkDirty()
+}
+
+const input = ref<HTMLInputElement | null>(null)
+
+const toggleEditing = () => {
+  isEditing.value = !isEditing.value
+  if (isEditing.value) {
+    setTimeout(() => {
+      if (input.value) {
+        input.value.focus()
+      }
+    }, 0)
+  }
+}
 </script>
 
 <template>
@@ -65,7 +90,37 @@ const emptyValuesCount = (key: string) => {
     class="<md:fixed md:block"
   >
     <custom-scrollbar :auto-expand="false" class="h-100vh w-100vh md:w-72 md:h-100vh">
-      <ul flex="~ col" w="full" h="full" mb="12">
+      <ul flex="~ col" w="full" h="full" mb="24">
+        <li flex="~ row" w="full" h="10" my="2" px="4" cursor="pointer">
+          <span
+            v-if="!isEditing"
+            text="orange-500 shadow-orange lg"
+            font="bold"
+            flex="~ row"
+            items="center"
+            mx="2"
+            w="full"
+            justify="between"
+            @click="toggleEditing"
+          >
+            Add new key
+            <SvgIcon icon="plus-solid" class="icon-orange" w="7" />
+          </span>
+          <div v-if="isEditing" flex="~ row" w="full" items="center" justify="between" gap="3">
+            <input
+              ref="input"
+              v-model="newKey"
+              type="text"
+              border="1 solid orange-500"
+              shadow="orange"
+              rounded="md"
+              bg="crimson-50"
+              p="2"
+              placeholder="Hit ENTER to save"
+              @keyup.enter="saveNewKey"
+            />
+          </div>
+        </li>
         <li
           v-for="key in keys"
           :key="key"

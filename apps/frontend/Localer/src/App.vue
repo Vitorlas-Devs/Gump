@@ -104,7 +104,7 @@ const authenticate = () => {
           <button
             bg="crimson-500 hover:bg-crimson-600"
             transition="~"
-            text="crimson-50"
+            text="crimson-50 shadow-white"
             font="bold"
             shadow="crimsonDown"
             py="2"

@@ -46,6 +46,7 @@ const inputFuncs = (e: Event) => {
         bg="crimson-50"
         rounded="3xl"
         h="min-12"
+        resize="none"
         @input="inputFuncs($event)"
       />
       <div
