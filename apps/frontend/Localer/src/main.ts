@@ -9,6 +9,8 @@ import 'virtual:windi.css'
 import 'virtual:fonts.css'
 import './assets/main.css'
 import CustomScrollbar from 'custom-vue-scrollbar'
+import 'vue-select/dist/vue-select.css'
+import vSelect from 'vue-select'
 import 'custom-vue-scrollbar/dist/style.css'
 import App from './App.vue'
 
@@ -23,7 +25,7 @@ useTranslationStore().loadInitialTranslations()
 app.use(router)
 
 app.component(CustomScrollbar.name, CustomScrollbar)
-
+app.component('VSelect', vSelect)
 app.component('SvgIcon', SvgIcon)
 
 app.mount('#app')

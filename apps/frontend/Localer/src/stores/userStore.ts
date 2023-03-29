@@ -8,7 +8,8 @@ export const useUserStore = defineStore(
       username: '',
       loggedIn: false,
       avatarUrl: '',
-      token: ''
+      token: '',
+      languages: [] as string[]
     })
 
     const login = (username: string, avatarUrl: string) => {
@@ -23,10 +24,15 @@ export const useUserStore = defineStore(
       state.loggedIn = false
     }
 
+    const setLanguages = (languages: string[]) => {
+      state.languages = languages
+    }
+
     return {
       ...toRefs(state),
       login,
-      logout
+      logout,
+      setLanguages
     }
   },
   {

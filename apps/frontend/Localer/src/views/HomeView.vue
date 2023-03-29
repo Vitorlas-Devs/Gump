@@ -1,10 +1,9 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <main class="flex flex-row w-full h-screen">
-    <div class="flex flex-col w-full h-full p-4">
-      <h1 class="text-3xl text-orange-500 text-shadow-orange my-2 font-bold">Home</h1>
+  <main flex="~ row" w="full" h="full">
+    <div flex="~ col" w="full" h="full" p="2 md:6" pl="5 md:10">
+      <h1 text="3xl orange-500 shadow-orange" font="bold" my="2">Home</h1>
       <p>Welcome to the home page.</p>
     </div>
   </main>

@@ -61,11 +61,20 @@ export const useTranslationStore = defineStore({
       })
       this.dirty = dirty
     },
-    saveChanges() {
+    resetChanges() {
       this.locales.forEach((locale) => {
         const keys = Object.keys(this.translations[locale])
         keys.forEach((key) => {
           this.translations[locale][key] = this.initialTranslations[locale][key]
+        })
+      })
+      this.dirty = false
+    },
+    saveChanges() {
+      this.locales.forEach((locale) => {
+        const keys = Object.keys(this.translations[locale])
+        keys.forEach((key) => {
+          this.initialTranslations[locale][key] = this.translations[locale][key]
         })
       })
       this.dirty = false

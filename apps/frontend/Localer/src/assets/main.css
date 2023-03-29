@@ -17,7 +17,27 @@ body {
   cursor: default;
 }
 
+.show-enter-active,
+.show-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.show-enter-from,
+.show-leave-to {
+  opacity: 0;
+}
+
 .icon-orange {
   filter: drop-shadow(0px 4px 4px rgba(243, 88, 39, 0.5));
   fill: rgba(243, 88, 39);
+}
+
+.icon-brown {
+  filter: drop-shadow(0px 4px 4px rgba(151, 39, 4, 0.5));
+  fill: rgba(151, 39, 4);
+}
+
+.icon-crimson {
+  filter: drop-shadow(0px 4px 4px rgba(209, 44, 95, 0.5));
+  fill: rgba(209, 44, 95);
 }
