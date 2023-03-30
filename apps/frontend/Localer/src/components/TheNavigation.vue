@@ -128,7 +128,6 @@ const toggleEditing = () => {
               class="icon-crimson"
               w="5"
               h="10"
-              object="fill"
               mr="2"
           /></Transition>
           <div flex="~ row" w="full" items="center" justify="between" gap="3">
