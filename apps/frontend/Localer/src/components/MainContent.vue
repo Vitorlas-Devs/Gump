@@ -31,20 +31,18 @@ const inputFuncs = (e: Event) => {
   resize(e)
 }
 
-const changesClasses = (key: string) =>
+const changesClasses = (locale: string, key: string) =>
   computed(() => {
     const classes: any = {}
-    if (locales.value.every((locale) => translations.value[locale][key] === '')) {
+    if (!initialTranslations.value[locale]) {
       classes['bg-crimson-500'] = true
       return classes
     }
-    locales.value.forEach((locale) => {
-      if (translations.value[locale][key] !== initialTranslations.value[locale][key]) {
-        classes['bg-crimson-500'] = true
-      } else if (translations.value[locale][key] === initialTranslations.value[locale][key]) {
-        classes['bg-crimson-50'] = true
-      }
-    })
+    if (translations.value[locale][key] !== initialTranslations.value[locale][key]) {
+      classes['bg-crimson-500'] = true
+    } else if (translations.value[locale][key] === initialTranslations.value[locale][key]) {
+      classes['bg-crimson-50'] = true
+    }
     return classes
   })
 </script>
@@ -66,7 +64,7 @@ const changesClasses = (key: string) =>
         resize="none"
         @input="inputFuncs($event)"
       />
-      <div :class="changesClasses(selectedKey).value" w="2" h="8" rounded="full"></div>
+      <div :class="changesClasses(locale, selectedKey).value" w="2" h="8" rounded="full"></div>
     </div>
   </div>
 </template>

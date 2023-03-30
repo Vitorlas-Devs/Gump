@@ -108,6 +108,7 @@ const toggleEditing = () => {
           p="2"
           font="bold"
           w="min"
+          bg="crimson-50"
           @keyup.enter="saveNewLocale"
         />
         <button

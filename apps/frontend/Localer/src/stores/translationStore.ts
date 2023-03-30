@@ -124,12 +124,6 @@ export const useTranslationStore = defineStore({
       this.dirty = false
     },
     saveChanges() {
-      // this.locales.forEach((locale) => {
-      //   const keys = Object.keys(this.translations[locale])
-      //   keys.forEach((key) => {
-      //     this.initialTranslations[locale][key] = this.translations[locale][key]
-      //   })
-      // })
       this.initialTranslations = JSON.parse(JSON.stringify(this.translations))
       this.initialKeys = JSON.parse(JSON.stringify(this.keys))
       this.initialLocales = JSON.parse(JSON.stringify(this.locales))

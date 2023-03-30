@@ -86,14 +86,14 @@ const toggleEditing = () => {
 <template>
   <div
     flex="~ col"
-    w="auto"
-    h="screen"
     shadow="inner"
+    h="100vh"
+    w="full md:w-72"
     bg="crimson-50"
     rounded="none md:tr-xl"
     class="<md:fixed md:block"
   >
-    <custom-scrollbar :auto-expand="false" class="h-100vh w-100vh md:w-72 md:h-100vh">
+    <custom-scrollbar :auto-expand="false" h="100vh" w="full md:w-72">
       <ul flex="~ col" w="full" h="full" mb="24">
         <li flex="~ row" w="full" h="10" my="2" px="4" cursor="pointer">
           <span
