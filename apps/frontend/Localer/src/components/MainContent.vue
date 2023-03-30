@@ -30,6 +30,23 @@ const inputFuncs = (e: Event) => {
   checkDirty()
   resize(e)
 }
+
+const changesClasses = (key: string) =>
+  computed(() => {
+    const classes: any = {}
+    if (locales.value.every((locale) => translations.value[locale][key] === '')) {
+      classes['bg-crimson-500'] = true
+      return classes
+    }
+    locales.value.forEach((locale) => {
+      if (translations.value[locale][key] !== initialTranslations.value[locale][key]) {
+        classes['bg-crimson-500'] = true
+      } else if (translations.value[locale][key] === initialTranslations.value[locale][key]) {
+        classes['bg-crimson-50'] = true
+      }
+    })
+    return classes
+  })
 </script>
 
 <template>
@@ -49,17 +66,7 @@ const inputFuncs = (e: Event) => {
         resize="none"
         @input="inputFuncs($event)"
       />
-      <div
-        :class="{
-          'bg-crimson-500':
-            translations[locale][selectedKey] !== initialTranslations[locale][selectedKey],
-          'bg-crimson-50':
-            translations[locale][selectedKey] === initialTranslations[locale][selectedKey]
-        }"
-        w="2"
-        h="8"
-        rounded="full"
-      ></div>
+      <div :class="changesClasses(selectedKey).value" w="2" h="8" rounded="full"></div>
     </div>
   </div>
 </template>

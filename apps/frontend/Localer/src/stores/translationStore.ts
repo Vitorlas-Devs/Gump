@@ -7,7 +7,9 @@ export const useTranslationStore = defineStore({
   id: 'translation',
   state: () => ({
     locales: [] as string[],
+    initialLocales: [] as string[],
     keys: [] as string[],
+    initialKeys: [] as string[],
     translations: {} as Record<string, Record<string, string>>,
     initialTranslations: {} as Record<string, Record<string, string>>,
     dirty: false
@@ -33,8 +35,10 @@ export const useTranslationStore = defineStore({
       )
       this.initialTranslations = Object.fromEntries(translations)
       this.translations = JSON.parse(JSON.stringify(this.initialTranslations))
-      this.locales = Object.keys(this.translations)
-      this.keys = Object.keys(this.translations[this.locales[0]])
+      this.initialLocales = Object.keys(this.initialTranslations)
+      this.locales = JSON.parse(JSON.stringify(this.initialLocales))
+      this.initialKeys = Object.keys(this.translations[this.locales[0]])
+      this.keys = JSON.parse(JSON.stringify(this.initialKeys))
     },
     async loadTranslations() {
       const user = useUserStore()
@@ -58,9 +62,22 @@ export const useTranslationStore = defineStore({
         this.translations[locale][key] = ''
       })
     },
+    addLanguage(locale: string) {
+      this.locales.push(locale)
+      this.translations[locale] = {}
+      this.keys.forEach((key) => {
+        this.translations[locale][key] = ''
+      })
+    },
     checkDirty() {
       const dirty = this.locales.some((locale) => {
         const keys = Object.keys(this.translations[locale])
+        if (keys.every((key) => this.translations[locale][key] === '')) {
+          return true
+        }
+        if (!this.initialTranslations[locale]) {
+          return true
+        }
         return keys.some(
           (key) => this.translations[locale][key] !== this.initialTranslations[locale][key]
         )
@@ -71,27 +88,51 @@ export const useTranslationStore = defineStore({
       }
       this.dirty = dirty
     },
+    checkDirtyKey(key: string): boolean {
+      const dirty = this.locales.some((locale) => {
+        if (!this.initialTranslations[locale]) {
+          return true
+        }
+        return this.translations[locale][key] !== this.initialTranslations[locale][key]
+      })
+      this.dirty = dirty
+      return dirty
+    },
     resetChanges() {
       this.locales.forEach((locale) => {
         const keys = Object.keys(this.translations[locale])
+        if (keys.every((key) => this.translations[locale][key] === '')) {
+          delete this.translations[locale]
+          return
+        }
         keys.forEach((key) => {
+          if (!this.initialTranslations[locale]) {
+            this.translations[locale][key] = ''
+            return
+          }
           this.translations[locale][key] = this.initialTranslations[locale][key]
         })
       })
       this.keys = this.keys.filter((key) => {
         return this.locales.some((locale) => {
-          return this.initialTranslations[locale][key] !== undefined
+          return this.initialTranslations[locale][key] !== ''
         })
       })
+      this.keys = JSON.parse(JSON.stringify(this.initialKeys))
+      const user = useUserStore()
+      this.locales = user.languages = JSON.parse(JSON.stringify(this.initialLocales))
       this.dirty = false
     },
     saveChanges() {
-      this.locales.forEach((locale) => {
-        const keys = Object.keys(this.translations[locale])
-        keys.forEach((key) => {
-          this.initialTranslations[locale][key] = this.translations[locale][key]
-        })
-      })
+      // this.locales.forEach((locale) => {
+      //   const keys = Object.keys(this.translations[locale])
+      //   keys.forEach((key) => {
+      //     this.initialTranslations[locale][key] = this.translations[locale][key]
+      //   })
+      // })
+      this.initialTranslations = JSON.parse(JSON.stringify(this.translations))
+      this.initialKeys = JSON.parse(JSON.stringify(this.keys))
+      this.initialLocales = JSON.parse(JSON.stringify(this.locales))
       this.dirty = false
     }
   }

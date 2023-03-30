@@ -30,6 +30,10 @@ const liClasses = (key: string) =>
       'font-bold': currentKey === key
     }
     user.languages.forEach((language) => {
+      if (!translations.value[language]) {
+        user.languages = user.languages.filter((lang) => lang !== language)
+        return
+      }
       if (translations.value[language][key] !== '') {
         classes['text-orange-500'] = true
       } else {
