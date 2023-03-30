@@ -11,7 +11,8 @@ export default defineConfig({
       DEFAULT: '0px 0px 6px rgba(151, 39, 4, 0.4)',
       crimson: '0px 0px 6px rgba(209, 44, 95, 0.4)',
       orange: '0px 0px 6px rgba(243, 88, 39, 0.4)',
-      blue: '0px 0px 6px rgba(8, 66, 160, 0.4)'
+      blue: '0px 0px 6px rgba(8, 66, 160, 0.4)',
+      white: '0px 0px 6px rgba(255, 255, 255, 0.4)'
     },
     boxShadow: {
       orange: '0px 8px 11px -4px rgba(243, 88, 39, 0.3)',
@@ -43,7 +44,8 @@ export default defineConfig({
         700: '#3A3A3A',
         800: '#2A2A2A',
         900: '#1A1A1A'
-      }
+      },
+      transparent: 'transparent'
     }
   }
 })

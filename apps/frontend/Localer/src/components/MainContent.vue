@@ -33,18 +33,20 @@ const inputFuncs = (e: Event) => {
 </script>
 
 <template>
-  <div class="w-4/5">
-    <div
-      v-for="locale in locales"
-      :key="locale"
-      class="flex flex-row gap-4 my-6 place-items-center"
-    >
-      <label class="w-16 text-xl font-bold"> {{ locale }}</label>
+  <div w="full md:4/5">
+    <div v-for="locale in locales" :key="locale" flex="~ row" gap="4" my="6" place="items-center">
+      <label w="10 md:16" text="md md:xl" font="bold">{{ locale }}</label>
       <textarea
         :id="locale"
         v-model="translations[locale][selectedKey]"
         type="text"
-        class="rounded flex-grow p-3 shadow-inner bg-crimson-50 rounded-3xl min-h-12 h-max"
+        flex="grow"
+        p="3"
+        shadow="inner"
+        bg="crimson-50"
+        rounded="3xl"
+        h="min-12"
+        resize="none"
         @input="inputFuncs($event)"
       />
       <div
@@ -54,7 +56,9 @@ const inputFuncs = (e: Event) => {
           'bg-crimson-50':
             translations[locale][selectedKey] === initialTranslations[locale][selectedKey]
         }"
-        class="w-2 h-8 rounded-full drop-shadow-md"
+        w="2"
+        h="8"
+        rounded="full"
       ></div>
     </div>
   </div>
