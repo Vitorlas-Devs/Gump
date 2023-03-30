@@ -45,9 +45,9 @@ namespace Gump.Data.Repositories
 
 		public UserModel Create(UserModel user)
 		{
-			if (GetAll().Any(x => x.Username == user.Username))
+			if (GetAll().Any(x => x.Username == user.Username || x.Email == user.Email))
 			{
-				throw new DuplicateException($"User already exists with username {user.Username}");
+				throw new DuplicateException($"User already exists with username or email");
 			}
 
 			user.Id = GetId();
