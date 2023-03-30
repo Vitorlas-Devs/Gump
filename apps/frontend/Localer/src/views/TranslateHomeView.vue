@@ -8,6 +8,7 @@ import { storeToRefs } from 'pinia'
 import { useTranslationStore } from '@/stores/translationStore'
 import { useUIStore } from '@/stores/uiStore'
 import VueSelect from 'vue-select'
+import { ref } from 'vue'
 
 const translate = useTranslationStore()
 const user = useUserStore()
@@ -39,6 +40,35 @@ if (!token.value) {
       console.log(error)
     })
 }
+
+const isEditing = ref(false)
+const newLocale = ref('')
+
+const saveNewLocale = () => {
+  if (
+    newLocale.value === '' ||
+    translate.locales.includes(newLocale.value) ||
+    !newLocale.value.match(/^[a-z]{2}_[A-Z]{2}$/)
+  ) {
+    return
+  }
+  translate.addLanguage(newLocale.value)
+  isEditing.value = false
+  translate.checkDirty()
+}
+
+const input = ref<HTMLInputElement | null>(null)
+
+const toggleEditing = () => {
+  isEditing.value = !isEditing.value
+  if (isEditing.value) {
+    setTimeout(() => {
+      if (input.value) {
+        input.value.focus()
+      }
+    }, 0)
+  }
+}
 </script>
 
 <template>
@@ -53,19 +83,49 @@ if (!token.value) {
       <vue-select
         v-model="user.languages"
         w="72"
-        class="select"
         shadow="inner"
         rounded="xl"
         p="2"
         font="bold"
+        class="select"
         :options="translate.locales"
         :multiple="true"
         :close-on-select="false"
         :clear-on-select="false"
         :preserve-search="true"
-        :value="user.languages"
+        :value="user.languages.filter((language) => translate.initialLocales.includes(language))"
         placeholder="Select your languages"
       />
+      <div flex="~ row" gap="2">
+        <input
+          v-if="isEditing"
+          ref="input"
+          v-model="newLocale"
+          type="text"
+          placeholder="Hit ENTER to save"
+          shadow="inner"
+          rounded="xl"
+          p="2"
+          font="bold"
+          w="min"
+          bg="crimson-50"
+          @keyup.enter="saveNewLocale"
+        />
+        <button
+          v-if="!isEditing"
+          shadow="orange"
+          bg="orange-500"
+          text="orange-50 shadow-white"
+          rounded="xl"
+          py="2"
+          px="4"
+          font="bold"
+          w="max"
+          @click="toggleEditing"
+        >
+          Add a new language
+        </button>
+      </div>
     </div>
   </main>
 </template>
