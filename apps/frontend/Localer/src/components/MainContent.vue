@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
 import { useTranslationStore } from '@/stores/translationStore'
+import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
 const translate = useTranslationStore()
+const user = useUserStore()
 const router = useRouter()
 
 const { checkDirty } = translate
 const { translations, locales, initialTranslations } = storeToRefs(translate)
 const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
+const { languages } = storeToRefs(user)
 
 const resize = (event: Event) => {
   const target = event.target as HTMLTextAreaElement
@@ -63,6 +66,7 @@ const changesClasses = (locale: string, key: string) =>
         rounded="3xl"
         h="min-12"
         resize="none"
+        :readonly="!languages.includes(locale)"
         @input="inputFuncs($event)"
       />
       <div :class="changesClasses(locale, selectedKey).value" w="2" h="8" rounded="full"></div>

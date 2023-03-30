@@ -32,30 +32,13 @@ const liClasses = (key: string) =>
         user.languages = user.languages.filter((lang) => lang !== language)
         return
       }
-      if (translations.value[language][key] !== '') {
-        classes['text-orange-500'] = true
-      } else {
-        classes['text-brown-500'] = true
-      }
     })
-    if (emptyValuesCount(key) === user.languages.length) {
-      classes['bg-gradient-to-r from-orange-100 to-transparent'] = true
+    if (translate.getNumberOfLanguagesTranslated(key) === user.languages.length) {
+      classes['bg-gradient-to-r from-orange-100 to-transparent text-orange-500'] = true
     }
 
     return classes
   })
-
-const emptyValuesCount = (key: string) => {
-  let count = 0
-  user.languages.forEach((language) => {
-    if (Object.prototype.hasOwnProperty.call(translations.value[language], key)) {
-      count++
-    } else if (translations.value[language][key] === '') {
-      count++
-    }
-  })
-  return count
-}
 
 const isEditing = ref(false)
 const newKey = ref('')
@@ -161,10 +144,13 @@ const toggleEditing = () => {
               text="sm"
               class="whitespace-nowrap"
               :class="
-                emptyValuesCount(key) < user.languages.length ? 'text-brown-500' : 'text-orange-500'
+                translate.getNumberOfLanguagesTranslated(key) === user.languages.length
+                  ? 'text-orange-500'
+                  : 'text-brown-500'
               "
             >
-              {{ emptyValuesCount(key) }} / {{ user.languages.length }}
+              {{ translate.getNumberOfLanguagesTranslated(key) }} /
+              {{ user.languages.length }}
             </div>
           </div>
         </li>
