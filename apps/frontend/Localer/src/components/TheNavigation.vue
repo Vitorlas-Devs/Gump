@@ -26,9 +26,7 @@ const toggleNavbar = () => {
 
 const liClasses = (key: string) =>
   computed(() => {
-    const classes: any = {
-      'font-bold': currentKey === key
-    }
+    const classes: any = {}
     user.languages.forEach((language) => {
       if (!translations.value[language]) {
         user.languages = user.languages.filter((lang) => lang !== language)
@@ -50,7 +48,9 @@ const liClasses = (key: string) =>
 const emptyValuesCount = (key: string) => {
   let count = 0
   user.languages.forEach((language) => {
-    if (translations.value[language][key] !== '') {
+    if (Object.prototype.hasOwnProperty.call(translations.value[language], key)) {
+      count++
+    } else if (translations.value[language][key] === '') {
       count++
     }
   })
@@ -134,6 +134,7 @@ const toggleEditing = () => {
           items="center"
           w="full"
           h="10"
+          font="bold"
           :pl="currentKey === key ? '2' : '4'"
           pr="5"
         >
@@ -143,10 +144,17 @@ const toggleEditing = () => {
               icon="caret-right-solid"
               class="icon-crimson"
               w="5"
+              h="10"
+              object="fill"
               mr="2"
           /></Transition>
           <div flex="~ row" w="full" items="center" justify="between" gap="3">
-            <RouterLink :to="{ name: 'translate', params: { key } }" w="full" @click="toggleNavbar">
+            <RouterLink
+              :to="{ name: 'translate', params: { key } }"
+              w="full"
+              :class="currentKey === key ? 'underline underline-2 underline-offset-5' : ''"
+              @click="toggleNavbar"
+            >
               {{ key }}
             </RouterLink>
             <div
@@ -159,15 +167,6 @@ const toggleEditing = () => {
               {{ emptyValuesCount(key) }} / {{ user.languages.length }}
             </div>
           </div>
-        </li>
-        <li v-for="i in 20" :key="i" flex="~ row" w="full" h="10" px="4" items="center">
-          <RouterLink
-            :to="{ name: 'translate', params: { key: i } }"
-            w="full"
-            @click="toggleNavbar"
-          >
-            empty {{ i }}
-          </RouterLink>
         </li>
       </ul>
     </custom-scrollbar>
