@@ -52,6 +52,12 @@ export const useTranslationStore = defineStore({
     checkKey(key: string) {
       return this.keys.includes(key)
     },
+    addKey(key: string) {
+      this.keys.push(key)
+      this.locales.forEach((locale) => {
+        this.translations[locale][key] = ''
+      })
+    },
     checkDirty() {
       const dirty = this.locales.some((locale) => {
         const keys = Object.keys(this.translations[locale])
@@ -59,13 +65,31 @@ export const useTranslationStore = defineStore({
           (key) => this.translations[locale][key] !== this.initialTranslations[locale][key]
         )
       })
+      if (this.keys.length !== Object.keys(this.initialTranslations[this.locales[0]]).length) {
+        this.dirty = true
+        return
+      }
       this.dirty = dirty
+    },
+    resetChanges() {
+      this.locales.forEach((locale) => {
+        const keys = Object.keys(this.translations[locale])
+        keys.forEach((key) => {
+          this.translations[locale][key] = this.initialTranslations[locale][key]
+        })
+      })
+      this.keys = this.keys.filter((key) => {
+        return this.locales.some((locale) => {
+          return this.initialTranslations[locale][key] !== undefined
+        })
+      })
+      this.dirty = false
     },
     saveChanges() {
       this.locales.forEach((locale) => {
         const keys = Object.keys(this.translations[locale])
         keys.forEach((key) => {
-          this.translations[locale][key] = this.initialTranslations[locale][key]
+          this.initialTranslations[locale][key] = this.translations[locale][key]
         })
       })
       this.dirty = false
