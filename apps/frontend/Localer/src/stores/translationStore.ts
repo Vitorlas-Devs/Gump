@@ -102,7 +102,7 @@ export const useTranslationStore = defineStore({
       this.locales.forEach((locale) => {
         const keys = Object.keys(this.translations[locale])
         if (keys.every((key) => this.translations[locale][key] === '')) {
-          delete this.translations[locale]
+          this.translations[locale] = {}
           return
         }
         keys.forEach((key) => {
