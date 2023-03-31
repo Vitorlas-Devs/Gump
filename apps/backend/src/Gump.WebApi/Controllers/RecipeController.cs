@@ -80,7 +80,7 @@ public class RecipeController : ControllerBase
 			recipe = GetRecipe(recipeRepository.GetRandomId());
 		} while (recipe is UnauthorizedResult || recipe is NotFoundResult);
 
-		return Ok(recipe);
+		return Ok(((OkObjectResult)recipe).Value);
 	});
 
 	[AllowAnonymous]
@@ -125,12 +125,12 @@ public class RecipeController : ControllerBase
 		Random r = new();
 		string randomTag = randomRecipe.Tags[r.Next(randomRecipe.Tags.Count)];
 
-		return Ok(SearchRecipes(new()
+		return Ok(((OkObjectResult)SearchRecipes(new()
 		{
 			SearchTerm = randomTag,
 			Limit = 1,
 			Offset = 0,
 			CategoryId = categoryId
-		}));
+		})).Value);
 	});
 }
