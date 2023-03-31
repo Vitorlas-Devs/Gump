@@ -69,16 +69,20 @@ public class RecipeController : ControllerBase
 	[HttpGet("random")]
 	public IActionResult GetRandomRecipe() => this.Run(() =>
 	{
-		if (!recipeRepository.GetAll().Any())
+		if (!recipeRepository.GetAll().Any(x => !x.IsPrivate))
 		{
 			return NotFound();
 		}
 
-		object recipe;
+		dynamic recipe;
 		do
 		{
 			recipe = GetRecipe(recipeRepository.GetRandomId());
-		} while (recipe is UnauthorizedResult || recipe is NotFoundResult);
+		} while (
+			recipe is UnauthorizedResult ||
+			recipe is NotFoundObjectResult ||
+			recipe.Value.isPrivate
+		);
 
 		return Ok(((OkObjectResult)recipe).Value);
 	});
