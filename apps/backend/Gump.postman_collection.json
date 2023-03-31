@@ -1119,6 +1119,88 @@
 							"body": null
 						}
 					]
+				},
+				{
+					"name": "Get Today's Recommendation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/recipe/today/:categoryId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"today",
+								":categoryId"
+							],
+							"variable": [
+								{
+									"key": "categoryId",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Any",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/today/:categoryId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"today",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "1",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/today/:categoryId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"today",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				}
 			],
 			"description": "Recipe methods"
