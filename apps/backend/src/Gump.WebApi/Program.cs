@@ -27,6 +27,8 @@ builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddSwaggerGenNewtonsoftSupport();
 
+builder.Services.AddHttpClient();
+
 #if DEBUG
 builder.Services.AddCors(option =>
 {
