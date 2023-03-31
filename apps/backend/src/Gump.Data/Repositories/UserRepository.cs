@@ -53,7 +53,7 @@ namespace Gump.Data.Repositories
 			user.Id = GetId();
 
 			ValidateFields(user, "Username", "Password", "Email");
-			NullifyFields(user, "Language", "Recipes", "Likes", "Following", "Followers", "Badges", "IsModerator");
+			NullifyFields(user, "Language", "Recipes", "Likes", "Following", "Followers", "Badges");
 
 			// Check if email is valid
 			if (!EmailValidatorRegex().IsMatch(user.Email))
@@ -94,7 +94,7 @@ namespace Gump.Data.Repositories
 		public UserModel Update(UserModel user)
 		{
 			GetById(user.Id);
-			
+
 			ValidateFields(user, "Id", "Username", "Password", "Email");
 
 			if (GetAll().Any(x => x.Username == user.Username && x.Id != user.Id))
