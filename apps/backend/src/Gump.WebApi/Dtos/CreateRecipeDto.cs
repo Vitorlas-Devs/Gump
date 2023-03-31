@@ -28,7 +28,7 @@ public class CreateRecipeDto
 	public List<string> Steps { get; init; } = new();
 
 	[Required, JsonProperty("isOriginal")]
-	public bool IsOriginal { get; init; }
+	public bool IsOriginal { get; init; } = true;
 
 	[Required, JsonProperty("originalRecipe")]
 	public ulong OriginalRecipeId { get; init; }

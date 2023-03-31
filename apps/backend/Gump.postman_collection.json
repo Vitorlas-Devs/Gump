@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b8f10566-fdb2-4a21-af48-e0a8a1e0b80a",
+		"_postman_id": "924dce02-aa14-45a9-9991-ec3aa88208e4",
 		"name": "Gump",
 		"description": "WebAPI collection to test and document endpoints.\n\nSome may need a bearer token for authorization. To get a token just log in and place the token in the collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -37,36 +37,6 @@
 						"description": "Logs in with the given credentials.  \n\n- `token` contains the generated JWT bearer token.\n- `id` contains the logged in user's Id."
 					},
 					"response": [
-						{
-							"name": "TestUser-123",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"TestUser\",\r\n    \"password\": \"123\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/auth/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"auth",
-										"login"
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						},
 						{
 							"name": "TestUser-secret",
 							"originalRequest": {
@@ -843,6 +813,36 @@
 							"header": [],
 							"cookie": [],
 							"body": ""
+						},
+						{
+							"name": "Breakfast",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Breakfast\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/category/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"category",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
 						}
 					]
 				},
@@ -930,7 +930,7 @@
 					},
 					"response": [
 						{
-							"name": "1-Pasta",
+							"name": "1",
 							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
@@ -957,6 +957,35 @@
 							"header": [],
 							"cookie": [],
 							"body": ""
+						},
+						{
+							"name": "2",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/category/delete/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"category",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2",
+											"description": "Id of the Category to delete"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
 						}
 					]
 				}
@@ -990,7 +1019,7 @@
 					},
 					"response": [
 						{
-							"name": "1-Rántotta",
+							"name": "1-Egyszerű rántotta",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -1012,10 +1041,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1052,10 +1081,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1093,15 +1122,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"searchTerm\": \"Rántotta\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "{{baseUrl}}/recipe/search",
 									"host": [
@@ -1113,10 +1133,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1167,10 +1187,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "1",
@@ -1192,6 +1212,64 @@
 											"key": "categoryId",
 											"value": "1"
 										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Create Recipe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"\",\r\n    \"language\": \"\",\r\n    \"serves\": 0,\r\n    \"categories\": [],\r\n    \"tags\": [],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"\",\r\n            \"value\": 0,\r\n            \"volume\": \"\",\r\n            \"linkedRecipe\": 0\r\n        }\r\n    ],\r\n    \"steps\": [],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/recipe/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Egyszerű rántotta",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Egyszerű rántotta\",\r\n    \"language\": \"hu_HU\",\r\n    \"serves\": 1,\r\n    \"categories\": [\r\n        2\r\n    ],\r\n    \"tags\": [\r\n        \"egyszerű\",\r\n        \"rántotta\",\r\n        \"tojás\",\r\n        \"olajban\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"Tojás\",\r\n            \"value\": 2,\r\n            \"volume\": \"db\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Só\",\r\n            \"value\": 1,\r\n            \"volume\": \"csipet\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Olaj\",\r\n            \"value\": 0,\r\n            \"volume\": \"\",\r\n            \"linkedRecipe\": 0\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        \"Öntsünk egy kevés olajat a serpenyőbe és gyújtsunk alá.\",\r\n        \"Törjük bele a tojásokat a serpenyőbe.\",\r\n        \"Sózzuk meg a tojásokat.\",\r\n        \"Egy fakanállal, vagy bármilyen tetszőleges eszközzel kavargassuk a tojást addig, amíg már szinte mindenhol szárazra sült a tojás. Ízlés szerint hagyható szaftosabbra, vagy süthető szárazabbra.\",\r\n        \"Miután elkészült, egyből szedjük ki egy tányérra, és már fogyasztható is.\"\r\n    ],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/recipe/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"create"
 									]
 								}
 							},
@@ -1238,10 +1316,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1292,10 +1370,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1357,10 +1435,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1415,10 +1493,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1471,10 +1549,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -1514,10 +1592,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1568,10 +1646,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1626,10 +1704,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1684,10 +1762,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1740,10 +1818,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -1783,10 +1861,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1837,10 +1915,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1877,10 +1955,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1935,10 +2013,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1993,10 +2071,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -2049,10 +2127,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -2064,7 +2142,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE2ODAyNjI5MTMsImV4cCI6MTY4MDI2NjUxMywiaWF0IjoxNjgwMjYyOTEzfQ.j9iubOybYdcA1KcPB9i9Jn90cuwPEP6HXEnv-j5BL3Q",
 				"type": "string"
 			}
 		]
