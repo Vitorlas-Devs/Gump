@@ -49,8 +49,7 @@ export const useTranslationStore = defineStore({
             this.initialTranslations[locale][key] = ''
           }
         })
-      }
-      )
+      })
     },
     async loadTranslations() {
       const user = useUserStore()
@@ -111,25 +110,7 @@ export const useTranslationStore = defineStore({
       return dirty
     },
     resetChanges() {
-      this.locales.forEach((locale) => {
-        const keys = Object.keys(this.translations[locale])
-        if (keys.every((key) => this.translations[locale][key] === '')) {
-          this.translations[locale] = {}
-          return
-        }
-        keys.forEach((key) => {
-          if (!this.initialTranslations[locale]) {
-            this.translations[locale][key] = ''
-            return
-          }
-          this.translations[locale][key] = this.initialTranslations[locale][key]
-        })
-      })
-      this.keys = this.keys.filter((key) => {
-        return this.locales.some((locale) => {
-          return this.initialTranslations[locale][key] !== ''
-        })
-      })
+      this.translations = JSON.parse(JSON.stringify(this.initialTranslations))
       this.keys = JSON.parse(JSON.stringify(this.initialKeys))
       this.locales = JSON.parse(JSON.stringify(this.initialLocales))
       this.dirty = false

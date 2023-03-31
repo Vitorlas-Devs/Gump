@@ -48,7 +48,6 @@ const changesClasses = (locale: string, key: string) =>
     }
     return classes
   })
-
 </script>
 
 <template>
