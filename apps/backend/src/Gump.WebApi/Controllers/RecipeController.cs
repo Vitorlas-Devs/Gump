@@ -139,6 +139,24 @@ public class RecipeController : ControllerBase
 	{
 		var user = userRepository.GetById(ulong.Parse(User.Identity.Name));
 
-		return Ok();
+		RecipeModel newRecipe = new()
+		{
+			Title = recipe.Title,
+			AuthorId = user.Id,
+			Language = recipe.Language,
+			Serves = recipe.Serves,
+			Categories = recipe.Categories,
+			Tags = recipe.Tags,
+			Ingredients = recipe.Ingredients,
+			Steps = recipe.Steps,
+			IsOriginal = recipe.IsOriginal,
+			OriginalRecipeId = recipe.OriginalRecipeId,
+			IsPrivate = recipe.IsPrivate,
+			VisibleTo = recipe.VisibleTo
+		};
+
+		recipeRepository.Create(newRecipe);
+
+		return Ok(newRecipe.Id);
 	});
 }
