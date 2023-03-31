@@ -39,6 +39,17 @@ export const useTranslationStore = defineStore({
       this.locales = JSON.parse(JSON.stringify(this.initialLocales))
       this.initialKeys = Object.keys(this.translations[this.locales[0]])
       this.keys = JSON.parse(JSON.stringify(this.initialKeys))
+      this.locales.forEach((locale) => {
+        if (locale === 'en_US') {
+          return
+        }
+        this.initialKeys.forEach((key) => {
+          if (!this.translations[locale][key]) {
+            this.translations[locale][key] = ''
+            this.initialTranslations[locale][key] = ''
+          }
+        })
+      })
     },
     async loadTranslations() {
       const user = useUserStore()
@@ -99,28 +110,9 @@ export const useTranslationStore = defineStore({
       return dirty
     },
     resetChanges() {
-      this.locales.forEach((locale) => {
-        const keys = Object.keys(this.translations[locale])
-        if (keys.every((key) => this.translations[locale][key] === '')) {
-          this.translations[locale] = {}
-          return
-        }
-        keys.forEach((key) => {
-          if (!this.initialTranslations[locale]) {
-            this.translations[locale][key] = ''
-            return
-          }
-          this.translations[locale][key] = this.initialTranslations[locale][key]
-        })
-      })
-      this.keys = this.keys.filter((key) => {
-        return this.locales.some((locale) => {
-          return this.initialTranslations[locale][key] !== ''
-        })
-      })
+      this.translations = JSON.parse(JSON.stringify(this.initialTranslations))
       this.keys = JSON.parse(JSON.stringify(this.initialKeys))
-      const user = useUserStore()
-      this.locales = user.languages = JSON.parse(JSON.stringify(this.initialLocales))
+      this.locales = JSON.parse(JSON.stringify(this.initialLocales))
       this.dirty = false
     },
     saveChanges() {
@@ -128,6 +120,12 @@ export const useTranslationStore = defineStore({
       this.initialKeys = JSON.parse(JSON.stringify(this.keys))
       this.initialLocales = JSON.parse(JSON.stringify(this.locales))
       this.dirty = false
+    },
+    getNumberOfLanguagesTranslated(key: string): number {
+      const user = useUserStore()
+      return this.locales.filter((locale) => {
+        return this.translations[locale][key] !== '' && user.languages.includes(locale)
+      }).length
     }
   }
 })
