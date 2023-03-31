@@ -1604,6 +1604,46 @@
 					]
 				},
 				{
+					"name": "Get Random Advert",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/advert/random",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"advert",
+								"random"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Random Advert",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/advert/random",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"advert",
+										"random"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
 					"name": "Create Advert",
 					"request": {
 						"method": "POST",
