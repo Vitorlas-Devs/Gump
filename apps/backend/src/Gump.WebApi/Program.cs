@@ -4,6 +4,7 @@ using Gump.Data.Repositories;
 using Gump.WebApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -24,6 +25,7 @@ builder.Services.AddSingleton<RecipeRepository>();
 builder.Services.AddSingleton<UserRepository>();
 
 builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddSwaggerGenNewtonsoftSupport();
 
 #if DEBUG
 builder.Services.AddCors(option =>

@@ -25,7 +25,12 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 
 		ValidateFields(badge, "Name", "Description", "ImageId");
 
-		ImageRepository.GetById(badge.ImageId);
+		var image = ImageRepository.GetById(badge.ImageId);
+
+		if (image.OwnerId.HasValue)
+		{
+			throw new RestrictedException($"Private images cannot be used in badges");
+		}
 
 		try
 		{

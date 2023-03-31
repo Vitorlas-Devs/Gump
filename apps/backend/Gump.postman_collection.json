@@ -1202,8 +1202,861 @@
 						}
 					]
 				}
-			],
-			"description": "Recipe methods"
+			]
+		},
+		{
+			"name": "Badge",
+			"item": [
+				{
+					"name": "Get All Badges",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/badge",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"badge"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Badges",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/badge",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"badge"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Badge By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/badge/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"badge",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Badge"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-Master",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/badge/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"badge",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Badge"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create Badge",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"description\": \"\",\r\n    \"image\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/badge/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"badge",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Master",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"master\",\r\n    \"description\": \"You are a master chef.\",\r\n    \"image\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/badge/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"badge",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Badge",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 0,\r\n    \"name\": \"\",\r\n    \"description\": \"\",\r\n    \"image\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/badge/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"badge",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Expert",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"expert\",\r\n    \"description\": \"Excellent chef\",\r\n    \"image\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/badge/update",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"badge",
+										"update"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Badge",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/badge/delete/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"badge",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Badge to delete"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-Master",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/badge/delete/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"badge",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Badge to delete"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Partner",
+			"item": [
+				{
+					"name": "Get All Partners",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/partner",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"partner"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Partners",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/partner",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"partner"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Partner By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/partner/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"partner",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Partner"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-Tesco",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/partner/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"partner",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Partner"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create Partner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"contactUrl\": \"\",\r\n    \"apiUrl\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/partner/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"partner",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Tesco",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Tesco\",\r\n    \"contactUrl\": \"https://www.tesco.test\",\r\n    \"apiUrl\": \"https://www.tecso.test/api\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/partner/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"partner",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Partner",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 0,\r\n    \"name\": \"\",\r\n    \"contactUrl\": \"\",\r\n    \"apiUrl\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/partner/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"partner",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Tesco Super",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Tesco Super\",\r\n    \"contactUrl\": \"https://www.tesco.test\",\r\n    \"apiUrl\": \"https://www.tecso.test/api\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/partner/update",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"partner",
+										"update"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Partner",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/partner/delete/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"partner",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Partner to delete"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-Tesco",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/partner/delete/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"partner",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Partner to delete"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Advert",
+			"item": [
+				{
+					"name": "Get All Adverts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/advert",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"advert"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Adverts",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/advert",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"advert"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Advert By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/advert/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"advert",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Advert"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-Cheap Beef",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/advert/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"advert",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Advert"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Random Advert",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/advert/random",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"advert",
+								"random"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Random Advert",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/advert/random",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"advert",
+										"random"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create Advert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"partner\": 0,\r\n    \"title\": \"\",\r\n    \"image\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/advert/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"advert",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cheap Beef",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"partner\": 1,\r\n    \"title\": \"Cheap Beef\",\r\n    \"image\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/advert/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"advert",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Advert",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 0,\r\n    \"partner\": 0,\r\n    \"title\": \"\",\r\n    \"image\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/advert/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"advert",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Extra Discount",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"partner\": 1,\r\n    \"title\": \"Extra discount\",\r\n    \"image\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/advert/update",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"advert",
+										"update"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Advert",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/advert/delete/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"advert",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Advert to delete"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-Cheap Beef",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/advert/delete/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"advert",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Advert to delete"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
 		}
 	],
 	"auth": {

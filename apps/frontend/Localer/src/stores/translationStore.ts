@@ -1,12 +1,15 @@
 import { getContent } from '@/octokit'
 import { Base64 } from 'js-base64'
 import { defineStore } from 'pinia'
+import { useUserStore } from './userStore'
 
 export const useTranslationStore = defineStore({
   id: 'translation',
   state: () => ({
     locales: [] as string[],
+    initialLocales: [] as string[],
     keys: [] as string[],
+    initialKeys: [] as string[],
     translations: {} as Record<string, Record<string, string>>,
     initialTranslations: {} as Record<string, Record<string, string>>,
     dirty: false
@@ -32,12 +35,25 @@ export const useTranslationStore = defineStore({
       )
       this.initialTranslations = Object.fromEntries(translations)
       this.translations = JSON.parse(JSON.stringify(this.initialTranslations))
-      this.locales = Object.keys(this.translations)
-      this.keys = Object.keys(this.translations[this.locales[0]])
+      this.initialLocales = Object.keys(this.initialTranslations)
+      this.locales = JSON.parse(JSON.stringify(this.initialLocales))
+      this.initialKeys = Object.keys(this.translations[this.locales[0]])
+      this.keys = JSON.parse(JSON.stringify(this.initialKeys))
+      this.locales.forEach((locale) => {
+        if (locale === 'en_US') {
+          return
+        }
+        this.initialKeys.forEach((key) => {
+          if (!this.translations[locale][key]) {
+            this.translations[locale][key] = ''
+            this.initialTranslations[locale][key] = ''
+          }
+        })
+      })
     },
     async loadTranslations() {
-      let username = 'Rettend'
-      username = username.replace(/ /g, '-')
+      const user = useUserStore()
+      const username = user.username.replace(/ /g, '-')
       this.locales.forEach(async (locale) => {
         const contentRequest = await getContent(username, locale)
         if (contentRequest.response) {
@@ -51,23 +67,65 @@ export const useTranslationStore = defineStore({
     checkKey(key: string) {
       return this.keys.includes(key)
     },
+    addKey(key: string) {
+      this.keys.push(key)
+      this.locales.forEach((locale) => {
+        this.translations[locale][key] = ''
+      })
+    },
+    addLanguage(locale: string) {
+      this.locales.push(locale)
+      this.translations[locale] = {}
+      this.keys.forEach((key) => {
+        this.translations[locale][key] = ''
+      })
+    },
     checkDirty() {
       const dirty = this.locales.some((locale) => {
         const keys = Object.keys(this.translations[locale])
+        if (keys.every((key) => this.translations[locale][key] === '')) {
+          return true
+        }
+        if (!this.initialTranslations[locale]) {
+          return true
+        }
         return keys.some(
           (key) => this.translations[locale][key] !== this.initialTranslations[locale][key]
         )
       })
+      if (this.keys.length !== Object.keys(this.initialTranslations[this.locales[0]]).length) {
+        this.dirty = true
+        return
+      }
       this.dirty = dirty
     },
-    saveChanges() {
-      this.locales.forEach((locale) => {
-        const keys = Object.keys(this.translations[locale])
-        keys.forEach((key) => {
-          this.translations[locale][key] = this.initialTranslations[locale][key]
-        })
+    checkDirtyKey(key: string): boolean {
+      const dirty = this.locales.some((locale) => {
+        if (!this.initialTranslations[locale]) {
+          return true
+        }
+        return this.translations[locale][key] !== this.initialTranslations[locale][key]
       })
+      this.dirty = dirty
+      return dirty
+    },
+    resetChanges() {
+      this.translations = JSON.parse(JSON.stringify(this.initialTranslations))
+      this.keys = JSON.parse(JSON.stringify(this.initialKeys))
+      this.locales = JSON.parse(JSON.stringify(this.initialLocales))
       this.dirty = false
+    },
+    saveChanges() {
+      this.initialTranslations = JSON.parse(JSON.stringify(this.translations))
+      this.initialKeys = JSON.parse(JSON.stringify(this.keys))
+      this.initialLocales = JSON.parse(JSON.stringify(this.locales))
+      this.dirty = false
+    },
+    getNumberOfLanguagesTranslated(key: string): number {
+      const user = useUserStore()
+      return this.locales.filter((locale) => {
+        return this.translations[locale][key] !== '' && user.languages.includes(locale)
+      }).length
     }
   }
 })

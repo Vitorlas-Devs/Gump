@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
 import { useTranslationStore } from '@/stores/translationStore'
+import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
 const translate = useTranslationStore()
+const user = useUserStore()
 const router = useRouter()
 
 const { checkDirty } = translate
 const { translations, locales, initialTranslations } = storeToRefs(translate)
 const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
+const { languages } = storeToRefs(user)
 
 const resize = (event: Event) => {
   const target = event.target as HTMLTextAreaElement
@@ -30,32 +33,42 @@ const inputFuncs = (e: Event) => {
   checkDirty()
   resize(e)
 }
+
+const changesClasses = (locale: string, key: string) =>
+  computed(() => {
+    const classes: any = {}
+    if (!initialTranslations.value[locale]) {
+      classes['bg-crimson-500'] = true
+      return classes
+    }
+    if (translations.value[locale][key] !== initialTranslations.value[locale][key]) {
+      classes['bg-crimson-500'] = true
+    } else if (translations.value[locale][key] === initialTranslations.value[locale][key]) {
+      classes['bg-crimson-50'] = true
+    }
+    return classes
+  })
 </script>
 
 <template>
-  <div class="w-4/5">
-    <div
-      v-for="locale in locales"
-      :key="locale"
-      class="flex flex-row gap-4 my-6 place-items-center"
-    >
-      <label class="w-16 text-xl font-bold"> {{ locale }}</label>
+  <div w="full md:4/5">
+    <div v-for="locale in locales" :key="locale" flex="~ row" gap="4" my="6" place="items-center">
+      <label w="10 md:16" text="md md:xl" font="bold">{{ locale }}</label>
       <textarea
         :id="locale"
         v-model="translations[locale][selectedKey]"
         type="text"
-        class="rounded flex-grow p-3 shadow-inner bg-crimson-50 rounded-3xl min-h-12 h-max"
+        flex="grow"
+        p="3"
+        shadow="inner"
+        bg="crimson-50"
+        rounded="3xl"
+        h="min-12"
+        resize="none"
+        :readonly="!languages.includes(locale)"
         @input="inputFuncs($event)"
       />
-      <div
-        :class="{
-          'bg-crimson-500':
-            translations[locale][selectedKey] !== initialTranslations[locale][selectedKey],
-          'bg-crimson-50':
-            translations[locale][selectedKey] === initialTranslations[locale][selectedKey]
-        }"
-        class="w-2 h-8 rounded-full drop-shadow-md"
-      ></div>
+      <div :class="changesClasses(locale, selectedKey).value" w="2" h="8" rounded="full"></div>
     </div>
   </div>
 </template>

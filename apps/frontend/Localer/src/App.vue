@@ -2,9 +2,18 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed } from 'vue'
+import SvgIcon from './components/SvgIcon.vue'
 import { CreateBranch, createFilesAndCommit, createPullRequest, getBranch } from './octokit'
+import { useUserStore } from '@/stores/userStore'
+import { useUIStore } from '@/stores/uiStore'
+import { storeToRefs } from 'pinia'
+import router from './router'
 
 const translate = useTranslationStore()
+const user = useUserStore()
+const ui = useUIStore()
+const { token } = storeToRefs(user)
+const { username } = storeToRefs(user)
 
 const dirty = computed(() => translate.dirty)
 
@@ -16,53 +25,117 @@ const saveChanges = () => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
     })
 
-    let username = 'Rettend'
-    username = username.replace(/ /g, '-')
-
-    const filenames = changedLocales
-
     const contents = changedLocales.map((locale) => {
       return JSON.stringify(translations[locale], null, 4)
     })
 
     const { sha } = await getBranch()
-    await CreateBranch(username, sha)
-    await createFilesAndCommit(username, filenames, contents)
-    await createPullRequest(username)
+    await CreateBranch(username.value, sha)
+    await createFilesAndCommit(username.value, changedLocales, contents)
+    await createPullRequest(username.value)
   })()
 
   translate.saveChanges()
 }
 
 const authenticate = () => {
-  const clientId = import.meta.env.VITE_CLIENT_ID
+  if (!token.value) {
+    const clientId = import.meta.env.VITE_CLIENT_ID
 
-  const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`
+    const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`
 
-  window.location.href = authUrl
+    window.location.href = authUrl
+  } else {
+    router.push('/translate')
+  }
 }
 </script>
 
 <template>
   <div>
-    <div class="flex flex-row gap-4 mx-5 my-2">
-      <RouterLink to="/">Home</RouterLink>
-      <p class="cursor-pointer" @click="authenticate">Translate</p>
+    <div flex="~ row" justify="between" h="12" place="items-center" text="lg" font="bold">
+      <div flex="~ row" gap="3 md:4" mx="3 md:5">
+        <svg-icon
+          class="icon-orange"
+          icon="bars-solid"
+          w="8"
+          h="8"
+          mr="2"
+          cursor="pointer"
+          @click="ui.toggleNavbar"
+        />
+        <RouterLink to="/">Home</RouterLink>
+        <p cursor="pointer" @click="authenticate">Translate</p>
+      </div>
+      <div v-if="user.username" flex="~ row" gap="4" mx="5" place="items-center">
+        <p>
+          {{ user.username }}
+        </p>
+        <img :src="user.avatarUrl" rounded="full" w="10" h="10" />
+      </div>
     </div>
     <RouterView :key="$route.fullPath" />
   </div>
-  <div v-if="dirty" class="fixed bottom-0 mx-auto left-0 right-0 w-max">
-    <div
-      class="flex flex-row m-5 items-center gap-4 bg-crimson-50 text-crimson-500 shadow-crimsonDown px-4 py-2 rounded-xl relative"
-    >
-      <strong class="font-bold">You have unsaved changes!</strong>
-      <span class="block sm:inline">Click here when you're done.</span>
-      <button
-        class="bg-crimson-500 hover:bg-crimson-600 transition text-crimson-50 font-bold shadow-crimsonDown py-2 px-4 ml-4 rounded-lg"
-        @click="saveChanges"
+  <Transition name="bounce">
+    <div v-if="dirty" fixed="~" bottom="0" left="0" right="0" mx="auto" w="max" z="50">
+      <div
+        flex="~ col md:row"
+        gap="2 md:4"
+        m="5"
+        place="items-center"
+        bg="crimson-50"
+        shadow="crimsonDown"
+        rounded="xl"
+        px="4"
+        py="2"
       >
-        Save
-      </button>
+        <p font="bold">You have unsaved changes!</p>
+        <span class="hidden md:block">Click here when you're done.</span>
+        <div flex="~ row" gap="8 md:4" place="items-center">
+          <button
+            transition="~"
+            text="crimson-500 shadow-crimson"
+            font="bold"
+            rounded="lg"
+            @click="translate.resetChanges"
+          >
+            Cancel
+          </button>
+          <button
+            bg="crimson-500 hover:bg-crimson-600"
+            transition="~"
+            text="crimson-50 shadow-white"
+            font="bold"
+            shadow="crimsonDown"
+            py="2"
+            px="4"
+            rounded="lg"
+            @click="saveChanges"
+          >
+            Save
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
+
+<style scoped>
+.bounce-enter-active {
+  animation: bounce-in 0.4s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.4s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>

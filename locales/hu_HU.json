@@ -1,6 +1,5 @@
 {
-    "hoarderBadgeName": "Recept Halmozó",
-    "hoarderBadgeDescription": "Ments el legalább 100 receptet.",
-    "HomeButton": "Főoldal",
-    "Welcome": "Üdvözöljük, {username}!"
+  "hoarderBadgeName": "Recept Halmozó",
+  "hoarderBadgeDesc": "Ments el legalább 100 receptet.",
+  "HomeNav": "Főoldal"
 }
