@@ -163,4 +163,84 @@ public class RecipeController : ControllerBase
 
 		return Ok(newRecipe.Id);
 	});
+
+	[HttpPatch("update")]
+	public IActionResult UpdateRecipe([FromBody] UpdateRecipeDto update) => this.Run(() =>
+	{
+		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+
+		if (update.Id != user.Id && !user.IsModerator)
+		{
+			return Forbid();
+		}
+
+		RecipeModel modifiedRecipe = recipeRepository.GetById(update.Id);
+
+		// if user has the same recipe, but with smaller id, then forbid
+		if (recipeRepository.GetAll().Any(x => x.Title == modifiedRecipe.Title && x.Id < modifiedRecipe.Id))
+		{
+			return Forbid();
+		}
+		
+		// if recipe is archived, then forbid
+		if (modifiedRecipe.IsArchived)
+		{
+			return Forbid();
+		}
+
+		// if user is moderator and not the author, then modify the original object
+		if (user.IsModerator && update.Id != user.Id)
+		{
+			modifiedRecipe = recipeRepository.GetById(update.Id);
+		}
+
+		// copy the existing model and overwrite the given fields
+		// UpdateRecipeDto has id, serves, categories, tags, ingredients, steps, isPrivate, visibleTo
+		RecipeModel newRecipe = new()
+		{
+			Title = modifiedRecipe.Title,
+			AuthorId = modifiedRecipe.AuthorId,
+			Language = modifiedRecipe.Language,
+			Serves = update.Serves,
+			Categories = update.Categories,
+			Tags = update.Tags,
+			Ingredients = update.Ingredients,
+			Steps = update.Steps,
+			IsOriginal = modifiedRecipe.IsOriginal,
+			OriginalRecipeId = modifiedRecipe.OriginalRecipeId,
+			IsPrivate = update.IsPrivate,
+			VisibleTo = update.VisibleTo
+		};
+
+		recipeRepository.Create(newRecipe);
+
+		return Ok();
+	});
+ 
+	[HttpDelete("delete/{id}")]
+	public IActionResult DeleteRecipe(ulong id) => this.Run(() =>
+	{
+		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+
+		// authorize: only author can delete
+		if (id != user.Id)
+		{
+			return Unauthorized();
+		}
+
+		RecipeModel deletedRecipe = recipeRepository.GetById(id);
+
+		// if reference count is not 0, then only set IsArchived to true
+		if (deletedRecipe.ReferenceCount != 0)
+		{
+			deletedRecipe.IsArchived = true;
+			recipeRepository.Update(deletedRecipe);
+			return Ok();
+		}
+
+		recipeRepository.Delete(id);
+
+		return Ok();
+	});
+
 }

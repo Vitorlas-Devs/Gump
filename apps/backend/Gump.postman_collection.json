@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "924dce02-aa14-45a9-9991-ec3aa88208e4",
+		"_postman_id": "c4e5b684-9711-4666-a6cc-404cd049d443",
 		"name": "Gump",
 		"description": "WebAPI collection to test and document endpoints.\n\nSome may need a bearer token for authorization. To get a token just log in and place the token in the collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "24694147"
+		"_exporter_id": "23370412"
 	},
 	"item": [
 		{
@@ -52,11 +52,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/auth/login",
+									"raw": "localhost:5135/api/auth/login",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"auth",
 										"login"
 									]
@@ -839,10 +841,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -935,11 +937,13 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/category/delete/:id",
+									"raw": "localhost:5135/api/category/delete/:id",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"category",
 										"delete",
 										":id"
@@ -982,10 +986,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -1024,11 +1028,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/recipe/:id",
+									"raw": "localhost:5135/api/recipe/:id",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"recipe",
 										":id"
 									],
@@ -1071,11 +1077,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/recipe/random",
+									"raw": "localhost:5135/api/recipe/random",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"recipe",
 										"random"
 									]
@@ -1122,21 +1130,14 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"searchTerm\": \"rántotta\",\r\n    \"limit\": 10,\r\n    \"offset\": 0,\r\n    \"authorId\": 0,\r\n    \"categoryId\": 0\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{baseUrl}}/recipe/search",
+									"raw": "localhost:5135/api/recipe/search",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"recipe",
 										"search"
 									]
@@ -1179,11 +1180,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/recipe/today/:categoryId",
+									"raw": "localhost:5135/api/recipe/today/:categoryId",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"recipe",
 										"today",
 										":categoryId"
@@ -1252,10 +1255,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1300,13 +1303,133 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/recipe/create",
+									"raw": "localhost:5135/api/recipe/create",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"recipe",
 										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Update Recipe",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t \"id\": 0,\r\n\t \"serves\": 0,\r\n\t \"categories\": [],\r\n\t \"tags\": [],\r\n\t \"ingredients\": [],\r\n\t \"steps\": [],\r\n\t \"isPrivate\": false,\r\n\t \"visibleTo\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/recipe/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Csokis torta",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 0,\r\n    \"serves\": 2,\r\n    \"categories\": [\r\n        \"dessert\"\r\n    ],\r\n    \"tags\": [\r\n        \"chocolate\",\r\n        \"cake\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"egy\",\r\n            \"amount\": \"kettő\",\r\n            \"unit\": \"három\"\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        {\r\n            \"name\": \"egy\",\r\n            \"description\": \"kettő\"\r\n        }\r\n    ],\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": [\r\n        \"1\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5135/api/recipe/update",
+									"host": [
+										"localhost"
+									],
+									"port": "5135",
+									"path": [
+										"api",
+										"recipe",
+										"update"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Recipe",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/recipe/delete/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Recipe to delete"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:5135/api/recipe/delete/:id",
+									"host": [
+										"localhost"
+									],
+									"port": "5135",
+									"path": [
+										"api",
+										"recipe",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Recipe to delete"
+										}
 									]
 								}
 							},
@@ -1344,11 +1467,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/badge",
+									"raw": "localhost:5135/api/badge",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"badge"
 									]
 								}
@@ -1390,11 +1515,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/badge/:id",
+									"raw": "localhost:5135/api/badge/:id",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"badge",
 										":id"
 									],
@@ -1462,11 +1589,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/badge/create",
+									"raw": "localhost:5135/api/badge/create",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"badge",
 										"create"
 									]
@@ -1520,11 +1649,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/badge/update",
+									"raw": "localhost:5135/api/badge/update",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"badge",
 										"update"
 									]
@@ -1568,11 +1699,13 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/badge/delete/:id",
+									"raw": "localhost:5135/api/badge/delete/:id",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"badge",
 										"delete",
 										":id"
@@ -1620,11 +1753,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/partner",
+									"raw": "localhost:5135/api/partner",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "5135",
 									"path": [
+										"api",
 										"partner"
 									]
 								}
