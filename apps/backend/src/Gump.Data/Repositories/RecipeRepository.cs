@@ -18,9 +18,9 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	public ulong GetRandomId() => GetRandomId(0);
 	public ulong GetRandomId(ulong categoryId)
 	{
-		if (GetAll().Any(x => categoryId != 0 && x.Categories.Contains(categoryId)))
+		if (GetAll().Any(x => categoryId != 0 && !x.Categories.Contains(categoryId)))
 		{
-			return 0;
+			throw new NotFoundException($"No recipes found with category {categoryId}");
 		}
 
 		ulong biggestId = Collection.AsQueryable().Max(x => x.Id);

@@ -1228,6 +1228,34 @@
 							"header": [],
 							"cookie": [],
 							"body": ""
+						},
+						{
+							"name": "2",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/today/:categoryId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"today",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
 						}
 					]
 				},
@@ -2151,7 +2179,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE2ODAyNjI5MTMsImV4cCI6MTY4MDI2NjUxMywiaWF0IjoxNjgwMjYyOTEzfQ.j9iubOybYdcA1KcPB9i9Jn90cuwPEP6HXEnv-j5BL3Q",
+				"value": "",
 				"type": "string"
 			}
 		]
