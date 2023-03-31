@@ -7,6 +7,7 @@ public static class RandomExtensions
 		int rawsize = System.Runtime.InteropServices.Marshal.SizeOf(max);
 		var buffer = new byte[rawsize];
 		rnd.NextBytes(buffer);
-		return BitConverter.ToUInt64(buffer, 0);
+		var result = BitConverter.ToUInt64(buffer, 0);
+		return result % max;
 	}
 }

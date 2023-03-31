@@ -54,7 +54,7 @@ public class AdvertController : ControllerBase
 			advert = GetAdvert(advertRepository.GetRandomId());
 		} while (advert is UnauthorizedResult || advert is NotFoundResult);
 
-		return Ok(advert);
+		return Ok(((OkObjectResult)advert).Value);
 	});
 
 	[HttpPost("create")]

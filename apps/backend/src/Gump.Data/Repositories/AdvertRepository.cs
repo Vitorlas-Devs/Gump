@@ -23,7 +23,7 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 
 		do
 		{
-			randomId = new Random().NextUInt64(biggestId);
+			randomId = new Random().NextUInt64(biggestId + 1);
 		}
 		while (!Collection.AsQueryable().Any(x => x.Id == randomId));
 
