@@ -133,4 +133,12 @@ public class RecipeController : ControllerBase
 			CategoryId = categoryId
 		})).Value);
 	});
+
+	[HttpPost("create")]
+	public IActionResult CreateRecipe([FromBody] CreateRecipeDto recipe) => this.Run(() =>
+	{
+		var user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+
+		return Ok();
+	});
 }
