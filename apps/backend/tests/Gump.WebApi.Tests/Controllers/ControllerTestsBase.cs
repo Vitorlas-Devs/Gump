@@ -24,12 +24,22 @@ public class ControllerTestsBase : IDisposable
 		var image = new ImageRepository(mongoDbConfig);
 		image.Create(new ImageModel
 		{
-			Image = "Image1",
+			Image = "data:image/png;base64,DefaultPfp",
 			OwnerId = null
 		});
 		image.Create(new ImageModel
 		{
-			Image = "Image2",
+			Image = "data:image/png;base64,Badge",
+			OwnerId = null
+		});
+		image.Create(new ImageModel
+		{
+			Image = "data:image/png;base64,Advert",
+			OwnerId = null
+		});
+		image.Create(new ImageModel
+		{
+			Image = "data:image/png;base64,PrivateImage",
 			OwnerId = 1
 		});
 
@@ -65,7 +75,7 @@ public class ControllerTestsBase : IDisposable
 			Title = "Egyszerű rántotta",
 			Language = "hu_HU",
 			Serves = 1,
-			Categories = new() { 1 },
+			Categories = new() { 2 },
 			Tags = new()
 			{
 				"egyszerű",
@@ -83,15 +93,13 @@ public class ControllerTestsBase : IDisposable
 				},
 				new()
 				{
-					Name = "só",
+					Name = "Só",
 					Value = 1,
 					Volume = "csipet"
 				},
 				new()
 				{
-					Name = "olaj",
-					Value = 0,
-					Volume = ""
+					Name = "Olaj"
 				}
 			},
 			Steps = new()
@@ -106,6 +114,123 @@ public class ControllerTestsBase : IDisposable
 			OriginalRecipeId = 0,
 			IsPrivate = false,
 			VisibleTo = new()
+		});
+		recipe.Create(new()
+		{
+			AuthorId = 1,
+			Title = "Főtt kockatészta",
+			Language = "hu_HU",
+			Serves = 4,
+			Categories = new() { 1 },
+			Tags = new()
+			{
+				"főtt",
+				"kockatészta",
+				"kocka",
+				"tészta"
+			},
+			Ingredients = new()
+			{
+				new()
+				{
+					Name = "Kockatészta",
+					Value = 250,
+					Volume = "g"
+				},
+				new()
+				{
+					Name = "Só",
+					Value = 2,
+					Volume = "tk"
+				},
+				new()
+				{
+					Name = "Víz",
+					Value = 2,
+					Volume = "l"
+				}
+			},
+			Steps = new()
+			{
+				"Öntsük bele a vizet egy kellően nagy fazékba.",
+				"Tegyük bele a vízbe a sót.",
+				"Gyújtsunk alá, és forrásig melegítsük a vizet.",
+				"Szórjuk bele a tésztát a vízbe, majd vegyük lejebb a hőfokot, hogy csak halkan bugyogjon.",
+				"5-10 percig főzzük.",
+				"Amint elkészült, szűrjük le és már fogyasztható is."
+			},
+			IsOriginal = true,
+			OriginalRecipeId = 0,
+			IsPrivate = false,
+			VisibleTo = new()
+		});
+
+		recipe.Create(new()
+		{
+			AuthorId = 1,
+			Title = "Diós tészta",
+			Language = "hu_HU",
+			Serves = 4,
+			Categories = new() { 1 },
+			Tags = new()
+			{
+				"diós",
+				"tészta",
+				"dióval"
+			},
+			Ingredients = new()
+			{
+				new()
+				{
+					Name = "Főtt kockatészta",
+					Value = 4,
+					Volume = "adag",
+					LinkedRecipeId = 2
+				},
+				new()
+				{
+					Name = "Darált dió"
+				},
+				new()
+				{
+					Name = "Porcukor"
+				},
+				new()
+				{
+					Name = "Olvasztott vaj"
+				}
+			},
+			Steps = new()
+			{
+				"<@2>",
+				"Egy adag főtt tésztát szedjünk ki egy tányérba.",
+				"Szórjunk rá ízlés szerint diót, cukrot és öntsünk rá olvasztott vajat."
+			},
+			IsOriginal = true,
+			OriginalRecipeId = 0,
+			IsPrivate = false,
+			VisibleTo = new()
+		});
+
+		new BadgeRepository(mongoDbConfig).Create(new()
+		{
+			Name = "MasterChefBadge",
+			Description = "MasterChefBadgeDescription",
+			ImageId = 2,
+		});
+
+		new PartnerRepository(mongoDbConfig).Create(new()
+		{
+			Name = "Tesco",
+			ContactUrl = new("https://www.tesco.test/contact"),
+			ApiUrl = new("https://www.tesco.test/gump/api")
+		});
+
+		new AdvertRepository(mongoDbConfig).Create(new()
+		{
+			PartnerId = 1,
+			Title = "Cheap Beef at Tesco",
+			ImageId = 3,
 		});
 	}
 
