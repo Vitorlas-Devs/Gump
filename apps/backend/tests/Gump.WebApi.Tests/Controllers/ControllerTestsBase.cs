@@ -21,6 +21,17 @@ public class ControllerTestsBase : IDisposable
 		this.mongoClient = new MongoClient(mongoDbConfig.ConnectionString);
 		this.mongoClient.GetDatabase(mongoDbConfig.Name);
 
+		CreateImages();
+		CreateUsers();
+		CreateCategories();
+		CreateRecipes();
+		CreateBadge();
+		CreatePartner();
+		CreateAdvert();
+	}
+
+	private void CreateImages()
+	{
 		var image = new ImageRepository(mongoDbConfig);
 		image.Create(new ImageModel
 		{
@@ -42,7 +53,10 @@ public class ControllerTestsBase : IDisposable
 			Image = "data:image/png;base64,PrivateImage",
 			OwnerId = 1
 		});
+	}
 
+	private void CreateUsers()
+	{
 		var user = new UserRepository(mongoDbConfig, "test");
 		user.Create(new()
 		{
@@ -63,11 +77,17 @@ public class ControllerTestsBase : IDisposable
 			Password = "moderator001",
 			IsModerator = true
 		});
+	}
 
+	private void CreateCategories()
+	{
 		var category = new CategoryRepository(mongoDbConfig);
 		category.Create("Pasta");
 		category.Create("Breakfast");
+	}
 
+	private void CreateRecipes()
+	{
 		var recipe = new RecipeRepository(mongoDbConfig);
 		recipe.Create(new()
 		{
@@ -211,21 +231,30 @@ public class ControllerTestsBase : IDisposable
 			IsPrivate = false,
 			VisibleTo = new()
 		});
+	}
 
+	private void CreateBadge()
+	{
 		new BadgeRepository(mongoDbConfig).Create(new()
 		{
 			Name = "MasterChefBadge",
 			Description = "MasterChefBadgeDescription",
 			ImageId = 2,
 		});
+	}
 
+	private void CreatePartner()
+	{
 		new PartnerRepository(mongoDbConfig).Create(new()
 		{
 			Name = "Tesco",
 			ContactUrl = new("https://www.tesco.test/contact"),
 			ApiUrl = new("https://www.tesco.test/gump/api")
 		});
+	}
 
+	private void CreateAdvert()
+	{
 		new AdvertRepository(mongoDbConfig).Create(new()
 		{
 			PartnerId = 1,
