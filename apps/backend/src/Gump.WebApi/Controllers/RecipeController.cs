@@ -208,6 +208,8 @@ public class RecipeController : ControllerBase
 			return Ok();
 		}
 
+		recipeRepository.Create(newRecipe);
+
 		return Ok();
 	});
 
