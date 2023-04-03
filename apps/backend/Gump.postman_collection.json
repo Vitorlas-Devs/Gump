@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "c4e5b684-9711-4666-a6cc-404cd049d443",
+		"_postman_id": "1395ab5d-4f54-4c87-ab60-fdf84f7429cf",
 		"name": "Gump",
 		"description": "WebAPI collection to test and document endpoints.\n\nSome may need a bearer token for authorization. To get a token just log in and place the token in the collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23370412"
+		"_exporter_id": "24694147"
 	},
 	"item": [
 		{
@@ -54,11 +54,9 @@
 								"url": {
 									"raw": "{{baseUrl}}/auth/login",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"auth",
 										"login"
 									]
@@ -937,541 +935,6 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/category/delete/:id",
-									"host": [
-										"localhost"
-									],
-									"port": "5135",
-									"path": [
-										"api",
-										"category",
-										"delete",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "1",
-											"description": "Id of the Category to delete"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						},
-						{
-							"name": "2",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/category/delete/:id",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"category",
-										"delete",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "2",
-											"description": "Id of the Category to delete"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Recipe",
-			"item": [
-				{
-					"name": "Get Recipe By Id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/recipe/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"recipe",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": null,
-									"description": "Id of the Recipe"
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "1-Egyszerű rántotta",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "localhost:5135/api/recipe/:id",
-									"host": [
-										"localhost"
-									],
-									"port": "5135",
-									"path": [
-										"api",
-										"recipe",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "1",
-											"description": "Id of the Recipe"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				},
-				{
-					"name": "Get Random Recipe",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/recipe/random",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"recipe",
-								"random"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Get Random Recipe",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "localhost:5135/api/recipe/random",
-									"host": [
-										"localhost"
-									],
-									"port": "5135",
-									"path": [
-										"api",
-										"recipe",
-										"random"
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				},
-				{
-					"name": "Search Recipes",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"searchTerm\": \"\",\r\n    \"limit\": 0,\r\n    \"offset\": 0,\r\n    \"authorId\": 0,\r\n    \"categoryId\": 0\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/recipe/search",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"recipe",
-								"search"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Rántotta",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "localhost:5135/api/recipe/search",
-									"host": [
-										"localhost"
-									],
-									"port": "5135",
-									"path": [
-										"api",
-										"recipe",
-										"search"
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				},
-				{
-					"name": "Get Today's Recommendation",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/recipe/today/:categoryId",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"recipe",
-								"today",
-								":categoryId"
-							],
-							"variable": [
-								{
-									"key": "categoryId",
-									"value": null
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Any",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "localhost:5135/api/recipe/today/:categoryId",
-									"host": [
-										"localhost"
-									],
-									"port": "5135",
-									"path": [
-										"api",
-										"recipe",
-										"today",
-										":categoryId"
-									],
-									"variable": [
-										{
-											"key": "categoryId",
-											"value": "0"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						},
-						{
-							"name": "1",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/recipe/today/:categoryId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"recipe",
-										"today",
-										":categoryId"
-									],
-									"variable": [
-										{
-											"key": "categoryId",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				},
-				{
-					"name": "Get Category By Id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/category/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"category",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": null,
-									"description": "Id of the Category"
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "1-Pasta",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/category/:id",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"category",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "1",
-											"description": "Id of the Category"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				},
-				{
-					"name": "Create Category",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/category/create",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"category",
-								"create"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Pasta",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Pasta\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/category/create",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"category",
-										"create"
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						},
-						{
-							"name": "Breakfast",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Breakfast\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/category/create",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"category",
-										"create"
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				},
-				{
-					"name": "Update Category",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"\",\r\n    \"name\": \"\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/category/update",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"category",
-								"update"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Soup",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"1\",\r\n    \"name\": \"Soup\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/category/update",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"category",
-										"update"
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				},
-				{
-					"name": "Delete Category",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/category/delete/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"category",
-								"delete",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": null,
-									"description": "Id of the Category to delete"
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "1",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
 									"raw": "{{baseUrl}}/category/delete/:id",
 									"host": [
 										"{{baseUrl}}"
@@ -1820,7 +1283,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"title\": \"Egyszerű rántotta\",\r\n    \"language\": \"hu_HU\",\r\n    \"serves\": 1,\r\n    \"categories\": [\r\n        2\r\n    ],\r\n    \"tags\": [\r\n        \"egyszerű\",\r\n        \"rántotta\",\r\n        \"tojás\",\r\n        \"olajban\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"Tojás\",\r\n            \"value\": 2,\r\n            \"volume\": \"db\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Só\",\r\n            \"value\": 1,\r\n            \"volume\": \"csipet\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Olaj\",\r\n            \"value\": 0,\r\n            \"volume\": \"\",\r\n            \"linkedRecipe\": 0\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        \"Öntsünk egy kevés olajat a serpenyőbe és gyújtsunk alá.\",\r\n        \"Törjük bele a tojásokat a serpenyőbe.\",\r\n        \"Sózzuk meg a tojásokat.\",\r\n        \"Egy fakanállal, vagy bármilyen tetszőleges eszközzel kavargassuk a tojást addig, amíg már szinte mindenhol szárazra sült a tojás. Ízlés szerint hagyható szaftosabbra, vagy süthető szárazabbra.\",\r\n        \"Miután elkészült, egyből szedjük ki egy tányérra, és már fogyasztható is.\"\r\n    ],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
+									"raw": "{\r\n    \"title\": \"Egyszerű rántotta\",\r\n    \"language\": \"hu_HU\",\r\n    \"serves\": 1,\r\n    \"categories\": [\r\n        2\r\n    ],\r\n    \"tags\": [\r\n        \"egyszerű\",\r\n        \"rántotta\",\r\n        \"tojás\",\r\n        \"olajban\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"Tojás\",\r\n            \"value\": 2,\r\n            \"volume\": \"db\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Só\",\r\n            \"value\": 1,\r\n            \"volume\": \"csipet\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Olaj\",\r\n            \"value\": 0,\r\n            \"volume\": \"\",\r\n            \"linkedRecipe\": 0\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        \"Öntsünk egy kevés olajat a serpenyőbe és gyújtsunk alá.\",\r\n        \"Törjük bele a tojásokat a serpenyőbe.\",\r\n        \"Sózzuk meg a tojásokat ízlés szerint.\",\r\n        \"Egy fakanállal, vagy bármilyen tetszőleges eszközzel kavargassuk a tojást addig, amíg már szinte mindenhol szárazra sült a tojás. Ízlés szerint hagyható szaftosabbra, vagy süthető szárazabbra.\",\r\n        \"Miután elkészült, egyből szedjük ki egy tányérra, és már fogyasztható is.\"\r\n    ],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1830,11 +1293,9 @@
 								"url": {
 									"raw": "{{baseUrl}}/recipe/create",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"recipe",
 										"create"
 									]
@@ -1874,13 +1335,13 @@
 					},
 					"response": [
 						{
-							"name": "Csokis torta",
+							"name": "Egyszerű rántotta update",
 							"originalRequest": {
 								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 0,\r\n    \"serves\": 2,\r\n    \"categories\": [\r\n        \"dessert\"\r\n    ],\r\n    \"tags\": [\r\n        \"chocolate\",\r\n        \"cake\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"egy\",\r\n            \"amount\": \"kettő\",\r\n            \"unit\": \"három\"\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        {\r\n            \"name\": \"egy\",\r\n            \"description\": \"kettő\"\r\n        }\r\n    ],\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": [\r\n        \"1\"\r\n    ]\r\n}",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"serves\": 1,\r\n    \"categories\": [\r\n        2\r\n    ],\r\n    \"tags\": [\r\n        \"egyszerű\",\r\n        \"rántotta\",\r\n        \"tojás\",\r\n        \"olajban\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"Tojás\",\r\n            \"value\": 2,\r\n            \"volume\": \"db\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Só\",\r\n            \"value\": 1,\r\n            \"volume\": \"csipet\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Olaj\",\r\n            \"value\": 0,\r\n            \"volume\": \"\",\r\n            \"linkedRecipe\": 0\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        \"Öntsünk egy kevés olajat a serpenyőbe és gyújtsunk alá.\",\r\n        \"Törjük bele a tojásokat a serpenyőbe.\",\r\n        \"Sózzuk meg a tojásokat.\",\r\n        \"Egy fakanállal, vagy bármilyen tetszőleges eszközzel kavargassuk a tojást addig, amíg már szinte mindenhol szárazra sült a tojás. Ízlés szerint hagyható szaftosabbra, vagy süthető szárazabbra.\",\r\n        \"Miután elkészült, egyből szedjük ki egy tányérra, és már fogyasztható is.\"\r\n    ],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1890,20 +1351,18 @@
 								"url": {
 									"raw": "{{baseUrl}}/recipe/update",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"recipe",
 										"update"
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1940,11 +1399,9 @@
 								"url": {
 									"raw": "{{baseUrl}}/recipe/delete/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"recipe",
 										"delete",
 										":id"
@@ -1958,10 +1415,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -1992,13 +1449,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/badge",
+									"raw": "{{baseUrl}}/badge",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"badge"
 									]
 								}
@@ -2040,13 +1495,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/badge/:id",
+									"raw": "{{baseUrl}}/badge/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"badge",
 										":id"
 									],
@@ -2114,13 +1567,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/badge/create",
+									"raw": "{{baseUrl}}/badge/create",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"badge",
 										"create"
 									]
@@ -2174,13 +1625,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/badge/update",
+									"raw": "{{baseUrl}}/badge/update",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"badge",
 										"update"
 									]
@@ -2224,13 +1673,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/badge/delete/:id",
+									"raw": "{{baseUrl}}/badge/delete/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"badge",
 										"delete",
 										":id"
@@ -2278,13 +1725,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/partner",
+									"raw": "{{baseUrl}}/partner",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"partner"
 									]
 								}
@@ -2866,7 +2311,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/github/access_token?code=xd",
+									"raw": "{{baseUrl}}/github/access_token?code=test",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2877,7 +2322,7 @@
 									"query": [
 										{
 											"key": "code",
-											"value": "xd"
+											"value": "test"
 										}
 									]
 								}
@@ -2904,7 +2349,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "access_token=xd&scope=&token_type=bearer"
+							"body": "access_token=test&scope=&token_type=bearer"
 						}
 					]
 				}
