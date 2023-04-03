@@ -1,8 +1,5 @@
-using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace Gump.WebApi.Controllers;
 
@@ -10,9 +7,9 @@ namespace Gump.WebApi.Controllers;
 public class GitHubController : ControllerBase
 {
 	private readonly HttpClient httpClient;
-	private readonly IConfiguration configuration;
+	private readonly GitHubConfig configuration;
 
-	public GitHubController(HttpClient httpClient, IConfiguration configuration)
+	public GitHubController(HttpClient httpClient, GitHubConfig configuration)
 	{
 		this.httpClient = httpClient;
 		this.configuration = configuration;
@@ -22,8 +19,8 @@ public class GitHubController : ControllerBase
 	[HttpGet("access_token")]
 	public Task<IActionResult> GetAccessToken(string code) => this.Run(async () =>
 	{
-		var clientId = configuration["CLIENT_ID"];
-		var clientSecret = configuration["CLIENT_SECRET"];
+		var clientId = configuration.ClientId;
+		var clientSecret = configuration.ClientSecret;
 
 		var authUrl = $"https://github.com/login/oauth/access_token?client_id={clientId}&client_secret={clientSecret}&code={code}";
 
@@ -31,7 +28,6 @@ public class GitHubController : ControllerBase
 
 		var data = await response.Content.ReadAsStringAsync();
 
-		return Content(data);
+		return Ok(data);
 	});
 }
-

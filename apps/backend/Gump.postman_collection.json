@@ -2279,36 +2279,15 @@
 			]
 		},
 		{
-			"name": "Get Access Token",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/github/access_token?code=",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"github",
-						"access_token"
-					],
-					"query": [
-						{
-							"key": "code",
-							"value": "",
-							"description": "the code that github gives you after authenticating the app, it can be exchanged for a user access token"
-						}
-					]
-				}
-			},
-			"response": [
+			"name": "GitHub",
+			"item": [
 				{
-					"name": "random code",
-					"originalRequest": {
+					"name": "Get Access Token",
+					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/github/access_token?code=977c950906d3a6f9cba4",
+							"raw": "{{baseUrl}}/github/access_token?code=",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -2319,34 +2298,60 @@
 							"query": [
 								{
 									"key": "code",
-									"value": "977c950906d3a6f9cba4"
+									"value": "",
+									"description": "The code that github gives you after authenticating the app, it can be exchanged for a user access token"
 								}
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "plain",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Length",
-							"value": "78"
-						},
-						{
-							"key": "Content-Type",
-							"value": "text/plain; charset=utf-8"
-						},
-						{
-							"key": "Date",
-							"value": "Fri, 31 Mar 2023 20:06:26 GMT"
-						},
-						{
-							"key": "Server",
-							"value": "Kestrel"
+							"name": "Random Code",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/github/access_token?code=xd",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"github",
+										"access_token"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "xd"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "78"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 31 Mar 2023 20:06:26 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "access_token=xd&scope=&token_type=bearer"
 						}
-					],
-					"cookie": [],
-					"body": "access_token=ghu_pZgudblgbzLOCXNHFicITCr1dYixhQ0EtXvq&scope=&token_type=bearer"
+					]
 				}
 			]
 		}

@@ -4,16 +4,17 @@ using Gump.Data.Repositories;
 using Gump.WebApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder();
 
 var mongoDbConfig = builder.Configuration.GetSection("MongoDbConfig").Get<MongoDbConfig>();
 var jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>();
+var gitHubConfig = builder.Configuration.GetSection("GitHubConfig").Get<GitHubConfig>();
 var pepper = builder.Configuration["Pepper"];
 
 builder.Services.AddSingleton(mongoDbConfig);
 builder.Services.AddSingleton(jwtConfig);
+builder.Services.AddSingleton(gitHubConfig);
 builder.Services.AddSingleton(pepper);
 
 builder.Services.AddSingleton<AdvertRepository>();
@@ -29,7 +30,6 @@ builder.Services.AddSwaggerGenNewtonsoftSupport();
 
 builder.Services.AddHttpClient();
 
-#if DEBUG
 builder.Services.AddCors(option =>
 {
 	option.AddPolicy("EnableCors", policy =>
@@ -42,7 +42,6 @@ builder.Services.AddCors(option =>
 			.Build();
 	});
 });
-#endif
 
 builder.Services
 	.AddAuthentication(option =>
@@ -73,10 +72,8 @@ if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();
+	app.UseCors("EnableCors");
 }
-#if DEBUG
-app.UseCors("EnableCors");
-#endif
 
 app.UseAuthentication();
 app.UseAuthorization();

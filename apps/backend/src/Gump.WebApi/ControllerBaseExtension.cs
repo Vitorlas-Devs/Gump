@@ -37,7 +37,6 @@ public static class ControllerBaseExtension
 		}
 	}
 
-	// This is the new Run method that accepts a Func<Task<IActionResult>> and awaits the action.
 	public static async Task<IActionResult> Run(this ControllerBase controller, Func<Task<IActionResult>> action)
 	{
 		try
