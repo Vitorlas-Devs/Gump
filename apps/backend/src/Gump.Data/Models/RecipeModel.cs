@@ -36,6 +36,9 @@ public class RecipeModel : IEntity
 	[BsonElement("steps")]
 	public List<string> Steps { get; set; }
 
+	[BsonElement("viewCount")]
+	public int ViewCount { get; set; }
+
 	[BsonElement("saveCount")]
 	public int SaveCount { get; set; }
 

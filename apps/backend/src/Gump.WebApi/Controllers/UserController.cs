@@ -67,7 +67,7 @@ public class UserController : ControllerBase
 
 	[AllowAnonymous]
 	[HttpGet("search")]
-	public IActionResult SearchUsers([FromBody] SearchDto search) => this.Run(() =>
+	public IActionResult SearchUsers([FromBody] SearchUserDto search) => this.Run(() =>
 	{
 		var users = userRepository.Search(
 			search.SearchTerm,
