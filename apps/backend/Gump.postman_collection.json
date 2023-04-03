@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "c4e5b684-9711-4666-a6cc-404cd049d443",
+		"_postman_id": "1395ab5d-4f54-4c87-ab60-fdf84f7429cf",
 		"name": "Gump",
 		"description": "WebAPI collection to test and document endpoints.\n\nSome may need a bearer token for authorization. To get a token just log in and place the token in the collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23370412"
+		"_exporter_id": "24694147"
 	},
 	"item": [
 		{
@@ -52,13 +52,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/auth/login",
+									"raw": "{{baseUrl}}/auth/login",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"auth",
 										"login"
 									]
@@ -937,13 +935,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/category/delete/:id",
+									"raw": "{{baseUrl}}/category/delete/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"category",
 										"delete",
 										":id"
@@ -1028,13 +1024,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/recipe/:id",
+									"raw": "{{baseUrl}}/recipe/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"recipe",
 										":id"
 									],
@@ -1077,13 +1071,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/recipe/random",
+									"raw": "{{baseUrl}}/recipe/random",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"recipe",
 										"random"
 									]
@@ -1131,13 +1123,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/recipe/search",
+									"raw": "{{baseUrl}}/recipe/search",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"recipe",
 										"search"
 									]
@@ -1180,13 +1170,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/recipe/today/:categoryId",
+									"raw": "{{baseUrl}}/recipe/today/:categoryId",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"recipe",
 										"today",
 										":categoryId"
@@ -1194,7 +1182,7 @@
 									"variable": [
 										{
 											"key": "categoryId",
-											"value": "0"
+											"value": "2"
 										}
 									]
 								}
@@ -1295,7 +1283,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"title\": \"Egyszerű rántotta\",\r\n    \"language\": \"hu_HU\",\r\n    \"serves\": 1,\r\n    \"categories\": [\r\n        2\r\n    ],\r\n    \"tags\": [\r\n        \"egyszerű\",\r\n        \"rántotta\",\r\n        \"tojás\",\r\n        \"olajban\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"Tojás\",\r\n            \"value\": 2,\r\n            \"volume\": \"db\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Só\",\r\n            \"value\": 1,\r\n            \"volume\": \"csipet\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Olaj\",\r\n            \"value\": 0,\r\n            \"volume\": \"\",\r\n            \"linkedRecipe\": 0\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        \"Öntsünk egy kevés olajat a serpenyőbe és gyújtsunk alá.\",\r\n        \"Törjük bele a tojásokat a serpenyőbe.\",\r\n        \"Sózzuk meg a tojásokat.\",\r\n        \"Egy fakanállal, vagy bármilyen tetszőleges eszközzel kavargassuk a tojást addig, amíg már szinte mindenhol szárazra sült a tojás. Ízlés szerint hagyható szaftosabbra, vagy süthető szárazabbra.\",\r\n        \"Miután elkészült, egyből szedjük ki egy tányérra, és már fogyasztható is.\"\r\n    ],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
+									"raw": "{\r\n    \"title\": \"Egyszerű rántotta\",\r\n    \"language\": \"hu_HU\",\r\n    \"serves\": 1,\r\n    \"categories\": [\r\n        2\r\n    ],\r\n    \"tags\": [\r\n        \"egyszerű\",\r\n        \"rántotta\",\r\n        \"tojás\",\r\n        \"olajban\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"Tojás\",\r\n            \"value\": 2,\r\n            \"volume\": \"db\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Só\",\r\n            \"value\": 1,\r\n            \"volume\": \"csipet\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Olaj\",\r\n            \"value\": 0,\r\n            \"volume\": \"\",\r\n            \"linkedRecipe\": 0\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        \"Öntsünk egy kevés olajat a serpenyőbe és gyújtsunk alá.\",\r\n        \"Törjük bele a tojásokat a serpenyőbe.\",\r\n        \"Sózzuk meg a tojásokat ízlés szerint.\",\r\n        \"Egy fakanállal, vagy bármilyen tetszőleges eszközzel kavargassuk a tojást addig, amíg már szinte mindenhol szárazra sült a tojás. Ízlés szerint hagyható szaftosabbra, vagy süthető szárazabbra.\",\r\n        \"Miután elkészült, egyből szedjük ki egy tányérra, és már fogyasztható is.\"\r\n    ],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1303,13 +1291,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/recipe/create",
+									"raw": "{{baseUrl}}/recipe/create",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"recipe",
 										"create"
 									]
@@ -1349,13 +1335,13 @@
 					},
 					"response": [
 						{
-							"name": "Csokis torta",
+							"name": "Egyszerű rántotta update",
 							"originalRequest": {
 								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 0,\r\n    \"serves\": 2,\r\n    \"categories\": [\r\n        \"dessert\"\r\n    ],\r\n    \"tags\": [\r\n        \"chocolate\",\r\n        \"cake\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"egy\",\r\n            \"amount\": \"kettő\",\r\n            \"unit\": \"három\"\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        {\r\n            \"name\": \"egy\",\r\n            \"description\": \"kettő\"\r\n        }\r\n    ],\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": [\r\n        \"1\"\r\n    ]\r\n}",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"serves\": 1,\r\n    \"categories\": [\r\n        2\r\n    ],\r\n    \"tags\": [\r\n        \"egyszerű\",\r\n        \"rántotta\",\r\n        \"tojás\",\r\n        \"olajban\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"Tojás\",\r\n            \"value\": 2,\r\n            \"volume\": \"db\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Só\",\r\n            \"value\": 1,\r\n            \"volume\": \"csipet\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Olaj\",\r\n            \"value\": 0,\r\n            \"volume\": \"\",\r\n            \"linkedRecipe\": 0\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        \"Öntsünk egy kevés olajat a serpenyőbe és gyújtsunk alá.\",\r\n        \"Törjük bele a tojásokat a serpenyőbe.\",\r\n        \"Sózzuk meg a tojásokat.\",\r\n        \"Egy fakanállal, vagy bármilyen tetszőleges eszközzel kavargassuk a tojást addig, amíg már szinte mindenhol szárazra sült a tojás. Ízlés szerint hagyható szaftosabbra, vagy süthető szárazabbra.\",\r\n        \"Miután elkészült, egyből szedjük ki egy tányérra, és már fogyasztható is.\"\r\n    ],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1363,22 +1349,20 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/recipe/update",
+									"raw": "{{baseUrl}}/recipe/update",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"recipe",
 										"update"
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1413,13 +1397,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/recipe/delete/:id",
+									"raw": "{{baseUrl}}/recipe/delete/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"recipe",
 										"delete",
 										":id"
@@ -1433,10 +1415,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -1467,13 +1449,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/badge",
+									"raw": "{{baseUrl}}/badge",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"badge"
 									]
 								}
@@ -1515,13 +1495,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/badge/:id",
+									"raw": "{{baseUrl}}/badge/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"badge",
 										":id"
 									],
@@ -1589,13 +1567,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/badge/create",
+									"raw": "{{baseUrl}}/badge/create",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"badge",
 										"create"
 									]
@@ -1649,13 +1625,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5135/api/badge/update",
+									"raw": "{{baseUrl}}/badge/update",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"badge",
 										"update"
 									]
@@ -1699,13 +1673,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/badge/delete/:id",
+									"raw": "{{baseUrl}}/badge/delete/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"badge",
 										"delete",
 										":id"
@@ -1753,13 +1725,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5135/api/partner",
+									"raw": "{{baseUrl}}/partner",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5135",
 									"path": [
-										"api",
 										"partner"
 									]
 								}
@@ -2303,6 +2273,83 @@
 							"header": [],
 							"cookie": [],
 							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GitHub",
+			"item": [
+				{
+					"name": "Get Access Token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/github/access_token?code=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"github",
+								"access_token"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "",
+									"description": "The code that github gives you after authenticating the app, it can be exchanged for a user access token"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Random Code",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/github/access_token?code=test",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"github",
+										"access_token"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "test"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "78"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 31 Mar 2023 20:06:26 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "access_token=test&scope=&token_type=bearer"
 						}
 					]
 				}
