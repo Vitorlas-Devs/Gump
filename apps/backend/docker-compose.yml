@@ -2,7 +2,7 @@ version: "3"
 
 services:
   api:
-    build: .
+    build: exatom42/gump:latest
     restart: always
     dns:
       - 1.1.1.1
@@ -10,6 +10,7 @@ services:
       - 8.8.8.8
     ports:
       - "80:80"
+      - "443:443"
 
   db:
     image: mongo:6

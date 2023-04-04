@@ -1,5 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /source
+EXPOSE 80
+EXPOSE 443
 
 COPY *.sln .
 COPY src/Gump.Data/*.csproj ./src/Gump.Data/
