@@ -3,6 +3,8 @@ import { Base64 } from 'js-base64'
 import { defineStore } from 'pinia'
 import { useUserStore } from './userStore'
 
+// ⚠️ This store is in Options API format, it would be better to use the Composition API, but I'm not sure how to convert it.
+
 export const useTranslationStore = defineStore({
   id: 'translation',
   state: () => ({
