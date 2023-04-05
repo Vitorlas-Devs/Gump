@@ -21,8 +21,7 @@ const code = router.currentRoute.value.query.code
 
 if (!token.value) {
   axios
-    // .get('http://46.101.114.190:3000/access_token/', {
-    .get('https://proxy.gump.live/access_token/', {
+    .get('https://api.gump.live/access_token/', {
       params: {
         code: code
       }
