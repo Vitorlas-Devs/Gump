@@ -24,15 +24,15 @@ export const useUserStore = defineStore(
       state.loggedIn = false
     }
 
-    const setLanguages = (languages: string[]) => {
-      state.languages = languages
+    const addLanguage = (language: string) => {
+      state.languages.push(language)
     }
 
     return {
       ...toRefs(state),
       login,
       logout,
-      setLanguages
+      addLanguage
     }
   },
   {

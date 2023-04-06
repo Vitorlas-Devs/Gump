@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed } from 'vue'
 import SvgIcon from './components/SvgIcon.vue'
-import { CreateBranch, createFileAndCommit, createPullRequest, getBranch } from './octokit'
+import { CreateBranch, createOrUpdateFiles, createPullRequest, getBranch } from './octokit'
 import { useUserStore } from '@/stores/userStore'
 import { useUIStore } from '@/stores/uiStore'
 import { storeToRefs } from 'pinia'
@@ -33,20 +33,22 @@ const saveChanges = () => {
           obj[key] = translations[locale][key]
           return obj
         }, {})
-      return JSON.stringify(filteredTranslations, null, 4)
+      return JSON.stringify(filteredTranslations, null, 2)
     })
 
     const { sha } = await getBranch()
     await CreateBranch(username.value, sha)
 
-    contents.forEach(async (content, index) => {
-      await createFileAndCommit(username.value, changedLocales[index], content)
-    })
+    await createOrUpdateFiles(username.value, changedLocales, contents)
 
     await createPullRequest(username.value)
   })()
 
   translate.saveChanges()
+}
+
+const resetChanges = () => {
+  window.location.reload()
 }
 
 const authenticate = () => {
@@ -58,9 +60,12 @@ const authenticate = () => {
     window.location.href = authUrl
   } else {
     router.push('/translate')
-    ;(async () => {
-    await loadTranslations()
-  })()
+    if (router.currentRoute.value.path === '/') {
+      
+      ;(async () => {
+        await loadTranslations()
+      })()
+    }
   }
   loggedIn.value = true
 }
@@ -112,7 +117,7 @@ const authenticate = () => {
             text="crimson-500 shadow-crimson"
             font="bold"
             rounded="lg"
-            @click="translate.resetChanges"
+            @click="resetChanges"
           >
             Cancel
           </button>

@@ -53,6 +53,7 @@ const saveNewLocale = () => {
     return
   }
   translate.addLanguage(newLocale.value)
+  user.addLanguage(newLocale.value)
   isEditing.value = false
   translate.checkDirty()
 }
@@ -74,58 +75,71 @@ const toggleEditing = () => {
 <template>
   <main flex="~ col md:row" w="full" h="full">
     <TheNavigation v-if="ui.navbarOpen" z="10" />
-    <div flex="~ col" w="full" h="full" p="2 md:6" pl="4 md:10" mt="2" gap="6">
-      <h1 text="3xl orange-500 shadow-orange" font="bold" my="2">Translate</h1>
-      <div>
-        <h3>Choose your language.</h3>
-        <p>And select a key from the left sidebar.</p>
-      </div>
-      <vue-select
-        v-model="user.languages"
-        w="72"
-        shadow="inner"
-        rounded="xl"
-        p="2"
-        font="bold"
-        class="select"
-        :options="translate.locales"
-        :multiple="true"
-        :close-on-select="false"
-        :clear-on-select="false"
-        :preserve-search="true"
-        :value="user.languages.filter((language) => translate.initialLocales.includes(language))"
-        placeholder="Select your languages"
-      />
-      <div flex="~ row" gap="2">
-        <input
-          v-if="isEditing"
-          ref="input"
-          v-model="newLocale"
-          type="text"
-          placeholder="Hit ENTER to save"
-          shadow="inner"
-          rounded="xl"
-          p="2"
-          font="bold"
-          w="min"
-          bg="crimson-50"
-          @keyup.enter="saveNewLocale"
-        />
-        <button
-          v-if="!isEditing"
-          shadow="orange"
-          bg="orange-500"
-          text="orange-50 shadow-white"
-          rounded="xl"
-          py="2"
-          px="4"
-          font="bold"
-          w="max"
-          @click="toggleEditing"
-        >
-          Add a new language
-        </button>
-      </div>
+    <div flex="~ col" w="full" h="full" p="2 md:6" pl="4 md:10" mt="2" mr="-5">
+      <custom-scrollbar :auto-expand="false" h="screen" w="full" pb="30">
+        <div flex="~ col" justify="between" gap="6">
+          <h1 text="3xl orange-500 shadow-orange" font="bold" my="2">Translate</h1>
+          <div>
+            <h3>Choose your language.</h3>
+            <p>And select a key from the left sidebar.</p>
+          </div>
+          <vue-select
+            v-model="user.languages"
+            w="72"
+            shadow="inner"
+            rounded="xl"
+            p="2"
+            font="bold"
+            class="select"
+            :options="translate.locales"
+            :multiple="true"
+            :close-on-select="false"
+            :clear-on-select="false"
+            :preserve-search="true"
+            :value="
+              user.languages.filter((language) => translate.initialLocales.includes(language))
+            "
+            placeholder="Select your languages"
+          />
+          <div flex="~ row" gap="2">
+            <input
+              v-if="isEditing"
+              ref="input"
+              v-model="newLocale"
+              type="text"
+              placeholder="Hit ENTER to save"
+              shadow="inner"
+              rounded="xl"
+              p="2"
+              font="bold"
+              w="min"
+              bg="crimson-50"
+              @keyup.enter="saveNewLocale"
+            />
+            <button
+              v-if="!isEditing"
+              shadow="orange"
+              bg="orange-500"
+              text="orange-50 shadow-white"
+              rounded="xl"
+              py="2"
+              px="4"
+              font="bold"
+              w="max"
+              @click="toggleEditing"
+            >
+              Add a new language
+            </button>
+          </div>
+          <!-- space filler to test scrollbar -->
+          <div v-for="i in 100" :key="i">
+            <p>Test</p>
+          </div>
+          <h1 text="3xl orange-500 shadow-orange" font="bold" my="2">
+            I'm still on the bottom!
+          </h1>
+        </div>
+      </custom-scrollbar>
     </div>
   </main>
 </template>
