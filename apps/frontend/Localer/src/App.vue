@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed } from 'vue'
 import SvgIcon from './components/SvgIcon.vue'
-import { CreateBranch, createFilesAndCommit, createPullRequest, getBranch } from './octokit'
+import { CreateBranch, createFileAndCommit, createPullRequest, getBranch } from './octokit'
 import { useUserStore } from '@/stores/userStore'
 import { useUIStore } from '@/stores/uiStore'
 import { storeToRefs } from 'pinia'
@@ -12,26 +12,37 @@ import router from './router'
 const translate = useTranslationStore()
 const user = useUserStore()
 const ui = useUIStore()
+const { loadTranslations } = useTranslationStore()
 const { token } = storeToRefs(user)
-const { username } = storeToRefs(user)
+const { username, languages, loggedIn } = storeToRefs(user)
 
 const dirty = computed(() => translate.dirty)
 
 const saveChanges = () => {
   ;(async () => {
-    const { locales, translations, initialTranslations } = translate
+    const { translations, initialTranslations } = translate
 
-    const changedLocales = locales.filter((locale) => {
+    const changedLocales = languages.value.filter((locale) => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
     })
 
     const contents = changedLocales.map((locale) => {
-      return JSON.stringify(translations[locale], null, 4)
+      const filteredTranslations = Object.keys(translations[locale])
+        .filter((key) => translations[locale][key] !== '')
+        .reduce((obj: any, key) => {
+          obj[key] = translations[locale][key]
+          return obj
+        }, {})
+      return JSON.stringify(filteredTranslations, null, 4)
     })
 
     const { sha } = await getBranch()
     await CreateBranch(username.value, sha)
-    await createFilesAndCommit(username.value, changedLocales, contents)
+
+    contents.forEach(async (content, index) => {
+      await createFileAndCommit(username.value, changedLocales[index], content)
+    })
+
     await createPullRequest(username.value)
   })()
 
@@ -47,7 +58,11 @@ const authenticate = () => {
     window.location.href = authUrl
   } else {
     router.push('/translate')
+    ;(async () => {
+    await loadTranslations()
+  })()
   }
+  loggedIn.value = true
 }
 </script>
 
