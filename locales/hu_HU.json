@@ -1,7 +1,8 @@
 {
-    "EnglishLanguageName": "Hungarian",
-    "hoarderBadgeName": "Recept Halmozó",
-    "hoarderBadgeDesc": "Ments el legalább 100 receptet.",
-    "HomeNav": "Főoldal",
-    "cookbookBadgeName": "HUHUHU"
+  "EnglishLanguageName": "Hungarian",
+  "hoarderBadgeName": "Recept Halmozó",
+  "hoarderBadgeDesc": "Ments el legalább 100 receptet.",
+  "HomeNav": "Főoldal",
+  "cookbookBadgeName": "Hu",
+  "mykey": "my hu"
 }
