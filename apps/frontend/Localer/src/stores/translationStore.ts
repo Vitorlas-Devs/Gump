@@ -56,14 +56,38 @@ export const useTranslationStore = defineStore({
     async loadTranslations() {
       const user = useUserStore()
       const username = user.username.replace(/ /g, '-')
-      this.locales.forEach(async (locale) => {
+      user.languages.forEach(async (locale) => {
         const contentRequest = await getContent(username, locale)
         if (contentRequest.response) {
           this.translations[locale] = JSON.parse(Base64.decode(contentRequest.response.content))
           this.initialTranslations[locale] = JSON.parse(
             Base64.decode(contentRequest.response.content)
           )
+          this.initialKeys.forEach((key) => {
+            if (!this.translations[locale][key]) {
+              this.translations[locale][key] = ''
+              this.initialTranslations[locale][key] = ''
+            }
+          })
         }
+        // add any missing locale to this.locales
+        if (!this.locales.includes(locale)) {
+          this.locales.push(locale)
+          this.initialLocales.push(locale)
+        }
+        // add any missing keys to this.keys
+        Object.keys(this.translations[locale]).forEach((key) => {
+          if (!this.keys.includes(key)) {
+            this.keys.push(key)
+            this.initialKeys.push(key)
+            this.locales.forEach((locale) => {
+              if (this.translations[locale][key] === undefined) {
+                this.translations[locale][key] = ''
+                this.initialTranslations[locale][key] = ''
+              }
+            })
+          }
+        })
       })
     },
     checkKey(key: string) {

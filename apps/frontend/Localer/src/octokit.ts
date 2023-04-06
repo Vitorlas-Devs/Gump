@@ -234,46 +234,41 @@ export const createOrUpdateFile = async (
  * Loops through the file names and contents and creates or updates the files.
  * @async
  * @param { string } branchName - The name of the branch to create the files on. This is the username.
- * @param { string[] } fileNames - The names of the files to create. These are the locales.
- * @param { string[] } contents - The new contents of the files to create.
+ * @param { string } fileName - The names of the files to create. These are the locales.
+ * @param { string } content - The new contents of the files to create.
  * @returns { Promise<{ status: number; error?: any }> } The response from the create or update file request or undefined.
  */
-export const createFilesAndCommit = async (
+export const createFileAndCommit = async (
   branchName: string,
-  fileNames: string[],
-  contents: string[]
+  fileName: string,
+  content: string
 ): Promise<{ status: number; error?: any }> => {
   try {
-    for (let i = 0; i < fileNames.length; i++) {
-      const fileName = fileNames[i]
-      const content = contents[i]
+    const { response: getContentResponse } = await getContent(branchName, fileName)
 
-      const { response: getContentResponse } = await getContent(branchName, fileName)
+    const updateResponse = await createOrUpdateFile(
+      branchName,
+      fileName,
+      content,
+      getContentResponse?.sha
+    )
 
-      const updateResponse = await createOrUpdateFile(
+    console.log('CREATE latest commit:', updateResponse?.status)
+    if (updateResponse?.status === 200) {
+      return { status: updateResponse?.status }
+    } else {
+      const { response: getLatestCommitResponse } = await getLatestCommit(branchName)
+
+      const updateLatestResponse = await createOrUpdateFile(
         branchName,
         fileName,
         content,
-        getContentResponse?.sha
+        getLatestCommitResponse?.sha
       )
 
-      console.log('CREATE latest commit:', updateResponse?.status)
-      if (updateResponse?.status === 200) {
-        return { status: updateResponse?.status }
-      } else {
-        const { response: getLatestCommitResponse } = await getLatestCommit(branchName)
+      console.log('UPDATE latest commit:', updateLatestResponse?.status)
 
-        const updateLatestResponse = await createOrUpdateFile(
-          branchName,
-          fileName,
-          content,
-          getLatestCommitResponse?.sha
-        )
-
-        console.log('UPDATE latest commit:', updateLatestResponse?.status)
-
-        return { status: updateLatestResponse?.status }
-      }
+      return { status: updateLatestResponse?.status }
     }
   } catch (error: any) {
     console.log('CREATE/UPDATE files error:', error.status)
@@ -281,8 +276,6 @@ export const createFilesAndCommit = async (
 
     return { status: error.status, error }
   }
-
-  return { status: 200 }
 }
 
 /**
@@ -329,15 +322,4 @@ export const createPullRequest = async (
       return { status: error.status, error }
     }
   }
-}
-
-export const createPullRequestFromContent = async (
-  branchName: string,
-  fileName: string[],
-  content: string[]
-) => {
-  const { sha } = await getBranch()
-  await CreateBranch(branchName, sha)
-  await createFilesAndCommit(branchName, fileName, content)
-  await createPullRequest(branchName)
 }
