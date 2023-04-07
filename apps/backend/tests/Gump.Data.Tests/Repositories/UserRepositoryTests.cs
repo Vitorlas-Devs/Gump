@@ -150,10 +150,12 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		// Arrange
 		UserModel user = Get<UserModel>();
 		user.Username = name;
+		user.Email = $"{name}@gmail.com";
 		fixture.UserRepository.Create(user);
 
 		UserModel user2 = Get<UserModel>();
 		user2.Username = name2;
+		user2.Email = $"{name2}@gmail.com";
 		fixture.UserRepository.Create(user2);
 
 		// Act
@@ -177,7 +179,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		user.Id = id;
 
 		// Assert
-		Assert.Throws<DuplicateException>(() => fixture.UserRepository.Update(user));
+		Assert.Throws<NotFoundException>(() => fixture.UserRepository.Update(user));
 	}
 
 	[Theory]
@@ -193,11 +195,13 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 
 		UserModel user1 = Get<UserModel>();
 		user1.Username = name;
+		user1.Email = $"{name}@gmail.com";
 		user1.ProfilePictureId = profileImage.Id;
 		fixture.UserRepository.Create(user1);
 
 		UserModel user2 = Get<UserModel>();
 		user2.Username = follower;
+		user2.Email = $"{follower}@gmail.com";
 		fixture.UserRepository.Create(user2);
 
 		user2.Following.Add(user1.Id);
