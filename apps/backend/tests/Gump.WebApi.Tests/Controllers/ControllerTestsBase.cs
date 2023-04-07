@@ -16,39 +16,62 @@ public class ControllerTestsBase : IDisposable
 		Port = 27017
 	};
 
+	protected HttpClient Client { get; }
+
+	protected string Pepper { get; } = "uVre3iuWxyHHWvEm20a3JpF7J7KratN6";
+	protected JwtConfig JwtConfig { get; } = new()
+	{
+		Secret = "PTuWuPqx3Wtmn4rNF8vQN9yPgbIqXZCm",
+		Expiration = 60
+	};
+
+	protected AdvertRepository AdvertRepository => new(mongoDbConfig);
+	protected BadgeRepository BadgeRepository => new(mongoDbConfig);
+	protected CategoryRepository CategoryRepository => new(mongoDbConfig);
+	protected ImageRepository ImageRepository => new(mongoDbConfig);
+	protected PartnerRepository PartnerRepository => new(mongoDbConfig);
+	protected RecipeRepository RecipeRepository => new(mongoDbConfig);
+	protected UserRepository UserRepository => new(mongoDbConfig, Pepper);
+
 	public ControllerTestsBase()
 	{
 		this.mongoClient = new MongoClient(mongoDbConfig.ConnectionString);
 		this.mongoClient.GetDatabase(mongoDbConfig.Name);
 
-		CreateImages();
-		CreateUsers();
+		this.Client = new();
+
+		CreatePublicImages();
 		CreateCategories();
-		CreateRecipes();
 		CreateBadge();
+		CreateUsers();
+		CreatePrivateImage();
+		CreateRecipes();
 		CreatePartner();
 		CreateAdvert();
 	}
 
-	private void CreateImages()
+	private void CreatePublicImages()
 	{
-		var image = new ImageRepository(mongoDbConfig);
-		image.Create(new ImageModel
+		ImageRepository.Create(new ImageModel
 		{
 			Image = "data:image/png;base64,DefaultPfp",
 			OwnerId = null
 		});
-		image.Create(new ImageModel
+		ImageRepository.Create(new ImageModel
 		{
 			Image = "data:image/png;base64,Badge",
 			OwnerId = null
 		});
-		image.Create(new ImageModel
+		ImageRepository.Create(new ImageModel
 		{
 			Image = "data:image/png;base64,Advert",
 			OwnerId = null
 		});
-		image.Create(new ImageModel
+	}
+
+	private void CreatePrivateImage()
+	{
+		ImageRepository.Create(new ImageModel
 		{
 			Image = "data:image/png;base64,PrivateImage",
 			OwnerId = 1
@@ -57,20 +80,19 @@ public class ControllerTestsBase : IDisposable
 
 	private void CreateUsers()
 	{
-		var user = new UserRepository(mongoDbConfig, "test");
-		user.Create(new()
+		UserRepository.Create(new()
 		{
 			Username = "TestUser",
 			Email = "user@test.com",
 			Password = "secret",
 		});
-		user.Create(new()
+		UserRepository.Create(new()
 		{
 			Username = "Gordon Ramsay",
 			Email = "gordon.ramsay@hellskitchen.com",
 			Password = "burgir"
 		});
-		user.Create(new()
+		UserRepository.Create(new()
 		{
 			Username = "Moderator",
 			Email = "moderator@gump.live",
@@ -81,15 +103,13 @@ public class ControllerTestsBase : IDisposable
 
 	private void CreateCategories()
 	{
-		var category = new CategoryRepository(mongoDbConfig);
-		category.Create("Pasta");
-		category.Create("Breakfast");
+		CategoryRepository.Create("Pasta");
+		CategoryRepository.Create("Breakfast");
 	}
 
 	private void CreateRecipes()
 	{
-		var recipe = new RecipeRepository(mongoDbConfig);
-		recipe.Create(new()
+		RecipeRepository.Create(new()
 		{
 			AuthorId = 1,
 			Title = "Egyszerű rántotta",
@@ -135,7 +155,7 @@ public class ControllerTestsBase : IDisposable
 			IsPrivate = false,
 			VisibleTo = new()
 		});
-		recipe.Create(new()
+		RecipeRepository.Create(new()
 		{
 			AuthorId = 1,
 			Title = "Főtt kockatészta",
@@ -185,7 +205,7 @@ public class ControllerTestsBase : IDisposable
 			VisibleTo = new()
 		});
 
-		recipe.Create(new()
+		RecipeRepository.Create(new()
 		{
 			AuthorId = 1,
 			Title = "Diós tészta",
@@ -235,7 +255,7 @@ public class ControllerTestsBase : IDisposable
 
 	private void CreateBadge()
 	{
-		new BadgeRepository(mongoDbConfig).Create(new()
+		BadgeRepository.Create(new()
 		{
 			Name = "MasterChefBadge",
 			Description = "MasterChefBadgeDescription",
@@ -245,7 +265,7 @@ public class ControllerTestsBase : IDisposable
 
 	private void CreatePartner()
 	{
-		new PartnerRepository(mongoDbConfig).Create(new()
+		PartnerRepository.Create(new()
 		{
 			Name = "Tesco",
 			ContactUrl = new("https://www.tesco.test/contact"),
@@ -255,7 +275,7 @@ public class ControllerTestsBase : IDisposable
 
 	private void CreateAdvert()
 	{
-		new AdvertRepository(mongoDbConfig).Create(new()
+		AdvertRepository.Create(new()
 		{
 			PartnerId = 1,
 			Title = "Cheap Beef at Tesco",
