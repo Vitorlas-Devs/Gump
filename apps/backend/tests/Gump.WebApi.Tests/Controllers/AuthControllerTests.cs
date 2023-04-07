@@ -6,8 +6,6 @@ namespace Gump.WebApi.Tests.Controllers;
 [Collection("ControllerTests")]
 public class AuthControllerTests : ControllerTestsBase
 {
-	public AuthControllerTests() : base() { }
-
 	[Fact]
 	public void Login_Works()
 	{
