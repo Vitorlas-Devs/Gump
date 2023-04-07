@@ -52,11 +52,25 @@ export const useTranslationStore = defineStore({
           }
         })
       })
+      const user = useUserStore()
+      user.languages.forEach((locale) => {
+        if (!this.locales.includes(locale)) {
+          this.locales.push(locale)
+          this.translations[locale] = {}
+          this.initialKeys.forEach((key) => {
+            this.translations[locale][key] = ''
+          })
+        }
+      })
     },
     async loadTranslations() {
       const user = useUserStore()
       const username = user.username.replace(/ /g, '-')
       user.languages.forEach(async (locale) => {
+        if (!this.locales.includes(locale)) {
+          this.locales.push(locale)
+          this.initialLocales.push(locale)
+        }
         const contentRequest = await getContent(username, locale)
         if (contentRequest.response) {
           this.translations[locale] = JSON.parse(Base64.decode(contentRequest.response.content))
@@ -70,12 +84,6 @@ export const useTranslationStore = defineStore({
             }
           })
         }
-        // add any missing locale to this.locales
-        if (!this.locales.includes(locale)) {
-          this.locales.push(locale)
-          this.initialLocales.push(locale)
-        }
-        // add any missing keys to this.keys
         Object.keys(this.translations[locale]).forEach((key) => {
           if (!this.keys.includes(key)) {
             this.keys.push(key)
@@ -88,6 +96,7 @@ export const useTranslationStore = defineStore({
             })
           }
         })
+        this.dirty = false
       })
     },
     checkKey(key: string) {
@@ -134,12 +143,6 @@ export const useTranslationStore = defineStore({
       })
       this.dirty = dirty
       return dirty
-    },
-    resetChanges() {
-      this.translations = JSON.parse(JSON.stringify(this.initialTranslations))
-      this.keys = JSON.parse(JSON.stringify(this.initialKeys))
-      this.locales = JSON.parse(JSON.stringify(this.initialLocales))
-      this.dirty = false
     },
     saveChanges() {
       this.initialTranslations = JSON.parse(JSON.stringify(this.translations))

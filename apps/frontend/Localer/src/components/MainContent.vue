@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, watch } from 'vue'
 import { useTranslationStore } from '@/stores/translationStore'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
@@ -14,11 +14,30 @@ const { translations, locales, initialTranslations } = storeToRefs(translate)
 const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
 const { languages } = storeToRefs(user)
 
+window.onbeforeunload = () => {
+  if (translate.dirty) {
+    return 'You have unsaved changes, are you sure you want to leave?'
+  }
+}
+
 const resize = (event: Event) => {
+  if (!event.target) {
+    return
+  }
   const target = event.target as HTMLTextAreaElement
   target.style.height = 'auto'
   target.style.height = target.scrollHeight + 'px'
 }
+
+watch(
+  () => translate.$state.translations,
+  () => {
+    locales.value.forEach((locale) => {
+      resize({ target: document.getElementById(locale) } as Event)
+    })
+  },
+  { deep: true }
+)
 
 onMounted(() => {
   if (!translate.checkKey(selectedKey.value)) {
@@ -28,11 +47,6 @@ onMounted(() => {
     resize({ target: document.getElementById(locale) } as Event)
   })
 })
-
-const inputFuncs = (e: Event) => {
-  checkDirty()
-  resize(e)
-}
 
 const changesClasses = (locale: string, key: string) =>
   computed(() => {
@@ -65,8 +79,9 @@ const changesClasses = (locale: string, key: string) =>
         rounded="3xl"
         h="min-12"
         resize="none"
+        overflow="hidden"
         :readonly="!languages.includes(locale)"
-        @input="inputFuncs($event)"
+        @input="checkDirty"
       />
       <div :class="changesClasses(locale, selectedKey).value" w="2" h="8" rounded="full"></div>
     </div>
