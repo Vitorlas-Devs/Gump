@@ -48,7 +48,6 @@
   "CreateServingsDesc": "How many people does this recipe serve?",
   "CreateManageAccessTitle": "Manage access",
   "CreateManageAccessDesc": "Let other users view your recipe",
-  "CreateCategory": "CATEGORY",
   "CreateTags": "Tags",
   "CreateRecipeButton": "Create recipe",
   "RecipesOthersTitle": "{username}'s recipes",
