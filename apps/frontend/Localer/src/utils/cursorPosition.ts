@@ -1,22 +1,26 @@
+// node_walk: walk the element tree, stop when func(node) returns false
 function node_walk(node: any, func: any) {
-  // node_walk: walk the element tree, stop when func(node) returns false
   let result = func(node)
   if (node) {
-    for (node = node.firstChild; result !== false && node; node = node.nextSibling)
+    for (node = node.firstChild; result !== false && node; node = node.nextSibling) {
       result = node_walk(node, func)
+    }
   }
   return result
 }
 
+// this is just a helper function that actually works... i'm not going to add types
 export function useCursorPosition(elem: any) {
   const sel = window.getSelection()
   let cum_length = [0, 0]
 
-  if (sel && sel.anchorNode == elem) cum_length = [sel.anchorOffset, sel.focusOffset]
-  else {
+  if (sel && sel.anchorNode == elem) {
+    cum_length = [sel.anchorOffset, sel.focusOffset]
+  } else {
     const nodes_to_find = [sel?.anchorNode, sel?.focusNode]
-    if (!elem.contains(sel?.anchorNode) || !elem.contains(sel?.focusNode)) return undefined
-    else {
+    if (!elem.contains(sel?.anchorNode) || !elem.contains(sel?.focusNode)) {
+      return undefined
+    } else {
       const found = [0, 0]
       let i
       node_walk(elem, function (node: Node) {
@@ -29,7 +33,9 @@ export function useCursorPosition(elem: any) {
 
         if (node.textContent && !node.firstChild) {
           for (i = 0; i < 2; i++) {
-            if (!found[i]) cum_length[i] += node.textContent.length
+            if (!found[i]) {
+              cum_length[i] += node.textContent.length
+            }
           }
         }
       })
@@ -39,7 +45,9 @@ export function useCursorPosition(elem: any) {
       }
     }
   }
-  if (cum_length[0] <= cum_length[1]) return cum_length
+  if (cum_length[0] <= cum_length[1]) {
+    return cum_length
+  }
   return [cum_length[1], cum_length[0]]
 }
 

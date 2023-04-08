@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
 
-type RequestErrorState = {
+interface RequestErrorState {
   createBranchError: {
     error: boolean
     status: number | null
