@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
 
-interface RequestErrorState {
+interface IRequestErrorState {
   createBranchError: {
     error: boolean
     status: number | null
@@ -17,7 +17,7 @@ interface RequestErrorState {
 }
 
 export const useRequestErrorStore = defineStore('requestError', () => {
-  const state = reactive<RequestErrorState>({
+  const state = reactive<IRequestErrorState>({
     createBranchError: {
       error: false,
       status: null
@@ -34,8 +34,8 @@ export const useRequestErrorStore = defineStore('requestError', () => {
 
   const resetErrors = () =>
     Object.keys(state).forEach((key) => {
-      state[key as keyof RequestErrorState].error = false
-      state[key as keyof RequestErrorState].status = null
+      state[key as keyof IRequestErrorState].error = false
+      state[key as keyof IRequestErrorState].status = null
     })
 
   return {

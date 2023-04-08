@@ -27,7 +27,9 @@ export function useCursorPosition(elem: any) {
         for (i = 0; i < 2; i++) {
           if (node == nodes_to_find[i]) {
             found[i] = 1
-            if (found[1 - i]) return false
+            if (found[1 - i]) {
+              return false
+            }
           }
         }
 
