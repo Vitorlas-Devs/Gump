@@ -8,6 +8,7 @@
     },
     "ignoreDeprecations": "5.0",
     "lib": ["es2020", "dom", "es2017.object"],
+    "jsx": "preserve"
   },
 
   "references": [

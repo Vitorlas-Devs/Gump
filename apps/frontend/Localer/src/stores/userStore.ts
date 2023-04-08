@@ -9,6 +9,9 @@ export const useUserStore = defineStore(
       loggedIn: false,
       avatarUrl: '',
       token: '',
+      openPullRequest: false,
+      prUrl : '',
+      prNumber: 0,
       languages: [] as string[]
     })
 
