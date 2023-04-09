@@ -209,6 +209,11 @@ public class RecipeController : ControllerBase
 
 		recipeRepository.Update(recipe);
 
+		if (recipe.Likes.Count == 1000)
+		{
+			userRepository.GetById(recipe.AuthorId).Badges.Add(6);
+		}
+
 		return Ok();
 	});
 
