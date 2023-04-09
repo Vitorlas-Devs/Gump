@@ -280,6 +280,7 @@ const toggleEditing = () => {
               </li>
             </ol>
           </div>
+          <p text="center">ヾ( ⌒ー⌒ )ノ</p>
         </div>
       </custom-scrollbar>
     </div>
