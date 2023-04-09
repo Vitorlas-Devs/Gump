@@ -46,6 +46,7 @@ public class RecipeController : ControllerBase
 			id = recipe.Id,
 			title = recipe.Title,
 			author = recipe.AuthorId,
+			image = recipe.ImageId,
 			language = recipe.Language,
 			serves = recipe.Serves,
 			categories = recipe.Categories,
@@ -104,6 +105,7 @@ public class RecipeController : ControllerBase
 			id = r.Id,
 			title = r.Title,
 			author = r.AuthorId,
+			image = r.ImageId,
 			viewCount = r.ViewCount,
 			saveCount = r.SaveCount,
 			likeCount = r.Likes.Count,
@@ -147,6 +149,7 @@ public class RecipeController : ControllerBase
 		{
 			Title = recipe.Title,
 			AuthorId = user.Id,
+			ImageId = recipe.ImageId,
 			Language = recipe.Language,
 			Serves = recipe.Serves,
 			Categories = recipe.Categories,
@@ -190,6 +193,7 @@ public class RecipeController : ControllerBase
 		{
 			Title = modifiedRecipe.Title,
 			AuthorId = modifiedRecipe.AuthorId,
+			ImageId = modifiedRecipe.ImageId,
 			Language = modifiedRecipe.Language,
 			Serves = update.Serves,
 			Categories = update.Categories,

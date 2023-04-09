@@ -9,6 +9,9 @@ public class CreateRecipeDto
 	[Required, JsonProperty("title")]
 	public string Title { get; init; } = string.Empty;
 
+	[Required, JsonProperty("image")]
+	public ulong ImageId { get; init; }
+
 	[Required, JsonProperty("language")]
 	public string Language { get; init; } = string.Empty;
 

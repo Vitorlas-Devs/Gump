@@ -7,8 +7,9 @@ namespace Gump.Data.Repositories;
 public partial class RecipeRepository : RepositoryBase<RecipeModel>
 {
 	private readonly MongoDbConfig mongoDbConfig;
-	private UserRepository UserRepository => new(mongoDbConfig);
 	private CategoryRepository CategoryRepository => new(mongoDbConfig);
+	private ImageRepository ImageRepository => new(mongoDbConfig);
+	private UserRepository UserRepository => new(mongoDbConfig);
 
 	public RecipeRepository(MongoDbConfig mongoDbConfig) : base(mongoDbConfig)
 	{
@@ -92,8 +93,10 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	{
 		recipe.Id = GetId();
 
-		ValidateFields(recipe, "Title", "AuthorId", "Language", "Serves", "Categories", "Ingredients", "Steps", "IsPrivate");
+		ValidateFields(recipe, "Title", "AuthorId", "ImageId", "Language", "Serves", "Categories", "Ingredients", "Steps", "IsPrivate");
 		NullifyFields(recipe, "Forks", "Likes", "SaveCount", "ReferenceCount");
+
+		ImageRepository.GetById(recipe.ImageId);
 
 		RecipeStuff(recipe);
 
@@ -137,7 +140,9 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	{
 		GetById(recipe.Id);
 
-		ValidateFields(recipe, "Title", "AuthorId", "Language", "Serves", "Categories", "Ingredients", "Steps", "OriginalRecipeId", "IsPrivate");
+		ValidateFields(recipe, "Title", "AuthorId", "ImageId", "Language", "Serves", "Categories", "Ingredients", "Steps", "OriginalRecipeId", "IsPrivate");
+
+		ImageRepository.GetById(recipe.ImageId);
 
 		RecipeStuff(recipe);
 
@@ -251,6 +256,9 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		{
 			throw new RestrictedException("Recipe can only be archived, because it has saves");
 		}
+
+		var image = ImageRepository.GetById(recipe.ImageId);
+		ImageRepository.Delete(image.Id);
 
 		try
 		{
