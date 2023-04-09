@@ -3,6 +3,7 @@ import type { components } from '@octokit/openapi-types'
 import type { Endpoints } from '@octokit/types'
 import { Base64 } from 'js-base64'
 import { useUserStore } from './stores/userStore'
+import { useRequestErrorStore } from './stores/requestErrorStore'
 import { storeToRefs } from 'pinia'
 
 const OWNER = import.meta.env.VITE_OWNER
@@ -72,9 +73,6 @@ export const getPullRequest = async (
     })
     if (response.data.length !== 0) {
       console.log('GET pull request:', response.status)
-      console.log('GET pull request number:', response.data[0].number)
-      console.log('GET pull request title:', response.data[0].title)
-      console.log('GET pull request html_url:', response.data[0].html_url)
     }
 
     return { response: response.data[0], status: response.status }
@@ -159,8 +157,12 @@ export const CreateBranch = async (
   branchName: string,
   sha: string
 ): Promise<{ response: CreateBranchResponse | undefined; status: number; error?: any }> => {
+  const { createBranchError } = storeToRefs(useRequestErrorStore())
   const { status, error } = await getBranch(branchName)
   if (status === 200) {
+    createBranchError.value.status = status
+    console.log('CREATE branch: (exists)', status)
+    
     return { response: undefined, status, error }
   } else {
     try {
@@ -174,10 +176,13 @@ export const CreateBranch = async (
         ref: `refs/heads/${branchName}`,
         sha: sha
       })
+      createBranchError.value.status = response.status
       console.log('CREATE branch:', response.status)
 
       return { response, status: response.status }
     } catch (error: any) {
+      createBranchError.value.status = error.status
+      createBranchError.value.error = true
       console.log('CREATE branch error:', error.status)
       console.log('CREATE branch error:', error)
 
@@ -199,6 +204,7 @@ export const createOrUpdateFiles = async (
   fileNames: string[],
   contents: string[]
 ): Promise<{ status: number; error?: any }> => {
+  const { createOrUpdateFilesError } = storeToRefs(useRequestErrorStore())
   try {
     const { token } = storeToRefs(useUserStore())
     const files = fileNames.map((fileName, index) => ({
@@ -267,10 +273,13 @@ export const createOrUpdateFiles = async (
       ref: branchName,
       sha: newCommit.sha
     })
+    createOrUpdateFilesError.value.status = response.status
     console.log('CREATE/UPDATE file:', response.status)
 
     return { status: response.status }
   } catch (error: any) {
+    createOrUpdateFilesError.value.status = error.status
+    createOrUpdateFilesError.value.error = true
     console.log('CREATE/UPDATE file error:', error.status)
     console.log('CREATE/UPDATE file error:', error)
 
@@ -292,8 +301,12 @@ export const createPullRequest = async (
   status: number
   error?: any
 }> => {
+  const { createPullRequestError } = storeToRefs(useRequestErrorStore())
   const { response: getResponse, status } = await getPullRequest(branchName)
   if (getResponse) {
+    createPullRequestError.value.status = status
+    console.log('CREATE pull request: (exists)', status)
+
     return { prNumber: getResponse?.number, prUrl: getResponse?.html_url, status }
   } else {
     try {
@@ -308,6 +321,7 @@ export const createPullRequest = async (
         head: branchName,
         base: 'main'
       })
+      createPullRequestError.value.status = response.status
       console.log('CREATE pull request:', response.status)
 
       return {
@@ -316,6 +330,8 @@ export const createPullRequest = async (
         status: response.status
       }
     } catch (error: any) {
+      createPullRequestError.value.status = error.status
+      createPullRequestError.value.error = true
       console.log('CREATE pull request error:', error.status)
       console.log('CREATE pull request error:', error.message)
 

@@ -6,6 +6,7 @@ import { VitePluginFonts } from 'vite-plugin-fonts'
 import svgLoader from 'vite-svg-loader'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
 export default () => {
   return defineConfig({
@@ -28,7 +29,8 @@ export default () => {
             dest: '.'
           }
         ]
-      })
+      }),
+      vueJsx()
     ],
     resolve: {
       alias: {

@@ -1,9 +1,9 @@
-import { getContent } from '@/octokit'
+import { getContent, getPullRequest } from '@/octokit'
 import { Base64 } from 'js-base64'
 import { defineStore } from 'pinia'
 import { useUserStore } from './userStore'
 
-// ⚠️ This store is in Options API format, it would be better to use the Composition API, but I'm not sure how to convert it.
+// ⚠️ This store is in the Options API format, it would be better to use the Composition API, but I'm not sure how to convert it.
 
 export const useTranslationStore = defineStore({
   id: 'translation',
@@ -14,6 +14,7 @@ export const useTranslationStore = defineStore({
     initialKeys: [] as string[],
     translations: {} as Record<string, Record<string, string>>,
     initialTranslations: {} as Record<string, Record<string, string>>,
+    updateIsFromFetch: false,
     dirty: false
   }),
   getters: {
@@ -66,38 +67,49 @@ export const useTranslationStore = defineStore({
     async loadTranslations() {
       const user = useUserStore()
       const username = user.username.replace(/ /g, '-')
-      user.languages.forEach(async (locale) => {
-        if (!this.locales.includes(locale)) {
-          this.locales.push(locale)
-          this.initialLocales.push(locale)
-        }
-        const contentRequest = await getContent(username, locale)
-        if (contentRequest.response) {
-          this.translations[locale] = JSON.parse(Base64.decode(contentRequest.response.content))
-          this.initialTranslations[locale] = JSON.parse(
-            Base64.decode(contentRequest.response.content)
-          )
-          this.initialKeys.forEach((key) => {
-            if (!this.translations[locale][key]) {
-              this.translations[locale][key] = ''
-              this.initialTranslations[locale][key] = ''
-            }
-          })
-        }
-        Object.keys(this.translations[locale]).forEach((key) => {
-          if (!this.keys.includes(key)) {
-            this.keys.push(key)
-            this.initialKeys.push(key)
-            this.locales.forEach((locale) => {
-              if (this.translations[locale][key] === undefined) {
+      const pullRequest = await getPullRequest(username)
+      if (pullRequest.response) {
+        user.openPullRequest = true
+        user.prUrl = pullRequest.response.html_url
+        user.prNumber = pullRequest.response.number
+        user.languages.forEach(async (locale) => {
+          if (!this.locales.includes(locale)) {
+            this.locales.push(locale)
+            this.initialLocales.push(locale)
+          }
+          const contentRequest = await getContent(username, locale)
+          if (contentRequest.response) {
+            this.updateIsFromFetch = true
+            this.translations[locale] = JSON.parse(Base64.decode(contentRequest.response.content))
+            this.initialTranslations[locale] = JSON.parse(
+              Base64.decode(contentRequest.response.content)
+            )
+            this.initialKeys.forEach((key) => {
+              if (!this.translations[locale][key]) {
                 this.translations[locale][key] = ''
                 this.initialTranslations[locale][key] = ''
               }
             })
           }
+          Object.keys(this.translations[locale]).forEach((key) => {
+            if (!this.keys.includes(key)) {
+              this.keys.push(key)
+              this.initialKeys.push(key)
+              this.locales.forEach((locale) => {
+                if (this.translations[locale][key] === undefined) {
+                  this.translations[locale][key] = ''
+                  this.initialTranslations[locale][key] = ''
+                }
+              })
+            }
+          })
+          this.dirty = false
         })
-        this.dirty = false
-      })
+      } else {
+        user.openPullRequest = false
+        user.prUrl = ''
+        user.prNumber = 0
+      }
     },
     checkKey(key: string) {
       return this.keys.includes(key)
