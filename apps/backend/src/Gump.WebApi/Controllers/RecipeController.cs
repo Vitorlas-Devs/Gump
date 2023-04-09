@@ -242,6 +242,12 @@ public class RecipeController : ControllerBase
 			userRepository.Update(user);
 		}
 
+		if (recipe.Steps.Count > 10)
+		{
+			user.Badges.Add(5);
+			userRepository.Update(user);
+		}
+
 		return Ok(newRecipe.Id);
 	});
 
