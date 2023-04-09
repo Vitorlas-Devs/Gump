@@ -177,6 +177,34 @@ public class RecipeController : ControllerBase
 		return Ok();
 	});
 
+	[HttpPatch("like/{id}")]
+	public IActionResult LikeRecipe(ulong id) => this.Run(() =>
+	{
+		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+		RecipeModel recipe = recipeRepository.GetById(id);
+
+		if (recipe.IsPrivate &&
+			recipe.AuthorId != user.Id &&
+			!recipe.VisibleTo.Contains(user.Id) &&
+			!user.IsModerator)
+		{
+			return Unauthorized();
+		}
+
+		if (recipe.Likes.Contains(user.Id))
+		{
+			recipe.Likes.Remove(user.Id);
+		}
+		else
+		{
+			recipe.Likes.Add(user.Id);
+		}
+
+		recipeRepository.Update(recipe);
+
+		return Ok();
+	});
+
 	[HttpPost("create")]
 	public IActionResult CreateRecipe([FromBody] CreateRecipeDto recipe) => this.Run(() =>
 	{
