@@ -171,6 +171,13 @@ public class RecipeController : ControllerBase
 			recipe.SaveCount++;
 		}
 
+		var savedRecipes = user.Recipes.Select(recipeRepository.GetById).Where(r => r.AuthorId != user.Id);
+
+		if (savedRecipes.Count() == 100)
+		{
+			user.Badges.Add(4);
+		}
+
 		userRepository.Update(user);
 		recipeRepository.Update(recipe);
 

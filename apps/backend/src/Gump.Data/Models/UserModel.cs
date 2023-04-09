@@ -43,7 +43,7 @@ public class UserModel : IEntity
 	public List<ulong> Followers { get; set; }
 
 	[BsonElement("badges")]
-	public List<ulong> Badges { get; set; }
+	public HashSet<ulong> Badges { get; set; }
 
 	[BsonElement("isModerator")]
 	public bool IsModerator { get; set; }
