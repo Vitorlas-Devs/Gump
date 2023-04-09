@@ -43,7 +43,7 @@ public class RecipeController : ControllerBase
 
 		if (recipe.Id == 1 && User.Identity.IsAuthenticated)
 		{
-			user.Badges.Add(3);
+			user.AddBadge(3);
 			userRepository.Update(user);
 		}
 
@@ -108,7 +108,7 @@ public class RecipeController : ControllerBase
 
 		if (search.SearchTerm.ToLowerInvariant() == "water" && User.Identity.IsAuthenticated)
 		{
-			userRepository.GetById(ulong.Parse(User.Identity.Name)).Badges.Add(7);
+			userRepository.GetById(ulong.Parse(User.Identity.Name)).AddBadge(7);
 		}
 
 		return Ok(searchResult.Select(r => new
@@ -180,7 +180,7 @@ public class RecipeController : ControllerBase
 
 		if (savedRecipes.Count() == 100)
 		{
-			user.Badges.Add(4);
+			user.AddBadge(4);
 		}
 
 		userRepository.Update(user);
@@ -216,7 +216,7 @@ public class RecipeController : ControllerBase
 
 		if (recipe.Likes.Count == 1000)
 		{
-			userRepository.GetById(recipe.AuthorId).Badges.Add(6);
+			userRepository.GetById(recipe.AuthorId).AddBadge(6);
 		}
 
 		return Ok();
@@ -248,13 +248,13 @@ public class RecipeController : ControllerBase
 
 		if (user.Recipes.Count == 100)
 		{
-			user.Badges.Add(1);
+			user.AddBadge(1);
 			userRepository.Update(user);
 		}
 
 		if (recipe.Steps.Count > 10)
 		{
-			user.Badges.Add(5);
+			user.AddBadge(5);
 			userRepository.Update(user);
 		}
 
