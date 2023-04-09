@@ -41,6 +41,12 @@ public class RecipeController : ControllerBase
 		recipe.ViewCount++;
 		recipeRepository.Update(recipe);
 
+		if (recipe.Id == 1 && User.Identity.IsAuthenticated)
+		{
+			user.Badges.Add(3);
+			userRepository.Update(user);
+		}
+
 		return Ok(new
 		{
 			id = recipe.Id,
