@@ -9,5 +9,6 @@
   "HomeTitleNew": "Új",
   "SearchTitle": "Keresés",
   "CreateVisibilityPrivateTitle": "Privát",
-  "WelcomeError1": "Hiba"
+  "WelcomeError1": "Hiba",
+  "WelcomeError2": "Már létezik egy felhasználó ugyanezzel a felhasználónévvel vagy emaillel"
 }
