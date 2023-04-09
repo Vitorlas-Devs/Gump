@@ -106,6 +106,11 @@ public class RecipeController : ControllerBase
 			search.CategoryId
 		);
 
+		if (search.SearchTerm.ToLowerInvariant() == "water" && User.Identity.IsAuthenticated)
+		{
+			userRepository.GetById(ulong.Parse(User.Identity.Name)).Badges.Add(7);
+		}
+
 		return Ok(searchResult.Select(r => new
 		{
 			id = r.Id,
