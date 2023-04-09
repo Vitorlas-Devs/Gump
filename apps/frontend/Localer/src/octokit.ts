@@ -318,6 +318,7 @@ export const createPullRequest = async (
         owner: OWNER,
         repo: REPO,
         title: `[Translate] ${branchName}`,
+        body: 'copilot:all',
         head: branchName,
         base: 'main'
       })
