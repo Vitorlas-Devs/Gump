@@ -8,7 +8,8 @@ export default defineConfig({
   attributify: true,
   shortcuts: {
     'link-orange':
-      'text-orange-500 text-shadow-orange underline underline-offset-5 underline-orange-500 font-bold'
+      'text-orange-500 text-shadow-orange underline underline-offset-5 underline-orange-500 font-bold',
+    'cool-ol': 'my-2 pl-6 list-outside list-disc space-y-2 leading-relaxed'
   },
   theme: {
     textShadow: {
@@ -26,7 +27,7 @@ export default defineConfig({
       inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)',
       grey: '0px 2px 6px rgba(0, 0, 0, 0.5)',
       red: '0px 2px 6px rgba(230, 25, 25, 0.5)',
-      green: '0px 2px 6px rgba(63, 185, 80, 0.5)',
+      green: '0px 2px 6px rgba(63, 185, 80, 0.5)'
     },
     colors: {
       crimson: {

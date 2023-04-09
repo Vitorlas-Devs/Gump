@@ -182,7 +182,7 @@ const toggleEditing = () => {
           </div>
           <div>
             <h3 text="xl" font="bold">Layout and workflow</h3>
-            <ol my="2" pl="4" list="inside disc">
+            <ol class="cool-ol">
               <li>
                 The <span font="bold">Navigation bar</span> shows the
                 <span text="orange-500" font="bold">keys</span> and your progress. The first
@@ -203,7 +203,7 @@ const toggleEditing = () => {
             <h3 text="xl" font="bold">Special Values</h3>
             Include these strings in your translations the same way that they are in the English
             text.
-            <ol my="2" pl="4" list="inside disc">
+            <ol class="cool-ol">
               <li>
                 <span font="bold">Referencing another key: </span>
                 <span text="orange-500" font="bold">@:AnotherKey</span> <br />
@@ -218,7 +218,7 @@ const toggleEditing = () => {
           </div>
           <div>
             <h3 text="xl" font="bold">Translation Tips</h3>
-            <ol my="2" pl="4" list="inside disc">
+            <ol class="cool-ol">
               <li>
                 <span text="xl">🤖</span>
                 <span font="bold"> Use tools: </span>
@@ -250,19 +250,33 @@ const toggleEditing = () => {
           </div>
           <div>
             <h3 text="xl" font="bold">🚧 Beta version Warning 🚨</h3>
-            Sorry for any inconveniences.
-            <ol my="2" pl="4" list="inside disc">
+            <ol class="cool-ol">
               <li>
-                Be gentle with the <span font="bold" text="crimson-500">Save</span> button. Use it less often, but often enough that you don't accidentally lose your work, as refreshing the page will do just that.
+                After hitting <span font="bold" text="crimson-500">Save</span>, 3 lights will signal
+                whether the translations were saved successfully on GitHub. <br />
+                <span font="bold"> If any of them is red</span>, please notify us
+                <span font="bold">with the status codes</span> (numbers next to the lights). You can
+                also hit <span font="bold">Ctrl + Shift + J</span> and send the console output.
               </li>
               <li>
-                The site loads the translations from the <span font="bold">main</span> branch. If you have an open pull request that hasn't been merged yet, you will have to use the <span font="bold" text="orange-500">Fetch your data</span> button. Your profile shows whether you are up to date or not.
+                Be gentle with the <span font="bold" text="crimson-500">Save</span> button. Use it
+                less often, but often enough that you don't accidentally lose your work, as
+                refreshing the page will do just that.
               </li>
               <li>
-                The <span font="bold">Navigation bar resets</span> its scroll position when switching keys. The <span text="orange-500" font="bold">Next key</span> button can help with that.
+                The site loads the translations from the <span font="bold">main</span> branch. If
+                you have an open pull request that hasn't been merged yet, you will have to use the
+                <span font="bold" text="orange-500">Fetch your data</span> button. Your profile
+                shows whether you are up to date or not.
               </li>
               <li>
-                <span font="bold">You should not Log out</span>. Your GitHub access token is stored, as well as your selected languages.
+                The <span font="bold">Navigation bar resets</span> its scroll position when
+                switching keys. The <span text="orange-500" font="bold">Next key</span> button can
+                help with that.
+              </li>
+              <li>
+                <span font="bold">You should not Log out</span>. Your GitHub access token is stored,
+                as well as your selected languages.
               </li>
             </ol>
           </div>

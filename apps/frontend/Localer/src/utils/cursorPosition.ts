@@ -1,31 +1,36 @@
-// node_walk: walk the element tree, stop when func(node) returns false
-function node_walk(node: any, func: any) {
+// nodeWalk: walk the element tree, stop when func(node) returns false
+function nodeWalk(node: any, func: any) {
   let result = func(node)
+
   if (node) {
     for (node = node.firstChild; result !== false && node; node = node.nextSibling) {
-      result = node_walk(node, func)
+      result = nodeWalk(node, func)
     }
   }
+
   return result
 }
 
-// this is just a helper function that actually works... i'm not going to add types
-export function useCursorPosition(elem: any) {
+// this is just a helper function that actually works... i just found it and i'm not going to add types
+export function useCursorPosition(element: any) {
   const sel = window.getSelection()
-  let cum_length = [0, 0]
+  // cumulative length of text nodes, [0] is anchor, [1] is focus
+  // anchor is the start of the selection, focus is the end
+  let cumLength = [0, 0]
 
-  if (sel && sel.anchorNode == elem) {
-    cum_length = [sel.anchorOffset, sel.focusOffset]
+  if (sel && sel.anchorNode == element) {
+    cumLength = [sel.anchorOffset, sel.focusOffset]
   } else {
-    const nodes_to_find = [sel?.anchorNode, sel?.focusNode]
-    if (!elem.contains(sel?.anchorNode) || !elem.contains(sel?.focusNode)) {
+    const nodesToFind = [sel?.anchorNode, sel?.focusNode]
+    if (!element.contains(sel?.anchorNode) || !element.contains(sel?.focusNode)) {
       return undefined
     } else {
       const found = [0, 0]
       let i
-      node_walk(elem, function (node: Node) {
+
+      nodeWalk(element, function (node: Node) {
         for (i = 0; i < 2; i++) {
-          if (node == nodes_to_find[i]) {
+          if (node == nodesToFind[i]) {
             found[i] = 1
             if (found[1 - i]) {
               return false
@@ -36,21 +41,22 @@ export function useCursorPosition(elem: any) {
         if (node.textContent && !node.firstChild) {
           for (i = 0; i < 2; i++) {
             if (!found[i]) {
-              cum_length[i] += node.textContent.length
+              cumLength[i] += node.textContent.length
             }
           }
         }
       })
       if (sel?.anchorOffset && sel?.focusOffset) {
-        cum_length[0] += sel.anchorOffset
-        cum_length[1] += sel.focusOffset
+        cumLength[0] += sel.anchorOffset
+        cumLength[1] += sel.focusOffset
       }
     }
   }
-  if (cum_length[0] <= cum_length[1]) {
-    return cum_length
+  if (cumLength[0] <= cumLength[1]) {
+    return cumLength
   }
-  return [cum_length[1], cum_length[0]]
+
+  return [cumLength[1], cumLength[0]]
 }
 
 export const findChildWithCursor = (node: Node, cursorPosition: number) => {
@@ -76,7 +82,8 @@ export const findChildWithCursor = (node: Node, cursorPosition: number) => {
   const index = Array.prototype.indexOf.call(node.childNodes, childNode)
 
   let textNode = node.childNodes[index]
-  // 3 is text node, 1 is element
+
+  // nodeType: 3 is text node, 1 is element
   if (textNode && textNode.nodeType === 1) {
     textNode = textNode.childNodes[0]
   }

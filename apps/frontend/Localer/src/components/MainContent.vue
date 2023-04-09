@@ -38,12 +38,12 @@ watch(
     let fetchCount = 0
     locales.value.forEach((locale) => {
       const element = document.getElementById(locale)
-      resize({ target: element } as Event)
       if (element && updateIsFromFetch.value) {
         const data = translations.value[locale][selectedKey.value]
         element.innerHTML = colorSpecialCharacters(data)
         fetchCount++
       }
+      resize({ target: element } as Event)
     })
     if (fetchCount === locales.value.length) {
       updateIsFromFetch.value = false

@@ -28,11 +28,13 @@ const fetchTranslations = () => {
     if (answer) {
       ;(async () => {
         await loadTranslations()
+        re.resetErrors()
       })()
     }
   } else {
     ;(async () => {
       await loadTranslations()
+      re.resetErrors()
     })()
   }
 }
@@ -91,7 +93,13 @@ const nextKey = (key: string) => {
                 @click="fetchTranslations"
               />
             </div>
-            <div flex="~ row-reverse md:col" gap="10" pos="relative md:absolute" top="0 md:30" right="5">
+            <div
+              flex="~ row-reverse md:col"
+              gap="10"
+              pos="relative md:absolute"
+              top="0 md:30"
+              right="5"
+            >
               <button
                 w="26"
                 h="12"
@@ -111,10 +119,27 @@ const nextKey = (key: string) => {
                       rounded="full"
                       w="5 md:6"
                       h="5 md:6"
-                      :bg="requestError.status === null ? 'grey-700' : requestError.error ? 'red' : 'green'"
-                      :shadow="requestError.status === null ? 'grey' : requestError.error ? 'red' : 'green'"
+                      :bg="
+                        requestError.status === null
+                          ? 'grey-700'
+                          : requestError.error
+                          ? 'red'
+                          : 'green'
+                      "
+                      :shadow="
+                        requestError.status === null ? 'grey' : requestError.error ? 'red' : 'green'
+                      "
                     />
-                    <p font="bold" :text="requestError.status === null ? 'transparent lg' : requestError.error ? 'red lg' : 'green lg'">
+                    <p
+                      font="bold"
+                      :text="
+                        requestError.status === null
+                          ? 'transparent lg'
+                          : requestError.error
+                          ? 'red lg'
+                          : 'green lg'
+                      "
+                    >
                       {{ requestError.status ?? 100 }}
                     </p>
                   </div>

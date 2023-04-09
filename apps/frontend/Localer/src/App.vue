@@ -84,10 +84,6 @@ const authenticate = () => {
 }
 
 const openModal = ref(false)
-
-const openProfile = () => {
-  openModal.value = !openModal.value
-}
 </script>
 
 <template>
@@ -124,7 +120,7 @@ const openProfile = () => {
         mx="5"
         place="items-center"
         cursor="pointer"
-        @click="openProfile"
+        @click="openModal = !openModal"
       >
         <p>
           {{ user.username }}
@@ -168,7 +164,7 @@ const openProfile = () => {
           Link: {{ user.prNumber }}
         </a>
         <p v-else text="center">Up to date</p>
-        <div mt="3" text="center" cursor="pointer" @click="openModal = false">Log out</div>
+        <div mt="3" text="center" cursor="pointer" @click="user.logout">Log out</div>
       </div>
     </div>
     <RouterView :key="$route.fullPath" />
