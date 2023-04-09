@@ -22,7 +22,7 @@ const code = router.currentRoute.value.query.code
 
 if (!token.value) {
   axios
-    .get(import.meta.env.VITE_API_URL + 'access_token/', {
+    .get(import.meta.env.VITE_API_URL + 'github/access_token/', {
       params: {
         code: code
       }
