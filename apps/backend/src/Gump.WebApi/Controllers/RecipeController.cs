@@ -164,6 +164,12 @@ public class RecipeController : ControllerBase
 
 		recipeRepository.Create(newRecipe);
 
+		if (user.Recipes.Count == 100)
+		{
+			user.Badges.Add(1);
+			userRepository.Update(user);
+		}
+
 		return Ok(newRecipe.Id);
 	});
 
