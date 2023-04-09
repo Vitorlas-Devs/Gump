@@ -75,7 +75,6 @@ if (app.Environment.IsDevelopment())
 	app.UseCors("EnableCors");
 }
 
-app.UseCors("EnableGump");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
