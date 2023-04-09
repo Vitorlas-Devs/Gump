@@ -15,6 +15,79 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		this.mongoDbConfig = mongoDbConfig;
 	}
 
+	public ulong GetRandomId() => GetRandomId(0);
+	public ulong GetRandomId(ulong categoryId)
+	{
+		if (GetAll().Any(x => categoryId != 0 && !x.Categories.Contains(categoryId)))
+		{
+			throw new NotFoundException($"No recipes found with category {categoryId}");
+		}
+
+		ulong biggestId = Collection.AsQueryable().Max(x => x.Id);
+
+		ulong randomId = 0;
+
+		do
+		{
+			randomId = new Random().NextUInt64(biggestId + 1);
+		}
+		while (!Collection.AsQueryable().Any(
+			x => x.Id == randomId &&
+			(categoryId == 0 || x.Categories.Contains(categoryId))));
+
+		return randomId;
+	}
+
+	public IEnumerable<RecipeModel> Search(
+		string searchTerm, int limit, int offset, ulong authorId, ulong categoryId)
+	{
+		return GetAll()
+			.Where(r => FilterLogic(r, authorId, categoryId))
+			.OrderByDescending(CalculatePopularity)
+			.GroupBy(r => CalculateScore(r, searchTerm))
+			.OrderByDescending(g => g.Key)
+			.SelectMany(g => g)
+			.Skip(offset)
+			.Take(limit);
+	}
+
+	private static bool FilterLogic(
+		RecipeModel recipe, ulong authorId, ulong categoryId)
+	{
+		if (authorId != 0 && recipe.AuthorId != authorId ||
+			categoryId != 0 && !recipe.Categories.Contains(categoryId))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	private static double CalculatePopularity(RecipeModel recipe)
+	{
+		double ratio = (double)recipe.Likes.Count / recipe.ViewCount;
+		double popularity = (recipe.Likes.Count + recipe.ViewCount) * ratio;
+		return popularity;
+	}
+
+	private static int CalculateScore(RecipeModel recipe, string searchTerm)
+	{
+		int score = 0;
+
+		foreach (var term in searchTerm.Split(' '))
+		{
+			if (recipe.Tags.Any(t => t.ToLowerInvariant().Contains(term.ToLowerInvariant())))
+			{
+				score++;
+			}
+			if (recipe.Tags.Any(t => term.ToLowerInvariant().Contains(t.ToLowerInvariant())))
+			{
+				score++;
+			}
+		}
+
+		return score;
+	}
+
 	public RecipeModel Create(RecipeModel recipe)
 	{
 		recipe.Id = GetId();
@@ -63,7 +136,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	public RecipeModel Update(RecipeModel recipe)
 	{
 		GetById(recipe.Id);
-		
+
 		ValidateFields(recipe, "Title", "AuthorId", "Language", "Serves", "Categories", "Ingredients", "Steps", "OriginalRecipeId", "IsPrivate");
 
 		RecipeStuff(recipe);

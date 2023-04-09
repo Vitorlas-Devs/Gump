@@ -6,6 +6,11 @@ export default defineConfig({
     exclude: ['node_modules', '.git']
   },
   attributify: true,
+  shortcuts: {
+    'link-orange':
+      'text-orange-500 text-shadow-orange underline underline-offset-5 underline-orange-500 font-bold',
+    'cool-ol': 'my-2 pl-6 list-outside list-disc space-y-2 leading-relaxed'
+  },
   theme: {
     textShadow: {
       DEFAULT: '0px 0px 6px rgba(151, 39, 4, 0.4)',
@@ -19,7 +24,10 @@ export default defineConfig({
       crimsonUp: '0px -8px 15px -5px rgba(209, 44, 95, 0.3)',
       // crimsonDown: '0px 8px 15px -5px rgba(209, 44, 95, 0.3)',
       crimsonDown: '0px 5px 15px -3px rgba(209, 44, 95, 0.3)',
-      inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)'
+      inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)',
+      grey: '0px 2px 6px rgba(0, 0, 0, 0.5)',
+      red: '0px 2px 6px rgba(230, 25, 25, 0.5)',
+      green: '0px 2px 6px rgba(63, 185, 80, 0.5)'
     },
     colors: {
       crimson: {
@@ -45,6 +53,9 @@ export default defineConfig({
         800: '#2A2A2A',
         900: '#1A1A1A'
       },
+      red: '#ce2c2c',
+      green: '#3FB950',
+      purple: '#A371F7',
       transparent: 'transparent'
     }
   }

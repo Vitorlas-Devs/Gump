@@ -33,7 +33,7 @@ const liClasses = (key: string) =>
         return
       }
     })
-    if (translate.getNumberOfLanguagesTranslated(key) === user.languages.length) {
+    if (translate.getNumberOfLanguagesTranslated(key) === user.languages.length && user.languages.length > 0) {
       classes['bg-gradient-to-r from-orange-100 to-transparent text-orange-500'] = true
     }
 
@@ -143,7 +143,7 @@ const toggleEditing = () => {
               text="sm"
               class="whitespace-nowrap"
               :class="
-                translate.getNumberOfLanguagesTranslated(key) === user.languages.length
+                translate.getNumberOfLanguagesTranslated(key) === user.languages.length && user.languages.length > 0
                   ? 'text-orange-500'
                   : 'text-brown-500'
               "

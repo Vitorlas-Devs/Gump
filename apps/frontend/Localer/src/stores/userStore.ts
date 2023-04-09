@@ -9,6 +9,9 @@ export const useUserStore = defineStore(
       loggedIn: false,
       avatarUrl: '',
       token: '',
+      openPullRequest: false,
+      prUrl : '',
+      prNumber: 0,
       languages: [] as string[]
     })
 
@@ -22,17 +25,22 @@ export const useUserStore = defineStore(
       state.username = ''
       state.avatarUrl = ''
       state.loggedIn = false
+      state.token = ''
+      state.openPullRequest = false
+      state.prUrl = ''
+      state.prNumber = 0
+      state.languages = []
     }
 
-    const setLanguages = (languages: string[]) => {
-      state.languages = languages
+    const addLanguage = (language: string) => {
+      state.languages.push(language)
     }
 
     return {
       ...toRefs(state),
       login,
       logout,
-      setLanguages
+      addLanguage
     }
   },
   {

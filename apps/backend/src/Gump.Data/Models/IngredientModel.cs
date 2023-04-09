@@ -1,4 +1,5 @@
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace Gump.Data.Models;
 
@@ -14,5 +15,6 @@ public class IngredientModel
 	public string Volume { get; set; }
 
 	[BsonElement("linkedRecipe")]
+	[JsonProperty("linkedRecipe")]
 	public ulong LinkedRecipeId { get; set; }
 }

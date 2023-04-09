@@ -16,8 +16,8 @@
 		"ionic:serve": "npm run dev"
 	},
 	"dependencies": {
-		"@capacitor/android": "^4.7.0",
-		"@capacitor/core": "^4.7.0",
+		"@capacitor/android": "^4.7.3",
+		"@capacitor/core": "^4.7.3",
 		"@intlify/unplugin-vue-i18n": "^0.10.0",
 		"pinia": "^2.0.32",
 		"vue": "^3.2.47",
@@ -25,8 +25,8 @@
 		"vue-router": "^4.1.6"
 	},
 	"devDependencies": {
-		"@capacitor/cli": "^4.7.1",
-		"@playwright/test": "^1.32.1",
+		"@capacitor/cli": "^4.7.3",
+		"@playwright/test": "^1.32.2",
 		"@rushstack/eslint-patch": "^1.2.0",
 		"@types/jsdom": "^21.1.0",
 		"@types/node": "^18.15.11",

@@ -26,17 +26,12 @@ public class ImageController : ControllerBase
 	{
 		ImageModel image = imageRepository.GetById(id);
 
-		ulong userId = 0;
-
-		if (User.Identity.IsAuthenticated)
-		{
-			userId = ulong.Parse(User.Identity.Name);
-		}
-
-		UserModel user = userId == 0 ? new() : userRepository.GetById(userId);
+		var user = User.Identity.IsAuthenticated ?
+			userRepository.GetById(ulong.Parse(User.Identity.Name)) :
+			new UserModel();
 
 		if (image.OwnerId.HasValue &&
-			image.OwnerId.Value != userId &&
+			image.OwnerId.Value != user.Id &&
 			!user.IsModerator)
 		{
 			return Unauthorized();

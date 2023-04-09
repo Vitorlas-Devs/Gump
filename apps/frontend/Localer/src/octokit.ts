@@ -3,6 +3,7 @@ import type { components } from '@octokit/openapi-types'
 import type { Endpoints } from '@octokit/types'
 import { Base64 } from 'js-base64'
 import { useUserStore } from './stores/userStore'
+import { useRequestErrorStore } from './stores/requestErrorStore'
 import { storeToRefs } from 'pinia'
 
 const OWNER = import.meta.env.VITE_OWNER
@@ -72,9 +73,6 @@ export const getPullRequest = async (
     })
     if (response.data.length !== 0) {
       console.log('GET pull request:', response.status)
-      console.log('GET pull request number:', response.data[0].number)
-      console.log('GET pull request title:', response.data[0].title)
-      console.log('GET pull request html_url:', response.data[0].html_url)
     }
 
     return { response: response.data[0], status: response.status }
@@ -159,8 +157,12 @@ export const CreateBranch = async (
   branchName: string,
   sha: string
 ): Promise<{ response: CreateBranchResponse | undefined; status: number; error?: any }> => {
+  const { createBranchError } = storeToRefs(useRequestErrorStore())
   const { status, error } = await getBranch(branchName)
   if (status === 200) {
+    createBranchError.value.status = status
+    console.log('CREATE branch: (exists)', status)
+    
     return { response: undefined, status, error }
   } else {
     try {
@@ -174,10 +176,13 @@ export const CreateBranch = async (
         ref: `refs/heads/${branchName}`,
         sha: sha
       })
+      createBranchError.value.status = response.status
       console.log('CREATE branch:', response.status)
 
       return { response, status: response.status }
     } catch (error: any) {
+      createBranchError.value.status = error.status
+      createBranchError.value.error = true
       console.log('CREATE branch error:', error.status)
       console.log('CREATE branch error:', error)
 
@@ -190,99 +195,96 @@ export const CreateBranch = async (
  * Creates or updates a file.
  * @async
  * @param { string } branchName - The name of the branch to create the file on. This is the username.
- * @param { string } fileName - The name of the file to create. This is the locale.
- * @param { string } content - The content of the file to create.
- * @param { string } [ sha ] - The sha of the file to update. This is optional.
+ * @param { string[] } fileNames - The name of the file to create. This is the locale.
+ * @param { string[] } contents - The content of the file to create.
  * @returns { Promise<{ status: number; error?: any }> } The response from the create or update file request.
  */
-export const createOrUpdateFile = async (
+export const createOrUpdateFiles = async (
   branchName: string,
-  fileName: string,
-  content: string,
-  sha?: string
+  fileNames: string[],
+  contents: string[]
 ): Promise<{ status: number; error?: any }> => {
+  const { createOrUpdateFilesError } = storeToRefs(useRequestErrorStore())
   try {
     const { token } = storeToRefs(useUserStore())
-    const response = await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+    const files = fileNames.map((fileName, index) => ({
+      name: fileName,
+      content: contents[index]
+    }))
+    const encodedFiles = files.map((file) => ({
+      ...file,
+      content: Base64.encode(file.content)
+    }))
+
+    const latestCommitResponse = await getLatestCommit(branchName)
+
+    const blobPromises = encodedFiles.map((file) =>
+      octokit.request('POST /repos/{owner}/{repo}/git/blobs', {
+        headers: {
+          authorization: `token ${token.value}`
+        },
+        owner: OWNER,
+        repo: REPO,
+        content: file.content,
+        encoding: 'base64'
+      })
+    )
+    const blobs = await Promise.all(blobPromises)
+
+    const tree = blobs.map((blob, index) => ({
+      path: `locales/${encodedFiles[index].name}.json`,
+      mode: '100644' as const,
+      type: 'blob' as const,
+      sha: blob.data.sha
+    }))
+    const { data: treeData } = await octokit.request('POST /repos/{owner}/{repo}/git/trees', {
       headers: {
         authorization: `token ${token.value}`
       },
       owner: OWNER,
       repo: REPO,
-      path: `locales/${fileName}.json`,
-      message: `${branchName} changed ${fileName}.json`,
-      content: Base64.encode(content),
-      branch: branchName,
-      sha: sha
+      base_tree: latestCommitResponse.response?.commit.tree.sha,
+      tree
     })
-    if (sha) {
-      console.log('UPDATE file:', response.status)
-    } else {
-      console.log('CREATE file:', response.status)
+
+    let commitMsg = '' // list the files that were changed
+    for (const file of files) {
+      commitMsg += `${file.name}, `
     }
+    commitMsg = commitMsg.slice(0, -2) // remove the last comma and space
+
+    const { data: newCommit } = await octokit.request('POST /repos/{owner}/{repo}/git/commits', {
+      headers: {
+        authorization: `token ${token.value}`
+      },
+      owner: OWNER,
+      repo: REPO,
+      message: `${branchName} changed ${commitMsg}`,
+      tree: treeData.sha,
+      parents: [latestCommitResponse.response?.sha!]
+    })
+
+    const response = await octokit.request('PATCH /repos/{owner}/{repo}/git/refs/heads/{ref}', {
+      headers: {
+        authorization: `token ${token.value}`
+      },
+      owner: OWNER,
+      repo: REPO,
+      ref: branchName,
+      sha: newCommit.sha
+    })
+    createOrUpdateFilesError.value.status = response.status
+    console.log('CREATE/UPDATE file:', response.status)
 
     return { status: response.status }
   } catch (error: any) {
+    createOrUpdateFilesError.value.status = error.status
+    createOrUpdateFilesError.value.error = true
     console.log('CREATE/UPDATE file error:', error.status)
     console.log('CREATE/UPDATE file error:', error)
 
     return { status: error.status, error }
   }
-}
-
-/**
- * Loops through the file names and contents and creates or updates the files.
- * @async
- * @param { string } branchName - The name of the branch to create the files on. This is the username.
- * @param { string[] } fileNames - The names of the files to create. These are the locales.
- * @param { string[] } contents - The new contents of the files to create.
- * @returns { Promise<{ status: number; error?: any }> } The response from the create or update file request or undefined.
- */
-export const createFilesAndCommit = async (
-  branchName: string,
-  fileNames: string[],
-  contents: string[]
-): Promise<{ status: number; error?: any }> => {
-  try {
-    for (let i = 0; i < fileNames.length; i++) {
-      const fileName = fileNames[i]
-      const content = contents[i]
-
-      const { response: getContentResponse } = await getContent(branchName, fileName)
-
-      const updateResponse = await createOrUpdateFile(
-        branchName,
-        fileName,
-        content,
-        getContentResponse?.sha
-      )
-
-      console.log('CREATE latest commit:', updateResponse?.status)
-      if (updateResponse?.status === 200) {
-        return { status: updateResponse?.status }
-      } else {
-        const { response: getLatestCommitResponse } = await getLatestCommit(branchName)
-
-        const updateLatestResponse = await createOrUpdateFile(
-          branchName,
-          fileName,
-          content,
-          getLatestCommitResponse?.sha
-        )
-
-        console.log('UPDATE latest commit:', updateLatestResponse?.status)
-
-        return { status: updateLatestResponse?.status }
-      }
-    }
-  } catch (error: any) {
-    console.log('CREATE/UPDATE files error:', error.status)
-    console.log('CREATE/UPDATE files error:', error)
-
-    return { status: error.status, error }
-  }
-
-  return { status: 200 }
 }
 
 /**
@@ -299,8 +301,12 @@ export const createPullRequest = async (
   status: number
   error?: any
 }> => {
+  const { createPullRequestError } = storeToRefs(useRequestErrorStore())
   const { response: getResponse, status } = await getPullRequest(branchName)
   if (getResponse) {
+    createPullRequestError.value.status = status
+    console.log('CREATE pull request: (exists)', status)
+
     return { prNumber: getResponse?.number, prUrl: getResponse?.html_url, status }
   } else {
     try {
@@ -312,9 +318,11 @@ export const createPullRequest = async (
         owner: OWNER,
         repo: REPO,
         title: `[Translate] ${branchName}`,
+        body: 'copilot:all',
         head: branchName,
         base: 'main'
       })
+      createPullRequestError.value.status = response.status
       console.log('CREATE pull request:', response.status)
 
       return {
@@ -323,21 +331,12 @@ export const createPullRequest = async (
         status: response.status
       }
     } catch (error: any) {
+      createPullRequestError.value.status = error.status
+      createPullRequestError.value.error = true
       console.log('CREATE pull request error:', error.status)
       console.log('CREATE pull request error:', error.message)
 
       return { status: error.status, error }
     }
   }
-}
-
-export const createPullRequestFromContent = async (
-  branchName: string,
-  fileName: string[],
-  content: string[]
-) => {
-  const { sha } = await getBranch()
-  await CreateBranch(branchName, sha)
-  await createFilesAndCommit(branchName, fileName, content)
-  await createPullRequest(branchName)
 }

@@ -1,21 +1,45 @@
 import { defineStore } from 'pinia'
+import { reactive, toRefs } from 'vue'
 
-export const useRequestErrorStore = defineStore({
-  id: 'requestError',
-  state: () => ({
-    getContentError: false,
-    createBranchError: false,
-    createOrUpdateFileError: false,
-    createFilesAndCommitError: false,
-    createPullRequestError: false
-  }),
-  actions: {
-    resetErrors() {
-      this.getContentError = false
-      this.createBranchError = false
-      this.createOrUpdateFileError = false
-      this.createFilesAndCommitError = false
-      this.createPullRequestError = false
+interface IRequestErrorState {
+  createBranchError: {
+    error: boolean
+    status: number | null
+  }
+  createOrUpdateFilesError: {
+    error: boolean
+    status: number | null
+  }
+  createPullRequestError: {
+    error: boolean
+    status: number | null
+  }
+}
+
+export const useRequestErrorStore = defineStore('requestError', () => {
+  const state = reactive<IRequestErrorState>({
+    createBranchError: {
+      error: false,
+      status: null
+    },
+    createOrUpdateFilesError: {
+      error: false,
+      status: null
+    },
+    createPullRequestError: {
+      error: false,
+      status: null
     }
+  })
+
+  const resetErrors = () =>
+    Object.keys(state).forEach((key) => {
+      state[key as keyof IRequestErrorState].error = false
+      state[key as keyof IRequestErrorState].status = null
+    })
+
+  return {
+    ...toRefs(state),
+    resetErrors
   }
 })

@@ -1,0 +1,2 @@
+[build]
+  ignore = "git --git-dir=../../.git --work-tree=../../ diff --quiet $CACHED_COMMIT_REF $COMMIT_REF locales/ || exit 1"

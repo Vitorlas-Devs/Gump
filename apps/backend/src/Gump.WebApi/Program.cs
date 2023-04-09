@@ -4,16 +4,17 @@ using Gump.Data.Repositories;
 using Gump.WebApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder();
 
 var mongoDbConfig = builder.Configuration.GetSection("MongoDbConfig").Get<MongoDbConfig>();
 var jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>();
+var gitHubConfig = builder.Configuration.GetSection("GitHubConfig").Get<GitHubConfig>();
 var pepper = builder.Configuration["Pepper"];
 
 builder.Services.AddSingleton(mongoDbConfig);
 builder.Services.AddSingleton(jwtConfig);
+builder.Services.AddSingleton(gitHubConfig);
 builder.Services.AddSingleton(pepper);
 
 builder.Services.AddSingleton<AdvertRepository>();
@@ -27,7 +28,8 @@ builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddSwaggerGenNewtonsoftSupport();
 
-#if DEBUG
+builder.Services.AddHttpClient();
+
 builder.Services.AddCors(option =>
 {
 	option.AddPolicy("EnableCors", policy =>
@@ -40,7 +42,19 @@ builder.Services.AddCors(option =>
 			.Build();
 	});
 });
-#endif
+
+builder.Services.AddCors(option =>
+{
+	option.AddPolicy("EnableGump", policy =>
+	{
+		policy
+			.WithOrigins("https://api.gump.live") // allow only this origin
+			.AllowAnyMethod()
+			.AllowAnyHeader()
+			.AllowCredentials()
+			.Build();
+	});
+});
 
 builder.Services
 	.AddAuthentication(option =>
@@ -71,11 +85,10 @@ if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();
+	app.UseCors("EnableCors");
 }
-#if DEBUG
-app.UseCors("EnableCors");
-#endif
 
+app.UseCors("EnableGump");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "44d1b422-d983-439c-bd56-93e7d0da22c5",
+		"_postman_id": "1395ab5d-4f54-4c87-ab60-fdf84f7429cf",
 		"name": "Gump",
 		"description": "WebAPI collection to test and document endpoints.\n\nSome may need a bearer token for authorization. To get a token just log in and place the token in the collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26477376"
+		"_exporter_id": "24694147"
 	},
 	"item": [
 		{
@@ -25,48 +25,18 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/Auth/login",
+							"raw": "{{baseUrl}}/auth/login",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"Auth",
+								"auth",
 								"login"
 							]
 						},
 						"description": "Logs in with the given credentials.  \n\n- `token` contains the generated JWT bearer token.\n- `id` contains the logged in user's Id."
 					},
 					"response": [
-						{
-							"name": "TestUser-123",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"TestUser\",\r\n    \"password\": \"123\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/Auth/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"Auth",
-										"login"
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						},
 						{
 							"name": "TestUser-secret",
 							"originalRequest": {
@@ -82,12 +52,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/Auth/login",
+									"raw": "{{baseUrl}}/auth/login",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"Auth",
+										"auth",
 										"login"
 									]
 								}
@@ -111,19 +81,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/Image/:id",
+							"raw": "{{baseUrl}}/image/:id",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"Image",
+								"image",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": null,
-									"description": "Id of the Image"
+									"value": null
 								}
 							]
 						},
@@ -136,12 +105,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/Image/:id",
+									"raw": "{{baseUrl}}/image/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"Image",
+										"image",
 										":id"
 									],
 									"variable": [
@@ -175,12 +144,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/Image",
+							"raw": "{{baseUrl}}/image",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"Image"
+								"image"
 							]
 						},
 						"description": "Posts an image for later use. It can be private to hide sensitive images from outsiders."
@@ -201,12 +170,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/Image",
+									"raw": "{{baseUrl}}/image",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"Image"
+										"image"
 									]
 								}
 							},
@@ -230,12 +199,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/Image",
+									"raw": "{{baseUrl}}/image",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"Image"
+										"image"
 									]
 								}
 							},
@@ -258,12 +227,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/User/:id",
+							"raw": "{{baseUrl}}/user/:id",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								":id"
 							],
 							"variable": [
@@ -282,12 +251,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/User/:id",
+									"raw": "{{baseUrl}}/user/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"User",
+										"user",
 										":id"
 									],
 									"variable": [
@@ -310,12 +279,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/User/:id",
+									"raw": "{{baseUrl}}/user/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"User",
+										"user",
 										":id"
 									],
 									"variable": [
@@ -340,12 +309,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/User/me",
+							"raw": "{{baseUrl}}/user/me",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								"me"
 							]
 						}
@@ -357,12 +326,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/User/me",
+									"raw": "{{baseUrl}}/user/me",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"User",
+										"user",
 										"me"
 									]
 								}
@@ -392,12 +361,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/User/search",
+							"raw": "{{baseUrl}}/user/search",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								"search"
 							]
 						}
@@ -409,12 +378,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/User/search",
+									"raw": "{{baseUrl}}/user/search",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"User",
+										"user",
 										"search"
 									]
 								}
@@ -432,12 +401,12 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/User/follow/:id",
+							"raw": "{{baseUrl}}/user/follow/:id",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								"follow",
 								":id"
 							],
@@ -457,12 +426,12 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/User/follow/:id",
+									"raw": "{{baseUrl}}/user/follow/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"User",
+										"user",
 										"follow",
 										":id"
 									],
@@ -497,12 +466,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/User/create",
+							"raw": "{{baseUrl}}/user/create",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								"create"
 							]
 						}
@@ -523,12 +492,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/User/create",
+									"raw": "{{baseUrl}}/user/create",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"User",
+										"user",
 										"create"
 									]
 								}
@@ -553,12 +522,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/User/create",
+									"raw": "{{baseUrl}}/user/create",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"User",
+										"user",
 										"create"
 									]
 								}
@@ -585,12 +554,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/User/update",
+							"raw": "{{baseUrl}}/user/update",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"User",
+								"user",
 								"update"
 							]
 						}
@@ -611,12 +580,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/User/update",
+									"raw": "{{baseUrl}}/user/update",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"User",
+										"user",
 										"update"
 									]
 								}
@@ -721,10 +690,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -775,10 +744,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -840,10 +809,40 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
+						},
+						{
+							"name": "Breakfast",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Breakfast\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/category/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"category",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
 						}
 					]
 				},
@@ -898,10 +897,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -931,7 +930,7 @@
 					},
 					"response": [
 						{
-							"name": "1-Pasta",
+							"name": "1",
 							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
@@ -954,10 +953,472 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
+						},
+						{
+							"name": "2",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/category/delete/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"category",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2",
+											"description": "Id of the Category to delete"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Recipe",
+			"item": [
+				{
+					"name": "Get Recipe By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/recipe/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Recipe"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1-Egyszerű rántotta",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Recipe"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Random Recipe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/recipe/random",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"random"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Random Recipe",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/random",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"random"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Search Recipes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"searchTerm\": \"\",\r\n    \"limit\": 0,\r\n    \"offset\": 0,\r\n    \"authorId\": 0,\r\n    \"categoryId\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/recipe/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"search"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Rántotta",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/search",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"search"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Today's Recommendation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/recipe/today/:categoryId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"today",
+								":categoryId"
+							],
+							"variable": [
+								{
+									"key": "categoryId",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Any",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/today/:categoryId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"today",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "1",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/today/:categoryId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"today",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "2",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/today/:categoryId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"today",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Create Recipe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"\",\r\n    \"language\": \"\",\r\n    \"serves\": 0,\r\n    \"categories\": [],\r\n    \"tags\": [],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"\",\r\n            \"value\": 0,\r\n            \"volume\": \"\",\r\n            \"linkedRecipe\": 0\r\n        }\r\n    ],\r\n    \"steps\": [],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/recipe/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Egyszerű rántotta",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Egyszerű rántotta\",\r\n    \"language\": \"hu_HU\",\r\n    \"serves\": 1,\r\n    \"categories\": [\r\n        2\r\n    ],\r\n    \"tags\": [\r\n        \"egyszerű\",\r\n        \"rántotta\",\r\n        \"tojás\",\r\n        \"olajban\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"Tojás\",\r\n            \"value\": 2,\r\n            \"volume\": \"db\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Só\",\r\n            \"value\": 1,\r\n            \"volume\": \"csipet\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Olaj\",\r\n            \"value\": 0,\r\n            \"volume\": \"\",\r\n            \"linkedRecipe\": 0\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        \"Öntsünk egy kevés olajat a serpenyőbe és gyújtsunk alá.\",\r\n        \"Törjük bele a tojásokat a serpenyőbe.\",\r\n        \"Sózzuk meg a tojásokat ízlés szerint.\",\r\n        \"Egy fakanállal, vagy bármilyen tetszőleges eszközzel kavargassuk a tojást addig, amíg már szinte mindenhol szárazra sült a tojás. Ízlés szerint hagyható szaftosabbra, vagy süthető szárazabbra.\",\r\n        \"Miután elkészült, egyből szedjük ki egy tányérra, és már fogyasztható is.\"\r\n    ],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/recipe/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Update Recipe",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t \"id\": 0,\r\n\t \"serves\": 0,\r\n\t \"categories\": [],\r\n\t \"tags\": [],\r\n\t \"ingredients\": [],\r\n\t \"steps\": [],\r\n\t \"isPrivate\": false,\r\n\t \"visibleTo\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/recipe/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Egyszerű rántotta update",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"serves\": 1,\r\n    \"categories\": [\r\n        2\r\n    ],\r\n    \"tags\": [\r\n        \"egyszerű\",\r\n        \"rántotta\",\r\n        \"tojás\",\r\n        \"olajban\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"Tojás\",\r\n            \"value\": 2,\r\n            \"volume\": \"db\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Só\",\r\n            \"value\": 1,\r\n            \"volume\": \"csipet\",\r\n            \"linkedRecipe\": 0\r\n        },\r\n        {\r\n            \"name\": \"Olaj\",\r\n            \"value\": 0,\r\n            \"volume\": \"\",\r\n            \"linkedRecipe\": 0\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        \"Öntsünk egy kevés olajat a serpenyőbe és gyújtsunk alá.\",\r\n        \"Törjük bele a tojásokat a serpenyőbe.\",\r\n        \"Sózzuk meg a tojásokat.\",\r\n        \"Egy fakanállal, vagy bármilyen tetszőleges eszközzel kavargassuk a tojást addig, amíg már szinte mindenhol szárazra sült a tojás. Ízlés szerint hagyható szaftosabbra, vagy süthető szárazabbra.\",\r\n        \"Miután elkészült, egyből szedjük ki egy tányérra, és már fogyasztható is.\"\r\n    ],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/recipe/update",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"update"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Delete Recipe",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/recipe/delete/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Recipe to delete"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "1",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/delete/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Recipe to delete"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
 						}
 					]
 				}
@@ -997,10 +1458,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1051,10 +1512,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1116,10 +1577,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1174,10 +1635,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1230,10 +1691,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -1273,10 +1734,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1327,10 +1788,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1385,10 +1846,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1443,10 +1904,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1499,10 +1960,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -1542,10 +2003,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1596,10 +2057,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1636,10 +2097,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1694,10 +2155,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1752,10 +2213,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1808,10 +2269,87 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GitHub",
+			"item": [
+				{
+					"name": "Get Access Token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/github/access_token?code=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"github",
+								"access_token"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "",
+									"description": "The code that github gives you after authenticating the app, it can be exchanged for a user access token"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Random Code",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/github/access_token?code=test",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"github",
+										"access_token"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "test"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "78"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 31 Mar 2023 20:06:26 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "access_token=test&scope=&token_type=bearer"
 						}
 					]
 				}
