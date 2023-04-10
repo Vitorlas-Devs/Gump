@@ -1,19 +1,19 @@
 // nodeWalk: walk the element tree, stop when func(node) returns false
-function nodeWalk(node: any, func: any) {
+function nodeWalk(node: Node, func: (node: Node) => boolean): boolean {
   let result = func(node)
 
   if (node) {
-    for (node = node.firstChild; result !== false && node; node = node.nextSibling) {
-      result = nodeWalk(node, func)
+    for (let child = node.firstChild; result !== false && child; child = child.nextSibling) {
+      result = nodeWalk(child, func)
     }
   }
 
   return result
 }
 
-// this is just a helper function that actually works... i just found it and i'm not going to add types
-export function useCursorPosition(element: any) {
+export function useCursorPosition(element: HTMLElement): number[] | undefined {
   const sel = window.getSelection()
+
   // cumulative length of text nodes, [0] is anchor, [1] is focus
   // anchor is the start of the selection, focus is the end
   let cumLength = [0, 0]
@@ -22,13 +22,14 @@ export function useCursorPosition(element: any) {
     cumLength = [sel.anchorOffset, sel.focusOffset]
   } else {
     const nodesToFind = [sel?.anchorNode, sel?.focusNode]
-    if (!element.contains(sel?.anchorNode) || !element.contains(sel?.focusNode)) {
+
+    if (!nodesToFind[0] || !nodesToFind[1]) {
       return undefined
     } else {
       const found = [0, 0]
       let i
 
-      nodeWalk(element, function (node: Node) {
+      nodeWalk(element, (node: Node) => {
         for (i = 0; i < 2; i++) {
           if (node == nodesToFind[i]) {
             found[i] = 1
@@ -45,13 +46,17 @@ export function useCursorPosition(element: any) {
             }
           }
         }
-      })
+
+        return true
+      }) ?? false
+
       if (sel?.anchorOffset && sel?.focusOffset) {
         cumLength[0] += sel.anchorOffset
         cumLength[1] += sel.focusOffset
       }
     }
   }
+
   if (cumLength[0] <= cumLength[1]) {
     return cumLength
   }
