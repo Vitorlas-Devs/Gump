@@ -15,6 +15,10 @@ const ui = useUIStore()
 const { loadTranslations } = useTranslationStore()
 const { username, languages, loggedIn, token } = storeToRefs(user)
 
+if (window.innerWidth < 768) {
+  ui.navbarOpen = false
+}
+
 const dirty = computed(() => translate.dirty)
 
 const saveChanges = () => {
