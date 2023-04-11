@@ -10,5 +10,6 @@
   "SearchTitle": "Keresés",
   "CreateVisibilityPrivateTitle": "Privát",
   "WelcomeError1": "Hiba",
-  "AppError": "Váratlan hiba történt."
+  "AppError": "Váratlan hiba történt.",
+  "WelcomeError5": "Hibás felhasználónév vagy jelszó."
 }
