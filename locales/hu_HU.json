@@ -11,5 +11,6 @@
   "CreateVisibilityPrivateTitle": "Privát",
   "WelcomeError1": "Hiba",
   "AppError": "Váratlan hiba történt.",
-  "WelcomeError5": "Hibás felhasználónév vagy jelszó."
+  "WelcomeError5": "Hibás felhasználónév vagy jelszó.",
+  "WelcomeError4": "{field} nem lehet üres."
 }
