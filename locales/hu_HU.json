@@ -9,5 +9,6 @@
   "HomeTitleNew": "Új",
   "SearchTitle": "Keresés",
   "CreateVisibilityPrivateTitle": "Privát",
-  "WelcomeError1": "Hiba"
+  "WelcomeError1": "Hiba",
+  "AppError": "Váratlan hiba történt."
 }
