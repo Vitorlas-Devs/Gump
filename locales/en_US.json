@@ -73,5 +73,6 @@
   "WelcomeError2": "User already exists with username or email",
   "WelcomeError3": "{email} is not valid.",
   "WelcomeError4": "{field} cannot be empty.",
-  "WelcomeError5": "Incorrect username or password."
+  "WelcomeError5": "Incorrect username or password.",
+  "AppError": "An unexpected error occurred."
 }

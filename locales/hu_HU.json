@@ -11,5 +11,8 @@
   "CreateVisibilityPrivateTitle": "Privát",
   "WelcomeError1": "Hiba",
   "WelcomeError2": "Már létezik egy felhasználó ugyanezzel a felhasználónévvel vagy email-lel.",
-  "WelcomeError3": "{email} nem egy érvényes email."
+  "WelcomeError3": "{email} nem egy érvényes email.",
+  "WelcomeError4": "{field} nem lehet üres.",
+  "WelcomeError5": "Hibás felhasználónév vagy jelszó.",
+  "AppError": "Váratlan hiba történt."
 }
