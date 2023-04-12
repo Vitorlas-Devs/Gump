@@ -3,9 +3,9 @@ import TheNavigation from '@/components/TheNavigation.vue'
 import MainContent from '@/components/MainContent.vue'
 import { useTranslationStore } from '@/stores/translationStore'
 import { useUIStore } from '@/stores/uiStore'
-import { useRequestErrorStore } from '@/stores/requestErrorStore'
+import { useRequestErrorStore, type IRequestError } from '@/stores/requestErrorStore'
 import { useRouter } from 'vue-router'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
@@ -54,13 +54,73 @@ onBeforeRouteLeave((to, from, next) => {
 
 const selectedKey = computed(() => router.currentRoute.value.params.key.toString())
 
-const nextKey = (key: string) => {
-  const index = translate.keys.indexOf(key)
-  if (index === translate.keys.length - 1) {
+onBeforeMount(() => {
+  if (!translate.keys.includes(selectedKey.value)) {
     router.push({ name: 'translate', params: { key: translate.keys[0] } })
-  } else {
-    router.push({ name: 'translate', params: { key: translate.keys[index + 1] } })
   }
+})
+
+const navigateKey = (key: string, direction: 'next' | 'previous') => {
+  const index = translate.keys.indexOf(key)
+  if (direction === 'next') {
+    if (index === translate.keys.length - 1) {
+      // if last key reached, go to first key
+      router.push({ name: 'translate', params: { key: translate.keys[0] } })
+    } else {
+      router.push({ name: 'translate', params: { key: translate.keys[index + 1] } })
+    }
+  } else {
+    if (index === 0) {
+      // if first key reached, go to last key
+      router.push({ name: 'translate', params: { key: translate.keys[translate.keys.length - 1] } })
+    } else {
+      router.push({ name: 'translate', params: { key: translate.keys[index - 1] } })
+    }
+  }
+}
+
+const litUp = ref(false)
+
+const lightUpLights = () => {
+  litUp.value = true
+  setTimeout(() => {
+    litUp.value = false
+  }, 3000)
+}
+
+watch(
+  litUp,
+  () => {
+    Object.keys(requestErrors.value).forEach((key) => {
+      const el = document.getElementById(key)
+      if (el) {
+        if (litUp.value) {
+          el.classList.add('bg-green', 'shadow-green')
+          el.classList.remove('bg-grey-700', 'shadow-grey')
+        } else {
+          el.classList.remove('bg-green', 'shadow-green')
+          el.classList.add('bg-grey-700', 'shadow-grey')
+        }
+      }
+    })
+  },
+  { immediate: true }
+)
+
+const lightClasses = (requestError: IRequestError) => {
+  const bg =
+    requestError.status === null
+      ? 'bg-grey-700 shadow-grey'
+      : requestError.error
+      ? 'bg-red shadow-red'
+      : 'bg-green shadow-green'
+  const text =
+    requestError.status === null
+      ? 'text-transparent'
+      : requestError.error
+      ? 'text-red'
+      : 'text-green'
+  return { bg, text }
 }
 </script>
 
@@ -95,51 +155,48 @@ const nextKey = (key: string) => {
             </div>
             <div
               flex="~ row-reverse md:col"
-              gap="10"
+              gap="5 md:10"
               pos="relative md:absolute"
-              top="0 md:30"
+              top="1 md:30"
               right="5"
             >
-              <button
-                w="26"
-                h="12"
+              <div
+                flex="~ row"
+                gap="5"
+                px="5"
+                py="2"
                 rounded="full"
                 bg="orange-500"
                 shadow="orange"
-                text="crimson-50 shadow-white"
-                font="bold"
-                @click="nextKey(selectedKey)"
               >
-                Next key
-              </button>
+                <SvgIcon
+                  icon="chevron-left-solid"
+                  class="icon-white"
+                  w="6"
+                  cursor="pointer"
+                  @click="navigateKey(selectedKey, 'previous')"
+                />
+                <SvgIcon
+                  icon="chevron-right-solid"
+                  class="icon-white"
+                  w="6"
+                  cursor="pointer"
+                  @click="navigateKey(selectedKey, 'next')"
+                />
+              </div>
+
               <div flex="~ row-reverse md:col" gap="5" ml="2">
-                <div v-for="requestError in requestErrors" :key="requestError.status ?? 0">
+                <div v-for="requestError in requestErrors" :key="requestError.id">
                   <div flex="~ col md:row" gap="2" place="items-center">
                     <div
+                      :id="requestError.id"
                       rounded="full"
                       w="5 md:6"
                       h="5 md:6"
-                      :bg="
-                        requestError.status === null
-                          ? 'grey-700'
-                          : requestError.error
-                          ? 'red'
-                          : 'green'
-                      "
-                      :shadow="
-                        requestError.status === null ? 'grey' : requestError.error ? 'red' : 'green'
-                      "
+                      text="lg"
+                      :class="lightClasses(requestError).bg"
                     />
-                    <p
-                      font="bold"
-                      :text="
-                        requestError.status === null
-                          ? 'transparent lg'
-                          : requestError.error
-                          ? 'red lg'
-                          : 'green lg'
-                      "
-                    >
+                    <p font="bold" :class="lightClasses(requestError).text">
                       {{ requestError.status ?? 100 }}
                     </p>
                   </div>
@@ -147,7 +204,7 @@ const nextKey = (key: string) => {
               </div>
             </div>
           </div>
-          <MainContent />
+          <MainContent @update="lightUpLights" />
         </div>
       </custom-scrollbar>
     </div>

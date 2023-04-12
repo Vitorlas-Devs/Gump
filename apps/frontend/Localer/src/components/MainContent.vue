@@ -4,13 +4,14 @@ import { useTranslationStore } from '@/stores/translationStore'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
+import { useUIStore } from '@/stores/uiStore'
 import { findChildWithCursor, useCursorPosition } from '@/utils/cursorPosition'
-// import { onKeyStroke } from '@vueuse/core' // TODO: we can do keybindings with this!!
 import RenderHtml from '@/components/RenderHtml'
 
 const translate = useTranslationStore()
 const user = useUserStore()
 const router = useRouter()
+const ui = useUIStore()
 
 const { checkDirty } = translate
 const { translations, locales, initialTranslations, updateIsFromFetch } = storeToRefs(translate)
@@ -32,6 +33,10 @@ const resize = (event: Event) => {
   target.style.height = target.scrollHeight + 'px'
 }
 
+// create an emit that we will emit after all getContents are done
+// this will light up all the green ligths signaling that the translations are up to date
+const emit = defineEmits(['update'])
+
 watch(
   () => translate.$state.translations,
   () => {
@@ -47,6 +52,7 @@ watch(
     })
     if (fetchCount === locales.value.length) {
       updateIsFromFetch.value = false
+      emit('update')
     }
     checkDirty()
   },
@@ -109,7 +115,12 @@ const inputFunc = (locale: string) => {
   }
 }
 
+ui.specialKey = null
+
 const colorSpecialCharacters = (text: string) => {
+  if (text === undefined) {
+    return ''
+  }
   const regex = /{.*?}|@:.*?[a-zA-Z]*/g
   const matches = text.match(regex)
   if (matches) {
@@ -121,6 +132,8 @@ const colorSpecialCharacters = (text: string) => {
         return
       }
       const replacement = `<span text="orange-500">${match}</span>`
+
+      ui.specialKey = match
 
       text = text.replace(regex, replacement)
     })
@@ -151,6 +164,11 @@ const colorSpecialCharacters = (text: string) => {
         @keydown.enter.prevent
       />
       <div :class="changesClasses(locale, selectedKey).value" w="2" h="8" rounded="full"></div>
+    </div>
+    <div v-if="ui.specialKey" mt="10" text="center lg md:xl" class="link-orange">
+      <RouterLink :to="{ name: 'translate', params: { key: ui.specialKey.slice(2) } }">
+        {{ ui.specialKey }}
+      </RouterLink>
     </div>
   </div>
 </template>

@@ -9,7 +9,6 @@ import { useTranslationStore } from '@/stores/translationStore'
 import { useUIStore } from '@/stores/uiStore'
 import VueSelect from 'vue-select'
 import { ref } from 'vue'
-import SvgIcon from '@/components/SvgIcon.vue'
 
 const translate = useTranslationStore()
 const user = useUserStore()
@@ -271,8 +270,8 @@ const toggleEditing = () => {
               </li>
               <li>
                 The <span font="bold">Navigation bar resets</span> its scroll position when
-                switching keys. The <span text="orange-500" font="bold">Next key</span> button can
-                help with that.
+                switching keys. The <span text="orange-500" font="bold">Arrow</span> buttons below
+                Fetch your data can help with that.
               </li>
               <li>
                 <span font="bold">You should not Log out</span>. Your GitHub access token is stored,
