@@ -1,11 +1,11 @@
 # Gump
 
-Blocks: <https://blocks.githubnext.com/14A-A-Lyedlik-Devs/Gump>
+Link: <https://gump.live>
 
 Webes és mobilos alkalmazás, mely lehetővé teszi a receptek moduláris összeállítását,
 megtekintését és megosztását.
 
-Link: <https://gump.live>
+Blocks: <https://blocks.githubnext.com/14A-A-Lyedlik-Devs/Gump>
 
 ## Mappaszerkezet
 

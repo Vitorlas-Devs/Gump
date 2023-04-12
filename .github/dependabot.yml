@@ -9,14 +9,14 @@ updates:
   - package-ecosystem: "npm"
     directory: "/apps/frontend/Gump"
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
   - package-ecosystem: "npm"
     directory: "/apps/frontend/Localer"
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
   - package-ecosystem: "nuget"
     directory: "/apps/backend"
     schedule:
-      interval: "daily"
+      interval: "weekly"

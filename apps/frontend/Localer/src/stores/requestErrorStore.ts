@@ -1,32 +1,32 @@
 import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
 
+export interface IRequestError {
+  id: string
+  error: boolean
+  status: number | null
+}
+
 interface IRequestErrorState {
-  createBranchError: {
-    error: boolean
-    status: number | null
-  }
-  createOrUpdateFilesError: {
-    error: boolean
-    status: number | null
-  }
-  createPullRequestError: {
-    error: boolean
-    status: number | null
-  }
+  createBranchError: IRequestError
+  createOrUpdateFilesError: IRequestError
+  createPullRequestError: IRequestError
 }
 
 export const useRequestErrorStore = defineStore('requestError', () => {
   const state = reactive<IRequestErrorState>({
     createBranchError: {
+      id: 'createBranchError',
       error: false,
       status: null
     },
     createOrUpdateFilesError: {
+      id: 'createOrUpdateFilesError',
       error: false,
       status: null
     },
     createPullRequestError: {
+      id: 'createPullRequestError',
       error: false,
       status: null
     }
