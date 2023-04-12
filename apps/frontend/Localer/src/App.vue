@@ -2,7 +2,6 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed, ref } from 'vue'
-import SvgIcon from './components/SvgIcon.vue'
 import { CreateBranch, createOrUpdateFiles, createPullRequest, getBranch } from './octokit'
 import { useUserStore } from '@/stores/userStore'
 import { useUIStore } from '@/stores/uiStore'
@@ -94,7 +93,7 @@ const openModal = ref(false)
   <div>
     <div flex="~ row" justify="between" h="12" place="items-center" text="lg" font="bold">
       <div flex="~ row" gap="3 md:4" mx="3 md:5" place="items-center">
-        <svg-icon
+        <SvgIcon
           class="icon-orange"
           icon="bars-solid"
           w="8"

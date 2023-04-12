@@ -6,7 +6,6 @@ import { useUserStore } from '@/stores/userStore'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import SvgIcon from './SvgIcon.vue'
 
 const translate = useTranslationStore()
 const ui = useUIStore()
