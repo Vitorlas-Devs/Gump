@@ -164,7 +164,7 @@ const lightClasses = (requestError: IRequestError) => {
                 flex="~ row"
                 gap="4 md:5"
                 px="4 md:5"
-                py="0 md:3"
+                py="0 md:2"
                 rounded="full"
                 bg="orange-500"
                 shadow="orange"
