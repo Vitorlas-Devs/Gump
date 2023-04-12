@@ -42,7 +42,7 @@ public class ControllerTestsBase : IDisposable
 
 		CreatePublicImages();
 		CreateCategories();
-		CreateBadge();
+		CreateBadges();
 		CreateUsers();
 		CreatePrivateImage();
 		CreateRecipes();
@@ -253,12 +253,54 @@ public class ControllerTestsBase : IDisposable
 		});
 	}
 
-	private void CreateBadge()
+	private void CreateBadges()
 	{
 		BadgeRepository.Create(new()
 		{
-			Name = "MasterChefBadge",
-			Description = "MasterChefBadgeDescription",
+			Name = "cookbookBadgeName",
+			Description = "cookbookBadgeDesc",
+			ImageId = 2,
+		});
+		BadgeRepository.Create(new()
+		{
+			Name = "explorerBadgeName",
+			Description = "explorerBadgeDesc",
+			ImageId = 2,
+		});
+		BadgeRepository.Create(new()
+		{
+			Name = "firstBadgeName",
+			Description = "firstBadgeDesc",
+			ImageId = 2,
+		});
+		BadgeRepository.Create(new()
+		{
+			Name = "hoarderBadgeName",
+			Description = "hoarderBadgeDesc",
+			ImageId = 2,
+		});
+		BadgeRepository.Create(new()
+		{
+			Name = "lengthyBadgeName",
+			Description = "lengthyBadgeDesc",
+			ImageId = 2,
+		});
+		BadgeRepository.Create(new()
+		{
+			Name = "celebrityBadgeName",
+			Description = "celebrityBadgeDesc",
+			ImageId = 2,
+		});
+		BadgeRepository.Create(new()
+		{
+			Name = "searchBadgeName",
+			Description = "searchBadgeDesc",
+			ImageId = 2,
+		});
+		BadgeRepository.Create(new()
+		{
+			Name = "foolsBadgeName",
+			Description = "foolsBadgeDesc",
 			ImageId = 2,
 		});
 	}
