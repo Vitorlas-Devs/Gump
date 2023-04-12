@@ -50,11 +50,9 @@ public class UserModel : IEntity
 
 	public void AddBadge(ulong badgeId)
 	{
-		if (Badges.Contains(badgeId))
+		if (!Badges.Contains(badgeId))
 		{
-			return;
+			Badges.Add(badgeId);
 		}
-
-		Badges.Add(badgeId);
 	}
 }
