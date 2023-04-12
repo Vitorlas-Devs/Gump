@@ -14,5 +14,7 @@
   "WelcomeError3": "{email} nem egy érvényes email.",
   "WelcomeError4": "{field} nem lehet üres.",
   "WelcomeError5": "Hibás felhasználónév vagy jelszó.",
-  "AppError": "Váratlan hiba történt."
+  "AppError": "Váratlan hiba történt.",
+  "lengthyBadgeName": "Kövi oldal",
+  "lengthyBadgeDesc": "Készíts több, mint 10 lépésből álló receptet."
 }
