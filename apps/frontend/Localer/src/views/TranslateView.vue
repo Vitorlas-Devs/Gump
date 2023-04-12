@@ -162,9 +162,9 @@ const lightClasses = (requestError: IRequestError) => {
             >
               <div
                 flex="~ row"
-                gap="5"
-                px="5"
-                py="2"
+                gap="4 md:5"
+                px="4 md:5"
+                py="0 md:3"
                 rounded="full"
                 bg="orange-500"
                 shadow="orange"
@@ -172,14 +172,14 @@ const lightClasses = (requestError: IRequestError) => {
                 <SvgIcon
                   icon="chevron-left-solid"
                   class="icon-white"
-                  w="6"
+                  w="4 md:5"
                   cursor="pointer"
                   @click="navigateKey(selectedKey, 'previous')"
                 />
                 <SvgIcon
                   icon="chevron-right-solid"
                   class="icon-white"
-                  w="6"
+                  w="4 md:5"
                   cursor="pointer"
                   @click="navigateKey(selectedKey, 'next')"
                 />
