@@ -10,7 +10,9 @@
   "SearchTitle": "Keresés",
   "CreateVisibilityPrivateTitle": "Privát",
   "WelcomeError1": "Hiba",
-  "AppError": "Váratlan hiba történt.",
+  "WelcomeError2": "Már létezik egy felhasználó ugyanezzel a felhasználónévvel vagy email-lel.",
+  "WelcomeError3": "{email} nem egy érvényes email.",
+  "WelcomeError4": "{field} nem lehet üres.",
   "WelcomeError5": "Hibás felhasználónév vagy jelszó.",
-  "WelcomeError4": "{field} nem lehet üres."
+  "AppError": "Váratlan hiba történt."
 }
