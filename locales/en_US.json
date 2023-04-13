@@ -26,7 +26,7 @@
   "HomeTitleTop": "Top",
   "SearchTitle": "Search",
   "SearchRecent": "Recent",
-  "SearchTip": "Tip: use @ to search for users",
+  "SearchTip": "Tip: use {'@'} to search for users",
   "CreateTitle": "Title",
   "CreateVisibility": "Visibility",
   "CreateVisibilityPublicTitle": "Public",

@@ -1,7 +1,0 @@
-{
-	"name": "gump",
-	"integrations": {
-		"capacitor": {}
-	},
-	"type": "custom"
-}
