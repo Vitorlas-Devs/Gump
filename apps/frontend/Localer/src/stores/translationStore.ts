@@ -153,7 +153,6 @@ export const useTranslationStore = defineStore({
         }
         return this.translations[locale][key] !== this.initialTranslations[locale][key]
       })
-      this.dirty = dirty
       return dirty
     },
     saveChanges() {
