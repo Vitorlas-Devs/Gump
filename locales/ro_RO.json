@@ -1,3 +1,20 @@
 {
-  "EnglishLanguageName": "Romanian"
+  "EnglishLanguageName": "Romanian",
+  "hoarderBadgeName": "Colecționar de Rețete",
+  "hoarderBadgeDesc": "Salveazâ cel puţin\n100 de reţete.",
+  "lengthyBadgeName": "Pagina urmâtoare",
+  "lengthyBadgeDesc": "Creați o rețetă cu mai mult de 10 pași.",
+  "HomeNav": "Pagina de Start",
+  "SearchNav": "Câutare",
+  "CreateNav": "Creare",
+  "RecipesNav": "Rețete",
+  "ProfileNav": "Profil",
+  "HomeTitleNew": "Nou",
+  "CreateVisibilityPrivateTitle": "Privat",
+  "WelcomeError1": "Eroare",
+  "WelcomeError2": "Existâ deja un\nutilizator cu acelaşi nume de utilizator sau e-mail.",
+  "WelcomeError3": "{email} nu este valabilâ.",
+  "WelcomeError4": "{field} nu poate fi goalâ.",
+  "WelcomeError5": "Numele de utilizator sau parola incorectă.",
+  "AppError": "A apărut o eroare neașteptată."
 }

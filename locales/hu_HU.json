@@ -16,5 +16,6 @@
   "WelcomeError5": "Hibás felhasználónév vagy jelszó.",
   "AppError": "Váratlan hiba történt.",
   "lengthyBadgeName": "Kövi oldal",
-  "lengthyBadgeDesc": "Készíts több, mint 10 lépésből álló receptet."
+  "lengthyBadgeDesc": "Készíts több, mint 10 lépésből álló receptet.",
+  "CreateNav": "Készítés"
 }
