@@ -251,6 +251,20 @@ const toggleEditing = () => {
             <h3 text="xl" font="bold">🚧 Beta version Warning 🚨</h3>
             <ol class="cool-ol">
               <li>
+                This:
+                <div
+                  display="inline-block"
+                  bg="crimson-500"
+                  w="2"
+                  h="8"
+                  mx="2"
+                  style="transform: translateY(10px)"
+                  rounded="full"
+                ></div>
+                indicates that you have made changes to the input field, you can
+                <span font="bold">click on it to reset</span> this value only.
+              </li>
+              <li>
                 After hitting <span font="bold" text="crimson-500">Save</span>, 3 lights will signal
                 whether the translations were saved successfully on GitHub. <br />
                 <span font="bold"> If any of them is red</span>, please notify us
