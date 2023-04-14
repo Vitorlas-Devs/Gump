@@ -18,3 +18,4 @@ Blocks: <https://blocks.githubnext.com/14A-A-Lyedlik-Devs/Gump>
 - [Specifikáció](/docs/manual.md)
 - [Fejlesztői leírás](/docs/dev.md)
 - [ER MODEL](https://app.diagrams.net/#G1BBTGqKAzg2ffcl2lPW3dU6NtK2lj8m1L)
+- [AB MODEL](https://raw.githubusercontent.com/14A-A-Lyedlik-Devs/Gump/main/docs/AB-Model.png)

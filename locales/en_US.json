@@ -24,9 +24,8 @@
   "HomeTitleHot": "Hot",
   "HomeTitleNew": "New",
   "HomeTitleTop": "Top",
-  "SearchTitle": "Search",
   "SearchRecent": "Recent",
-  "SearchTip": "Tip: use @ to search for users",
+  "SearchTip": "Tip: use {'@'} to search for users",
   "CreateTitle": "Title",
   "CreateVisibility": "Visibility",
   "CreateVisibilityPublicTitle": "Public",
@@ -45,7 +44,7 @@
   "CreateStepsTipOrange": "orange",
   "CreateStepsTip": "Click on the @:CreateStepsTipOrange items to see their instructions",
   "CreateServingsTitle": "Servings",
-  "CreateServingsDesc": "How many people does this recipe serve?",
+  "CreateServingsDesc": "How many servings does this recipe make?",
   "CreateManageAccessTitle": "Manage access",
   "CreateManageAccessDesc": "Let other users view your recipe",
   "CreateCategory": "Category",
@@ -56,7 +55,6 @@
   "RecipesSortOwned": "Owned",
   "RecipesSortLiked": "Likes",
   "RecipesSortSaved": "Saved",
-  "ProfileTitle": "Profile",
   "ProfileModerator": "Moderator",
   "ProfileUsername": "Username",
   "ProfileEmail": "Email",
@@ -73,5 +71,6 @@
   "WelcomeError2": "User already exists with username or email",
   "WelcomeError3": "{email} is not valid.",
   "WelcomeError4": "{field} cannot be empty.",
-  "WelcomeError5": "Incorrect username or password."
+  "WelcomeError5": "Incorrect username or password.",
+  "AppError": "An unexpected error occurred."
 }
