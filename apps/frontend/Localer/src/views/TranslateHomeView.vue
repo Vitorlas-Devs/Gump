@@ -107,7 +107,7 @@ const toggleEditing = () => {
             <h3 text="xl" font="bold">Choose your language</h3>
             <p>Select your languages below. You can also add a new language.</p>
           </div>
-          <vue-select
+          <VueSelect
             v-model="user.languages"
             w="72"
             shadow="inner"
@@ -116,7 +116,7 @@ const toggleEditing = () => {
             mb="4"
             font="bold"
             class="select"
-            :options="translate.locales"
+            :options="translate.locales.filter((locale) => locale !== 'notes')"
             :multiple="true"
             :close-on-select="false"
             :clear-on-select="false"
