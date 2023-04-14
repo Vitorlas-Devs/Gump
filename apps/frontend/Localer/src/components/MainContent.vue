@@ -33,8 +33,6 @@ const resize = (event: Event) => {
   target.style.height = target.scrollHeight + 'px'
 }
 
-// create an emit that we will emit after all getContents are done
-// this will light up all the green ligths signaling that the translations are up to date
 const emit = defineEmits(['update'])
 
 watch(
@@ -140,11 +138,68 @@ const colorSpecialCharacters = (text: string) => {
   }
   return text
 }
+
+const reset = (locale: string, key: string) => {
+  let initialValue = ''
+  if (initialTranslations.value[locale]) {
+    initialValue = initialTranslations.value[locale][key]
+  }
+  translations.value[locale][key] = initialValue
+  const element = document.getElementById(locale)
+  if (element) {
+    element.innerHTML = colorSpecialCharacters(initialValue)
+  }
+  checkDirty()
+}
 </script>
 
 <template>
-  <div w="full md:4/5">
-    <div v-for="locale in locales" :key="locale" flex="~ row" gap="4" my="6" place="items-center">
+  <div w="full md:4/5" flex="~ col" gap="5">
+    <div
+      v-for="locale in locales.filter((locale) => locale === 'notes')"
+      :key="locale"
+      flex="~ row"
+      gap="4"
+      my="6"
+      place="items-center"
+    >
+      <label w="10 md:16" text="md md:xl" font="bold">Notes</label>
+      <RenderHtml
+        :id="locale"
+        :contenteditable="true"
+        type="text"
+        flex="grow"
+        p="3"
+        shadow="inner"
+        bg="crimson-50"
+        rounded="3xl"
+        h="min-12"
+        w="100"
+        resize="none"
+        overflow="hidden"
+        :html="colorSpecialCharacters(translations[locale][selectedKey])"
+        style="white-space: -moz-pre-space"
+        @input="inputFunc(locale)"
+        @keydown.enter.prevent
+      />
+      <div
+        cursor="pointer"
+        :class="changesClasses(locale, selectedKey).value"
+        w="2"
+        h="8"
+        rounded="full"
+        @click="reset(locale, selectedKey)"
+      />
+    </div>
+    <hr border="orange-500 1" w="2/6" pos="relative" mx="auto" left="0" />
+    <div
+      v-for="locale in locales.filter((locale) => locale !== 'notes')"
+      :key="locale"
+      flex="~ row"
+      gap="4"
+      my="6"
+      place="items-center"
+    >
       <label w="10 md:16" text="md md:xl" font="bold">{{ locale }}</label>
       <RenderHtml
         :id="locale"
@@ -164,7 +219,14 @@ const colorSpecialCharacters = (text: string) => {
         @input="inputFunc(locale)"
         @keydown.enter.prevent
       />
-      <div :class="changesClasses(locale, selectedKey).value" w="2" h="8" rounded="full"></div>
+      <div
+        cursor="pointer"
+        :class="changesClasses(locale, selectedKey).value"
+        w="2"
+        h="8"
+        rounded="full"
+        @click="reset(locale, selectedKey)"
+      />
     </div>
     <div v-if="ui.specialKey" mt="10" text="center lg md:xl" class="link-orange">
       <RouterLink :to="{ name: 'translate', params: { key: ui.specialKey.slice(2) } }">

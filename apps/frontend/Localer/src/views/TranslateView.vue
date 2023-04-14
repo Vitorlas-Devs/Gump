@@ -157,7 +157,7 @@ const lightClasses = (requestError: IRequestError) => {
               flex="~ row-reverse md:col"
               gap="5 md:10"
               pos="relative md:absolute"
-              top="1 md:30"
+              top="-1 md:30"
               right="5"
             >
               <div
