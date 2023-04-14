@@ -45,7 +45,7 @@
   "CreateStepsTipOrange": "orange",
   "CreateStepsTip": "Click on the @:CreateStepsTipOrange items to see their instructions",
   "CreateServingsTitle": "Servings",
-  "CreateServingsDesc": "How many people does this recipe serve?",
+  "CreateServingsDesc": "How many servings does this recipe make?",
   "CreateManageAccessTitle": "Manage access",
   "CreateManageAccessDesc": "Let other users view your recipe",
   "CreateCategory": "Category",
