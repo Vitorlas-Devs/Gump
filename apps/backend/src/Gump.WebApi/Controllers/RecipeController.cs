@@ -266,7 +266,7 @@ public class RecipeController : ControllerBase
 	{
 		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
 
-		if (update.Id != user.Id && !user.IsModerator)
+		if (recipeRepository.GetById(update.Id).AuthorId != user.Id && !user.IsModerator)
 		{
 			return Unauthorized();
 		}
@@ -316,7 +316,7 @@ public class RecipeController : ControllerBase
 	{
 		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
 
-		if (id != user.Id && !user.IsModerator)
+		if (recipeRepository.GetById(id).AuthorId != user.Id && !user.IsModerator)
 		{
 			return Unauthorized();
 		}

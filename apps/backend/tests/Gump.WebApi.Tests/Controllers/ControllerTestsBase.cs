@@ -54,17 +54,22 @@ public class ControllerTestsBase : IDisposable
 	{
 		ImageRepository.Create(new ImageModel
 		{
-			Image = "data:image/png;base64,DefaultPfp",
+			Image = File.ReadAllText("Images/DefaultPfp.txt"),
 			OwnerId = null
 		});
 		ImageRepository.Create(new ImageModel
 		{
-			Image = "data:image/png;base64,Badge",
+			Image = File.ReadAllText("Images/Badge.txt"),
 			OwnerId = null
 		});
 		ImageRepository.Create(new ImageModel
 		{
-			Image = "data:image/png;base64,Advert",
+			Image = File.ReadAllText("Images/Advert.txt"),
+			OwnerId = null
+		});
+		ImageRepository.Create(new ImageModel
+		{
+			Image = File.ReadAllText("Images/Recipe.txt"),
 			OwnerId = null
 		});
 	}
@@ -73,7 +78,7 @@ public class ControllerTestsBase : IDisposable
 	{
 		ImageRepository.Create(new ImageModel
 		{
-			Image = "data:image/png;base64,PrivateImage",
+			Image = File.ReadAllText("Images/Private.txt"),
 			OwnerId = 1
 		});
 	}
@@ -113,6 +118,7 @@ public class ControllerTestsBase : IDisposable
 		{
 			AuthorId = 1,
 			Title = "Egyszerű rántotta",
+			ImageId = 4,
 			Language = "hu_HU",
 			Serves = 1,
 			Categories = new() { 2 },
@@ -159,6 +165,7 @@ public class ControllerTestsBase : IDisposable
 		{
 			AuthorId = 1,
 			Title = "Főtt kockatészta",
+			ImageId = 4,
 			Language = "hu_HU",
 			Serves = 4,
 			Categories = new() { 1 },
@@ -195,7 +202,7 @@ public class ControllerTestsBase : IDisposable
 				"Öntsük bele a vizet egy kellően nagy fazékba.",
 				"Tegyük bele a vízbe a sót.",
 				"Gyújtsunk alá, és forrásig melegítsük a vizet.",
-				"Szórjuk bele a tésztát a vízbe, majd vegyük lejebb a hőfokot, hogy csak halkan bugyogjon.",
+				"Szórjuk bele a tésztát a vízbe, majd vegyük lejjebb a hőfokot, hogy csak halkan bugyogjon.",
 				"5-10 percig főzzük.",
 				"Amint elkészült, szűrjük le és már fogyasztható is."
 			},
@@ -209,6 +216,7 @@ public class ControllerTestsBase : IDisposable
 		{
 			AuthorId = 1,
 			Title = "Diós tészta",
+			ImageId = 4,
 			Language = "hu_HU",
 			Serves = 4,
 			Categories = new() { 1 },
