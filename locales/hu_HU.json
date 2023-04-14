@@ -36,5 +36,9 @@
   "CreateStepsTip": "Kattints a @:CreateStepsTipOrange elemekre az utasítások megtekintéséhez",
   "CreateServingsTitle": "Adagok",
   "cookbookBadgeName": "Egy Egész Receptes Könyvnyi Recept",
-  "cookbookBadgeDesc": "Készíts Legalább 100 Receptet"
+  "cookbookBadgeDesc": "Készíts legalább 100 receptet.",
+  "explorerBadgeName": "Elveszve A Konyhában",
+  "explorerBadgeDesc": "Használd a navigációs sávot ezerszer.",
+  "firstBadgeName": "Mi Történt a Történelem Előtt?",
+  "firstBadgeDesc": "Találd meg a legelső receptet, amit valaha készítettek."
 }
