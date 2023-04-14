@@ -73,5 +73,6 @@
   "RecipeViewInfo": "Infó",
   "RecipeViewUseRecipe": "Recept hozzáadása",
   "WelcomSignIn": "Bejelentkezés",
-  "WelcomSignUp": "Regisztráció"
+  "WelcomSignUp": "Regisztráció",
+  "SearchTip": "Tipp: használd a {'@'} karaktert, hogy felhasználókra keress"
 }
