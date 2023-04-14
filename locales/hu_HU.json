@@ -34,5 +34,7 @@
   "CreateSteps": "Lépések",
   "CreateStepsTipOrange": "narancssárga",
   "CreateStepsTip": "Kattints a @:CreateStepsTipOrange elemekre az utasítások megtekintéséhez",
-  "CreateServingsTitle": "Adagok"
+  "CreateServingsTitle": "Adagok",
+  "cookbookBadgeName": "Egy Egész Receptes Könyvnyi Recept",
+  "cookbookBadgeDesc": "Készíts Legalább 100 Receptet"
 }
