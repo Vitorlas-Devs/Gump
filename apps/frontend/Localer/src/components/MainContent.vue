@@ -160,6 +160,7 @@ const colorSpecialCharacters = (text: string) => {
         resize="none"
         overflow="hidden"
         :html="colorSpecialCharacters(translations[locale][selectedKey])"
+        style="white-space: -moz-pre-space"
         @input="inputFunc(locale)"
         @keydown.enter.prevent
       />
