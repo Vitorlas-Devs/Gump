@@ -4,14 +4,12 @@ import { useTranslationStore } from '@/stores/translationStore'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { useUIStore } from '@/stores/uiStore'
 import { findChildWithCursor, useCursorPosition } from '@/utils/cursorPosition'
 import RenderHtml from '@/components/RenderHtml'
 
 const translate = useTranslationStore()
 const user = useUserStore()
 const router = useRouter()
-const ui = useUIStore()
 
 const { checkDirty } = translate
 const { translations, locales, initialTranslations, updateIsFromFetch } = storeToRefs(translate)
@@ -113,7 +111,7 @@ const inputFunc = (locale: string) => {
   }
 }
 
-ui.specialKey = null
+let specialKey: string | undefined = undefined
 
 const colorSpecialCharacters = (text: string) => {
   if (text === undefined) {
@@ -131,7 +129,9 @@ const colorSpecialCharacters = (text: string) => {
       }
       const replacement = `<span text="orange-500">${match}</span>`
 
-      ui.specialKey = match
+      if (!specialKey) {
+        specialKey = match
+      }
 
       text = text.replace(regex, replacement)
     })
@@ -228,9 +228,14 @@ const reset = (locale: string, key: string) => {
         @click="reset(locale, selectedKey)"
       />
     </div>
-    <div v-if="ui.specialKey" mt="10" text="center lg md:xl" class="link-orange">
-      <RouterLink :to="{ name: 'translate', params: { key: ui.specialKey.slice(2) } }">
-        {{ ui.specialKey }}
+    <div
+      v-if="specialKey && specialKey.length > 2"
+      mt="10"
+      text="center lg md:xl"
+      class="link-orange"
+    >
+      <RouterLink :to="{ name: 'translate', params: { key: specialKey.slice(2) } }">
+        {{ specialKey }}
       </RouterLink>
     </div>
   </div>
