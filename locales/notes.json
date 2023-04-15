@@ -1,3 +1,13 @@
 {
-  "EnglishLanguageName": "This is the name of the language in English. Used for the language selection menu."
+  "EnglishLanguageName": "This is the name of the language in English. Used for the language selection menu.",
+  "HomeNav": "Label for the home page in the app.",
+  "SearchNav": "This is the label for the search page, where users look for recipes.",
+  "CreateNav": "The page for users to start creating new recipes. Prominently protruding from the navbar.",
+  "RecipesNav": "This is label for the recipes page. Users can view the recipes they saved or liked, and also their own recipes.",
+  "ProfileNav": "The tab where your settings are, beside the profile information.",
+  "HomeTitleHot": "The home page's title changes between \"Hot\", \"New\" and \"Top\" according to the sorting method the user selected. \"Hot\" is for new recipes that've received a lot of likes.",
+  "HomeTitleNew": "The home page's title changes between \"Hot\", \"New\" and \"Top\" according to the sorting method the user selected. New recipes go here.",
+  "HomeTitleTop": "The home page's title changes between \"Hot\", \"New\" and \"Top\" according to the sorting method the user selected. \"Top\" is the place of the absolute most popular recipes.",
+  "SearchRecent": "A small label that appears when you start typing in the search bar. Just shows your previous searches.",
+  "SearchTip": "Small tip to let users know about a special character to query users and not recipes. The {'@'} symbol needs to be escaped, that's why it's written like this."
 }

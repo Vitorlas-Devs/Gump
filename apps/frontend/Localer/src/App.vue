@@ -24,9 +24,13 @@ const saveChanges = () => {
   ;(async () => {
     const { translations, initialTranslations } = translate
 
-    const changedLocales = languages.value.filter((locale) => {
+    const locales = [...languages.value, 'notes']
+
+    const changedLocales = locales.filter((locale) => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
     })
+
+    console.log('changedLocales', changedLocales)
 
     const contents = changedLocales.map((locale) => {
       const filteredTranslations = Object.keys(translations[locale])
@@ -41,6 +45,8 @@ const saveChanges = () => {
     contents.forEach((content, index) => {
       contents[index] = content.replace(/&nbsp;/g, ' ')
     })
+
+    console.log('contents', contents)
 
     const { sha } = await getBranch()
     await CreateBranch(username.value, sha)
@@ -60,9 +66,10 @@ const saveChanges = () => {
 }
 
 const resetChanges = () => {
-  user.languages.forEach((language) => {
+  const locales = [...languages.value, 'notes']
+  locales.forEach((language) => {
     if (Object.values(translate.translations[language]).every((value) => value === '')) {
-      user.languages = user.languages.filter((lang) => lang !== language)
+      languages.value = locales.filter((lang) => lang !== language)
     }
   })
   window.location.reload()

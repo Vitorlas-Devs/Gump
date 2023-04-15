@@ -58,6 +58,7 @@ onBeforeMount(() => {
   if (!translate.keys.includes(selectedKey.value)) {
     router.push({ name: 'translate', params: { key: translate.keys[0] } })
   }
+  litUp.value = false
 })
 
 const navigateKey = (key: string, direction: 'next' | 'previous') => {
@@ -85,27 +86,23 @@ const lightUpLights = () => {
   litUp.value = true
   setTimeout(() => {
     litUp.value = false
-  }, 3000)
+  }, 2000)
 }
 
-watch(
-  litUp,
-  () => {
-    Object.keys(requestErrors.value).forEach((key) => {
-      const el = document.getElementById(key)
-      if (el) {
-        if (litUp.value) {
-          el.classList.add('bg-green', 'shadow-green')
-          el.classList.remove('bg-grey-700', 'shadow-grey')
-        } else {
-          el.classList.remove('bg-green', 'shadow-green')
-          el.classList.add('bg-grey-700', 'shadow-grey')
-        }
+watch(litUp, () => {
+  Object.keys(requestErrors.value).forEach((key) => {
+    const el = document.getElementById(key)
+    if (el) {
+      if (litUp.value) {
+        el.classList.add('bg-green', 'shadow-green')
+        el.classList.remove('bg-grey-700', 'shadow-grey')
+      } else {
+        el.classList.remove('bg-green', 'shadow-green')
+        el.classList.add('bg-grey-700', 'shadow-grey')
       }
-    })
-  },
-  { immediate: true }
-)
+    }
+  })
+})
 
 const lightClasses = (requestError: IRequestError) => {
   const bg =

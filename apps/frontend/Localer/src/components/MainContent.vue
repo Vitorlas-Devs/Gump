@@ -33,6 +33,8 @@ const resize = (event: Event) => {
 
 const emit = defineEmits(['update'])
 
+updateIsFromFetch.value = false
+
 watch(
   () => translate.$state.translations,
   () => {
@@ -167,18 +169,7 @@ const reset = (locale: string, key: string) => {
       <RenderHtml
         :id="locale"
         :contenteditable="true"
-        type="text"
-        flex="grow"
-        p="3"
-        shadow="inner"
-        bg="crimson-50"
-        rounded="3xl"
-        h="min-12"
-        w="100"
-        resize="none"
-        overflow="hidden"
         :html="colorSpecialCharacters(translations[locale][selectedKey])"
-        style="white-space: -moz-pre-space"
         @input="inputFunc(locale)"
         @keydown.enter.prevent
       />
@@ -204,18 +195,7 @@ const reset = (locale: string, key: string) => {
       <RenderHtml
         :id="locale"
         :contenteditable="languages.includes(locale)"
-        type="text"
-        flex="grow"
-        p="3"
-        shadow="inner"
-        bg="crimson-50"
-        rounded="3xl"
-        h="min-12"
-        w="100"
-        resize="none"
-        overflow="hidden"
         :html="colorSpecialCharacters(translations[locale][selectedKey])"
-        style="white-space: -moz-pre-space"
         @input="inputFunc(locale)"
         @keydown.enter.prevent
       />
