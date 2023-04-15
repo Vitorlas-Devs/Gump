@@ -15,7 +15,9 @@ const router = useRouter()
 const keys = computed(() => translate.keys)
 const { translations } = storeToRefs(translate)
 
-const currentKey = router.currentRoute.value.params.key
+const selectedKey = computed(() =>
+  router.currentRoute.value.params.key ? router.currentRoute.value.params.key.toString() : ''
+)
 
 const toggleNavbar = () => {
   if (window.innerWidth < 768) {
@@ -120,12 +122,12 @@ const toggleEditing = () => {
           w="full"
           h="10"
           font="bold"
-          :pl="currentKey === key ? '1' : '3'"
+          :pl="selectedKey === key ? '1' : '3'"
           pr="4"
         >
-          <Transition w="5" h="10" name="fade">
+          <Transition name="fade" mode="out-in">
             <SvgIcon
-              v-if="currentKey === key"
+              v-if="selectedKey === key"
               icon="caret-right-solid"
               class="icon-crimson"
               w="5"
@@ -136,7 +138,7 @@ const toggleEditing = () => {
             <RouterLink
               :to="{ name: 'translate', params: { key } }"
               w="full"
-              :class="currentKey === key ? 'underline underline-2 underline-offset-5' : ''"
+              :class="selectedKey === key ? 'underline underline-2 underline-offset-5' : ''"
               @click="toggleNavbar"
             >
               {{ key }}
@@ -165,13 +167,11 @@ const toggleEditing = () => {
 </template>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
+.fade-enter-active {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.fade-enter-from {
   opacity: 0;
   transform: translateX(-10px);
 }

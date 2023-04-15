@@ -27,6 +27,7 @@ export default defineConfig({
       inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)',
       grey: '0px 2px 6px rgba(0, 0, 0, 0.5)',
       red: '0px 2px 6px rgba(230, 25, 25, 0.5)',
+      yellow: '0px 2px 6px rgba(255, 204, 0, 0.5)',
       green: '0px 2px 6px rgba(63, 185, 80, 0.5)'
     },
     colors: {
@@ -54,6 +55,7 @@ export default defineConfig({
         900: '#1A1A1A'
       },
       red: '#ce2c2c',
+      yellow: '#ffcc00',
       green: '#3FB950',
       purple: '#A371F7',
       transparent: 'transparent'

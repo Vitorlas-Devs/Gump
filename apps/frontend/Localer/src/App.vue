@@ -1,16 +1,20 @@
 <script setup lang="ts">
+import TheNavigation from '@/components/TheNavigation.vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed, ref } from 'vue'
 import { CreateBranch, createOrUpdateFiles, createPullRequest, getBranch } from './octokit'
 import { useUserStore } from '@/stores/userStore'
 import { useUIStore } from '@/stores/uiStore'
+import { useRequestErrorStore } from '@/stores/requestErrorStore'
 import { storeToRefs } from 'pinia'
-import router from './router'
+import { useRouter } from 'vue-router'
 
 const translate = useTranslationStore()
 const user = useUserStore()
 const ui = useUIStore()
+const router = useRouter()
+const re = useRequestErrorStore()
 const { loadTranslations } = useTranslationStore()
 const { username, languages, loggedIn, token } = storeToRefs(user)
 
@@ -21,6 +25,7 @@ if (window.innerWidth < 768) {
 const dirty = computed(() => translate.dirty)
 
 const saveChanges = () => {
+  re.resetErrors()
   ;(async () => {
     const { translations, initialTranslations } = translate
 
@@ -29,8 +34,6 @@ const saveChanges = () => {
     const changedLocales = locales.filter((locale) => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
     })
-
-    console.log('changedLocales', changedLocales)
 
     const contents = changedLocales.map((locale) => {
       const filteredTranslations = Object.keys(translations[locale])
@@ -45,8 +48,6 @@ const saveChanges = () => {
     contents.forEach((content, index) => {
       contents[index] = content.replace(/&nbsp;/g, ' ')
     })
-
-    console.log('contents', contents)
 
     const { sha } = await getBranch()
     await CreateBranch(username.value, sha)
@@ -177,7 +178,17 @@ const openModal = ref(false)
         <div mt="3" text="center" cursor="pointer" @click="user.logout">Log out</div>
       </div>
     </div>
-    <RouterView :key="$route.fullPath" />
+    <div flex="~ col md:row" w="full" h="full">
+      <TheNavigation
+        v-if="
+          ui.navbarOpen &&
+          (router.currentRoute.value.path === '/translate' ||
+            router.currentRoute.value.path.includes('/translate/'))
+        "
+        z="10"
+      />
+      <RouterView :key="$route.fullPath" />
+    </div>
   </div>
   <Transition name="bounce">
     <div v-if="dirty" fixed="~" bottom="0" left="0" right="0" mx="auto" w="max" z="50">
