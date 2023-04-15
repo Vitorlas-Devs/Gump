@@ -4,6 +4,7 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     '@nuxtjs/eslint-module',
     '@nuxtjs/i18n',
+    '@nuxtjs/ionic',
   ],
   eslint: {
     lintOnStart: false,
@@ -18,12 +19,12 @@ export default defineNuxtConfig({
       {
         code: 'hu',
         file: 'hu_HU.json',
-        name: 'Magyar',
+        name: 'Hungarian',
       },
       {
         code: 'kr',
         file: 'ko_KR.json',
-        name: '한국어',
+        name: 'Korean',
       },
     ],
     lazy: true,

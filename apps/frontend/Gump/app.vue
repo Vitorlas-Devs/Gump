@@ -1,3 +1,5 @@
 <template>
-  <NuxtPage font-sans />
+  <ion-app>
+    <ion-router-outlet />
+  </ion-app>
 </template>

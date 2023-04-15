@@ -1,0 +1,7 @@
+{
+  "name": "Gump",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}

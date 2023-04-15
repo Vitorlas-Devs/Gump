@@ -18,14 +18,24 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.4",
+    "@capacitor/cli": "4.7.3",
     "@nuxt/devtools": "^0.4.0",
     "@nuxtjs/eslint-module": "^4.0.2",
     "@nuxtjs/i18n": "^8.0.0-beta.10",
+    "@nuxtjs/ionic": "^0.10.0",
     "@unocss/eslint-config": "^0.51.4",
     "@unocss/nuxt": "^0.51.4",
     "eslint": "^8.38.0",
     "lint-staged": "^13.2.1",
     "nuxt": "^3.4.0",
     "simple-git-hooks": "^2.8.1"
+  },
+  "dependencies": {
+    "@capacitor/android": "4.7.3",
+    "@capacitor/app": "4.1.1",
+    "@capacitor/core": "4.7.3",
+    "@capacitor/haptics": "4.1.0",
+    "@capacitor/keyboard": "4.1.1",
+    "@capacitor/status-bar": "4.1.1"
   }
 }
