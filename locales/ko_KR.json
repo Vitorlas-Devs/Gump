@@ -5,7 +5,5 @@
   "HomeNav": "홈",
   "SearchNav": "감색",
   "AppError": "예기치 못한 오류가 발생했습니다.",
-  "CreateNav": "창조",
-  "RecipesNav": "레시피",
-  "ProfileNav": "프로필"
+  "SearchTip": "a"
 }
