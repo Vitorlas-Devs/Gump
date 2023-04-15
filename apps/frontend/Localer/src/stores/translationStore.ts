@@ -72,7 +72,8 @@ export const useTranslationStore = defineStore({
         user.openPullRequest = true
         user.prUrl = pullRequest.response.html_url
         user.prNumber = pullRequest.response.number
-        user.languages.forEach(async (locale) => {
+        const locales = [...user.languages, 'notes']
+        locales.forEach(async (locale) => {
           if (!this.locales.includes(locale)) {
             this.locales.push(locale)
             this.initialLocales.push(locale)
