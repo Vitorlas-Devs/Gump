@@ -2,12 +2,22 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/devtools',
     '@unocss/nuxt',
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/eslint-module',
     '@nuxtjs/i18n',
     '@nuxtjs/ionic',
+    'nuxt-vitest',
   ],
   eslint: {
     lintOnStart: false,
+  },
+  pinia: {
+    autoImports: [
+      'defineStore',
+      'storeToRefs',
+      ['defineStore', 'definePiniaStore'],
+    ],
   },
   i18n: {
     locales: [

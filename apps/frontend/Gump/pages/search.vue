@@ -1,29 +1,21 @@
 <script setup lang="ts">
-const localePath = useLocalePath()
+
 </script>
 
 <template>
-  <ion-page bg-crimson-50 p-3>
-    <div>
+  <ion-page bg-crimson-50 p-2>
+    <TheHeader :title="$t('SearchNav')" />
+    <div grow>
       <h1 text-crimson-500 text-shadow-crimson>
         {{ $t('SearchNav') }}
       </h1>
-      <div flex flex-row gap-4>
-        <NuxtLink class="linkOrange" :to="localePath('/')">
-          {{ $t('HomeNav') }}
-        </NuxtLink>
-        <NuxtLink class="linkOrange" :to="localePath('search')">
-          {{ $t('SearchNav') }}
-        </NuxtLink>
-        <NuxtLink class="linkOrange" :to="localePath('profile')">
-          {{ $t('ProfileNav') }}
-        </NuxtLink>
-      </div>
-      <br><br>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil voluptatum similique explicabo suscipit eum alias doloremque quidem iure corrupti pariatur. Explicabo neque assumenda ipsa, error accusamus vel recusandae aliquid doloremque.
+      <br>
       <div mt-5 class="btnOrange">
         <div class="i-fa6-solid-brush" />
       </div>
     </div>
+    <TheNavbar />
   </ion-page>
 </template>
 

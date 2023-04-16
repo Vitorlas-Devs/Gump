@@ -1,6 +1,7 @@
 {
   "extends": [
     "@antfu",
-    "@unocss"
+    "@unocss",
+    "plugin:vitest/recommended"
   ]
 }

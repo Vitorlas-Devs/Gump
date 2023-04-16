@@ -1,27 +1,27 @@
 <script setup lang="ts">
-const localePath = useLocalePath()
+import { useUserStore } from '~/stores/user'
+
+// define a store
+const user = useUserStore()
+
+// user.username is reactive
 </script>
 
 <template>
-  <ion-page bg-crimson-50 p-3>
-    <div>
+  <ion-page bg-crimson-50 p-2>
+    <TheHeader :title="$t('ProfileNav')" />
+    <div grow>
       <h1 text-crimson-500 text-shadow-crimson>
         {{ $t('ProfileNav') }}
       </h1>
-      <div flex flex-row gap-4>
-        <NuxtLink class="linkOrange" :to="localePath('/')">
-          {{ $t('HomeNav') }}
-        </NuxtLink>
-        <NuxtLink class="linkOrange" :to="localePath('search')">
-          {{ $t('SearchNav') }}
-        </NuxtLink>
-        <NuxtLink class="linkOrange" :to="localePath('profile')">
-          {{ $t('ProfileNav') }}
-        </NuxtLink>
-      </div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil voluptatum similique explicabo suscipit eum alias doloremque quidem iure corrupti pariatur. Explicabo neque assumenda ipsa, error accusamus vel recusandae aliquid doloremque.
       <br><br>
       Select Language:
       <LanguageSwitcher />
+      <br><br>
+      Change username:
+      <input v-model="user.username">
     </div>
+    <TheNavbar />
   </ion-page>
 </template>
