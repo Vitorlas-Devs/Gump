@@ -19,7 +19,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	public ulong GetRandomId() => GetRandomId(0);
 	public ulong GetRandomId(ulong categoryId)
 	{
-		if (GetAll().Any(x => categoryId != 0 && !x.Categories.Contains(categoryId)))
+		if (categoryId != 0 && !GetAll().Any(x => x.Categories.Contains(categoryId)))
 		{
 			throw new NotFoundException($"No recipes found with category {categoryId}");
 		}
@@ -42,14 +42,24 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	public IEnumerable<RecipeModel> Search(
 		string searchTerm, int limit, int offset, ulong authorId, ulong categoryId)
 	{
-		return GetAll()
-			.Where(r => FilterLogic(r, authorId, categoryId))
-			.OrderByDescending(CalculatePopularity)
-			.GroupBy(r => CalculateScore(r, searchTerm))
-			.OrderByDescending(g => g.Key)
-			.SelectMany(g => g)
-			.Skip(offset)
-			.Take(limit);
+		var a = GetAll();
+		var b = a.Where(r => FilterLogic(r, authorId, categoryId));
+		var c = b.OrderByDescending(CalculatePopularity);
+		var d = c.GroupBy(r => CalculateScore(r, searchTerm));
+		var e = d.OrderByDescending(g => g.Key);
+		var f = e.SelectMany(g => g);
+		var g = f.Skip(offset);
+		var h = g.Take(limit);
+		return h;
+
+		// return GetAll()
+		// 	.Where(r => FilterLogic(r, authorId, categoryId))
+		// 	.OrderByDescending(CalculatePopularity)
+		// 	.GroupBy(r => CalculateScore(r, searchTerm))
+		// 	.OrderByDescending(g => g.Key)
+		// 	.SelectMany(g => g)
+		// 	.Skip(offset)
+		// 	.Take(limit);
 	}
 
 	private static bool FilterLogic(
