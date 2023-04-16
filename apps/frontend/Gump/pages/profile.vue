@@ -6,7 +6,7 @@ const localePath = useLocalePath()
   <ion-page bg-crimson-50 p-3>
     <div>
       <h1 text-crimson-500 text-shadow-crimson>
-        {{ $t('SearchNav') }}
+        {{ $t('ProfileNav') }}
       </h1>
       <div flex flex-row gap-4>
         <NuxtLink class="linkOrange" :to="localePath('/')">
@@ -20,13 +20,8 @@ const localePath = useLocalePath()
         </NuxtLink>
       </div>
       <br><br>
-      <div mt-5 class="btnOrange">
-        <div class="i-fa6-solid-brush" />
-      </div>
+      Select Language:
+      <LanguageSwitcher />
     </div>
   </ion-page>
 </template>
-
-<style scoped>
-
-</style>

@@ -56,8 +56,8 @@ export default defineConfig({
     },
   },
   shortcuts: {
-    btnOrange: 'w-max rounded-full bg-orange-500 px-10 py-4 font-bold text-white shadow-orange',
-    btnCrimson: 'w-max rounded-full bg-crimson-500 px-10 py-4 font-bold text-white shadow-crimsonDown',
+    btnOrange: 'w-max rounded-full bg-orange-500 px-6 py-4 font-bold text-white shadow-orange',
+    btnCrimson: 'w-max rounded-full bg-crimson-500 px-6 py-4 font-bold text-white shadow-crimsonDown',
     linkOrange:
       'text-orange-500 text-shadow-orange underline underline-offset-5 underline-orange-500 font-bold',
     coolOl:
