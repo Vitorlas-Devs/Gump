@@ -4,14 +4,12 @@ import { useTranslationStore } from '@/stores/translationStore'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { useUIStore } from '@/stores/uiStore'
 import { findChildWithCursor, useCursorPosition } from '@/utils/cursorPosition'
 import RenderHtml from '@/components/RenderHtml'
 
 const translate = useTranslationStore()
 const user = useUserStore()
 const router = useRouter()
-const ui = useUIStore()
 
 const { checkDirty } = translate
 const { translations, locales, initialTranslations, updateIsFromFetch } = storeToRefs(translate)
@@ -33,9 +31,9 @@ const resize = (event: Event) => {
   target.style.height = target.scrollHeight + 'px'
 }
 
-// create an emit that we will emit after all getContents are done
-// this will light up all the green ligths signaling that the translations are up to date
 const emit = defineEmits(['update'])
+
+updateIsFromFetch.value = false
 
 watch(
   () => translate.$state.translations,
@@ -115,7 +113,7 @@ const inputFunc = (locale: string) => {
   }
 }
 
-ui.specialKey = null
+let specialKey: string | undefined = undefined
 
 const colorSpecialCharacters = (text: string) => {
   if (text === undefined) {
@@ -133,41 +131,91 @@ const colorSpecialCharacters = (text: string) => {
       }
       const replacement = `<span text="orange-500">${match}</span>`
 
-      ui.specialKey = match
+      if (!specialKey) {
+        specialKey = match
+      }
 
       text = text.replace(regex, replacement)
     })
   }
   return text
 }
+
+const reset = (locale: string, key: string) => {
+  let initialValue = ''
+  if (initialTranslations.value[locale]) {
+    initialValue = initialTranslations.value[locale][key]
+  }
+  translations.value[locale][key] = initialValue
+  const element = document.getElementById(locale)
+  if (element) {
+    element.innerHTML = colorSpecialCharacters(initialValue)
+  }
+  checkDirty()
+}
 </script>
 
 <template>
-  <div w="full md:4/5">
-    <div v-for="locale in locales" :key="locale" flex="~ row" gap="4" my="6" place="items-center">
-      <label w="10 md:16" text="md md:xl" font="bold">{{ locale }}</label>
+  <div w="full md:4/5" flex="~ col" gap="5">
+    <div
+      v-for="locale in locales.filter((locale) => locale === 'notes')"
+      :key="locale"
+      flex="~ row"
+      gap="4"
+      my="6"
+      place="items-center"
+    >
+      <label w="10 md:16" text="md md:xl" font="bold">Notes</label>
       <RenderHtml
         :id="locale"
-        :contenteditable="languages.includes(locale)"
-        type="text"
-        flex="grow"
-        p="3"
-        shadow="inner"
-        bg="crimson-50"
-        rounded="3xl"
-        h="min-12"
-        w="100"
-        resize="none"
-        overflow="hidden"
+        :contenteditable="true"
         :html="colorSpecialCharacters(translations[locale][selectedKey])"
         @input="inputFunc(locale)"
         @keydown.enter.prevent
       />
-      <div :class="changesClasses(locale, selectedKey).value" w="2" h="8" rounded="full"></div>
+      <div
+        cursor="pointer"
+        :class="changesClasses(locale, selectedKey).value"
+        w="2"
+        h="8"
+        rounded="full"
+        @click="reset(locale, selectedKey)"
+      />
     </div>
-    <div v-if="ui.specialKey" mt="10" text="center lg md:xl" class="link-orange">
-      <RouterLink :to="{ name: 'translate', params: { key: ui.specialKey.slice(2) } }">
-        {{ ui.specialKey }}
+    <hr border="orange-500 1" w="2/6" pos="relative" mx="auto" left="0" />
+    <div
+      v-for="locale in locales.filter((locale) => locale !== 'notes')"
+      :key="locale"
+      flex="~ row"
+      gap="4"
+      my="6"
+      place="items-center"
+    >
+      <label w="10 md:16" text="md md:xl" font="bold">{{ locale }}</label>
+      <RenderHtml
+        :id="locale"
+        :contenteditable="languages.includes(locale)"
+        :html="colorSpecialCharacters(translations[locale][selectedKey])"
+        @input="inputFunc(locale)"
+        @keydown.enter.prevent
+      />
+      <div
+        cursor="pointer"
+        :class="changesClasses(locale, selectedKey).value"
+        w="2"
+        h="8"
+        rounded="full"
+        @click="reset(locale, selectedKey)"
+      />
+    </div>
+    <div
+      v-if="specialKey && specialKey.length > 2"
+      mt="10"
+      text="center lg md:xl"
+      class="link-orange"
+    >
+      <RouterLink :to="{ name: 'translate', params: { key: specialKey.slice(2) } }">
+        {{ specialKey }}
       </RouterLink>
     </div>
   </div>

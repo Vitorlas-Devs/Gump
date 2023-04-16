@@ -15,7 +15,9 @@ const router = useRouter()
 const keys = computed(() => translate.keys)
 const { translations } = storeToRefs(translate)
 
-const currentKey = router.currentRoute.value.params.key
+const selectedKey = computed(() =>
+  router.currentRoute.value.params.key ? router.currentRoute.value.params.key.toString() : ''
+)
 
 const toggleNavbar = () => {
   if (window.innerWidth < 768) {
@@ -32,7 +34,10 @@ const liClasses = (key: string) =>
         return
       }
     })
-    if (translate.getNumberOfLanguagesTranslated(key) === user.languages.length && user.languages.length > 0) {
+    if (
+      translate.getNumberOfLanguagesTranslated(key) === user.languages.length &&
+      user.languages.length > 0
+    ) {
       classes['bg-gradient-to-r from-orange-100 to-transparent text-orange-500'] = true
     }
 
@@ -117,32 +122,36 @@ const toggleEditing = () => {
           w="full"
           h="10"
           font="bold"
-          :pl="currentKey === key ? '2' : '4'"
-          pr="5"
+          :pl="selectedKey === key ? '1' : '3'"
+          pr="4"
         >
-          <Transition name="fade">
+          <Transition name="fade" mode="out-in">
             <SvgIcon
-              v-if="currentKey === key"
+              v-if="selectedKey === key"
               icon="caret-right-solid"
               class="icon-crimson"
               w="5"
               h="10"
               mr="2"
           /></Transition>
-          <div flex="~ row" w="full" items="center" justify="between" gap="3">
+          <div flex="~ row" w="full" items="center" justify="between" gap="1">
             <RouterLink
               :to="{ name: 'translate', params: { key } }"
               w="full"
-              :class="currentKey === key ? 'underline underline-2 underline-offset-5' : ''"
+              :class="selectedKey === key ? 'underline underline-2 underline-offset-5' : ''"
               @click="toggleNavbar"
             >
               {{ key }}
             </RouterLink>
+            <span v-if="translate.checkDirtyKey(key)" text="crimson-500 3xl" items="center">
+              {{ translate.checkDirtyKey(key) ? '•' : '' }}
+            </span>
             <div
               text="sm"
               class="whitespace-nowrap"
               :class="
-                translate.getNumberOfLanguagesTranslated(key) === user.languages.length && user.languages.length > 0
+                translate.getNumberOfLanguagesTranslated(key) === user.languages.length &&
+                user.languages.length > 0
                   ? 'text-orange-500'
                   : 'text-brown-500'
               "
@@ -158,13 +167,11 @@ const toggleEditing = () => {
 </template>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
+.fade-enter-active {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.fade-enter-from {
   opacity: 0;
   transform: translateX(-10px);
 }

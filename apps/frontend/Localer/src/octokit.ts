@@ -162,7 +162,7 @@ export const CreateBranch = async (
   if (status === 200) {
     createBranchError.value.status = status
     console.log('CREATE branch: (exists)', status)
-    
+
     return { response: undefined, status, error }
   } else {
     try {
@@ -264,19 +264,44 @@ export const createOrUpdateFiles = async (
       parents: [latestCommitResponse.response?.sha!]
     })
 
-    const response = await octokit.request('PATCH /repos/{owner}/{repo}/git/refs/heads/{ref}', {
-      headers: {
-        authorization: `token ${token.value}`
-      },
-      owner: OWNER,
-      repo: REPO,
-      ref: branchName,
-      sha: newCommit.sha
-    })
-    createOrUpdateFilesError.value.status = response.status
-    console.log('CREATE/UPDATE file:', response.status)
+    try {
+      const response = await octokit.request('PATCH /repos/{owner}/{repo}/git/refs/heads/{ref}', {
+        headers: {
+          authorization: `token ${token.value}`
+        },
+        owner: OWNER,
+        repo: REPO,
+        ref: branchName,
+        sha: newCommit.sha
+      })
 
-    return { status: response.status }
+      createOrUpdateFilesError.value.status = response.status
+      console.log('CREATE/UPDATE file:', response.status)
+
+      return { status: response.status }
+    } catch (error: any) {
+      console.log('CREATE/UPDATE file: (waiting 60 seconds)')
+
+      // wait 60 seconds and update createOrUpdateFilesError.value.status every second to show how many seconds are left
+      await new Promise((resolve) => {
+        let seconds = 60
+        const interval = setInterval(() => {
+          seconds--
+          createOrUpdateFilesError.value.status = seconds
+          if (seconds === 0) {
+            clearInterval(interval)
+            resolve(null)
+          }
+        }, 1000)
+      })
+
+      const response = await createOrUpdateFiles(branchName, fileNames, contents)
+
+      createOrUpdateFilesError.value.status = response.status
+      console.log('CREATE/UPDATE file: (DONE WAITING)', response.status)
+
+      return { status: response.status }
+    }
   } catch (error: any) {
     createOrUpdateFilesError.value.status = error.status
     createOrUpdateFilesError.value.error = true
