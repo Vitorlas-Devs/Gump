@@ -1,42 +1,39 @@
-# Nuxt 3 Minimal Starter
+# Omega Turbo Nuxt App
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Nuxt Development
 
-## Setup
+Nuxt maintains an inner Vue app in the `.nuxt` directory. For auto-imports and other features to work, you must run `npm run dev` with **Ctrl + Shift + B**.
 
-Make sure to install the dependencies:
+A development server will be started at `localhost:3000`.
 
-```bash
-# yarn
-yarn install
+Click on the small Nuxt icon down in the center to launch the Nuxt DevTools.
 
-# npm
-npm install
+## Resources
 
-# pnpm
-pnpm install
-```
+- [Nuxt folder structure](https://nuxt.com/docs/guide/directory-structure/nuxt)
+- [UnoCSS Docs](https://unocss.dev/interactive/)
+- [Icons to find](https://icones.netlify.app/collection/fa6-solid)
+- [Capacitor Docs](https://ionic.nuxtjs.org/getting-started/#run-on-ios-or-android) (or read next paragraph)
 
-## Development Server
+## Deploy to Capacitor
 
-Start the development server on `http://localhost:3000`
+> **Warning:**
+> This is subject to change. It better be.
 
-```bash
-npm run dev
-```
+This will create a production build in `.output` and `dist` (`.output/public` symbolc link)
 
-## Production
+  ```bash
+  npx nuxi generate
+  ```
 
-Build the application for production:
+Next we sync the `dist` to Capacitor.
+  
+  ```bash
+  npx cap sync
+  ```
 
-```bash
-npm run build
-```
+Finally, we run the android emulator.
 
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+  ```bash
+  npx cap run android
+  ```
