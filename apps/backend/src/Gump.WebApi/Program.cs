@@ -43,19 +43,6 @@ builder.Services.AddCors(option =>
 	});
 });
 
-builder.Services.AddCors(option =>
-{
-	option.AddPolicy("EnableGump", policy =>
-	{
-		policy
-			.WithOrigins("https://api.gump.live") // allow only this origin
-			.AllowAnyMethod()
-			.AllowAnyHeader()
-			.AllowCredentials()
-			.Build();
-	});
-});
-
 builder.Services
 	.AddAuthentication(option =>
 	{
@@ -88,7 +75,6 @@ if (app.Environment.IsDevelopment())
 	app.UseCors("EnableCors");
 }
 
-app.UseCors("EnableGump");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

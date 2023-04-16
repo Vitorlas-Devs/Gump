@@ -47,4 +47,12 @@ public class UserModel : IEntity
 
 	[BsonElement("isModerator")]
 	public bool IsModerator { get; set; }
+
+	public void AddBadge(ulong badgeId)
+	{
+		if (!Badges.Contains(badgeId))
+		{
+			Badges.Add(badgeId);
+		}
+	}
 }

@@ -33,6 +33,22 @@ public class BadgeController : ControllerBase
 		return Ok(badgeRepository.GetById(id));
 	});
 
+	[HttpPatch("assign/{badgeId}")]
+	public IActionResult AssignBadge(ulong badgeId) => this.Run(() =>
+	{
+		if (badgeId != 2 && badgeId != 8)
+		{
+			return Unauthorized();
+		}
+
+		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+
+		user.AddBadge(badgeId);
+		userRepository.Update(user);
+
+		return Ok();
+	});
+
 	[HttpPost("create")]
 	public IActionResult CreateBadge([FromBody] CreateBadgeDto badge) => this.Run(() =>
 	{
