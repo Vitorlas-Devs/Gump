@@ -5,5 +5,6 @@
   "SearchRecent": "Récent,-e",
   "CreateLanguage": "La langue",
   "RecipesNav": "Les recettes (la)",
-  "HomeTitleNew": "Nouvelles Recettes"
+  "HomeTitleNew": "Nouvelles Recettes",
+  "CreateVisibilityPublicDesc": "Tout le monde peut voir ta recette, mais tu seul peux la modifier."
 }
