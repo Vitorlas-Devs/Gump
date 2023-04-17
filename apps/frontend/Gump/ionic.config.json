@@ -1,7 +1,7 @@
 {
-	"name": "gump",
-	"integrations": {
-		"capacitor": {}
-	},
-	"type": "custom"
+  "name": "Gump",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
 }

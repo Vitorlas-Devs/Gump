@@ -125,7 +125,7 @@ const lightClasses = (requestError: IRequestError) => {
 
 <template>
   <main flex="~ col" w="full" h="full" p="2 md:6" pl="4 md:10" mt="2" mr="-5">
-    <custom-scrollbar :auto-expand="false" h="screen" w="full" pb="40">
+    <custom-scrollbar :auto-expand="false" h="screen" w="full" pb="80 md:40">
       <div flex="~ col" justify="between">
         <h1 text="xl md:3xl" font="bold">
           {{
