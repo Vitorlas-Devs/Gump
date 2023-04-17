@@ -269,9 +269,8 @@ const toggleEditing = () => {
             </li>
             <li>
               The site loads the translations from the <span font="bold">main</span> branch. If you
-              have an open pull request that hasn't been merged yet, you will have to use the
-              <span font="bold" text="orange-500">Fetch your data</span> button. Your profile shows
-              whether you are up to date or not.
+              have an open pull request that hasn't been merged yet, the app will load your changes.
+              <span font="bold">Reload the page.</span>
             </li>
             <li>
               <span font="bold">You should not Log out</span>. Your GitHub access token is stored,
