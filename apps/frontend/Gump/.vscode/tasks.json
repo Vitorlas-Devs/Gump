@@ -3,6 +3,22 @@
 	"tasks": [
 		{
 			"type": "npm",
+			"script": "build",
+			"problemMatcher": [],
+			"label": "npm: build",
+			"detail": "nuxt",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true
+			}
+		},
+		{
+			"type": "npm",
 			"script": "dev",
 			"problemMatcher": [],
 			"label": "npm: dev",
@@ -11,6 +27,6 @@
 				"kind": "build",
 				"isDefault": true
 			}
-		}
+		},
 	]
 }

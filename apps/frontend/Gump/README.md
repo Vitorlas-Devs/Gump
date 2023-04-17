@@ -2,7 +2,7 @@
 
 ## Nuxt Development
 
-Nuxt maintains an inner Vue app in the `.nuxt` directory. For auto-imports and other features to work, you must run `npm run dev` with **Ctrl + Shift + B**.
+Nuxt maintains an inner Vue app in the `.nuxt` directory. For auto-imports and other features to work, you must run `npm run dev` with **Ctrl + Shift + B** and **Dev** selected.
 
 A development server will be started at `localhost:3000`.
 
@@ -17,8 +17,9 @@ Click on the small Nuxt icon down in the center to launch the Nuxt DevTools.
 
 ## Deploy to Capacitor
 
-> **Warning:**
-> This is subject to change. It better be.
+To preview the app on Android, run `npm run build` with **Ctrl + Shift + B** and **Build** selected.
+
+The build script does these things:
 
 This will create a production build in `.output` and `dist` (`.output/public` symbolc link)
 

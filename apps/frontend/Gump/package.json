@@ -1,8 +1,8 @@
 {
-  "name": "nuxt-app",
+  "name": "gump",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
+    "build": "npx nuxi generate && npx cap sync && npx cap run android",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
