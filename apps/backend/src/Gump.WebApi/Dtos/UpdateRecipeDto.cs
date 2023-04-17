@@ -9,6 +9,9 @@ public class UpdateRecipeDto
 	[Required, JsonProperty("id")]
 	public ulong Id { get; init; }
 
+	[Required, JsonProperty("image")]
+	public ulong ImageId { get; init; }
+
 	[Required, JsonProperty("serves")]
 	public ushort Serves { get; init; }
 

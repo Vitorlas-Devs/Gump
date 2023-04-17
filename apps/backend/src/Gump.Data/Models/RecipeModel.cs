@@ -18,6 +18,9 @@ public class RecipeModel : IEntity
 	[BsonElement("author")]
 	public ulong AuthorId { get; set; }
 
+	[BsonElement("image")]
+	public ulong ImageId { get; set; }
+
 	[BsonElement("langauge")]
 	public string Language { get; set; }
 

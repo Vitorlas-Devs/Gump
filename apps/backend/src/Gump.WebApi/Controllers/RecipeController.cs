@@ -41,11 +41,18 @@ public class RecipeController : ControllerBase
 		recipe.ViewCount++;
 		recipeRepository.Update(recipe);
 
+		if (recipe.Id == 1 && User.Identity.IsAuthenticated)
+		{
+			user.AddBadge(3);
+			userRepository.Update(user);
+		}
+
 		return Ok(new
 		{
 			id = recipe.Id,
 			title = recipe.Title,
 			author = recipe.AuthorId,
+			image = recipe.ImageId,
 			language = recipe.Language,
 			serves = recipe.Serves,
 			categories = recipe.Categories,
@@ -99,11 +106,17 @@ public class RecipeController : ControllerBase
 			search.CategoryId
 		);
 
+		if (search.SearchTerm.ToLowerInvariant() == "water" && User.Identity.IsAuthenticated)
+		{
+			userRepository.GetById(ulong.Parse(User.Identity.Name)).AddBadge(7);
+		}
+
 		return Ok(searchResult.Select(r => new
 		{
 			id = r.Id,
 			title = r.Title,
 			author = r.AuthorId,
+			image = r.ImageId,
 			viewCount = r.ViewCount,
 			saveCount = r.SaveCount,
 			likeCount = r.Likes.Count,
@@ -138,6 +151,77 @@ public class RecipeController : ControllerBase
 		})).Value);
 	});
 
+	[HttpPatch("save/{id}")]
+	public IActionResult SaveRecipe(ulong id) => this.Run(() =>
+	{
+		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+		RecipeModel recipe = recipeRepository.GetById(id);
+
+		if (recipe.IsPrivate &&
+			recipe.AuthorId != user.Id &&
+			!recipe.VisibleTo.Contains(user.Id) &&
+			!user.IsModerator)
+		{
+			return Unauthorized();
+		}
+
+		if (user.Recipes.Contains(id))
+		{
+			user.Recipes.Remove(id);
+			recipe.SaveCount--;
+		}
+		else
+		{
+			user.Recipes.Add(id);
+			recipe.SaveCount++;
+		}
+
+		var savedRecipes = user.Recipes.Select(recipeRepository.GetById).Where(r => r.AuthorId != user.Id);
+
+		if (savedRecipes.Count() == 100)
+		{
+			user.AddBadge(4);
+		}
+
+		userRepository.Update(user);
+		recipeRepository.Update(recipe);
+
+		return Ok();
+	});
+
+	[HttpPatch("like/{id}")]
+	public IActionResult LikeRecipe(ulong id) => this.Run(() =>
+	{
+		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
+		RecipeModel recipe = recipeRepository.GetById(id);
+
+		if (recipe.IsPrivate &&
+			recipe.AuthorId != user.Id &&
+			!recipe.VisibleTo.Contains(user.Id) &&
+			!user.IsModerator)
+		{
+			return Unauthorized();
+		}
+
+		if (recipe.Likes.Contains(user.Id))
+		{
+			recipe.Likes.Remove(user.Id);
+		}
+		else
+		{
+			recipe.Likes.Add(user.Id);
+		}
+
+		recipeRepository.Update(recipe);
+
+		if (recipe.Likes.Count == 1000)
+		{
+			userRepository.GetById(recipe.AuthorId).AddBadge(6);
+		}
+
+		return Ok();
+	});
+
 	[HttpPost("create")]
 	public IActionResult CreateRecipe([FromBody] CreateRecipeDto recipe) => this.Run(() =>
 	{
@@ -147,6 +231,7 @@ public class RecipeController : ControllerBase
 		{
 			Title = recipe.Title,
 			AuthorId = user.Id,
+			ImageId = recipe.ImageId,
 			Language = recipe.Language,
 			Serves = recipe.Serves,
 			Categories = recipe.Categories,
@@ -161,6 +246,18 @@ public class RecipeController : ControllerBase
 
 		recipeRepository.Create(newRecipe);
 
+		if (user.Recipes.Count == 100)
+		{
+			user.AddBadge(1);
+			userRepository.Update(user);
+		}
+
+		if (recipe.Steps.Count > 10)
+		{
+			user.AddBadge(5);
+			userRepository.Update(user);
+		}
+
 		return Ok(newRecipe.Id);
 	});
 
@@ -169,7 +266,7 @@ public class RecipeController : ControllerBase
 	{
 		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
 
-		if (update.Id != user.Id && !user.IsModerator)
+		if (recipeRepository.GetById(update.Id).AuthorId != user.Id && !user.IsModerator)
 		{
 			return Unauthorized();
 		}
@@ -190,6 +287,7 @@ public class RecipeController : ControllerBase
 		{
 			Title = modifiedRecipe.Title,
 			AuthorId = modifiedRecipe.AuthorId,
+			ImageId = modifiedRecipe.ImageId,
 			Language = modifiedRecipe.Language,
 			Serves = update.Serves,
 			Categories = update.Categories,
@@ -218,7 +316,7 @@ public class RecipeController : ControllerBase
 	{
 		UserModel user = userRepository.GetById(ulong.Parse(User.Identity.Name));
 
-		if (id != user.Id && !user.IsModerator)
+		if (recipeRepository.GetById(id).AuthorId != user.Id && !user.IsModerator)
 		{
 			return Unauthorized();
 		}
