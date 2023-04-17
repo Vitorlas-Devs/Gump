@@ -2,7 +2,7 @@
 import TheNavigation from '@/components/TheNavigation.vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { CreateBranch, createOrUpdateFiles, createPullRequest, getBranch } from './octokit'
 import { useUserStore } from '@/stores/userStore'
 import { useUIStore } from '@/stores/uiStore'
@@ -17,6 +17,14 @@ const router = useRouter()
 const re = useRequestErrorStore()
 const { loadTranslations } = useTranslationStore()
 const { username, languages, loggedIn, token } = storeToRefs(user)
+
+onBeforeMount(() => {
+  console.log('before mount')
+  ;(async () => {
+    await loadTranslations()
+    re.resetErrors()
+  })()
+})
 
 if (window.innerWidth < 768) {
   ui.navbarOpen = false
@@ -85,11 +93,6 @@ const authenticate = () => {
     window.location.href = authUrl
   } else {
     router.push('/translate')
-    if (router.currentRoute.value.path === '/') {
-      ;(async () => {
-        await loadTranslations()
-      })()
-    }
   }
   loggedIn.value = true
 }
