@@ -9,6 +9,9 @@ export default defineNuxtConfig({
     '@nuxtjs/ionic',
     'nuxt-vitest',
   ],
+  pwa: {
+    icon: false,
+  },
   eslint: {
     lintOnStart: false,
   },
