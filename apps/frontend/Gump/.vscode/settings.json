@@ -1,8 +1,11 @@
 {
-    "githubPullRequests.ignoredPullRequestBranches": [
-        "main"
-    ],
-    "i18n-ally.localesPaths": [
-        "../../../../../../../../../Users/hegyi/Documents/GitHub/Gump/locales"
-    ]
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "i18n-ally.localesPaths": [
+    "../../../locales"
+  ],
+  "i18n-ally.keystyle": "nested"
 }

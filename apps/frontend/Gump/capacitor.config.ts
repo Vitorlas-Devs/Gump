@@ -1,10 +1,10 @@
-import { CapacitorConfig } from '@capacitor/cli'
+import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'com.lyedlik.gump',
+  appId: 'gump.live',
   appName: 'Gump',
   webDir: 'dist',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
 }
 
 export default config
