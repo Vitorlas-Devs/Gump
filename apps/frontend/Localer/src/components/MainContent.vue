@@ -153,6 +153,10 @@ const reset = (locale: string, key: string) => {
   }
   checkDirty()
 }
+
+const isMobile = computed(() => {
+  return window.innerWidth < 768
+})
 </script>
 
 <template>
@@ -165,7 +169,18 @@ const reset = (locale: string, key: string) => {
       my="6"
       place="items-center"
     >
-      <label w="10 md:16" text="md md:xl" font="bold">Notes</label>
+      <div flex="~ col" gap="2">
+        <label w="10 md:16" text="md md:xl" font="bold">Notes</label>
+        <div
+          v-if="isMobile"
+          cursor="pointer"
+          :class="changesClasses(locale, selectedKey).value"
+          w="8"
+          h="2"
+          rounded="full"
+          @click="reset(locale, selectedKey)"
+        />
+      </div>
       <RenderHtml
         :id="locale"
         :contenteditable="true"
@@ -174,6 +189,7 @@ const reset = (locale: string, key: string) => {
         @keydown.enter.prevent
       />
       <div
+        v-if="!isMobile"
         cursor="pointer"
         :class="changesClasses(locale, selectedKey).value"
         w="2"
@@ -191,7 +207,18 @@ const reset = (locale: string, key: string) => {
       my="6"
       place="items-center"
     >
-      <label w="10 md:16" text="md md:xl" font="bold">{{ locale }}</label>
+      <div flex="~ col" gap="2" place="items-center">
+        <label w="10 md:16" text="md md:xl" font="bold">{{ locale }}</label>
+        <div
+          v-if="isMobile"
+          cursor="pointer"
+          :class="changesClasses(locale, selectedKey).value"
+          w="8"
+          h="2"
+          rounded="full"
+          @click="reset(locale, selectedKey)"
+        />
+      </div>
       <RenderHtml
         :id="locale"
         :contenteditable="languages.includes(locale)"
@@ -200,6 +227,7 @@ const reset = (locale: string, key: string) => {
         @keydown.enter.prevent
       />
       <div
+        v-if="!isMobile"
         cursor="pointer"
         :class="changesClasses(locale, selectedKey).value"
         w="2"
