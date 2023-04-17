@@ -19,10 +19,8 @@ const { loadTranslations } = useTranslationStore()
 const { username, languages, loggedIn, token } = storeToRefs(user)
 
 onBeforeMount(() => {
-  console.log('before mount')
   ;(async () => {
     await loadTranslations()
-    re.resetErrors()
   })()
 })
 

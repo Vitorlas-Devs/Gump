@@ -5,36 +5,13 @@ import { useRequestErrorStore, type IRequestError } from '@/stores/requestErrorS
 import { useRouter } from 'vue-router'
 import { computed, onBeforeMount, ref, watch } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
-import { storeToRefs } from 'pinia'
 
 const translate = useTranslationStore()
 const re = useRequestErrorStore()
 const requestErrors = ref(re.$state)
 const router = useRouter()
 
-const { loadTranslations } = translate
-const { dirty } = storeToRefs(translate)
-
 re.resetErrors()
-
-const fetchTranslations = () => {
-  if (dirty.value) {
-    const answer = window.confirm(
-      'You have unsaved changes, are you sure you want to fetch new translations?'
-    )
-    if (answer) {
-      ;(async () => {
-        await loadTranslations()
-        re.resetErrors()
-      })()
-    }
-  } else {
-    ;(async () => {
-      await loadTranslations()
-      re.resetErrors()
-    })()
-  }
-}
 
 onBeforeRouteLeave((to, from, next) => {
   if (translate.dirty && to.name !== 'translate-home') {
@@ -136,20 +113,7 @@ const lightClasses = (requestError: IRequestError) => {
               .replace(/^./, (str) => str.toUpperCase())
           }}
         </h1>
-        <div flex="~ col" gap="4" place="items-end">
-          <div flex="~ row" place="items-center">
-            <p font="bold" text="lg md:2xl orange-500" class="text-shadow-orange">
-              Fetch your data:
-            </p>
-            <svg-icon
-              icon="rotate-left-solid"
-              class="icon-orange"
-              w="8 md:12"
-              mx="5"
-              cursor="pointer"
-              @click="fetchTranslations"
-            />
-          </div>
+        <div flex="~ col" gap="4" place="items-end" mt="0 md:10">
           <div
             flex="~ row-reverse md:col"
             gap="5 md:10"
