@@ -1,31 +1,44 @@
 <script setup lang="ts">
+import { type navState, useUIStore } from '~/stores/ui'
+
 const localePath = useLocalePath()
+const ui = useUIStore()
 
 const tabs = [
   {
     name: 'HomeNav',
     path: '/',
-    icon: 'i-fa6-solid-house',
+    icon: 'homeicon',
   },
   {
     name: 'SearchNav',
     path: '/search',
-    icon: 'i-fa6-solid-magnifying-glass',
+    icon: 'searchicon',
+  },
+  {
+    name: 'CreateNav',
+    path: '/create',
+    icon: 'createicon',
+  },
+  {
+    name: 'RecipesNav',
+    path: '/recipes',
+    icon: 'recipesicon',
   },
   {
     name: 'ProfileNav',
     path: '/profile',
-    icon: 'i-fa6-solid-user',
+    icon: 'profileicon',
   },
 ]
 </script>
 
 <template>
-  <div relative bottom-0 h-18 w-full flex flex-row gap-4 bg-crimson-50 px-3>
-    <RouterLink v-for="tab in tabs" :key="tab.name" :to="localePath(tab.path)" w-full flex flex-col items-center gap-2 decoration-none>
-      <div bg-crimson-200 p-2>
-        <div :class="tab.icon" bg-crimson-500 text-2xl />
-      </div>
+  <div v-middle relative bottom-0 h-30 w-full flex flex-row items-center gap-4 bg-crimson-50 px-3>
+    <RouterLink v-for="tab in tabs" :key="tab.name" v-middle :to="localePath(tab.path)" vertical-center w-full flex flex-col content-center items-center gap-2 decoration-none @click="ui.setActiveNav(tab.path.slice(1) as navState)">
+      <img src="~assets/hexagon.svg">
+
+      <img :src="`/_nuxt/assets/${tab.icon}.svg`" absolute>
       <div
         text-1xl text-center font-bold text-crimson-500 text-shadow-crimson
       >
