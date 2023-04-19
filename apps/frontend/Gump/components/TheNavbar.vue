@@ -1,48 +1,23 @@
 <script setup lang="ts">
-import { type navState, useUIStore } from '~/stores/ui'
+import { tabData, useUIStore } from '~/stores/ui'
 
 const localePath = useLocalePath()
 const ui = useUIStore()
-
-const tabs = [
-  {
-    name: 'HomeNav',
-    path: '/',
-    icon: 'homeicon',
-  },
-  {
-    name: 'SearchNav',
-    path: '/search',
-    icon: 'searchicon',
-  },
-  {
-    name: 'CreateNav',
-    path: '/create',
-    icon: 'createicon',
-  },
-  {
-    name: 'RecipesNav',
-    path: '/recipes',
-    icon: 'recipesicon',
-  },
-  {
-    name: 'ProfileNav',
-    path: '/profile',
-    icon: 'profileicon',
-  },
-]
 </script>
 
 <template>
-  <div v-middle relative bottom-0 h-30 w-full flex flex-row items-center gap-4 bg-crimson-50 px-3>
-    <RouterLink v-for="tab in tabs" :key="tab.name" v-middle :to="localePath(tab.path)" vertical-center w-full flex flex-col content-center items-center gap-2 decoration-none @click="ui.setActiveNav(tab.path.slice(1) as navState)">
-      <img src="~assets/hexagon.svg">
-
-      <img :src="`/_nuxt/assets/${tab.icon}.svg`" absolute>
+  <div relative bottom-0 h-max w-full flex="~ row" items-center bg-crimson-50>
+    <RouterLink v-for="tab in tabData" :key="tab.name" :to="localePath(tab.path)" w-full flex="~ col" items-center gap-2 decoration-none @click="ui.setActiveNav(tab.tab)">
+      <div mb-8 flex="~ row" items-center justify-center>
+        <img src="~assets/hexagon.svg">
+        <img :src="`/_nuxt/assets/${tab.name}.svg`" :mb="tab.tab === 'Home' ? 4 : 0" absolute>
+      </div>
       <div
-        text-1xl text-center font-bold text-crimson-500 text-shadow-crimson
+        text-1xl absolute bottom-0 h="1/2" text-center font-bold text-crimson-500 text-shadow-crimson
       >
-        {{ $t(tab.name) }}
+        <p items-center justify-center>
+          {{ $t(tab.name) }}
+        </p>
       </div>
     </RouterLink>
   </div>

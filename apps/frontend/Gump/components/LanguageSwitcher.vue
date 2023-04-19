@@ -8,7 +8,7 @@ const localeObjects = locales.value as LocaleObject[]
 </script>
 
 <template>
-  <div my-2 flex flex-row gap-2>
+  <div my-2 flex="~ row" gap-2>
     <NuxtLink v-for="locale in localeObjects" :key="locale.code" :to="switchLocalePath(locale.code)" class="linkOrange">
       {{ locale.name }}
     </NuxtLink>

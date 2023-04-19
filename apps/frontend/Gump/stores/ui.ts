@@ -1,20 +1,34 @@
-export type navState = 'home' | 'search' | 'create' | 'recipes' | 'profile'
+export const tabs = [
+  'Home',
+  'Search',
+  'Create',
+  'Recipes',
+  'Profile',
+] as const
+
+export type Tab = typeof tabs[number]
+
+export const tabData = tabs.map(tab => ({
+  tab: tab as Tab,
+  name: `${tab}Nav`,
+  path: `/${tab.toLowerCase()}`,
+}))
 
 interface IUIState {
-  activeNav: navState
+  activeNav: Tab
 }
 
 export const useUIStore = defineStore('ui', () => {
   // state
   const state = reactive<IUIState>({
-    activeNav: 'home',
+    activeNav: 'Home',
   })
 
   // getters
   // ...
 
   // actions
-  const setActiveNav = (nav: navState) => {
+  const setActiveNav = (nav: Tab) => {
     state.activeNav = nav
   }
 
@@ -24,5 +38,5 @@ export const useUIStore = defineStore('ui', () => {
   }
 },
 {
-  persist: true, // put that motherfucker into a cookie
+  persist: true,
 })
