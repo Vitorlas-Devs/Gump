@@ -32,13 +32,12 @@ export const useGumpUserStore = defineStore(
       sessionToken: ''
     })
 
-    const login = (username: string, password: string) => {
+    const login = (username: string, password: string): boolean => {
       const http = new XMLHttpRequest()
 
       http.open('POST', `${backendUrl}/auth/login`, false)
       http.setRequestHeader('Content-type', 'application/json')
       http.send(JSON.stringify({ username, password }))
-      console.log(http.responseText)
       const login: ILoginData = JSON.parse(http.responseText)
 
       state.sessionToken = login.token
@@ -46,13 +45,23 @@ export const useGumpUserStore = defineStore(
       http.open('GET', `${backendUrl}/user/me`, false)
       http.setRequestHeader('Authorization', `Bearer ${state.sessionToken}`)
       http.send()
-      console.log(http.responseText)
+      if (http.status !== 200) {
+        state.sessionToken = ''
+        return false
+      }
       const user: IGumpUser = JSON.parse(http.responseText)
+
+      if (!user.isModerator) {
+        state.sessionToken = ''
+        return false
+      }
 
       state.id = login.id
       state.username = username
       state.password = password
       state.pfpUrl = `${backendUrl}/image/${user.profilePicture}`
+
+      return true
     }
 
     const logout = () => {

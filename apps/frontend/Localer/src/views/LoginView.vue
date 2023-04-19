@@ -1,13 +1,29 @@
 <script setup lang="ts">
+import router from '@/router'
 import { useGumpUserStore } from '@/stores/gumpUserStore'
+import { reactive, ref } from 'vue'
 
 const gumpUser = useGumpUserStore()
+const state = reactive({
+  isLoading: false,
+  error: ''
+})
 
-const login = () => {
-  console.log('login')
-  const username = (document.getElementById('gumpUsername') as HTMLInputElement).value
-  const password = (document.getElementById('gumpPassword') as HTMLInputElement).value
-  gumpUser.login(username, password)
+const login = async () => {
+  state.isLoading = true
+
+  const username = document.getElementById('gumpUsername') as HTMLInputElement
+  const password = document.getElementById('gumpPassword') as HTMLInputElement
+  const success = gumpUser.login(username.value, password.value)
+
+  if (success) {
+    router.push('/moderation')
+    return
+  }
+
+  password.value = ''
+  state.isLoading = false
+  state.error = 'Invalid username or password'
 }
 </script>
 
@@ -35,7 +51,10 @@ const login = () => {
           rounded="full"
           w="full"
           p="2"
-          bg="crimson-50"
+          :on-submit="login"
+          :bg="state.isLoading ? 'crimson-100' : 'crimson-50'"
+          :disabled="state.isLoading"
+          @keyup.enter="login"
         />
       </div>
       <div flex="~ col">
@@ -47,7 +66,9 @@ const login = () => {
           rounded="full"
           w="full"
           p="2"
-          bg="crimson-50"
+          :bg="state.isLoading ? 'crimson-100' : 'crimson-50'"
+          :disabled="state.isLoading"
+          @keyup.enter="login"
         />
       </div>
       <button
@@ -59,10 +80,13 @@ const login = () => {
         px="4"
         font="bold"
         m="6"
+        :disabled="state.isLoading"
+        :cursor="state.isLoading ? 'default' : 'pointer'"
         @click="login"
       >
-        Log In
+        Log In {{ state.isLoading }}
       </button>
+      <p v-if="state.error" text="crimson-500" font="bold">{{ state.error }}</p>
     </div>
   </div>
 </template>
