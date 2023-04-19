@@ -44,7 +44,7 @@ A tripla kötőjellel (`---`) jelölt részeket cseréld ki saját értékekre. 
 Az API elindításához írd be a következő parancsot:
 
 ```bash
-docker compose up -d --build --force-recreate
+docker compose up -d --force-recreate
 ```
 
 Leállítani pedig ezzel a paranccsal lehet:

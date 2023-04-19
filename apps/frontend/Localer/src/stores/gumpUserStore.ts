@@ -41,6 +41,8 @@ export const useGumpUserStore = defineStore(
       console.log(http.responseText)
       const login: ILoginData = JSON.parse(http.responseText)
 
+      state.sessionToken = login.token
+
       http.open('GET', `${backendUrl}/user/me`, false)
       http.setRequestHeader('Authorization', `Bearer ${state.sessionToken}`)
       http.send()
@@ -51,7 +53,6 @@ export const useGumpUserStore = defineStore(
       state.username = username
       state.password = password
       state.pfpUrl = `${backendUrl}/image/${user.profilePicture}`
-      state.sessionToken = login.token
     }
 
     const logout = () => {
