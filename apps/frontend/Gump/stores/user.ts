@@ -19,5 +19,5 @@ export const useUserStore = defineStore('user', () => {
   }
 },
 {
-  persist: true, // put that motherfucker into a cookie
+  persist: true,
 })
