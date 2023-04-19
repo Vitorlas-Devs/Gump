@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user'
 
-// deconstruct a variable from a store (with storeToRefs to keep reactivity)
-const { username } = storeToRefs(useUserStore())
+const user = useUserStore()
 </script>
 
 <template>
@@ -10,7 +9,7 @@ const { username } = storeToRefs(useUserStore())
     <TheHeader :title="$t('HomeNav')" />
     <div grow>
       <h1 text-crimson-500 text-shadow-crimson>
-        {{ username }}
+        {{ user.username }}
       </h1>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil voluptatum similique explicabo suscipit eum alias doloremque quidem iure corrupti pariatur. Explicabo neque assumenda ipsa, error accusamus vel recusandae aliquid doloremque.
       <br>
