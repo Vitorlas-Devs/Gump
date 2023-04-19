@@ -8,11 +8,6 @@ export const useUserStore = defineStore('user', () => {
     username: '',
   })
 
-  // in a setup store, we can also just define username as a ref
-  // const username = ref('')
-  // the reactive state is useful when we want to expose the whole state object
-  // reactive needs to be exported with toRefs, which makes every property a ref
-
   // getters
   // ...
 
