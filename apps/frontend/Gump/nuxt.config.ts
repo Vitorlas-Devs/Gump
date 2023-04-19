@@ -43,8 +43,5 @@ export default defineNuxtConfig({
     lazy: true,
     langDir: '../../../locales',
     defaultLocale: 'en',
-    vueI18n: {
-      fallbackLocale: 'en',
-    },
   },
 })
