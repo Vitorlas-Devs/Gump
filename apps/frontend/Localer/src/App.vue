@@ -5,18 +5,18 @@ import { useTranslationStore } from '@/stores/translationStore'
 import { computed, onBeforeMount, ref } from 'vue'
 import { CreateBranch, createOrUpdateFiles, createPullRequest, getBranch } from './octokit'
 import { useUserStore } from '@/stores/userStore'
+import { useGumpUserStore } from '@/stores/gumpUserStore'
 import { useUIStore } from '@/stores/uiStore'
 import { useRequestErrorStore } from '@/stores/requestErrorStore'
-import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 
 const translate = useTranslationStore()
 const user = useUserStore()
+const gumpUser = useGumpUserStore()
 const ui = useUIStore()
 const router = useRouter()
 const re = useRequestErrorStore()
 const { loadTranslations } = useTranslationStore()
-const { username, languages, loggedIn, token } = storeToRefs(user)
 
 onBeforeMount(() => {
   ;(async () => {
@@ -35,7 +35,7 @@ const saveChanges = () => {
   ;(async () => {
     const { translations, initialTranslations } = translate
 
-    const locales = [...languages.value, 'notes']
+    const locales = [...user.languages, 'notes']
 
     const changedLocales = locales.filter((locale) => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
@@ -56,11 +56,11 @@ const saveChanges = () => {
     })
 
     const { sha } = await getBranch()
-    await CreateBranch(username.value, sha)
+    await CreateBranch(user.username, sha)
 
-    await createOrUpdateFiles(username.value, changedLocales, contents)
+    await createOrUpdateFiles(user.username, changedLocales, contents)
 
-    const { prUrl, prNumber } = await createPullRequest(username.value)
+    const { prUrl, prNumber } = await createPullRequest(user.username)
 
     if (prUrl && prNumber) {
       user.openPullRequest = true
@@ -73,17 +73,17 @@ const saveChanges = () => {
 }
 
 const resetChanges = () => {
-  const locales = [...languages.value, 'notes']
+  const locales = [...user.languages, 'notes']
   locales.forEach((language) => {
     if (Object.values(translate.translations[language]).every((value) => value === '')) {
-      languages.value = locales.filter((lang) => lang !== language)
+      user.languages = locales.filter((lang) => lang !== language)
     }
   })
   window.location.reload()
 }
 
 const authenticate = () => {
-  if (!token.value) {
+  if (!user.token) {
     const clientId = import.meta.env.VITE_CLIENT_ID
 
     const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`
@@ -92,7 +92,15 @@ const authenticate = () => {
   } else {
     router.push('/translate')
   }
-  loggedIn.value = true
+  user.loggedIn = true
+}
+
+const authGump = () => {
+  if (gumpUser.id != 0) {
+    router.push('/moderation')
+  } else {
+    router.push('/login')
+  }
 }
 
 const openModal = ref(false)
@@ -113,6 +121,7 @@ const openModal = ref(false)
         />
         <RouterLink to="/">Home</RouterLink>
         <p cursor="pointer" @click="authenticate">Translate</p>
+        <p cursor="pointer" @click="authGump">Moderation</p>
         <a
           href="https://github.com/14A-A-Lyedlik-Devs/Gump"
           place="self-center"

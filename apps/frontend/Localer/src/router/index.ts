@@ -23,8 +23,13 @@ const router = createRouter({
       path: '/translate/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/NotFoundView.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue')
     }
-  ],
+  ]
 })
 
 export default router

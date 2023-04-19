@@ -25,6 +25,7 @@ export default defineConfig({
       // crimsonDown: '0px 8px 15px -5px rgba(209, 44, 95, 0.3)',
       crimsonDown: '0px 5px 15px -3px rgba(209, 44, 95, 0.3)',
       inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)',
+      innerCrimson: 'inset 0px 2px 12px -4px rgb(209, 44, 95)',
       grey: '0px 2px 6px rgba(0, 0, 0, 0.5)',
       red: '0px 2px 6px rgba(230, 25, 25, 0.5)',
       yellow: '0px 2px 6px rgba(255, 204, 0, 0.5)',
