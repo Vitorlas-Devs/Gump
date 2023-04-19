@@ -38,11 +38,13 @@ export const useGumpUserStore = defineStore(
       http.open('POST', `${backendUrl}/auth/login`, false)
       http.setRequestHeader('Content-type', 'application/json')
       http.send(JSON.stringify({ username, password }))
+      console.log(http.responseText)
       const login: ILoginData = JSON.parse(http.responseText)
 
       http.open('GET', `${backendUrl}/user/me`, false)
       http.setRequestHeader('Authorization', `Bearer ${state.sessionToken}`)
       http.send()
+      console.log(http.responseText)
       const user: IGumpUser = JSON.parse(http.responseText)
 
       state.id = login.id

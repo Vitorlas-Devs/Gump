@@ -4,6 +4,7 @@ import { useGumpUserStore } from '@/stores/gumpUserStore'
 const gumpUser = useGumpUserStore()
 
 const login = () => {
+  console.log('login')
   const username = (document.getElementById('gumpUsername') as HTMLInputElement).value
   const password = (document.getElementById('gumpPassword') as HTMLInputElement).value
   gumpUser.login(username, password)
