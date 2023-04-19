@@ -22,7 +22,7 @@ interface IGumpUser {
 export const useGumpUserStore = defineStore(
   'gumpUser',
   () => {
-    const backendUrl = import.meta.env.VITE_BACKED_URL
+    const backendUrl = import.meta.env.VITE_BACKEND_URL
 
     const state = reactive({
       id: 0,
@@ -34,16 +34,15 @@ export const useGumpUserStore = defineStore(
 
     const login = (username: string, password: string) => {
       const http = new XMLHttpRequest()
+
       http.open('POST', `${backendUrl}/auth/login`, false)
       http.setRequestHeader('Content-type', 'application/json')
       http.send(JSON.stringify({ username, password }))
-
       const login: ILoginData = JSON.parse(http.responseText)
 
       http.open('GET', `${backendUrl}/user/me`, false)
       http.setRequestHeader('Authorization', `Bearer ${state.sessionToken}`)
       http.send()
-
       const user: IGumpUser = JSON.parse(http.responseText)
 
       state.id = login.id
