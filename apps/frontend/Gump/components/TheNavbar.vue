@@ -13,11 +13,12 @@ const ui = useUIStore()
         <img :src="`/_nuxt/assets/${tab.name}.svg`" :mb="tab.tab === 'Home' ? 4 : 0" absolute>
       </div>
       <div
-        text-1xl absolute bottom-0 h="1/2" text-center font-bold text-crimson-500 text-shadow-crimson
+        h="1/2" text-1xl absolute bottom-0 text-center font-bold text-crimson-500 text-shadow-crimson
       >
         <p items-center justify-center>
           {{ $t(tab.name) }}
         </p>
+        <div v-if="ui.activeNav === tab.tab" m-auto h-2 w-8 rounded-full bg-crimson-500 class="shadow-crimsonDown" />
       </div>
     </RouterLink>
   </div>
