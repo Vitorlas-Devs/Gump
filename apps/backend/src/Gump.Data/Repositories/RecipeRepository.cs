@@ -40,26 +40,26 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	}
 
 	public IEnumerable<RecipeModel> Search(
-		string searchTerm, int limit, int offset, ulong authorId, ulong categoryId)
+		string searchTerm, string sort, int limit, int offset, ulong authorId, ulong categoryId)
 	{
-		var a = GetAll();
-		var b = a.Where(r => FilterLogic(r, authorId, categoryId));
-		var c = b.OrderByDescending(CalculatePopularity);
-		var d = c.GroupBy(r => CalculateScore(r, searchTerm));
-		var e = d.OrderByDescending(g => g.Key);
-		var f = e.SelectMany(g => g);
-		var g = f.Skip(offset);
-		var h = g.Take(limit);
-		return h;
+		var result = GetAll()
+			.Where(r => FilterLogic(r, authorId, categoryId));
 
-		// return GetAll()
-		// 	.Where(r => FilterLogic(r, authorId, categoryId))
-		// 	.OrderByDescending(CalculatePopularity)
-		// 	.GroupBy(r => CalculateScore(r, searchTerm))
-		// 	.OrderByDescending(g => g.Key)
-		// 	.SelectMany(g => g)
-		// 	.Skip(offset)
-		// 	.Take(limit);
+		result = sort switch
+		{
+			"new" => result.OrderByDescending(r => r.Id),
+			"hot" => result.OrderByDescending(CalculatePopularity),
+			"top" => result.OrderByDescending(r => r.Likes.Count),
+			_ => result
+				.OrderByDescending(CalculatePopularity)
+				.GroupBy(r => CalculateScore(r, searchTerm))
+				.OrderByDescending(g => g.Key)
+				.SelectMany(g => g),
+		};
+
+		return result
+			.Skip(offset)
+			.Take(limit);
 	}
 
 	private static bool FilterLogic(

@@ -100,6 +100,7 @@ public class RecipeController : ControllerBase
 	{
 		var searchResult = recipeRepository.Search(
 			search.SearchTerm,
+			search.Sort,
 			search.Limit,
 			search.Offset,
 			search.AuthorId,

@@ -4,3 +4,4 @@ bin/
 obj/
 data/
 appsettings.json
+docker-compose.yml

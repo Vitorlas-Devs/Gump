@@ -5,18 +5,21 @@ import { useTranslationStore } from '@/stores/translationStore'
 import { computed, onBeforeMount, ref } from 'vue'
 import { CreateBranch, createOrUpdateFiles, createPullRequest, getBranch } from './octokit'
 import { useUserStore } from '@/stores/userStore'
+import { useGumpUserStore } from '@/stores/gumpUserStore'
 import { useUIStore } from '@/stores/uiStore'
 import { useRequestErrorStore } from '@/stores/requestErrorStore'
-import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 
 const translate = useTranslationStore()
 const user = useUserStore()
+const gumpUser = useGumpUserStore()
 const ui = useUIStore()
 const router = useRouter()
 const re = useRequestErrorStore()
 const { loadTranslations } = useTranslationStore()
-const { username, languages, loggedIn, token } = storeToRefs(user)
+
+const openModal = ref(false)
+const openGumpModal = ref(false)
 
 onBeforeMount(() => {
   ;(async () => {
@@ -35,7 +38,7 @@ const saveChanges = () => {
   ;(async () => {
     const { translations, initialTranslations } = translate
 
-    const locales = [...languages.value, 'notes']
+    const locales = [...user.languages, 'notes']
 
     const changedLocales = locales.filter((locale) => {
       return JSON.stringify(translations[locale]) !== JSON.stringify(initialTranslations[locale])
@@ -56,11 +59,11 @@ const saveChanges = () => {
     })
 
     const { sha } = await getBranch()
-    await CreateBranch(username.value, sha)
+    await CreateBranch(user.username, sha)
 
-    await createOrUpdateFiles(username.value, changedLocales, contents)
+    await createOrUpdateFiles(user.username, changedLocales, contents)
 
-    const { prUrl, prNumber } = await createPullRequest(username.value)
+    const { prUrl, prNumber } = await createPullRequest(user.username)
 
     if (prUrl && prNumber) {
       user.openPullRequest = true
@@ -73,17 +76,17 @@ const saveChanges = () => {
 }
 
 const resetChanges = () => {
-  const locales = [...languages.value, 'notes']
+  const locales = [...user.languages, 'notes']
   locales.forEach((language) => {
     if (Object.values(translate.translations[language]).every((value) => value === '')) {
-      languages.value = locales.filter((lang) => lang !== language)
+      user.languages = locales.filter((lang) => lang !== language)
     }
   })
   window.location.reload()
 }
 
 const authenticate = () => {
-  if (!token.value) {
+  if (!user.token) {
     const clientId = import.meta.env.VITE_CLIENT_ID
 
     const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`
@@ -92,10 +95,19 @@ const authenticate = () => {
   } else {
     router.push('/translate')
   }
-  loggedIn.value = true
+  user.loggedIn = true
 }
 
-const openModal = ref(false)
+const logout = () => {
+  user.logout()
+  openModal.value = false
+}
+
+const gumpLogout = () => {
+  gumpUser.logout()
+  openGumpModal.value = false
+  location.reload()
+}
 </script>
 
 <template>
@@ -113,6 +125,7 @@ const openModal = ref(false)
         />
         <RouterLink to="/">Home</RouterLink>
         <p cursor="pointer" @click="authenticate">Translate</p>
+        <RouterLink class="hidden md:inline-block" to="/moderation">Moderation</RouterLink>
         <a
           href="https://github.com/14A-A-Lyedlik-Devs/Gump"
           place="self-center"
@@ -132,12 +145,28 @@ const openModal = ref(false)
         mx="5"
         place="items-center"
         cursor="pointer"
+        select="none"
         @click="openModal = !openModal"
       >
         <p>
           {{ user.username }}
         </p>
         <img :src="user.avatarUrl" rounded="full" w="10" h="10" />
+      </div>
+      <div
+        v-if="gumpUser.sessionToken"
+        flex="~ row"
+        gap="4"
+        mx="5"
+        place="items-center"
+        cursor="pointer"
+        select="none"
+        @click="openGumpModal = !openGumpModal"
+      >
+        <p>
+          {{ gumpUser.username }}
+        </p>
+        <img :src="gumpUser.pfpUrl" object="contain" rounded="full" w="10" h="10" />
       </div>
     </div>
     <div>
@@ -154,6 +183,7 @@ const openModal = ref(false)
         p="5"
         shadow="orange"
         font="bold"
+        select="none"
       >
         Pull request:
         <span
@@ -176,7 +206,26 @@ const openModal = ref(false)
           Link: {{ user.prNumber }}
         </a>
         <p v-else text="center">Up to date</p>
-        <div mt="3" text="center" cursor="pointer" @click="user.logout">Log out</div>
+        <div mt="3" text="center" cursor="pointer" @click="logout">Log out</div>
+      </div>
+    </div>
+    <div>
+      <div
+        v-if="openGumpModal"
+        pos="absolute"
+        flex="~ col"
+        gap="4"
+        top="12"
+        z="30"
+        right="5"
+        bg="crimson-50"
+        rounded="xl"
+        p="5"
+        shadow="orange"
+        font="bold"
+        select="none"
+      >
+        <div text="center" cursor="pointer" @click="gumpLogout">Log out</div>
       </div>
     </div>
     <div flex="~ col md:row" w="full" h="full">
