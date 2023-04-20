@@ -8,7 +8,7 @@ navigateTo('/home')
 </script>
 
 <template>
-  <ion-page bg-crimson-50 p-2>
+  <ion-page bg-crimson-50>
     <div>
       <!-- Welcome page -->
       <!-- if no user: route to login -->

@@ -5,7 +5,7 @@ const user = useUserStore()
 </script>
 
 <template>
-  <ion-page bg-crimson-50 p-2>
+  <ion-page bg-crimson-50>
     <TheHeader :title="$t('ProfileNav')" />
     <div grow>
       <h1 text-crimson-500 text-shadow-crimson>
