@@ -2457,7 +2457,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"searchTerm\": \"\",\r\n    \"limit\": 0,\r\n    \"offset\": 0,\r\n    \"authorId\": 0,\r\n    \"categoryId\": 0\r\n}",
+							"raw": "{\r\n    \"searchTerm\": \"\",\r\n    \"sort\": \"\",\r\n    \"limit\": 0,\r\n    \"offset\": 0,\r\n    \"authorId\": 0,\r\n    \"categoryId\": 0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2562,6 +2562,96 @@
 							],
 							"cookie": [],
 							"body": "[\n    {\n        \"id\": 3,\n        \"title\": \"Diós tészta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 1,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    },\n    {\n        \"id\": 2,\n        \"title\": \"Főtt kockatészta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 0,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    },\n    {\n        \"id\": 1,\n        \"title\": \"Egyszerű rántotta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 1,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    }\n]"
+						},
+						{
+							"name": "New",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sort\": \"new\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/recipe/search",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"search"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Hot",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sort\": \"hot\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/recipe/search",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"search"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Top",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sort\": \"top\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/recipe/search",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"search"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
 						}
 					]
 				},
@@ -2702,6 +2792,118 @@
 							],
 							"cookie": [],
 							"body": "[\n    {\n        \"id\": 1,\n        \"title\": \"Egyszerű rántotta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 1,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Save Recipe",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/recipe/save/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"save",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Recipe to save"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Save 1 (Egyszerű rántotta)",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/save/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"save",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Recipe to save"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Like Recipe",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/recipe/like/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"recipe",
+								"like",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Id of the Recipe to like"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Like 1 (Egyszerű rántotta)",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/like/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"like",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Id of the Recipe to like"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
 						}
 					]
 				},
