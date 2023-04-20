@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TheNavigation from '@/components/TheNavigation.vue'
+import ModNavigation from '@/components/moderation/ModNavigation.vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed, onBeforeMount, ref } from 'vue'
@@ -237,6 +238,7 @@ const gumpLogout = () => {
         "
         z="10"
       />
+      <ModNavigation v-if="router.currentRoute.value.path.includes('/moderation')" />
       <RouterView :key="$route.fullPath" />
     </div>
   </div>
