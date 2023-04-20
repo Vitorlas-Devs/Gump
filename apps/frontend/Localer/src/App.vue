@@ -95,15 +95,19 @@ const authenticate = () => {
   user.loggedIn = true
 }
 
-const authGump = () => {
-  if (gumpUser.id != 0) {
-    router.push('/moderation')
-  } else {
-    router.push('/login')
-  }
+const logout = () => {
+  user.logout()
+  openModal.value = false
+}
+
+const gumpLogout = () => {
+  gumpUser.logout()
+  openGumpModal.value = false
+  location.reload()
 }
 
 const openModal = ref(false)
+const openGumpModal = ref(false)
 </script>
 
 <template>
@@ -121,7 +125,7 @@ const openModal = ref(false)
         />
         <RouterLink to="/">Home</RouterLink>
         <p cursor="pointer" @click="authenticate">Translate</p>
-        <p cursor="pointer" @click="authGump">Moderation</p>
+        <RouterLink to="/moderation">Moderation</RouterLink>
         <a
           href="https://github.com/14A-A-Lyedlik-Devs/Gump"
           place="self-center"
@@ -141,12 +145,28 @@ const openModal = ref(false)
         mx="5"
         place="items-center"
         cursor="pointer"
+        select="none"
         @click="openModal = !openModal"
       >
         <p>
           {{ user.username }}
         </p>
         <img :src="user.avatarUrl" rounded="full" w="10" h="10" />
+      </div>
+      <div
+        v-if="gumpUser.sessionToken"
+        flex="~ row"
+        gap="4"
+        mx="5"
+        place="items-center"
+        cursor="pointer"
+        select="none"
+        @click="openGumpModal = !openGumpModal"
+      >
+        <p>
+          {{ gumpUser.username }}
+        </p>
+        <img :src="gumpUser.pfpUrl" object="contain" rounded="full" w="10" h="10" />
       </div>
     </div>
     <div>
@@ -163,6 +183,7 @@ const openModal = ref(false)
         p="5"
         shadow="orange"
         font="bold"
+        select="none"
       >
         Pull request:
         <span
@@ -185,7 +206,26 @@ const openModal = ref(false)
           Link: {{ user.prNumber }}
         </a>
         <p v-else text="center">Up to date</p>
-        <div mt="3" text="center" cursor="pointer" @click="user.logout">Log out</div>
+        <div mt="3" text="center" cursor="pointer" @click="logout">Log out</div>
+      </div>
+    </div>
+    <div>
+      <div
+        v-if="openGumpModal"
+        pos="absolute"
+        flex="~ col"
+        gap="4"
+        top="12"
+        z="30"
+        right="5"
+        bg="crimson-50"
+        rounded="xl"
+        p="5"
+        shadow="orange"
+        font="bold"
+        select="none"
+      >
+        <div text="center" cursor="pointer" @click="gumpLogout">Log out</div>
       </div>
     </div>
     <div flex="~ col md:row" w="full" h="full">

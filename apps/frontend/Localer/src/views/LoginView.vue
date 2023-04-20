@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
 import { useGumpUserStore } from '@/stores/gumpUserStore'
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 
 const gumpUser = useGumpUserStore()
 const state = reactive({
@@ -33,7 +33,7 @@ const login = async () => {
       flex="~ col"
       items="center"
       gap="2"
-      w="sm"
+      w="md"
       m="10"
       p="12"
       rounded="4xl"
@@ -41,15 +41,14 @@ const login = async () => {
       drop-shadow="xl"
       bg="crimson-100"
     >
-      <h1 text="4xl" font="bold" mb="6">Log In</h1>
-      <div flex="~ col">
+      <h1 text="4xl" font="bold" mb="6">Log In to Gump</h1>
+      <div flex="~ col" w="full">
         <label m="2" for="gumpUsername">Username</label>
         <input
           id="gumpUsername"
           type="text"
           shadow="innerCrimson"
           rounded="full"
-          w="full"
           p="2"
           :on-submit="login"
           :bg="state.isLoading ? 'crimson-100' : 'crimson-50'"
@@ -57,14 +56,13 @@ const login = async () => {
           @keyup.enter="login"
         />
       </div>
-      <div flex="~ col">
+      <div flex="~ col" w="full">
         <label m="2" for="gumpPassword">Password</label>
         <input
           id="gumpPassword"
           type="password"
           shadow="innerCrimson"
           rounded="full"
-          w="full"
           p="2"
           :bg="state.isLoading ? 'crimson-100' : 'crimson-50'"
           :disabled="state.isLoading"
@@ -84,7 +82,7 @@ const login = async () => {
         :cursor="state.isLoading ? 'default' : 'pointer'"
         @click="login"
       >
-        Log In {{ state.isLoading }}
+        Log In
       </button>
       <p v-if="state.error" text="crimson-500" font="bold">{{ state.error }}</p>
     </div>
