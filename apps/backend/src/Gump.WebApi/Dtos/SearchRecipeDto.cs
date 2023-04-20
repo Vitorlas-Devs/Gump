@@ -1,23 +1,25 @@
 using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace Gump.WebApi;
 
 public class SearchRecipeDto
 {
-	[Required, JsonProperty("searchTerm")]
+	[JsonProperty("searchTerm")]
 	public string SearchTerm { get; init; } = string.Empty;
 
-	[Required, JsonProperty("limit")]
+	[JsonProperty("sort")]
+	public string Sort { get; init; } = string.Empty;
+
+	[JsonProperty("limit")]
 	public int Limit { get; init; } = 10;
 
-	[Required, JsonProperty("offset")]
+	[JsonProperty("offset")]
 	public int Offset { get; init; }
 
-	[Required, JsonProperty("author")]
+	[JsonProperty("author")]
 	public ulong AuthorId { get; init; }
 
-	[Required, JsonProperty("category")]
+	[JsonProperty("category")]
 	public ulong CategoryId { get; init; }
 
 	public override string ToString()

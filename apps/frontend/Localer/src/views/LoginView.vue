@@ -12,11 +12,10 @@ const state = reactive({
 const username = ref('')
 const password = ref('')
 
-const login = async () => {
+const login = () => {
   state.isLoading = true
-  const success = gumpUser.login(username.value, password.value)
 
-  if (success) {
+  if (gumpUser.login(username.value, password.value)) {
     router.push('/moderation')
     return
   }
