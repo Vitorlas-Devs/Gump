@@ -18,6 +18,9 @@ const router = useRouter()
 const re = useRequestErrorStore()
 const { loadTranslations } = useTranslationStore()
 
+const openModal = ref(false)
+const openGumpModal = ref(false)
+
 onBeforeMount(() => {
   ;(async () => {
     await loadTranslations()
@@ -105,9 +108,6 @@ const gumpLogout = () => {
   openGumpModal.value = false
   location.reload()
 }
-
-const openModal = ref(false)
-const openGumpModal = ref(false)
 </script>
 
 <template>
