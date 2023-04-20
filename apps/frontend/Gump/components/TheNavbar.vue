@@ -18,7 +18,7 @@ const ui = useUIStore()
         <p items-center justify-center>
           {{ $t(tab.name) }}
         </p>
-        <div v-if="ui.activeNav === tab.tab" m-auto h-2 w-8 rounded-full bg-crimson-500 class="shadow-crimsonDown" />
+        <div v-if="ui.activeNav === tab.tab" absolute bottom--3 left-0 right-0 m-auto h-2 w-8 rounded-full bg-crimson-500 class="shadow-crimsonDown" />
       </div>
     </RouterLink>
   </div>
