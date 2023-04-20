@@ -125,7 +125,7 @@ const gumpLogout = () => {
         />
         <RouterLink to="/">Home</RouterLink>
         <p cursor="pointer" @click="authenticate">Translate</p>
-        <RouterLink to="/moderation">Moderation</RouterLink>
+        <RouterLink class="hidden md:inline-block" to="/moderation">Moderation</RouterLink>
         <a
           href="https://github.com/14A-A-Lyedlik-Devs/Gump"
           place="self-center"

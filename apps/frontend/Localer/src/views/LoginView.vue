@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
 import { useGumpUserStore } from '@/stores/gumpUserStore'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 const gumpUser = useGumpUserStore()
 const state = reactive({
@@ -9,11 +9,11 @@ const state = reactive({
   error: ''
 })
 
+const username = ref('')
+const password = ref('')
+
 const login = async () => {
   state.isLoading = true
-
-  const username = document.getElementById('gumpUsername') as HTMLInputElement
-  const password = document.getElementById('gumpPassword') as HTMLInputElement
   const success = gumpUser.login(username.value, password.value)
 
   if (success) {
@@ -46,6 +46,7 @@ const login = async () => {
         <label m="2" for="gumpUsername">Username</label>
         <input
           id="gumpUsername"
+          v-model="username"
           type="text"
           shadow="innerCrimson"
           rounded="full"
@@ -60,6 +61,7 @@ const login = async () => {
         <label m="2" for="gumpPassword">Password</label>
         <input
           id="gumpPassword"
+          v-model="password"
           type="password"
           shadow="innerCrimson"
           rounded="full"
