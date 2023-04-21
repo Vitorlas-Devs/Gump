@@ -6,7 +6,7 @@ const user = useUserStore()
 
 <template>
   <ion-page bg-crimson-50>
-    <TheHeader :title="$t('HomeNav')" />
+    <TheHeader show-icons :title="$t('HomeNav')" />
     <div grow>
       <h1 text-crimson-500 text-shadow-crimson>
         {{ user.username }}
