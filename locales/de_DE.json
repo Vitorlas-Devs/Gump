@@ -20,5 +20,6 @@
   "ProfileEmail": "E-mail",
   "RecipeViewInfo": "Info",
   "WelcomSignIn": "Einloggen",
-  "WelcomeError5": "Falsche Benutzername oder Passwort."
+  "WelcomeError5": "Falsche Benutzername oder Passwort.",
+  "AppError": "Eine unerwartete Fehler passierte."
 }
