@@ -1,4 +1,3 @@
-// import the necessary modules and components
 import { beforeEach, describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import TheHeader from '~/components/TheHeader.vue'
