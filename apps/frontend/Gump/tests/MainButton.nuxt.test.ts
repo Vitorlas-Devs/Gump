@@ -36,7 +36,6 @@ describe('MainButton', () => {
         color: 'orange',
       },
     })
-    // expect(wrapper.classes()).toContain('orangeGradient'
     expect(wrapper.find('.orangeGradient').exists()).toBe(true)
   })
 })
