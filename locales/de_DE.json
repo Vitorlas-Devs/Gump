@@ -1,5 +1,8 @@
 {
   "EnglishLanguageName": "German",
   "HomeNav": "Startseite",
-  "SearchNav": "Suchen"
+  "SearchNav": "Suchen",
+  "HomeTitleHot": "Heiß",
+  "HomeTitleNew": "Neu",
+  "CreateTitle": "Titel"
 }
