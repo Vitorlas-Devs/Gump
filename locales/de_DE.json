@@ -12,5 +12,10 @@
   "CreateStepsTipOrange": "Orange",
   "CreateCategory": "Kategorien",
   "CreateRecipeButton": "Rezept erstellen",
-  "lengthyBadgeName": "Nächste Seite"
+  "lengthyBadgeName": "Nächste Seite",
+  "RecipesOthersTitle": "{username}s Rezepte",
+  "RecipesYourTitle": "Deine Rezepte",
+  "RecipesSortSaved": "Speicherte Rezepte",
+  "ProfileUsername": "Benutzername",
+  "ProfileEmail": "E-mail"
 }
