@@ -4,5 +4,13 @@
   "SearchNav": "Suchen",
   "HomeTitleHot": "Heiß",
   "HomeTitleNew": "Neu",
-  "CreateTitle": "Titel"
+  "CreateTitle": "Titel",
+  "CreateLanguage": "Sprache",
+  "CreateIngredients": "Zutaten",
+  "CreateYourRecipes": "Deine Rezepte",
+  "CreatePublicRecipes": "Öffentliche Rezepte",
+  "CreateStepsTipOrange": "Orange",
+  "CreateCategory": "Kategorien",
+  "CreateRecipeButton": "Rezept erstellen",
+  "lengthyBadgeName": "Nächste Seite"
 }
