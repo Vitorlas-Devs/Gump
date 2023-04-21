@@ -37,8 +37,6 @@ withDefaults(defineProps<{
 const ui = useUIStore()
 
 const icons = ['i-fa6-solid-fire', 'i-ion-sparkles', 'i-fa6-solid-trophy']
-
-ui.activeNav = 'Recipes'
 </script>
 
 <template>
@@ -47,14 +45,14 @@ ui.activeNav = 'Recipes'
       <h1 text-2xl font-bold :class="`text-${titleColor}-500 text-shadow-${titleColor}`">
         {{ title }}
       </h1>
-      <h2 v-if="showModerator" text-xl font-bold text-blue text-shadow-blue>
+      <h2 v-if="showModerator" text-xl font-bold text-blue-500 text-shadow-blue>
         {{ $t("ProfileModerator") }}
       </h2>
       <div v-if="showIcons" flex="~ row" w="1/2" justify-evenly>
         <div
           v-for="(sort, index) in sorts"
           :key="sort"
-          :class="`${icons[index]} iconOrange ${ui.activeSort === sort ? 'active' : ''}`"
+          :class="`${icons[index]} orangeIcon ${ui.activeSort === sort ? 'active' : ''}`"
           @click="ui.activeSort = sort"
         />
       </div>

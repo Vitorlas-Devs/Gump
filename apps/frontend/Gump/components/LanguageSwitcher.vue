@@ -21,7 +21,7 @@ function setActive() {
 
 <template>
   <div my-2 flex="~ row" gap-2>
-    <NuxtLink v-for="locale in localeObjects" :key="locale.code" :to="switchLocalePath(locale.code)" class="linkOrange" @click="setActive">
+    <NuxtLink v-for="locale in localeObjects" :key="locale.code" :to="switchLocalePath(locale.code)" class="orangeLink" @click="setActive">
       {{ locale.name }}
     </NuxtLink>
   </div>
