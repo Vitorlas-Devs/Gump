@@ -18,5 +18,7 @@
   "RecipesSortSaved": "Speicherte Rezepte",
   "ProfileUsername": "Benutzername",
   "ProfileEmail": "E-mail",
-  "RecipeViewInfo": "Info"
+  "RecipeViewInfo": "Info",
+  "WelcomSignIn": "Einloggen",
+  "WelcomeError5": "Falsche Benutzername oder Passwort."
 }
