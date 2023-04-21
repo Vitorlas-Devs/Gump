@@ -1,11 +1,11 @@
-export interface Ingredient {
+export interface IIngredient {
   name: string
   value: number
   volume: string
   linkedRecipe: number
 }
 
-export interface Recipe {
+export interface IRecipe {
   id: number
   title: string
   author: number
@@ -14,7 +14,7 @@ export interface Recipe {
   serves: number
   categories: number[]
   tags: string[]
-  ingredients: Ingredient[]
+  ingredients: IIngredient[]
   steps: string[]
   viewCount: number
   saveCount: number
@@ -29,7 +29,7 @@ export interface Recipe {
 }
 
 interface IRecipeState {
-  recipe: Recipe
+  recipe: IRecipe
 }
 
 export const useRecipeStore = defineStore('recipe', () => {
