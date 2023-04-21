@@ -3,5 +3,8 @@
     "@antfu",
     "@unocss",
     "plugin:vitest/recommended"
-  ]
+  ],
+  "rules": {
+    "no-console": "warn"
+  }
 }

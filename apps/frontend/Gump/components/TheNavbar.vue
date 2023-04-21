@@ -1,35 +1,24 @@
 <script setup lang="ts">
-const localePath = useLocalePath()
+import { tabData, useUIStore } from '~/stores/ui'
 
-const tabs = [
-  {
-    name: 'HomeNav',
-    path: '/',
-    icon: 'i-fa6-solid-house',
-  },
-  {
-    name: 'SearchNav',
-    path: '/search',
-    icon: 'i-fa6-solid-magnifying-glass',
-  },
-  {
-    name: 'ProfileNav',
-    path: '/profile',
-    icon: 'i-fa6-solid-user',
-  },
-]
+const ui = useUIStore()
+const localePath = useLocalePath()
 </script>
 
 <template>
-  <div relative bottom-0 h-18 w-full flex flex-row gap-4 bg-crimson-50 px-3>
-    <RouterLink v-for="tab in tabs" :key="tab.name" :to="localePath(tab.path)" w-full flex flex-col items-center gap-2 decoration-none>
-      <div bg-crimson-200 p-2>
-        <div :class="tab.icon" bg-crimson-500 text-2xl />
+  <div relative bottom-0 h-max w-full flex="~ row" items-center bg-crimson-50 class="shadow-crimsonUp">
+    <RouterLink v-for="tab in tabData" :key="tab.name" :to="localePath(tab.path)" w-full flex="~ col" items-center gap-2 decoration-none @click="ui.setActiveNav(tab.tab)">
+      <div mb-8 flex="~ row" items-center justify-center>
+        <img src="~assets/hexagon.svg">
+        <img :src="`/_nuxt/assets/${tab.name}.svg`" :mb="tab.tab === 'Home' ? 4 : 0" absolute>
       </div>
       <div
-        text-1xl text-center font-bold text-crimson-500 text-shadow-crimson
+        h="1/2" text-1xl absolute bottom-0 text-center font-bold text-crimson-500 text-shadow-crimson
       >
-        {{ $t(tab.name) }}
+        <p items-center justify-center>
+          {{ $t(tab.name) }}
+        </p>
+        <div v-if="ui.activeNav === tab.tab" absolute bottom--1 left-0 right-0 m-auto h-2 w-8 rounded-full bg-crimson-500 class="shadow-ultraCrimsonDown" />
       </div>
     </RouterLink>
   </div>
