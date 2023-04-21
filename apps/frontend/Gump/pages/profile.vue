@@ -6,7 +6,7 @@ const user = useUserStore()
 
 <template>
   <ion-page bg-crimson-50>
-    <TheHeader :title="$t('ProfileNav')" />
+    <TheHeader show-moderator :title="$t('ProfileNav')" />
     <div grow>
       <h1 text-crimson-500 text-shadow-crimson>
         {{ $t('ProfileNav') }}

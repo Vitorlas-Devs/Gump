@@ -5,6 +5,9 @@ const config: CapacitorConfig = {
   appName: 'Gump',
   webDir: 'dist',
   bundledWebRuntime: false,
+  server: {
+    hostname: 'gump.live',
+  }
 }
 
 export default config

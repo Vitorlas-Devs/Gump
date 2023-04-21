@@ -63,5 +63,8 @@ export default defineConfig({
       'text-orange-500 text-shadow-orange underline underline-offset-5 underline-orange-500 font-bold',
     coolOl:
       'my-2 pl-6 list-outside list-disc space-y-2 leading-relaxed',
+    // shadow not working
+    iconOrange: 'w-6 h-6 text-orange-500',
   },
+
 })
