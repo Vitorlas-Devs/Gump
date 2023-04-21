@@ -96,18 +96,25 @@ public class RecipeController : ControllerBase
 
 	[AllowAnonymous]
 	[HttpGet("search")]
-	public IActionResult SearchRecipes([FromBody] SearchRecipeDto search) => this.Run(() =>
+	public IActionResult SearchRecipes(
+		string searchTerm = "",
+		string sort = "",
+		int limit = 10,
+		int offset = 0,
+		ulong authorId = 0,
+		ulong categoryId = 0
+	) => this.Run(() =>
 	{
 		var searchResult = recipeRepository.Search(
-			search.SearchTerm,
-			search.Sort,
-			search.Limit,
-			search.Offset,
-			search.AuthorId,
-			search.CategoryId
+			searchTerm,
+			sort,
+			limit,
+			offset,
+			authorId,
+			categoryId
 		);
 
-		if (search.SearchTerm.ToLowerInvariant() == "water" && User.Identity.IsAuthenticated)
+		if (searchTerm.ToLowerInvariant() == "water" && User.Identity.IsAuthenticated)
 		{
 			userRepository.GetById(ulong.Parse(User.Identity.Name)).AddBadge(7);
 		}
@@ -143,13 +150,11 @@ public class RecipeController : ControllerBase
 		Random r = new();
 		string randomTag = randomRecipe.Tags[r.Next(randomRecipe.Tags.Count)];
 
-		return Ok(((OkObjectResult)SearchRecipes(new()
-		{
-			SearchTerm = randomTag,
-			Limit = 1,
-			Offset = 0,
-			CategoryId = categoryId
-		})).Value);
+		return Ok(((OkObjectResult)SearchRecipes(
+			searchTerm: randomTag,
+			limit: 1,
+			categoryId: categoryId
+		)).Value);
 	});
 
 	[HttpPatch("save/{id}")]

@@ -29,18 +29,28 @@ namespace Gump.Data.Repositories
 			return Collection.AsQueryable().FirstOrDefault(x => x.Username == username);
 		}
 
-		public IEnumerable<UserModel> Search(string searchTerm, int limit)
+		public IEnumerable<UserModel> Search(string searchTerm, string sort, int limit, int offset)
 		{
-			return Collection.AsQueryable()
-				.Where(x =>
-					x.Username
-						.ToLowerInvariant()
-						.Contains(searchTerm.ToLowerInvariant()) ||
-					x.Email
-						.ToLowerInvariant()
-						.Contains(searchTerm.ToLowerInvariant())
-				).OrderBy(x => x.Username)
-				.Take(limit);
+			var result = GetAll();
+
+			if (sort == "new")
+			{
+				result = result.OrderByDescending(x => x.Id);
+			}
+			else
+			{
+				result = result
+					.Where(x =>
+						x.Username
+							.ToLowerInvariant()
+							.Contains(searchTerm.ToLowerInvariant()) ||
+						x.Email
+							.ToLowerInvariant()
+							.Contains(searchTerm.ToLowerInvariant())
+					).OrderBy(x => x.Username);
+			}
+
+			return result.Skip(offset).Take(limit);
 		}
 
 		public UserModel Create(UserModel user)

@@ -67,11 +67,18 @@ public class UserController : ControllerBase
 
 	[AllowAnonymous]
 	[HttpGet("search")]
-	public IActionResult SearchUsers([FromBody] SearchUserDto search) => this.Run(() =>
+	public IActionResult SearchUsers(
+		string searchTerm = "",
+		string sort = "",
+		int limit = 10,
+		int offset = 0
+	) => this.Run(() =>
 	{
 		var users = userRepository.Search(
-			search.SearchTerm,
-			search.Limit > 100 ? 100 : search.Limit
+			searchTerm,
+			sort,
+			limit > 100 ? 100 : limit,
+			offset
 		);
 
 		return Ok(users.Select(user => new
@@ -154,7 +161,7 @@ public class UserController : ControllerBase
 		{
 			return Unauthorized();
 		}
-		
+
 		UserModel deletedUser = userRepository.GetById(id);
 
 		userRepository.Delete(deletedUser.Id);
