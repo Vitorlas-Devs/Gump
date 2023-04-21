@@ -50,7 +50,8 @@ export default defineConfig({
     boxShadow: {
       orange: '0px 8px 10px -4px rgba(243, 88, 39, 0.5)',
       crimsonDown: '0px 8px 10px -4px rgba(209, 44, 95, 0.5)',
-      crimsonUp: '0px -8px 15px -5px rgba(209, 44, 95, 0.5)',
+      ultraCrimsonDown: '0px -10px 35px 15px rgba(209, 44, 95, 0.7)',
+      crimsonUp: '0px -6px 15px -5px rgba(209, 44, 95, 0.3)',
       inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)',
       grey: '0px 2px 6px rgba(0, 0, 0, 0.5)',
     },

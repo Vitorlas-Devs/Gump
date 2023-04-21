@@ -39,9 +39,19 @@ export default defineNuxtConfig({
         file: 'ko_KR.json',
         name: 'Korean',
       },
+      {
+        code: 'fr',
+        file: 'fr_FR.json',
+        name: 'French',
+      },
+      {
+        code: 'ro',
+        file: 'ro_RO.json',
+        name: 'Romanian',
+      },
     ],
     lazy: true,
-    langDir: '../../../locales',
+    langDir: '../../../locales/',
     defaultLocale: 'en',
   },
 })
