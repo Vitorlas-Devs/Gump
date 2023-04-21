@@ -153,7 +153,6 @@ public class RecipeController : ControllerBase
 		return Ok(((OkObjectResult)SearchRecipes(
 			searchTerm: randomTag,
 			limit: 1,
-			offset: 0,
 			categoryId: categoryId
 		)).Value);
 	});
