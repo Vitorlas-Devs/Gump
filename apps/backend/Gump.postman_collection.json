@@ -2449,33 +2449,179 @@
 				},
 				{
 					"name": "Search Recipes",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"searchTerm\": \"\",\r\n    \"sort\": \"\",\r\n    \"limit\": 0,\r\n    \"offset\": 0,\r\n    \"authorId\": 0,\r\n    \"categoryId\": 0\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{baseUrl}}/recipe/search",
+							"raw": "{{baseUrl}}/recipe/search?searchTerm=&sort=&limit=&offset=&authorId=&categoryId=",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"recipe",
 								"search"
+							],
+							"query": [
+								{
+									"key": "searchTerm",
+									"value": ""
+								},
+								{
+									"key": "sort",
+									"value": ""
+								},
+								{
+									"key": "limit",
+									"value": ""
+								},
+								{
+									"key": "offset",
+									"value": ""
+								},
+								{
+									"key": "authorId",
+									"value": ""
+								},
+								{
+									"key": "categoryId",
+									"value": ""
+								}
 							]
 						}
 					},
 					"response": [
+						{
+							"name": "New",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "text/plain",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/search?sort=new",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"search"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "new"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 3,\n        \"title\": \"Diós tészta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 1,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    },\n    {\n        \"id\": 2,\n        \"title\": \"Főtt kockatészta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 0,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    },\n    {\n        \"id\": 1,\n        \"title\": \"Egyszerű rántotta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 1,\n        \"saveCount\": 1,\n        \"likeCount\": 1,\n        \"isPrivate\": false\n    }\n]"
+						},
+						{
+							"name": "Hot",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "text/plain",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/search?sort=hot",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"search"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "hot"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"title\": \"Egyszerű rántotta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 1,\n        \"saveCount\": 1,\n        \"likeCount\": 1,\n        \"isPrivate\": false\n    },\n    {\n        \"id\": 3,\n        \"title\": \"Diós tészta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 1,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    },\n    {\n        \"id\": 2,\n        \"title\": \"Főtt kockatészta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 0,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    }\n]"
+						},
+						{
+							"name": "Top",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "text/plain",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/recipe/search?sort=top",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"recipe",
+										"search"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "top"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"title\": \"Egyszerű rántotta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 1,\n        \"saveCount\": 1,\n        \"likeCount\": 1,\n        \"isPrivate\": false\n    },\n    {\n        \"id\": 2,\n        \"title\": \"Főtt kockatészta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 0,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    },\n    {\n        \"id\": 3,\n        \"title\": \"Diós tészta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 1,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    }\n]"
+						},
 						{
 							"name": "Rántotta",
 							"originalRequest": {
@@ -2484,27 +2630,24 @@
 									{
 										"key": "Content-Type",
 										"name": "Content-Type",
-										"value": "application/json",
+										"value": "text/plain",
 										"type": "text"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"searchTerm\": \"Rántotta\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{baseUrl}}/recipe/search",
+									"raw": "{{baseUrl}}/recipe/search?searchTerm=Rántotta",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"recipe",
 										"search"
+									],
+									"query": [
+										{
+											"key": "searchTerm",
+											"value": "Rántotta"
+										}
 									]
 								}
 							},
@@ -2527,24 +2670,28 @@
 							"name": "Tészta",
 							"originalRequest": {
 								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"searchTerm\": \"Tészta\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "text/plain",
+										"type": "text"
 									}
-								},
+								],
 								"url": {
-									"raw": "{{baseUrl}}/recipe/search",
+									"raw": "{{baseUrl}}/recipe/search?searchTerm=Tészta",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"recipe",
 										"search"
+									],
+									"query": [
+										{
+											"key": "searchTerm",
+											"value": "Tészta"
+										}
 									]
 								}
 							},
@@ -2562,96 +2709,6 @@
 							],
 							"cookie": [],
 							"body": "[\n    {\n        \"id\": 3,\n        \"title\": \"Diós tészta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 1,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    },\n    {\n        \"id\": 2,\n        \"title\": \"Főtt kockatészta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 0,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    },\n    {\n        \"id\": 1,\n        \"title\": \"Egyszerű rántotta\",\n        \"author\": 1,\n        \"image\": 4,\n        \"viewCount\": 1,\n        \"saveCount\": 0,\n        \"likeCount\": 0,\n        \"isPrivate\": false\n    }\n]"
-						},
-						{
-							"name": "New",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"sort\": \"new\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/recipe/search",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"recipe",
-										"search"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "Hot",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"sort\": \"hot\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/recipe/search",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"recipe",
-										"search"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "Top",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"sort\": \"top\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/recipe/search",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"recipe",
-										"search"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
 						}
 					]
 				},
@@ -2844,6 +2901,8 @@
 									]
 								}
 							},
+							"status": "OK",
+							"code": 200,
 							"_postman_previewlanguage": null,
 							"header": null,
 							"cookie": [],
@@ -2900,6 +2959,8 @@
 									]
 								}
 							},
+							"status": "OK",
+							"code": 200,
 							"_postman_previewlanguage": null,
 							"header": null,
 							"cookie": [],
@@ -3410,33 +3471,76 @@
 				},
 				{
 					"name": "Search User",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"searchTerm\": \"\",\r\n    \"limit\": 10\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{baseUrl}}/user/search",
+							"raw": "{{baseUrl}}/user/search?searchTerm=&sort=&limit=&offset=",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"user",
 								"search"
+							],
+							"query": [
+								{
+									"key": "searchTerm",
+									"value": ""
+								},
+								{
+									"key": "sort",
+									"value": ""
+								},
+								{
+									"key": "limit",
+									"value": ""
+								},
+								{
+									"key": "offset",
+									"value": ""
+								}
 							]
 						}
 					},
 					"response": [
+						{
+							"name": "New",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user/search?sort=new",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"search"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "new"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 3,\n        \"username\": \"Moderator\",\n        \"profilePicture\": 6\n    },\n    {\n        \"id\": 2,\n        \"username\": \"Gordon Ramsay\",\n        \"profilePicture\": 1\n    },\n    {\n        \"id\": 1,\n        \"username\": \"TestUser\",\n        \"profilePicture\": 1\n    }\n]"
+						},
 						{
 							"name": "test",
 							"originalRequest": {
@@ -3445,27 +3549,24 @@
 									{
 										"key": "Content-Type",
 										"name": "Content-Type",
-										"value": "application/json",
+										"value": "text/plain",
 										"type": "text"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"searchTerm\": \"test\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{baseUrl}}/user/search",
+									"raw": "{{baseUrl}}/user/search?searchTerm=test",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"user",
 										"search"
+									],
+									"query": [
+										{
+											"key": "searchTerm",
+											"value": "test"
+										}
 									]
 								}
 							},
