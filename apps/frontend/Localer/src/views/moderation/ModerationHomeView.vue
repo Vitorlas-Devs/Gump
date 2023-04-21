@@ -1,17 +1,5 @@
-<script setup lang="ts">
-import router from '@/router'
-import { useGumpUserStore } from '@/stores/gumpUserStore'
-import { onMounted } from 'vue'
-
-const gumpUser = useGumpUserStore()
-
-onMounted(() => {
-  if (!gumpUser.sessionToken) {
-    router.push('/login')
-  }
-})
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <main>Moderation</main>
+  <main p="2 md:6" pl="4 md:10" mt="2" mr="-5">Moderation</main>
 </template>
