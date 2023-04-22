@@ -11,5 +11,6 @@
   "SearchNav": "Recherche",
   "hoarderBadgeName": "Thésauriseur de recettes",
   "hoarderBadgeDesc": "Enregistrer au moins 100 recettes.",
-  "AppError": "Une erreur inattendue est apparue."
+  "AppError": "Une erreur inattendue est apparue.",
+  "CreateNav": "Préparer"
 }
