@@ -9,5 +9,6 @@
   "CreateVisibilityPublicDesc": "Tout le monde peut voir ta recette, mais tu seul peux la modifier.",
   "HomeNav": "Page d'accueil",
   "SearchNav": "Recherche",
-  "hoarderBadgeName": "Thésauriseur de recettes"
+  "hoarderBadgeName": "Thésauriseur de recettes",
+  "hoarderBadgeDesc": "Enregistrer au moins 100 recettes."
 }
