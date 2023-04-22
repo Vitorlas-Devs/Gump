@@ -69,7 +69,7 @@ export const useRecipeStore = defineStore('recipe', () => {
     ...toRefs(state),
   }
 },
-// {
-//   persist: true,
-// }
+{
+  persist: true,
+},
 )

@@ -62,13 +62,4 @@ export default defineNuxtConfig({
     langDir: '../../../locales/',
     defaultLocale: 'en',
   },
-  vite: {
-    vue: {
-      template: {
-        compilerOptions: {
-          isCustomElement: tag => ['vue-select'].includes(tag),
-        },
-      },
-    },
-  },
 })
