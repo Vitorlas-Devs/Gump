@@ -40,7 +40,9 @@ export const useTranslationStore = defineStore({
       this.translations = JSON.parse(JSON.stringify(this.initialTranslations))
       this.initialLocales = Object.keys(this.initialTranslations)
       this.locales = JSON.parse(JSON.stringify(this.initialLocales))
-      this.initialKeys = Object.keys(this.translations[this.locales[0]])
+      // this.initialKeys = Object.keys(this.translations[this.locales[1]]) // never do this kids
+      const en_US = this.locales.find((locale) => locale === 'en_US')
+      this.initialKeys = Object.keys(this.translations[en_US!])
       this.keys = JSON.parse(JSON.stringify(this.initialKeys))
       this.locales.forEach((locale) => {
         if (locale === 'en_US') {
