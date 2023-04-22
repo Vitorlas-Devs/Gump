@@ -71,10 +71,16 @@ export const useGumpUserStore = defineStore(
       state.sessionToken = ''
     }
 
+    const getUser = async (id: number): Promise<IGumpUser> => {
+      const data: IGumpUser = await fetch(`${backendUrl}/user/${id}`).then((res) => res.json())
+      return data
+    }
+
     return {
       ...toRefs(state),
       login,
-      logout
+      logout,
+      getUser
     }
   },
   {

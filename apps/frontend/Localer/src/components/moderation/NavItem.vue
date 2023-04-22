@@ -19,7 +19,11 @@ const href = ref(() => {
 </script>
 
 <template>
-  <RouterLink :to="href()" class="h-10 flex items-center font-bold" :pl="isSelected() ? '1' : '3'">
+  <RouterLink
+    :to="href()"
+    class="h-10 w-xs flex items-center font-bold"
+    :pl="isSelected() ? '1' : '3'"
+  >
     <Transition name="fade" mode="out-in">
       <SvgIcon
         v-if="isSelected()"
