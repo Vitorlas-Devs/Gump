@@ -12,5 +12,6 @@
   "hoarderBadgeName": "Thésauriseur de recettes",
   "hoarderBadgeDesc": "Enregistrer au moins 100 recettes.",
   "AppError": "Une erreur inattendue est apparue.",
-  "CreateNav": "Préparer"
+  "CreateNav": "Préparer",
+  "WelcomeError5": "Le nom d'utilisateur ou le mot de passe est incorrect."
 }
