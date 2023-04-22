@@ -10,5 +10,6 @@
   "HomeNav": "Page d'accueil",
   "SearchNav": "Recherche",
   "hoarderBadgeName": "Thésauriseur de recettes",
-  "hoarderBadgeDesc": "Enregistrer au moins 100 recettes."
+  "hoarderBadgeDesc": "Enregistrer au moins 100 recettes.",
+  "AppError": "Une erreur inattendue est apparue."
 }
