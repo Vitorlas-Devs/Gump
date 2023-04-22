@@ -12,7 +12,7 @@ export interface IRecipe {
   image: number
   language: string
   serves: number
-  categories: number[]
+  categories: string[]
   tags: string[]
   ingredients: IIngredient[]
   steps: string[]
@@ -69,6 +69,7 @@ export const useRecipeStore = defineStore('recipe', () => {
     ...toRefs(state),
   }
 },
-{
-  persist: true,
-})
+// {
+//   persist: true,
+// }
+)

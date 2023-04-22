@@ -9,6 +9,9 @@ export default defineNuxtConfig({
     '@nuxtjs/ionic',
     'nuxt-vitest',
   ],
+  css: [
+    '@/assets/main.css',
+  ],
   pwa: {
     icon: false,
   },
@@ -49,9 +52,23 @@ export default defineNuxtConfig({
         file: 'ro_RO.json',
         name: 'Romanian',
       },
+      {
+        code: 'de',
+        file: 'de_DE.json',
+        name: 'German',
+      },
     ],
     lazy: true,
     langDir: '../../../locales/',
     defaultLocale: 'en',
+  },
+  vite: {
+    vue: {
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => ['vue-select'].includes(tag),
+        },
+      },
+    },
   },
 })

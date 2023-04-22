@@ -1,9 +1,15 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { type VueWrapper, mount } from '@vue/test-utils'
+import type { ComponentPublicInstance } from 'vue'
 import TextInput from '~/components/TextInput.vue'
 
+interface ITextInputProps {
+  text: string
+  type?: 'email' | 'password'
+}
+
 describe('TextInput', () => {
-  let wrapper: any
+  let wrapper: VueWrapper<ComponentPublicInstance<ITextInputProps>>
 
   beforeEach(() => {
     wrapper = mount(TextInput, {
@@ -28,6 +34,6 @@ describe('TextInput', () => {
     const input = wrapper.find('input')
     await input.setValue('World')
     expect(wrapper.emitted()).toHaveProperty('update:text')
-    expect(wrapper.emitted('update:text')[0][0]).toBe('World')
+    expect(wrapper.emitted('update:text')![0][0]).toBe('World')
   })
 })
