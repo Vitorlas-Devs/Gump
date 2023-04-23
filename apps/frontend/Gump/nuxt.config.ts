@@ -62,4 +62,13 @@ export default defineNuxtConfig({
     langDir: '../../../locales/',
     defaultLocale: 'en',
   },
+  vite: {
+    vue: {
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => ['i18n'].includes(tag),
+        },
+      },
+    },
+  },
 })

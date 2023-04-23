@@ -30,6 +30,7 @@ export interface IRecipe {
 
 interface IRecipeState {
   recipe: IRecipe
+  mode: 'raw' | 'design'
 }
 
 export const useRecipeStore = defineStore('recipe', () => {
@@ -57,6 +58,7 @@ export const useRecipeStore = defineStore('recipe', () => {
       isPrivate: false,
       forks: [],
     },
+    mode: 'design',
   })
 
   // getters

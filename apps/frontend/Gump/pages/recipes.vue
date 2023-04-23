@@ -6,6 +6,8 @@
   <ion-page bg-crimson-50>
     <TheHeader :title="$t('RecipesNav')" />
     <div grow>
+      <CreateSubHeader variant="ingredients" />
+      <CreateSubHeader variant="steps" />
       <h1 text-crimson-500 text-shadow-crimson>
         {{ $t('RecipesNav') }}
       </h1>
