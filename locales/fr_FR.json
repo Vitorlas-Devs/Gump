@@ -6,5 +6,14 @@
   "CreateLanguage": "La langue",
   "RecipesNav": "Les recettes (la)",
   "HomeTitleNew": "Nouvelles Recettes",
-  "CreateVisibilityPublicDesc": "Tout le monde peut voir ta recette, mais tu seul peux la modifier."
+  "CreateVisibilityPublicDesc": "Tout le monde peut voir ta recette, mais tu seul peux la modifier.",
+  "HomeNav": "Page d'accueil",
+  "SearchNav": "Recherche",
+  "hoarderBadgeName": "Thésauriseur de recettes",
+  "hoarderBadgeDesc": "Enregistrer au moins 100 recettes.",
+  "AppError": "Une erreur inattendue est apparue.",
+  "CreateNav": "Préparer",
+  "HomeTitleTop": "Meilleur,-e",
+  "SearchTip": "Conseil: utilise {'@'} pour rechercher des utilisateurs",
+  "WelcomeError5": "Le nom d'utilisateur ou le mot de passe est incorrect."
 }
