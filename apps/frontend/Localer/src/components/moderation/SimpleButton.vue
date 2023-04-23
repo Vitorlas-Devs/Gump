@@ -1,5 +1,6 @@
 <script setup lang="ts">
 defineProps<{
+  type: 'solid' | 'text'
   color: string
   text: string
 }>()
@@ -10,7 +11,14 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <button :bg="color" text="orange-50" p="2" px="4" rounded="8px" @click="emit('click')">
+  <button
+    :bg="type === 'solid' ? color : 'transparent'"
+    :text="type === 'solid' ? 'orange-50' : color"
+    p="2"
+    px="4"
+    rounded="8px"
+    @click="emit('click')"
+  >
     {{ text }}
   </button>
 </template>
