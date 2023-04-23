@@ -19,8 +19,17 @@ const recipe = useRecipeStore()
         <div class="i-fa6-solid-box-tissue" />
       </div>
       <TextInput v-model:text="recipe.recipe.title" />
+      <SearchSelect
+        v-model:model="recipe.recipe.categories"
+        :options="recipe.recipe.categories"
+        mode="single"
+      />
     </div>
     <MainButton mb-2 self-center color="orange" icon-type="create" title="Create recipe" />
     <TheNavbar />
   </ion-page>
 </template>
+
+<style scoped>
+
+</style>

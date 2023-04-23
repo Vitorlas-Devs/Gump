@@ -1,11 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { setup } from '@nuxt/test-utils'
 import { mount } from '@vue/test-utils'
 import MainButton from '~/components/MainButton.vue'
 
 describe('MainButton', () => {
-  setup()
-
   it('should render the title prop', () => {
     const wrapper = mount(MainButton, {
       props: {

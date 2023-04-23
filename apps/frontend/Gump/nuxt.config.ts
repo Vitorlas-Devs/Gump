@@ -9,6 +9,9 @@ export default defineNuxtConfig({
     '@nuxtjs/ionic',
     'nuxt-vitest',
   ],
+  css: [
+    '@/assets/main.css',
+  ],
   pwa: {
     icon: false,
   },
@@ -48,6 +51,11 @@ export default defineNuxtConfig({
         code: 'ro',
         file: 'ro_RO.json',
         name: 'Romanian',
+      },
+      {
+        code: 'de',
+        file: 'de_DE.json',
+        name: 'German',
       },
     ],
     lazy: true,

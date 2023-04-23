@@ -37,6 +37,7 @@
     "@capacitor/keyboard": "4.1.1",
     "@capacitor/status-bar": "4.1.1",
     "@pinia/nuxt": "^0.4.8",
+    "@vueform/multiselect": "^2.6.2",
     "pinia": "^2.0.34"
   },
   "overrides": {
