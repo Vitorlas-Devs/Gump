@@ -21,6 +21,10 @@ export type Sort = typeof sorts[number]
 interface IUIState {
   activeNav: Tab
   activeSort: Sort
+  searchToggled: boolean
+  dropdownToggled: boolean
+  searchValue: string
+  searchHistory: string[]
 }
 
 export const useUIStore = defineStore('ui', () => {
@@ -28,10 +32,19 @@ export const useUIStore = defineStore('ui', () => {
   const state = reactive<IUIState>({
     activeNav: 'Home',
     activeSort: 'hot',
+    searchToggled: false,
+    dropdownToggled: false,
+    searchValue: '',
+    searchHistory: [],
   })
 
   // getters
-  // ...
+  const getSearchHistory = computed(() => {
+    if (state.searchHistory.length > 5)
+      return state.searchHistory.slice(state.searchHistory.length - 5)
+    else
+      return state.searchHistory
+  })
 
   // actions
   const setActiveNav = (nav: Tab) => {
@@ -42,10 +55,22 @@ export const useUIStore = defineStore('ui', () => {
     state.activeSort = sort
   }
 
+  const addSearchHistory = (value: string) => {
+    if (state.searchHistory.includes(value) || value === '')
+      return
+
+    if (state.searchHistory.length >= 5)
+      state.searchHistory.shift()
+
+    state.searchHistory.push(value)
+  }
+
   return {
     ...toRefs(state),
+    getSearchHistory,
     setActiveNav,
     setActiveSort,
+    addSearchHistory,
   }
 },
 {
