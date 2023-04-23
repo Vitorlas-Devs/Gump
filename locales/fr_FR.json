@@ -15,5 +15,6 @@
   "CreateNav": "Préparer",
   "HomeTitleTop": "Meilleur,-e",
   "SearchTip": "Conseil: utilise {'@'} pour rechercher des utilisateurs",
-  "WelcomeError5": "Le nom d'utilisateur ou le mot de passe est incorrect."
+  "WelcomeError5": "Le nom d'utilisateur ou le mot de passe est incorrect.",
+  "CreateTitle": "Le titre"
 }
