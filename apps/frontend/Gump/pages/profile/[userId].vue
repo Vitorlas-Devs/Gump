@@ -4,14 +4,14 @@ import { useUIStore } from '~/stores/ui'
 const route = useRoute()
 const ui = useUIStore()
 
-const id = route.params.id
+const id = route.params.userId
 
-ui.activeNav = 'Recipes'
+ui.activeNav = 'Profile'
 </script>
 
 <template>
   <ion-page bg-crimson-50>
-    <TheHeader title-color="brown" subtitle="Bartók Béla" title="RecipeView" />
+    <TheHeader title-color="brown" subtitle="Bartók Béla" title="Profile" />
     <div grow>
       <h1 text-crimson-500 text-shadow-crimson>
         {{ id }}
