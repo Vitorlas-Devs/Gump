@@ -5,6 +5,8 @@
     "plugin:vitest/recommended"
   ],
   "rules": {
-    "no-console": "warn"
+    "no-console": "warn",
+    "brace-style": ["error", "1tbs"],
+    "@typescript-eslint/brace-style": ["error", "1tbs"]
   }
 }

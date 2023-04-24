@@ -15,12 +15,11 @@ export const useImageStore = defineStore('image', () => {
       // const { data } = await useFetch<IImageState>('https://api.gump.live/api' + `/image/${id}`, { method: 'GET' })
       // if (data.value) {
       //   state.id = data.value.id
-      //   state.url = data.value.url
+      //   state.url = data.value.url\rules\brace-style
       //   return data.value.url
       // }
       return `https://api.gump.live/image/${id}`
-    }
-    else {
+    } else {
       return state.url
     }
   }
