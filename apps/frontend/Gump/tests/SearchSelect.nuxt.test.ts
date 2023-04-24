@@ -6,10 +6,10 @@ import SearchSelect from '~/components/SearchSelect.vue'
 interface ISearchSelectProps {
   model: string[]
   options: string[]
-  mode: 'single' | 'multiple'
+  mode: 'multiple' | 'tags'
 }
 
-describe('SearchSelect (multiple)', () => {
+describe('SearchSelect (tags)', () => {
   let wrapper: VueWrapper<ComponentPublicInstance<ISearchSelectProps>>
 
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('SearchSelect (multiple)', () => {
       props: {
         model: [],
         options: ['pizza', 'pasta', 'salad'],
-        mode: 'multiple',
+        mode: 'tags',
       },
     })
   })
@@ -55,7 +55,7 @@ describe('SearchSelect (multiple)', () => {
   })
 })
 
-describe('SearchSelect (single)', () => {
+describe('SearchSelect (multiple)', () => {
   let wrapper: VueWrapper<ComponentPublicInstance<ISearchSelectProps>>
 
   beforeEach(() => {
@@ -64,7 +64,7 @@ describe('SearchSelect (single)', () => {
       props: {
         model: [],
         options: ['pizza', 'pasta', 'salad'],
-        mode: 'single',
+        mode: 'multiple',
       },
     })
   })
@@ -86,6 +86,7 @@ describe('SearchSelect (single)', () => {
     const caret = wrapper.find('.multiselect-caret.is-open') // open dropdown
     expect(pizzaOption.exists()).toBe(true)
     expect(caret.exists()).toBe(true)
+    console.log(wrapper.html())
   })
 
   it('should clear the selected option when the clear button is clicked', async () => {
