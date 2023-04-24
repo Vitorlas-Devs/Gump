@@ -3,7 +3,7 @@ import { useUIStore } from '~/stores/ui'
 
 const ui = useUIStore()
 
-const currentPage = computed(() => ui.createHeaderInex)
+const currentPage = computed(() => ui.createHeaderIndex)
 
 function trueCreate() {
   ui.setCreateHeaderStates(true, currentPage.value - 1)
@@ -17,7 +17,7 @@ function falseCreate() {
 <template>
   <div flex="~ row" h-20 w-full items-center justify-center gap-10 bg-crimson-50 p-2 px-3 shadow-orange>
     <div v-for="n in 4" :key="n" cursor-pointer :class="[ui.createHeaderStates[n - 1] ? 'done' : 'empty']" @click="ui.setCreateHeaderIndex(n)">
-      <div v-if="n === ui.createHeaderInex" class="active" />
+      <div v-if="n === ui.createHeaderIndex" class="active" />
     </div>
   </div>
   <div mt-10 flex gap-5>
