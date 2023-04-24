@@ -8,6 +8,7 @@ export default defineConfig({
     presetWebFonts({
       fonts: {
         sans: 'Ubuntu',
+        mono: 'Single Day',
       },
     }),
   ],

@@ -52,7 +52,8 @@ const icons = ['i-fa6-solid-fire', 'i-ion-sparkles', 'i-fa6-solid-trophy']
         <div
           v-for="(sort, index) in sorts"
           :key="sort"
-          :class="`${icons[index]} orangeIcon ${ui.activeSort === sort ? 'active' : ''}`"
+          class="orangeIcon"
+          :class="`${icons[index]} ${ui.activeSort === sort ? 'active' : ''}`"
           @click="ui.activeSort = sort"
         />
       </div>
