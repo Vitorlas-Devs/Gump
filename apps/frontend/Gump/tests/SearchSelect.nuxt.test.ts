@@ -86,7 +86,6 @@ describe('SearchSelect (multiple)', () => {
     const caret = wrapper.find('.multiselect-caret.is-open') // open dropdown
     expect(pizzaOption.exists()).toBe(true)
     expect(caret.exists()).toBe(true)
-    console.log(wrapper.html())
   })
 
   it('should clear the selected option when the clear button is clicked', async () => {
