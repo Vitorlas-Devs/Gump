@@ -4,7 +4,7 @@ import Multiselect from '@vueform/multiselect'
 const prop = defineProps<{
   model: string[]
   options: string[]
-  mode: 'single' | 'multiple'
+  mode: 'multiple' | 'tags'
 }>()
 
 const emit = defineEmits<{
@@ -12,19 +12,15 @@ const emit = defineEmits<{
 }>()
 
 function addTag(tag: string) {
-  if (prop.mode === 'multiple')
-    emit('update:model', [...prop.model, tag])
-  else if (prop.mode === 'single')
-    emit('update:model', [tag])
+  emit('update:model', [...prop.model, tag])
 }
 
 function removeTag(tag: string) {
-  if (prop.mode === 'multiple')
-    emit('update:model', prop.model.filter(t => t !== tag))
+  emit('update:model', prop.model.filter(t => t !== tag))
 }
 
 function handleBackspace(e: KeyboardEvent) {
-  if (e.key === 'Backspace')
+  if (e.key === 'Backspace' && (e.target as HTMLInputElement).value === '')
     emit('update:model', prop.model.slice(0, -1))
 }
 
@@ -35,13 +31,15 @@ const option = ['pizza', 'pasta', 'salad', 'soup', 'dessert', 'drink']
   <div mx-2 w-60>
     <Multiselect
       :value="model"
-      :options="mode === 'multiple' ? options : option"
-      :multiple="mode === 'multiple'"
-      :mode="mode === 'multiple' ? 'tags' : 'single'"
-      :taggable="mode === 'multiple'"
-      :create-option="mode === 'multiple'"
-      :show-options="mode === 'single'"
+      :options="mode === 'tags' ? options : option"
+      :multiple="true"
+      :taggable="true"
+      :create-option="mode === 'tags'"
+      :show-options="mode === 'multiple'"
       :searchable="true" :append-new-option="false"
+      :close-on-select="false"
+      :close-on-deselect="false"
+      mode="tags"
       class="select"
       @tag="addTag"
       @select="addTag"
