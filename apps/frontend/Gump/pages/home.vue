@@ -24,6 +24,9 @@ const recipe = useRecipeStore()
         :options="recipe.recipe.categories"
         mode="multiple"
       />
+      <div mt-4 w-full>
+        <RecipeFooter :view-count="32500000" :like-count="1234" :save-count="123456789" :is-liked="false" :is-saved="false" />
+      </div>
     </div>
     <MainButton mb-2 self-center color="orange" icon-type="create" title="Create recipe" />
     <TheNavbar />
