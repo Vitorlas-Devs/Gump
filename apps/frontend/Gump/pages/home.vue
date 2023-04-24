@@ -22,7 +22,7 @@ const recipe = useRecipeStore()
       <SearchSelect
         v-model:model="recipe.recipe.categories"
         :options="recipe.recipe.categories"
-        mode="single"
+        mode="multiple"
       />
     </div>
     <MainButton mb-2 self-center color="orange" icon-type="create" title="Create recipe" />

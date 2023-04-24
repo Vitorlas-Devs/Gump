@@ -41,9 +41,9 @@ export const useUIStore = defineStore('ui', () => {
   // getters
   const getSearchHistory = computed(() => {
     if (state.searchHistory.length > 5)
-      return state.searchHistory.slice(state.searchHistory.length - 5)
+      return state.searchHistory.slice(state.searchHistory.length - 5).reverse()
     else
-      return state.searchHistory
+      return state.searchHistory.slice().reverse()
   })
 
   // actions
