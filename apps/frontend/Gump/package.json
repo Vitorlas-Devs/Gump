@@ -24,6 +24,8 @@
     "@unocss/eslint-config": "^0.51.4",
     "@unocss/nuxt": "^0.51.4",
     "@vue/test-utils": "^2.3.2",
+    "@vueuse/core": "^10.1.0",
+    "@vueuse/nuxt": "^10.1.0",
     "eslint": "^8.38.0",
     "eslint-plugin-vitest": "^0.1.4",
     "nuxt": "^3.4.0",

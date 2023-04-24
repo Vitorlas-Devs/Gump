@@ -3,6 +3,7 @@ export default defineNuxtConfig({
     '@nuxt/devtools',
     '@unocss/nuxt',
     '@pinia/nuxt',
+    '@vueuse/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/eslint-module',
     '@nuxtjs/i18n',

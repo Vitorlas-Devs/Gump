@@ -16,6 +16,9 @@
       <div mt-5 class="orangeBtn" shadow="orange">
         <div class="i-fa6-solid-box-tissue" />
       </div>
+      <div mt-5 class="crimsonGradient" shadow="crimson">
+        <div class="i-fa6-solid-brush" />
+      </div>
     </div>
     <TheNavbar />
   </ion-page>

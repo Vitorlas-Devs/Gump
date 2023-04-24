@@ -1,15 +1,10 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { type VueWrapper, mount } from '@vue/test-utils'
-import type { ComponentPublicInstance } from 'vue'
 import { createI18n } from 'vue-i18n'
 import CreateSubHeader from '~/components/CreateSubHeader.vue'
 
-interface ICreateSubHeaderProps {
-  variant: 'ingredients' | 'steps'
-}
-
 describe('CreateSubHeader (ingredients)', () => {
-  let wrapper: VueWrapper<ComponentPublicInstance<ICreateSubHeaderProps>>
+  let wrapper: VueWrapper<InstanceType<typeof CreateSubHeader>>
 
   beforeEach(() => {
     const i18n = createI18n ({
@@ -45,7 +40,7 @@ describe('CreateSubHeader (ingredients)', () => {
 })
 
 describe('CreateSubHeader (steps)', () => {
-  let wrapper: VueWrapper<ComponentPublicInstance<ICreateSubHeaderProps>>
+  let wrapper: VueWrapper<InstanceType<typeof CreateSubHeader>>
 
   beforeEach(() => {
     const i18n = createI18n ({

@@ -53,6 +53,7 @@ export default defineConfig({
     },
     boxShadow: {
       orange: '0px 8px 10px -4px rgba(243, 88, 39, 0.5)',
+      orangeLight: '0px 2px 10px -2px rgba(243, 88, 39, 0.5)',
       crimson: '0px 8px 10px -4px rgba(209, 44, 95, 0.5)',
       crimsonUltra: '0px -10px 35px 15px rgba(209, 44, 95, 0.7)',
       crimsonUp: '0px -6px 15px -5px rgba(209, 44, 95, 0.3)',

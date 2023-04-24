@@ -1,21 +1,18 @@
 <script setup lang="ts">
+import { useUIStore } from '~/stores/ui'
 
+const ui = useUIStore()
 </script>
 
 <template>
   <ion-page bg-crimson-50>
-    <TheHeader :title="$t('SearchNav')" />
-    <div grow>
-      <h1 text-crimson-500 text-shadow-crimson>
-        {{ $t('SearchNav') }}
-      </h1>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil voluptatum similique explicabo suscipit eum alias doloremque quidem iure corrupti pariatur. Explicabo neque assumenda ipsa, error accusamus vel recusandae aliquid doloremque.
-      <br>
-      <div mt-5 class="crimsonGradient" shadow="crimson">
-        <div class="i-fa6-solid-brush" />
-      </div>
-    </div>
-    <TheNavbar />
+    <SearchHeader z-2 />
+    <div grow />
+    <TheNavbar z-2 />
+    <div
+      v-if="ui.dropdownToggled"
+      absolute left-0 top-0 h-full w-full bg-brown-900 opacity-20
+    />
   </ion-page>
 </template>
 
