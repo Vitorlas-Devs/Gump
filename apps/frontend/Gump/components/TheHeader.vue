@@ -1,27 +1,6 @@
 <script setup lang="ts">
 import { sorts, useUIStore } from '~/stores/ui'
 
-// TheHeader component has 4 variants: Home, RecipeView, Recipes, Profile
-
-// Home:
-// titleColor: text-orange-500
-// 3 icons: hot, new, top sorting options for recipes
-// no subtitle
-
-// RecipeView:
-// titleColor: text-brown-500
-// subtitle: recipe author
-// no icons
-
-// Recipes:
-// titleColor: text-orange-500
-// no icons, no subtitle
-
-// Profile:
-// titleColor: text-orange-500
-// moderator label: text-blue and on the right side
-// no icons, no subtitle
-
 withDefaults(defineProps<{
   title: string
   subtitle?: string
@@ -40,7 +19,7 @@ const icons = ['i-fa6-solid-fire', 'i-ion-sparkles', 'i-fa6-solid-trophy']
 </script>
 
 <template>
-  <div h-20 w-full flex="~ col" bg-crimson-50 p-2 px-3 shadow-orange>
+  <div flex="~ col" relative z-10 h-20 w-full bg-crimson-50 p-2 px-3 shadow-orange>
     <div flex="~ row" :h="subtitle ? 10 : 'max'" w-full items-center justify-between>
       <h1 text-2xl font-bold :class="`text-${titleColor}-500 text-shadow-${titleColor}`">
         {{ title }}

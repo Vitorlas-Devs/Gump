@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useRecipeStore } from '~/stores/recipe'
+import { useUIStore } from '~/stores/ui'
 
 defineProps<{
   variant: 'ingredients' | 'steps'
 }>()
 
-const recipe = useRecipeStore()
+const ui = useUIStore()
 
 const toggled = ref(false)
 
@@ -13,10 +13,10 @@ function togglePanel() {
   toggled.value = !toggled.value
 }
 
-recipe.mode = 'design'
+ui.createMode = 'design'
 
 function toggleMode() {
-  recipe.mode = recipe.mode === 'raw' ? 'design' : 'raw'
+  ui.createMode = ui.createMode === 'raw' ? 'design' : 'raw'
 }
 </script>
 
@@ -47,16 +47,16 @@ function toggleMode() {
       flex="~ row" flex-1 items-center justify-center text-center text-xl
     >
       <p
-        :class="recipe.mode === 'design' ? 'mode design-active text-white-500 text-shadow-white' : 'mode design'"
+        :class="ui.createMode === 'design' ? 'mode design-active text-white-500 text-shadow-white' : 'mode design'"
         relative right--4.5 cursor-pointer self-center pt-0.5
-        @click="recipe.mode === 'raw' ? toggleMode() : null"
+        @click="ui.createMode === 'raw' ? toggleMode() : null"
       >
         {{ $t('CreateDesign') }}
       </p>
       <p
-        :class="recipe.mode === 'raw' ? 'mode raw-active text-white-500 text-shadow-white' : 'mode raw'"
+        :class="ui.createMode === 'raw' ? 'mode raw-active text-white-500 text-shadow-white' : 'mode raw'"
         relative left--4.5 cursor-pointer self-center pt-0.5
-        @click="recipe.mode === 'design' ? toggleMode() : null"
+        @click="ui.createMode === 'design' ? toggleMode() : null"
       >
         {{ $t('CreateRaw') }}
       </p>

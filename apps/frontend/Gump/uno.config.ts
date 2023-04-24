@@ -1,4 +1,4 @@
-import { defineConfig, presetAttributify, presetIcons, presetUno, presetWebFonts } from 'unocss'
+import { defineConfig, presetAttributify, presetIcons, presetUno, presetWebFonts, transformerVariantGroup } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -11,6 +11,9 @@ export default defineConfig({
         mono: 'Single Day',
       },
     }),
+  ],
+  transformers: [
+    transformerVariantGroup(),
   ],
   theme: {
     colors: {
@@ -47,17 +50,20 @@ export default defineConfig({
     },
     textShadow: {
       DEFAULT: '0px 0px 6px rgba(151, 39, 4, 0.4)',
-      crimson: '0px 0px 6px rgba(209, 44, 95, 0.4)',
       orange: '0px 0px 6px rgba(243, 88, 39, 0.4)',
+      crimson: '0px 0px 6px rgba(209, 44, 95, 0.4)',
       blue: '0px 0px 6px rgba(8, 66, 160, 0.4)',
       white: '0px 0px 6px rgba(255, 255, 255, 0.4)',
     },
     boxShadow: {
       orange: '0px 8px 10px -4px rgba(243, 88, 39, 0.5)',
       orangeLight: '0px 2px 10px -2px rgba(243, 88, 39, 0.5)',
+      orangeBox: '0px 3px 17px -5px #F35827',
+      orangeImage: 'inset 0px 25px 20px -20px rgba(243, 88, 39, 0.5)',
       crimson: '0px 8px 10px -4px rgba(209, 44, 95, 0.5)',
       crimsonUltra: '0px -10px 35px 15px rgba(209, 44, 95, 0.7)',
       crimsonUp: '0px -6px 15px -5px rgba(209, 44, 95, 0.3)',
+      blue: '0px 8px 10px -4px rgba(8, 66, 160, 0.5)',
       inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)',
       grey: '0px 2px 6px rgba(0, 0, 0, 0.5)',
     },
