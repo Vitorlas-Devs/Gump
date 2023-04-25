@@ -57,8 +57,8 @@ describe('RecipeFooter', () => {
   })
 
   it('should emit an event when the icons are clicked', async () => {
-    const likeButton = wrapper.find({ ref: 'likeButton' })
-    const saveButton = wrapper.find({ ref: 'saveButton' })
+    const likeButton = wrapper.find('.cursor-pointer:nth-child(0)')
+    const saveButton = wrapper.find('.cursor-pointer:nth-child(1)')
 
     await likeButton.trigger('click')
     await saveButton.trigger('click')

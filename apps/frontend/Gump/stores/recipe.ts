@@ -28,37 +28,37 @@ export interface IRecipe {
   forks: number[]
 }
 
+export const recipeEmpty = {
+  id: 0,
+  title: '',
+  author: 0,
+  image: 0,
+  language: '',
+  serves: 0,
+  categories: [],
+  tags: [],
+  ingredients: [],
+  steps: [],
+  viewCount: 0,
+  saveCount: 0,
+  isLiked: false,
+  likeCount: 0,
+  referenceCount: 0,
+  isArchived: false,
+  isOriginal: false,
+  originalRecipe: 0,
+  isPrivate: false,
+  forks: [],
+}
+
 interface IRecipeState {
-  recipe: IRecipe
-  mode: 'raw' | 'design'
+  recipes: IRecipe[]
 }
 
 export const useRecipeStore = defineStore('recipe', () => {
   // state
   const state = reactive<IRecipeState>({
-    recipe: {
-      id: 0,
-      title: '',
-      author: 0,
-      image: 0,
-      language: '',
-      serves: 0,
-      categories: [],
-      tags: [],
-      ingredients: [],
-      steps: [],
-      viewCount: 0,
-      saveCount: 0,
-      isLiked: false,
-      likeCount: 0,
-      referenceCount: 0,
-      isArchived: false,
-      isOriginal: false,
-      originalRecipe: 0,
-      isPrivate: false,
-      forks: [],
-    },
-    mode: 'design',
+    recipes: [recipeEmpty],
   })
 
   // getters

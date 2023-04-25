@@ -1,3 +1,5 @@
+import { type IRecipe, recipeEmpty } from './recipe'
+
 export const tabs = [
   'Home',
   'Search',
@@ -25,6 +27,8 @@ interface IUIState {
   dropdownToggled: boolean
   searchValue: string
   searchHistory: string[]
+  createMode: 'raw' | 'design'
+  currentRecipe: IRecipe
 }
 
 export const useUIStore = defineStore('ui', () => {
@@ -36,6 +40,8 @@ export const useUIStore = defineStore('ui', () => {
     dropdownToggled: false,
     searchValue: '',
     searchHistory: [],
+    createMode: 'design',
+    currentRecipe: recipeEmpty,
   })
 
   // getters
