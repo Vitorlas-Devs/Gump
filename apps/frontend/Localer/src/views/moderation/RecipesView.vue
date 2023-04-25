@@ -2,11 +2,12 @@
 import { useRecipeStore } from '@/stores/recipeStore'
 import RecipeItem from '@/components/moderation/RecipeItem.vue'
 import { onMounted } from 'vue'
+import SimpleButton from '@/components/moderation/SimpleButton.vue'
 
 const recipe = useRecipeStore()
 
 onMounted(async () => {
-  await recipe.fetchRecipes()
+  await recipe.loadRecipes()
 })
 </script>
 
@@ -22,6 +23,14 @@ onMounted(async () => {
           mb="4"
           mr="4"
           @delete="recipe.recipes = recipe.recipes.filter((i) => i.id !== r.id)"
+        />
+      </div>
+      <div flex="~" w="full" justify="center">
+        <SimpleButton
+          type="solid"
+          color="crimson-500"
+          text="Load more"
+          @click="recipe.fetchRecipes()"
         />
       </div>
     </custom-scrollbar>

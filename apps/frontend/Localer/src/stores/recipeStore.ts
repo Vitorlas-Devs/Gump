@@ -42,6 +42,13 @@ export const useRecipeStore = defineStore(
       recipes: [] as IBriefRecipe[]
     })
 
+    const loadRecipes = async () => {
+      const data: IBriefRecipe[] = await fetch(`${backendUrl}/recipe/search?sort=new`).then((res) =>
+        res.json()
+      )
+      state.recipes = data
+    }
+
     const fetchRecipes = async () => {
       const data: IBriefRecipe[] = await fetch(
         `${backendUrl}/recipe/search?sort=new&offset=${state.recipes.length}`
@@ -80,6 +87,7 @@ export const useRecipeStore = defineStore(
 
     return {
       ...toRefs(state),
+      loadRecipes,
       fetchRecipes,
       getRecipe,
       updateRecipe,
