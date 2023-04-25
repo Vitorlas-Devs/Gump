@@ -3,11 +3,21 @@ export default defineNuxtConfig({
     '@nuxt/devtools',
     '@unocss/nuxt',
     '@pinia/nuxt',
+    '@vueuse/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/eslint-module',
     '@nuxtjs/i18n',
     '@nuxtjs/ionic',
     'nuxt-vitest',
+  ],
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ],
+  css: [
+    '@/assets/main.css',
   ],
   pwa: {
     icon: false,
@@ -49,9 +59,23 @@ export default defineNuxtConfig({
         file: 'ro_RO.json',
         name: 'Romanian',
       },
+      {
+        code: 'de',
+        file: 'de_DE.json',
+        name: 'German',
+      },
     ],
     lazy: true,
     langDir: '../../../locales/',
     defaultLocale: 'en',
+  },
+  vite: {
+    vue: {
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => ['i18n'].includes(tag),
+        },
+      },
+    },
   },
 })

@@ -24,6 +24,8 @@
     "@unocss/eslint-config": "^0.51.4",
     "@unocss/nuxt": "^0.51.4",
     "@vue/test-utils": "^2.3.2",
+    "@vueuse/core": "^10.1.0",
+    "@vueuse/nuxt": "^10.1.0",
     "eslint": "^8.38.0",
     "eslint-plugin-vitest": "^0.1.4",
     "nuxt": "^3.4.0",
@@ -36,7 +38,9 @@
     "@capacitor/haptics": "4.1.0",
     "@capacitor/keyboard": "4.1.1",
     "@capacitor/status-bar": "4.1.1",
+    "@iconify-json/ph": "^1.1.5",
     "@pinia/nuxt": "^0.4.8",
+    "@vueform/multiselect": "^2.6.2",
     "pinia": "^2.0.34"
   },
   "overrides": {

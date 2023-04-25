@@ -53,6 +53,7 @@ public class RepositoryTestsBase : IDisposable
 		AuthorId = 1,
 		Categories = new List<ulong> { 1 },
 		Ingredients = new List<IngredientModel> { new() { Name = "Test", Value = 1, Volume = "Test" } },
+		ImageId = 1,
 		IsArchived = false,
 		IsOriginal = true,
 		IsPrivate = false,
@@ -68,6 +69,7 @@ public class RepositoryTestsBase : IDisposable
 	public UserModel User { get; set; } = new()
 	{
 		Badges = new List<ulong> { 1 },
+		ProfilePictureId = 1,
 		Email = "test@test.test",
 		IsModerator = false,
 		Language = "Test",
