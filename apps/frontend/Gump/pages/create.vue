@@ -14,6 +14,7 @@
       <div mt-5 class="orangeGradient">
         <div class="i-fa6-solid-box-tissue" />
       </div>
+      <InfoView />
     </div>
     <TheNavbar />
   </ion-page>
