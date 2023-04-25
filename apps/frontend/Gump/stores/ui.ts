@@ -27,6 +27,8 @@ interface IUIState {
   dropdownToggled: boolean
   searchValue: string
   searchHistory: string[]
+  createHeaderIndex: number
+  createHeaderStates: boolean[]
   createMode: 'raw' | 'design'
   currentRecipe: IRecipe
 }
@@ -40,6 +42,8 @@ export const useUIStore = defineStore('ui', () => {
     dropdownToggled: false,
     searchValue: '',
     searchHistory: [],
+    createHeaderIndex: 1,
+    createHeaderStates: [false, false, false, false],
     createMode: 'design',
     currentRecipe: recipeEmpty,
   })
@@ -61,6 +65,14 @@ export const useUIStore = defineStore('ui', () => {
     state.activeSort = sort
   }
 
+  const setCreateHeaderIndex = (index: number) => {
+    state.createHeaderIndex = index
+  }
+
+  const setCreateHeaderStates = (value: boolean, index: number) => {
+    state.createHeaderStates[index] = value
+  }
+
   const addSearchHistory = (value: string) => {
     if (state.searchHistory.includes(value) || value === '')
       return
@@ -77,6 +89,8 @@ export const useUIStore = defineStore('ui', () => {
     setActiveNav,
     setActiveSort,
     addSearchHistory,
+    setCreateHeaderIndex,
+    setCreateHeaderStates,
   }
 },
 {

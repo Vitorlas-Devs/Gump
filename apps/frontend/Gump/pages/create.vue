@@ -4,7 +4,7 @@
 
 <template>
   <ion-page bg-crimson-50>
-    <TheHeader :title="$t('CreateNav')" />
+    <CreateHeader />
     <div grow>
       <CreateSubHeader variant="ingredients" />
       <IngredientsView />

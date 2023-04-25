@@ -3189,7 +3189,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 4,\r\n    \"image\": 4,\r\n    \"serves\": 1,\r\n    \"categories\": [\r\n        1\r\n    ],\r\n    \"tags\": [\r\n        \"dummy\",\r\n        \"modified\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"dummy\"\r\n        },\r\n        {\r\n            \"name\": \"modified\"\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        \"dummy\",\r\n        \"modified\"\r\n    ],\r\n    \"isOriginal\": true,\r\n    \"originalRecipeId\": 0,\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
+									"raw": "{\r\n    \"id\": 4,\r\n    \"image\": 4,\r\n    \"serves\": 1,\r\n    \"categories\": [\r\n        1\r\n    ],\r\n    \"tags\": [\r\n        \"dummy\",\r\n        \"modified\"\r\n    ],\r\n    \"ingredients\": [\r\n        {\r\n            \"name\": \"dummy\"\r\n        },\r\n        {\r\n            \"name\": \"modified\"\r\n        }\r\n    ],\r\n    \"steps\": [\r\n        \"dummy\",\r\n        \"modified\"\r\n    ],\r\n    \"isPrivate\": false,\r\n    \"visibleTo\": []\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
