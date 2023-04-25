@@ -67,7 +67,7 @@ const option = ['pizza', 'pasta', 'salad', 'soup', 'dessert', 'drink']
   --ms-tag-color: #912808;
   --ms-tag-radius: 9999px;
 
-  --ms-dropdown-bg: transparent;
+  --ms-dropdown-bg: #FFF3F6;
   --ms-dropdown-border-color: #F3582730;
   --ms-dropdown-border-width: 1px;
   --ms-dropdown-radius: 10px;

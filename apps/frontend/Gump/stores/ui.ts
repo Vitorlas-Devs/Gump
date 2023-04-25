@@ -1,3 +1,5 @@
+import { type IRecipe, recipeEmpty } from './recipe'
+
 export const tabs = [
   'Home',
   'Search',
@@ -27,6 +29,8 @@ interface IUIState {
   searchHistory: string[]
   createHeaderIndex: number
   createHeaderStates: boolean[]
+  createMode: 'raw' | 'design'
+  currentRecipe: IRecipe
 }
 
 export const useUIStore = defineStore('ui', () => {
@@ -40,6 +44,8 @@ export const useUIStore = defineStore('ui', () => {
     searchHistory: [],
     createHeaderIndex: 1,
     createHeaderStates: [false, false, false, false],
+    createMode: 'design',
+    currentRecipe: recipeEmpty,
   })
 
   // getters

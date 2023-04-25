@@ -3,19 +3,17 @@ interface IUserState {
 }
 
 export const useUserStore = defineStore('user', () => {
-  // state
   const state = reactive<IUserState>({
     username: '',
   })
 
-  // getters
-  // ...
-
-  // actions
-  // ...
+  const getUser = async (id: number) => {
+    return 'Bartók Béla'
+  }
 
   return {
     ...toRefs(state),
+    getUser,
   }
 },
 {
