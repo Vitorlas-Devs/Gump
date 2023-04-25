@@ -49,7 +49,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		fixture.UserRepository.Create(user);
 
 		// Act
-		IEnumerable<UserModel> users = fixture.UserRepository.Search("stus", 10);
+		IEnumerable<UserModel> users = fixture.UserRepository.Search("stus", "", 10, 0);
 
 		// Assert
 		Assert.Single(users);
@@ -232,6 +232,9 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		// Arrange
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
+
+		ImageModel image = Get<ImageModel>();
+		fixture.ImageRepository.Create(image);
 
 		fixture.CategoryRepository.Create("Category");
 

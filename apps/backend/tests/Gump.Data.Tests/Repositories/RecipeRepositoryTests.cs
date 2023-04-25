@@ -18,6 +18,9 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
 
+		ImageModel image = Get<ImageModel>();
+		fixture.ImageRepository.Create(image);
+
 		fixture.CategoryRepository.Create(categoryName);
 
 		RecipeModel recipe = Get<RecipeModel>();
@@ -185,6 +188,9 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
 
+		ImageModel image = Get<ImageModel>();
+		fixture.ImageRepository.Create(image);
+
 		fixture.CategoryRepository.Create("Category");
 
 		RecipeModel recipe = Get<RecipeModel>();
@@ -202,6 +208,9 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		// Arrange
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
+
+		ImageModel image = Get<ImageModel>();
+		fixture.ImageRepository.Create(image);
 
 		fixture.CategoryRepository.Create("Category");
 
@@ -228,6 +237,9 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
 
+		ImageModel image = Get<ImageModel>();
+		fixture.ImageRepository.Create(image);
+
 		fixture.CategoryRepository.Create("Category");
 
 		RecipeModel originalRecipe = Get<RecipeModel>();
@@ -252,6 +264,9 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
 
+		ImageModel image = Get<ImageModel>();
+		fixture.ImageRepository.Create(image);
+
 		fixture.CategoryRepository.Create("Category");
 
 		RecipeModel recipe = Get<RecipeModel>();
@@ -272,6 +287,9 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
 
+		ImageModel image = Get<ImageModel>();
+		fixture.ImageRepository.Create(image);
+
 		fixture.CategoryRepository.Create("Category");
 
 		RecipeModel recipe = Get<RecipeModel>();
@@ -290,6 +308,9 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		// Arrange
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
+
+		ImageModel image = Get<ImageModel>();
+		fixture.ImageRepository.Create(image);
 
 		fixture.CategoryRepository.Create("Category");
 
@@ -315,6 +336,9 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
 
+		ImageModel image = Get<ImageModel>();
+		fixture.ImageRepository.Create(image);
+
 		fixture.CategoryRepository.Create("Category");
 
 		RecipeModel recipe = Get<RecipeModel>();
@@ -333,6 +357,9 @@ public class RecipeRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 		// Arrange
 		UserModel user = Get<UserModel>();
 		fixture.UserRepository.Create(user);
+
+		ImageModel image = Get<ImageModel>();
+		fixture.ImageRepository.Create(image);
 
 		fixture.CategoryRepository.Create("Category");
 
