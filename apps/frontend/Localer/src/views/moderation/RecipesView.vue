@@ -15,7 +15,14 @@ onMounted(async () => {
     <custom-scrollbar :auto-expand="false" h="screen" w="full" pb="25">
       <h1 text="3xl" mb="4" font="bold">Recipes</h1>
       <div flex="~ wrap">
-        <RecipeItem v-for="r of recipe.recipes" :key="r.id" :recipe="r" mb="4" mr="4" />
+        <RecipeItem
+          v-for="r of recipe.recipes"
+          :key="r.id"
+          :recipe="r"
+          mb="4"
+          mr="4"
+          @delete="recipe.recipes = recipe.recipes.filter((i) => i.id !== r.id)"
+        />
       </div>
     </custom-scrollbar>
   </main>

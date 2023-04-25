@@ -4,7 +4,6 @@ import { onMounted, reactive, ref } from 'vue'
 import { useGumpUserStore } from '@/stores/gumpUserStore'
 import SimpleButton from './SimpleButton.vue'
 import VueSelect from 'vue-select'
-import type { IIngredient } from '@/stores/recipeStore'
 
 const user = useGumpUserStore()
 const recipeStore = useRecipeStore()
@@ -12,6 +11,10 @@ const state = ref('default')
 
 const props = defineProps<{
   recipe: IBriefRecipe
+}>()
+
+const emit = defineEmits<{
+  (e: 'delete'): void
 }>()
 
 const imageUrl = ref(`${import.meta.env.VITE_BACKEND_URL}/image/${props.recipe.image}`)
@@ -51,6 +54,11 @@ const finalizeModify = async () => {
   await recipeStore.updateRecipe(modified)
   state.value = 'default'
 }
+
+const deleteButtonClick = async () => {
+  await recipeStore.deleteRecipe(props.recipe.id)
+  emit('delete')
+}
 </script>
 
 <template>
@@ -74,7 +82,7 @@ const finalizeModify = async () => {
             color="crimson-500"
             text="Delete"
             ml="4"
-            @click="state = 'delete'"
+            @click="deleteButtonClick()"
           />
         </div>
       </div>
@@ -195,7 +203,6 @@ const finalizeModify = async () => {
         />
       </div>
     </div>
-    <div v-if="state === 'delete'" flex="~" p="4" w="max" bg="orange-100" rounded="20px"></div>
   </div>
 </template>
 

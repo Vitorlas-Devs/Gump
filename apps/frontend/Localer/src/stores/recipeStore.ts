@@ -67,11 +67,23 @@ export const useRecipeStore = defineStore(
       })
     }
 
+    const deleteRecipe = async (id: number) => {
+      await fetch(`${backendUrl}/recipe/delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+          authorization: `Bearer ${
+            JSON.parse(localStorage.getItem('gumpUser') ?? '')?.sessionToken
+          }`
+        }
+      })
+    }
+
     return {
       ...toRefs(state),
       fetchRecipes,
       getRecipe,
-      updateRecipe
+      updateRecipe,
+      deleteRecipe
     }
   },
   {
