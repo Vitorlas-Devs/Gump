@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { IBriefRecipe } from '@/stores/recipeStore'
 import { onMounted, ref } from 'vue'
-import SimpleButton from './SimpleButton.vue'
 import { useGumpUserStore } from '@/stores/gumpUserStore'
+import SimpleButton from './SimpleButton.vue'
+import VueSelect from 'vue-select'
 
 const user = useGumpUserStore()
 const state = ref('default')
@@ -43,10 +44,10 @@ onMounted(async () => {
     <div v-if="state === 'modify'" flex="~ col" p="4" w="152" bg="orange-100" rounded="20px">
       <p text="xl" font="bold" w="80" mb="4">{{ recipe.title }}</p>
       <div flex="~" justify="between" items="center" mb="4">
-        <div w="40" align="right">
+        <div w="25" align="right">
           <label for="modifyImage" text="20px">Image</label>
         </div>
-        <div flex="~" w="100">
+        <div flex="~" w="115">
           <input
             id="modifyImage"
             type="text"
@@ -60,46 +61,52 @@ onMounted(async () => {
         </div>
       </div>
       <div flex="~" justify="between" items="center" mb="4">
-        <div w="40" align="right">
-          <label for="modifyServes" w="40" text="20px" align="right">Serves</label>
+        <div w="25" align="right">
+          <label for="modifyTags" text="20px" align="right">Tags</label>
         </div>
-        <div flex="~" w="100">
-          <input id="modifyServes" type="text" w="full" shadow="inner" rounded="8px" p="2" />
-          <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
+        <div flex="~" w="115">
+          <VueSelect
+            id="modifyTags"
+            class="select"
+            w="full"
+            shadow="inner"
+            rounded="8px"
+            p="2"
+            bg="white"
+            :multiple="true"
+            :clear-on-select="false"
+            :close-on-select="false"
+            :taggable="true"
+            :no-options="true"
+          >
+            <template #no-options>Start typing to add tags</template>
+          </VueSelect>
+        </div>
+      </div>
+      <div flex="~" justify="between" items="start" mb="4">
+        <div flex="~ col" justify="center" w="25" h="40px" align="right">
+          <label for="modifyIngredients" text="20px" align="right">Ingredients</label>
+        </div>
+        <div flex="~ col" gap="2">
+          <div flex="~" w="115">
+            <input id="modifyIngredients" type="text" w="full" shadow="inner" rounded="8px" p="2" />
+            <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
+          </div>
+          <div flex="~" w="115">
+            <input id="modifyIngredients" type="text" w="full" shadow="inner" rounded="8px" p="2" />
+            <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
+          </div>
+          <div flex="~" w="115">
+            <input id="modifyIngredients" type="text" w="full" shadow="inner" rounded="8px" p="2" />
+            <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
+          </div>
         </div>
       </div>
       <div flex="~" justify="between" items="center" mb="4">
-        <div w="40" align="right">
-          <label for="modifyCategories" w="40" text="20px" align="right">Categories</label>
+        <div w="25" align="right">
+          <label for="modifySteps" text="20px" align="right">Steps</label>
         </div>
-        <div flex="~" w="100">
-          <input id="modifyCategories" type="text" w="full" shadow="inner" rounded="8px" p="2" />
-          <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
-        </div>
-      </div>
-      <div flex="~" justify="between" items="center" mb="4">
-        <div w="40" align="right">
-          <label for="modifyTags" w="40" text="20px" align="right">Tags</label>
-        </div>
-        <div flex="~" w="100">
-          <input id="modifyTags" type="text" w="full" shadow="inner" rounded="8px" p="2" />
-          <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
-        </div>
-      </div>
-      <div flex="~" justify="between" items="center" mb="4">
-        <div w="40" align="right">
-          <label for="modifyIngredients" w="40" text="20px" align="right">Ingredients</label>
-        </div>
-        <div flex="~" w="100">
-          <input id="modifyIngredients" type="text" w="full" shadow="inner" rounded="8px" p="2" />
-          <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
-        </div>
-      </div>
-      <div flex="~" justify="between" items="center" mb="4">
-        <div w="40" align="right">
-          <label for="modifySteps" w="40" text="20px" align="right">Steps</label>
-        </div>
-        <div flex="~" w="100">
+        <div flex="~" w="115">
           <input id="modifySteps" type="text" w="full" shadow="inner" rounded="8px" p="2" />
           <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
         </div>
@@ -118,3 +125,17 @@ onMounted(async () => {
     <div v-if="state === 'delete'" flex="~" p="4" w="max" bg="orange-100" rounded="20px"></div>
   </div>
 </template>
+
+<style scoped>
+.select {
+  --vs-search-input-bg: rgb(243, 88, 39);
+  --vs-controls-color: rgb(151, 39, 4);
+  --vs-selected-bg: transparent;
+  --vs-selected-color: rgb(151, 39, 4);
+  --vs-selected-border-color: rgba(151, 39, 4, 0.5);
+  --vs-border-width: 0px;
+  --vs-border-radius: 20px;
+  --vs-dropdown-option-bg: rgb(243, 88, 39);
+  --vs-dropdown-option--active-bg: rgb(243, 88, 39);
+}
+</style>

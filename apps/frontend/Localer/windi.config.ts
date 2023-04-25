@@ -59,7 +59,8 @@ export default defineConfig({
       yellow: '#ffcc00',
       green: '#3FB950',
       purple: '#A371F7',
-      transparent: 'transparent'
+      transparent: 'transparent',
+      white: '#ffffff'
     }
   }
 })
