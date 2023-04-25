@@ -10,6 +10,12 @@ export default defineNuxtConfig({
     '@nuxtjs/ionic',
     'nuxt-vitest',
   ],
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ],
   css: [
     '@/assets/main.css',
   ],

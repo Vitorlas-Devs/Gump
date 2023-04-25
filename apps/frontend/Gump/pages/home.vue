@@ -20,9 +20,9 @@ const ui = useUIStore()
       </div>
       <TextInput v-model:text="ui.currentRecipe.title" />
       <SearchSelect
-        v-model:model="ui.currentRecipe.categories"
-        :options="ui.currentRecipe.categories"
-        mode="multiple"
+        v-model:model="ui.currentRecipe.tags"
+        :options="ui.currentRecipe.tags"
+        mode="tags"
       />
       <br><br>
       <RecipeBox title="Nagyon nagyon nagyon naon fincsi pogi" :author-id="ui.currentRecipe.author" :img-id="ui.currentRecipe.image" />
