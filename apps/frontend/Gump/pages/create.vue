@@ -4,7 +4,7 @@
 
 <template>
   <ion-page bg-crimson-50>
-    <TheHeader :title="$t('CreateNav')" />
+    <CreateHeader />
     <div grow>
       <h1 text-crimson-500 text-shadow-crimson>
         {{ $t('CreateNav') }}
