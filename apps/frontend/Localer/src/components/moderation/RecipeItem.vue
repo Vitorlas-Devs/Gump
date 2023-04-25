@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import type { IBriefRecipe } from '@/stores/recipeStore'
-import { onMounted, ref } from 'vue'
+import { useRecipeStore, type IBriefRecipe, type IRecipe } from '@/stores/recipeStore'
+import { onMounted, reactive, ref } from 'vue'
 import { useGumpUserStore } from '@/stores/gumpUserStore'
 import SimpleButton from './SimpleButton.vue'
 import VueSelect from 'vue-select'
+import type { IIngredient } from '@/stores/recipeStore'
 
 const user = useGumpUserStore()
+const recipeStore = useRecipeStore()
 const state = ref('default')
 
 const props = defineProps<{
@@ -14,10 +16,41 @@ const props = defineProps<{
 
 const imageUrl = ref(`${import.meta.env.VITE_BACKEND_URL}/image/${props.recipe.image}`)
 const authorName = ref('')
+const fullRecipe = ref<IRecipe>()
+const modified = reactive<IRecipe>({
+  id: 0,
+  image: 0,
+  serves: 0,
+  categories: [],
+  tags: [],
+  ingredients: [],
+  steps: [],
+  isPrivate: false,
+  visibleTo: []
+})
 
 onMounted(async () => {
   authorName.value = await user.getUser(props.recipe.author).then((u) => u.username)
 })
+
+const modifyButtonClick = async () => {
+  state.value = 'modify'
+  fullRecipe.value = await recipeStore.getRecipe(props.recipe.id)
+  modified.id = fullRecipe.value?.id ?? 0
+  modified.image = fullRecipe.value?.image ?? 0
+  modified.serves = fullRecipe.value?.serves ?? 0
+  modified.categories = fullRecipe.value?.categories ?? []
+  modified.tags = fullRecipe.value?.tags ?? []
+  modified.ingredients = fullRecipe.value?.ingredients ?? []
+  modified.steps = fullRecipe.value?.steps ?? []
+  modified.isPrivate = fullRecipe.value?.isPrivate ?? false
+  modified.visibleTo = fullRecipe.value?.visibleTo ?? []
+}
+
+const finalizeModify = async () => {
+  await recipeStore.updateRecipe(modified)
+  state.value = 'default'
+}
 </script>
 
 <template>
@@ -30,9 +63,14 @@ onMounted(async () => {
           <p>By: {{ authorName }}</p>
         </div>
         <div flex="~" justify="end">
-          <SimpleButton type="solid" color="orange-500" text="Modify" @click="state = 'modify'" />
           <SimpleButton
-            type="text"
+            type="solid"
+            color="orange-500"
+            text="Modify"
+            @click="modifyButtonClick()"
+          />
+          <SimpleButton
+            type="solid"
             color="crimson-500"
             text="Delete"
             ml="4"
@@ -42,7 +80,7 @@ onMounted(async () => {
       </div>
     </div>
     <div v-if="state === 'modify'" flex="~ col" p="4" w="152" bg="orange-100" rounded="20px">
-      <p text="xl" font="bold" w="80" mb="4">{{ recipe.title }}</p>
+      <p text="xl" font="bold" w="80" mb="4">{{ recipe?.title }}</p>
       <div flex="~" justify="between" items="center" mb="4">
         <div w="25" align="right">
           <label for="modifyImage" text="20px">Image</label>
@@ -50,6 +88,7 @@ onMounted(async () => {
         <div flex="~" w="115">
           <input
             id="modifyImage"
+            v-model="modified.image"
             type="text"
             w="full"
             shadow="inner"
@@ -57,7 +96,13 @@ onMounted(async () => {
             p="2"
             disabled
           />
-          <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
+          <SimpleButton
+            type="text"
+            color="crimson-500"
+            text="Delete"
+            ml="4"
+            @click="modified.image = 1"
+          />
         </div>
       </div>
       <div flex="~" justify="between" items="center" mb="4">
@@ -67,6 +112,7 @@ onMounted(async () => {
         <div flex="~" w="115">
           <VueSelect
             id="modifyTags"
+            v-model="modified.tags"
             class="select"
             w="full"
             shadow="inner"
@@ -77,7 +123,6 @@ onMounted(async () => {
             :clear-on-select="false"
             :close-on-select="false"
             :taggable="true"
-            :no-options="true"
           >
             <template #no-options>Start typing to add tags</template>
           </VueSelect>
@@ -88,27 +133,49 @@ onMounted(async () => {
           <label for="modifyIngredients" text="20px" align="right">Ingredients</label>
         </div>
         <div flex="~ col" gap="2">
-          <div flex="~" w="115">
-            <input id="modifyIngredients" type="text" w="full" shadow="inner" rounded="8px" p="2" />
-            <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
-          </div>
-          <div flex="~" w="115">
-            <input id="modifyIngredients" type="text" w="full" shadow="inner" rounded="8px" p="2" />
-            <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
-          </div>
-          <div flex="~" w="115">
-            <input id="modifyIngredients" type="text" w="full" shadow="inner" rounded="8px" p="2" />
-            <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
+          <div v-for="(item, index) in modified.ingredients" :key="index" flex="~" w="115">
+            <input
+              id="modifyIngredients"
+              v-model="item.name"
+              type="text"
+              w="full"
+              shadow="inner"
+              rounded="8px"
+              p="2"
+            />
+            <SimpleButton
+              type="text"
+              color="crimson-500"
+              text="Delete"
+              ml="4"
+              @click="modified.ingredients = modified.ingredients.filter((_, i) => i !== index)"
+            />
           </div>
         </div>
       </div>
-      <div flex="~" justify="between" items="center" mb="4">
-        <div w="25" align="right">
+      <div flex="~" justify="between" items="start" mb="4">
+        <div flex="~ col" justify="center" w="25" h="40px" align="right">
           <label for="modifySteps" text="20px" align="right">Steps</label>
         </div>
-        <div flex="~" w="115">
-          <input id="modifySteps" type="text" w="full" shadow="inner" rounded="8px" p="2" />
-          <SimpleButton type="text" color="crimson-500" text="Delete" ml="4" />
+        <div flex="~ col" gap="2">
+          <div v-for="(_, index) in modified.steps" :key="index" flex="~" w="115">
+            <input
+              id="modifySteps"
+              v-model="modified.steps[index]"
+              type="text"
+              w="full"
+              shadow="inner"
+              rounded="8px"
+              p="2"
+            />
+            <SimpleButton
+              type="text"
+              color="crimson-500"
+              text="Delete"
+              ml="4"
+              @click="modified.steps = modified.steps.filter((_, i) => i !== index)"
+            />
+          </div>
         </div>
       </div>
       <div flex="~" justify="end">
@@ -119,7 +186,13 @@ onMounted(async () => {
           ml="4"
           @click="state = 'default'"
         />
-        <SimpleButton type="solid" color="orange-500" text="Modify" ml="4" />
+        <SimpleButton
+          type="solid"
+          color="orange-500"
+          text="Modify"
+          ml="4"
+          @click="finalizeModify()"
+        />
       </div>
     </div>
     <div v-if="state === 'delete'" flex="~" p="4" w="max" bg="orange-100" rounded="20px"></div>

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
+import type { IGumpUserData } from './gumpUserStore'
 
 export interface IBriefRecipe {
   id: number
@@ -11,9 +12,23 @@ export interface IBriefRecipe {
   isPrivate: boolean
 }
 
-export interface IDisplayRecipe {
+export interface IRecipe {
   id: number
-  title: string
+  image: number
+  serves: number
+  categories: number[]
+  tags: string[]
+  ingredients: IIngredient[]
+  steps: string[]
+  isPrivate: boolean
+  visibleTo: number[]
+}
+
+export interface IIngredient {
+  name: string
+  value: number | null
+  volume: string | null
+  linkedRecipe: number | null
 }
 
 export interface IUser {}
@@ -34,9 +49,29 @@ export const useRecipeStore = defineStore(
       state.recipes.push(...data)
     }
 
+    const getRecipe = async (id: number) => {
+      const data: IRecipe = await fetch(`${backendUrl}/recipe/${id}`).then((res) => res.json())
+      return data
+    }
+
+    const updateRecipe = async (recipe: IRecipe) => {
+      await fetch(`${backendUrl}/recipe/update`, {
+        method: 'PATCH',
+        body: JSON.stringify(recipe),
+        headers: {
+          'Content-type': 'application/json',
+          authorization: `Bearer ${
+            JSON.parse(localStorage.getItem('gumpUser') ?? '')?.sessionToken
+          }`
+        }
+      })
+    }
+
     return {
       ...toRefs(state),
-      fetchRecipes
+      fetchRecipes,
+      getRecipe,
+      updateRecipe
     }
   },
   {

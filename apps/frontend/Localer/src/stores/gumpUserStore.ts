@@ -19,6 +19,14 @@ interface IGumpUser {
   isModerator: boolean
 }
 
+export interface IGumpUserData {
+  id: number
+  username: string
+  password: string
+  pfpUrl: string
+  sessionToken: string
+}
+
 export const useGumpUserStore = defineStore(
   'gumpUser',
   () => {
@@ -30,7 +38,7 @@ export const useGumpUserStore = defineStore(
       password: '',
       pfpUrl: '',
       sessionToken: ''
-    })
+    } as IGumpUserData)
 
     const login = (username: string, password: string): boolean => {
       const http = new XMLHttpRequest()
