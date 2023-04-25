@@ -49,7 +49,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 		fixture.UserRepository.Create(user);
 
 		// Act
-		IEnumerable<UserModel> users = fixture.UserRepository.Search("stus", 10);
+		IEnumerable<UserModel> users = fixture.UserRepository.Search("stus", "", 10, 0);
 
 		// Assert
 		Assert.Single(users);
