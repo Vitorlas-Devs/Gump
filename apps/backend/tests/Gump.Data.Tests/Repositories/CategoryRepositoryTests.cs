@@ -9,7 +9,7 @@ public class CategoryRepositoryTests : RepositoryTestsBase, IClassFixture<Reposi
 	{
 		this.fixture = fixture;
 	}
-	
+
 	[Theory]
 	[InlineData("First")]
 	public void GetById_Works(string name)
@@ -81,4 +81,3 @@ public class CategoryRepositoryTests : RepositoryTestsBase, IClassFixture<Reposi
 		Assert.Throws<NotFoundException>(() => fixture.CategoryRepository.Delete(category.Id));
 	}
 }
-
