@@ -1,4 +1,5 @@
-import { type IRecipe, recipeEmpty } from './recipe'
+import { recipeEmpty } from './recipe'
+import type { IRecipe } from './recipe'
 
 export const tabs = [
   'Home',
@@ -30,6 +31,7 @@ interface IUIState {
   createHeaderIndex: number
   createHeaderStates: boolean[]
   createMode: 'raw' | 'design'
+  createYScroll: number
   currentRecipe: IRecipe
 }
 
@@ -42,11 +44,52 @@ export const useUIStore = defineStore('ui', () => {
     dropdownToggled: false,
     searchValue: '',
     searchHistory: [],
-    createHeaderIndex: 1,
+    createHeaderIndex: 0,
     createHeaderStates: [false, false, false, false],
     createMode: 'design',
+    createYScroll: 0,
     currentRecipe: recipeEmpty,
   })
+
+  // ingredient functions
+  const ingredientFunctions = () => {
+    // getter
+    const getIngredientList = computed(() => {
+      return state.currentRecipe.ingredients.map(ingredient => ingredient.name)
+    })
+
+    const emptyIngredients = computed(() => {
+      return state.currentRecipe.ingredients.filter(ingredient => ingredient.name === '' && !ingredient.value && ingredient.volume === '')
+    })
+
+    // action
+    const addEmptyIngredient = () => {
+      if (emptyIngredients.value.length === 0) {
+        state.currentRecipe.ingredients.push({
+          name: '',
+          value: 0,
+          volume: '',
+          linkedRecipe: state.currentRecipe.id,
+        })
+      }
+    }
+
+    const checkEmptyIngredients = () => {
+      if (emptyIngredients.value.length > 0) {
+        emptyIngredients.value.forEach((ingredient) => {
+          const index = state.currentRecipe.ingredients.indexOf(ingredient)
+          if (index > -1)
+            state.currentRecipe.ingredients.splice(index, 1)
+        })
+      }
+    }
+
+    return {
+      getIngredientList,
+      addEmptyIngredient,
+      checkEmptyIngredients,
+    }
+  }
 
   // getters
   const getSearchHistory = computed(() => {
@@ -65,17 +108,20 @@ export const useUIStore = defineStore('ui', () => {
     state.activeSort = sort
   }
 
-  const setCreateHeaderIndex = (index: number) => {
-    state.createHeaderIndex = index
-  }
-
-  const setCreateHeaderStates = (value: boolean, index: number) => {
-    state.createHeaderStates[index] = value
+  const setCreateHeaderIndex = (value: boolean) => {
+    state.createHeaderStates[state.createHeaderIndex] = value
   }
 
   const addSearchHistory = (value: string) => {
-    if (state.searchHistory.includes(value) || value === '')
+    if (state.searchHistory.includes(value) || value === '') {
+      // if it includes the value, push it to the end of the array
+      const index = state.searchHistory.indexOf(value)
+      if (index > -1) {
+        state.searchHistory.splice(index, 1)
+        state.searchHistory.push(value)
+      }
       return
+    }
 
     if (state.searchHistory.length >= 5)
       state.searchHistory.shift()
@@ -85,12 +131,12 @@ export const useUIStore = defineStore('ui', () => {
 
   return {
     ...toRefs(state),
+    ...ingredientFunctions(),
     getSearchHistory,
     setActiveNav,
     setActiveSort,
     addSearchHistory,
     setCreateHeaderIndex,
-    setCreateHeaderStates,
   }
 },
 {

@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <div flex="~ row" z-20 h-max w-max items-center gap-2 rounded-full p-2 :shadow="`${color}`" :class="`${color}Gradient`">
+  <div left="1/2" transform="translate-x--1/2" flex="~ row" :shadow="`${color}`" :class="`${color}Gradient`" fixed bottom-26 z-20 h-max w-max cursor-pointer items-center gap-2 rounded-full p-2 px-4>
     <div
       v-if="iconType === 'create'"
       class="i-fa6-solid-plus whiteIcon"
@@ -15,7 +15,7 @@ defineProps<{
     <div
       v-else-if="iconType === 'delete'"
       class="i-fa6-solid-trash-can whiteIcon"
-      mx="2"
+      mr="2"
     />
     <h1 v-if="title" m-a text-xl font-bold text-white-500 text-shadow-white>
       {{ title }}
