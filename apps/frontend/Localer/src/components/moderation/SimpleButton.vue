@@ -13,7 +13,7 @@ const emit = defineEmits<{
 <template>
   <button
     :bg="type === 'solid' ? color : 'transparent'"
-    :text="type === 'solid' ? 'orange-50' : color"
+    :text="type === 'solid' ? 'white' : color"
     p="2"
     px="4"
     rounded="8px"
