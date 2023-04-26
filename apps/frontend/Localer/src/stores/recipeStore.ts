@@ -31,8 +31,6 @@ export interface IIngredient {
   linkedRecipe: number | null
 }
 
-export interface IUser {}
-
 export const useRecipeStore = defineStore(
   'recipe',
   () => {
