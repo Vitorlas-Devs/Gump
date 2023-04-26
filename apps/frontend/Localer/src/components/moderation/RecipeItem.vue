@@ -15,6 +15,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'delete'): void
+  (e: 'update:recipe', value: IBriefRecipe): void
 }>()
 
 const imageUrl = computed(() => `${import.meta.env.VITE_BACKEND_URL}/image/${props.recipe.image}`)
@@ -52,7 +53,8 @@ const modifyButtonClick = async () => {
 
 const finalizeModify = async () => {
   await recipeStore.updateRecipe(modified)
-  props.recipe.image = modified.image
+  const storedRecipe = recipeStore.recipes.find((r) => r.id === props.recipe.id)
+  if (storedRecipe) storedRecipe.image = modified.image
   state.value = 'default'
 }
 

@@ -37,7 +37,8 @@ const modifyButtonClick = async () => {
 
 const finalizeModify = async () => {
   await userStore.updateUser(modified)
-  props.user.profilePicture = modified.profilePicture
+  const storedUser = userStore.users.find((u) => u.id === props.user.id)
+  if (storedUser) storedUser.profilePicture = modified.profilePicture
   state.value = 'default'
 }
 
