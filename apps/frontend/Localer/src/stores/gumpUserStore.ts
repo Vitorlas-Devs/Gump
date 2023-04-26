@@ -19,6 +19,14 @@ interface IGumpUser {
   isModerator: boolean
 }
 
+export interface IGumpUserData {
+  id: number
+  username: string
+  password: string
+  pfpUrl: string
+  sessionToken: string
+}
+
 export const useGumpUserStore = defineStore(
   'gumpUser',
   () => {
@@ -30,7 +38,7 @@ export const useGumpUserStore = defineStore(
       password: '',
       pfpUrl: '',
       sessionToken: ''
-    })
+    } as IGumpUserData)
 
     const login = (username: string, password: string): boolean => {
       const http = new XMLHttpRequest()
@@ -71,10 +79,16 @@ export const useGumpUserStore = defineStore(
       state.sessionToken = ''
     }
 
+    const getUser = async (id: number): Promise<IGumpUser> => {
+      const data: IGumpUser = await fetch(`${backendUrl}/user/${id}`).then((res) => res.json())
+      return data
+    }
+
     return {
       ...toRefs(state),
       login,
-      logout
+      logout,
+      getUser
     }
   },
   {

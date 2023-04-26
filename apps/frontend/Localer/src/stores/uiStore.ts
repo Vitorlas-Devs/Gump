@@ -7,7 +7,7 @@ interface IUIState {
 
 export const useUIStore = defineStore('ui', () => {
   const state = reactive<IUIState>({
-    navbarOpen: true,
+    navbarOpen: true
   })
 
   const toggleNavbar = () => {

@@ -47,6 +47,8 @@ public class RecipeController : ControllerBase
 			userRepository.Update(user);
 		}
 
+		var likes = recipe.Likes ?? new();
+
 		return Ok(new
 		{
 			id = recipe.Id,
@@ -61,14 +63,14 @@ public class RecipeController : ControllerBase
 			steps = recipe.Steps,
 			viewCount = recipe.ViewCount,
 			saveCount = recipe.SaveCount,
-			isLiked = recipe.Likes.Contains(user.Id),
-			likeCount = recipe.Likes.Count,
+			isLiked = likes.Contains(user.Id),
+			likeCount = likes.Count,
 			referenceCount = recipe.ReferenceCount,
 			isArchived = recipe.IsArchived,
 			isOriginal = recipe.IsOriginal,
 			originalRecipe = recipe.OriginalRecipeId,
 			isPrivate = recipe.IsPrivate,
-			forks = recipe.Forks,
+			forks = recipe.Forks ?? new(),
 		});
 	});
 
@@ -127,7 +129,7 @@ public class RecipeController : ControllerBase
 			image = r.ImageId,
 			viewCount = r.ViewCount,
 			saveCount = r.SaveCount,
-			likeCount = r.Likes.Count,
+			likeCount = (r.Likes ?? new()).Count,
 			isPrivate = r.IsPrivate
 		}));
 	});
@@ -289,30 +291,22 @@ public class RecipeController : ControllerBase
 			return Forbid();
 		}
 
-		RecipeModel newRecipe = new()
-		{
-			Title = modifiedRecipe.Title,
-			AuthorId = modifiedRecipe.AuthorId,
-			ImageId = modifiedRecipe.ImageId,
-			Language = modifiedRecipe.Language,
-			Serves = update.Serves,
-			Categories = update.Categories,
-			Tags = update.Tags,
-			Ingredients = update.Ingredients,
-			Steps = update.Steps,
-			IsOriginal = modifiedRecipe.IsOriginal,
-			OriginalRecipeId = modifiedRecipe.OriginalRecipeId,
-			IsPrivate = update.IsPrivate,
-			VisibleTo = update.VisibleTo
-		};
+		modifiedRecipe.ImageId = update.ImageId;
+		modifiedRecipe.Serves = update.Serves;
+		modifiedRecipe.Categories = update.Categories;
+		modifiedRecipe.Tags = update.Tags;
+		modifiedRecipe.Ingredients = update.Ingredients;
+		modifiedRecipe.Steps = update.Steps;
+		modifiedRecipe.IsPrivate = update.IsPrivate;
+		modifiedRecipe.VisibleTo = update.VisibleTo;
 
-		if (user.IsModerator && update.Id != user.Id)
+		if (user.IsModerator && modifiedRecipe.AuthorId != user.Id)
 		{
-			recipeRepository.Update(newRecipe);
+			recipeRepository.Update(modifiedRecipe);
 			return Ok();
 		}
 
-		recipeRepository.Create(newRecipe);
+		recipeRepository.Create(modifiedRecipe);
 
 		return Ok();
 	});

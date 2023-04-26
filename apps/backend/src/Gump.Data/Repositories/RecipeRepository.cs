@@ -157,7 +157,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		RecipeStuff(recipe);
 
 		// check if recipes in forks list exists
-		if (recipe.Forks.Count > 0)
+		if ((recipe.Forks ?? new()).Count > 0)
 		{
 			foreach (var forkRecipeId in recipe.Forks)
 			{

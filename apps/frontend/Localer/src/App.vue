@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TheNavigation from '@/components/TheNavigation.vue'
+import ModNavigation from '@/components/moderation/ModNavigation.vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { useTranslationStore } from '@/stores/translationStore'
 import { computed, onBeforeMount, ref } from 'vue'
@@ -138,35 +139,37 @@ const gumpLogout = () => {
           <SvgIcon icon="up-right-from-square-solid" class="icon" w="4" />
         </a>
       </div>
-      <div
-        v-if="user.username"
-        flex="~ row"
-        gap="4"
-        mx="5"
-        place="items-center"
-        cursor="pointer"
-        select="none"
-        @click="openModal = !openModal"
-      >
-        <p>
-          {{ user.username }}
-        </p>
-        <img :src="user.avatarUrl" rounded="full" w="10" h="10" />
-      </div>
-      <div
-        v-if="gumpUser.sessionToken"
-        flex="~ row"
-        gap="4"
-        mx="5"
-        place="items-center"
-        cursor="pointer"
-        select="none"
-        @click="openGumpModal = !openGumpModal"
-      >
-        <p>
-          {{ gumpUser.username }}
-        </p>
-        <img :src="gumpUser.pfpUrl" object="contain" rounded="full" w="10" h="10" />
+      <div flex="~ row" gap="2">
+        <div
+          v-if="user.username"
+          flex="~ row"
+          gap="4"
+          mx="5"
+          place="items-center"
+          cursor="pointer"
+          select="none"
+          @click="openModal = !openModal"
+        >
+          <p>
+            {{ user.username }}
+          </p>
+          <img :src="user.avatarUrl" rounded="full" w="10" h="10" />
+        </div>
+        <div
+          v-if="gumpUser.sessionToken"
+          flex="~ row"
+          gap="4"
+          mx="5"
+          place="items-center"
+          cursor="pointer"
+          select="none"
+          @click="openGumpModal = !openGumpModal"
+        >
+          <p>
+            {{ gumpUser.username }}
+          </p>
+          <img :src="gumpUser.pfpUrl" object="contain" rounded="full" w="10" h="10" />
+        </div>
       </div>
     </div>
     <div>
@@ -236,6 +239,9 @@ const gumpLogout = () => {
             router.currentRoute.value.path.includes('/translate/'))
         "
         z="10"
+      />
+      <ModNavigation
+        v-if="ui.navbarOpen && router.currentRoute.value.path.includes('/moderation')"
       />
       <RouterView :key="$route.fullPath" />
     </div>

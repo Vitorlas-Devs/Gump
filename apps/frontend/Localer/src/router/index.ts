@@ -33,6 +33,26 @@ const router = createRouter({
       path: '/moderation',
       name: 'moderation',
       component: () => import('../views/moderation/ModerationHomeView.vue')
+    },
+    {
+      path: '/moderation/recipes',
+      name: 'recipes',
+      component: () => import('../views/moderation/RecipesView.vue')
+    },
+    {
+      path: '/moderation/users',
+      name: 'users',
+      component: () => import('../views/moderation/UsersView.vue')
+    },
+    {
+      path: '/moderation/partners',
+      name: 'partners',
+      component: () => import('../views/moderation/PartnersView.vue')
+    },
+    {
+      path: '/moderation/adverts',
+      name: 'adverts',
+      component: () => import('../views/moderation/AdvertsView.vue')
     }
   ]
 })
