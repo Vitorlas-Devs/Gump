@@ -6,9 +6,10 @@ interface ILoginData {
   id: number
 }
 
-interface IGumpUser {
+export interface IGumpUser {
   id: number
   username: string
+  email: string
   profilePicture: number
   language: string
   recipes: number[]
@@ -23,8 +24,10 @@ export interface IGumpUserData {
   id: number
   username: string
   password: string
+  profilePicture: number
   pfpUrl: string
   sessionToken: string
+  users: IGumpUserData[]
 }
 
 export const useGumpUserStore = defineStore(
@@ -36,8 +39,10 @@ export const useGumpUserStore = defineStore(
       id: 0,
       username: '',
       password: '',
+      profilePicture: 0,
       pfpUrl: '',
-      sessionToken: ''
+      sessionToken: '',
+      users: []
     } as IGumpUserData)
 
     const login = (username: string, password: string): boolean => {
@@ -67,6 +72,7 @@ export const useGumpUserStore = defineStore(
       state.id = loginData.id
       state.username = username
       state.password = password
+      state.profilePicture = user.profilePicture
       state.pfpUrl = `${backendUrl}/image/${user.profilePicture}`
 
       return true
@@ -84,11 +90,55 @@ export const useGumpUserStore = defineStore(
       return data
     }
 
+    const loadUsers = async () => {
+      const data: IGumpUserData[] = await fetch(`${backendUrl}/user/search?sort=new`).then((res) =>
+        res.json()
+      )
+      data.forEach((user) => {
+        user.pfpUrl = `${backendUrl}/image/${user.profilePicture}`
+      })
+      state.users = data
+    }
+
+    const fetchUsers = async () => {
+      const data: IGumpUserData[] = await fetch(
+        `${backendUrl}/user/search?sort=new&offset=${state.users.length}`
+      ).then((res) => res.json())
+      data.forEach((user) => {
+        user.pfpUrl = `${backendUrl}/image/${user.profilePicture}`
+      })
+      state.users.push(...data)
+    }
+
+    const updateUser = async (user: IGumpUserData) => {
+      await fetch(`${backendUrl}/user/update`, {
+        method: 'PATCH',
+        body: JSON.stringify(user),
+        headers: {
+          'Content-type': 'application/json',
+          authorization: `Bearer ${state.sessionToken}`
+        }
+      })
+    }
+
+    const deleteUser = async (id: number) => {
+      await fetch(`${backendUrl}/user/delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+          authorization: `Bearer ${state.sessionToken}`
+        }
+      })
+    }
+
     return {
       ...toRefs(state),
       login,
       logout,
-      getUser
+      getUser,
+      loadUsers,
+      fetchUsers,
+      updateUser,
+      deleteUser
     }
   },
   {

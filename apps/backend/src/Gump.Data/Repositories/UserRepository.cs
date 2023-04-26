@@ -103,13 +103,28 @@ namespace Gump.Data.Repositories
 
 		public UserModel Update(UserModel user)
 		{
-			GetById(user.Id);
+			var oldUser = GetById(user.Id);
 
-			ValidateFields(user, "Id", "Username", "Password", "Email");
+			ValidateFields(user, "Id", "Username");
 
 			if (GetAll().Any(x => x.Username == user.Username && x.Id != user.Id))
 			{
 				throw new DuplicateException($"User already exists with username {user.Username}");
+			}
+
+			if (string.IsNullOrEmpty(user.Email))
+			{
+				user.Email = oldUser.Email;
+			}
+
+			if (string.IsNullOrEmpty(user.Password))
+			{
+				user.Password = oldUser.Password;
+			}
+
+			if (string.IsNullOrEmpty(user.Language))
+			{
+				user.Language = oldUser.Language;
 			}
 
 			// Check if email is valid
