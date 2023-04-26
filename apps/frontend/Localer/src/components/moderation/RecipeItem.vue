@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRecipeStore, type IBriefRecipe, type IRecipe } from '@/stores/recipeStore'
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useGumpUserStore } from '@/stores/gumpUserStore'
 import SimpleButton from './SimpleButton.vue'
 import VueSelect from 'vue-select'
@@ -15,9 +15,10 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'delete'): void
+  (e: 'update:recipe', value: IBriefRecipe): void
 }>()
 
-const imageUrl = ref(`${import.meta.env.VITE_BACKEND_URL}/image/${props.recipe.image}`)
+const imageUrl = computed(() => `${import.meta.env.VITE_BACKEND_URL}/image/${props.recipe.image}`)
 const authorName = ref('')
 const fullRecipe = ref<IRecipe>()
 const modified = reactive<IRecipe>({
@@ -52,6 +53,8 @@ const modifyButtonClick = async () => {
 
 const finalizeModify = async () => {
   await recipeStore.updateRecipe(modified)
+  const storedRecipe = recipeStore.recipes.find((r) => r.id === props.recipe.id)
+  if (storedRecipe) storedRecipe.image = modified.image
   state.value = 'default'
 }
 
