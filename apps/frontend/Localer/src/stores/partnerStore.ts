@@ -53,11 +53,8 @@ export const usePartnerStore = defineStore(
           }`
         },
         body: JSON.stringify(partner)
-      }).catch((error) => {
-        console.error(error)
-        throw error
       })
-      const data = parseInt(await response.text())
+      const data = parseInt(await response.text(), 10)
       partner.id = data
       partner.ads = []
       state.partners.unshift(partner)
