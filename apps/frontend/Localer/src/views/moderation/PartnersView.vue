@@ -2,7 +2,7 @@
 import { usePartnerStore, type IPartner } from '@/stores/partnerStore'
 import { onMounted, reactive, ref } from 'vue'
 import PartnerItem from '@/components/moderation/PartnerItem.vue'
-import SimpleButton from '../../components/moderation/SimpleButton.vue'
+import SimpleButton from '@/components/moderation/SimpleButton.vue'
 
 const partner = usePartnerStore()
 const isNew = ref(false)
@@ -24,10 +24,15 @@ onMounted(() => {
     <custom-scrollbar :auto-expand="false" h="screen" w="full" pb="25">
       <div flex="~" gap="4" mb="4">
         <h1 text="3xl" font="bold">Partners</h1>
-        <SimpleButton type="solid" color="green" text="Add" @click="isNew = !isNew" />
+        <SimpleButton type="solid" color="green" text="Add" @click="isNew = true" />
       </div>
       <div flex="~ wrap" gap="4">
-        <PartnerItem v-if="isNew" :partner="newPartner" @done="isNew = false" />
+        <PartnerItem
+          v-if="isNew"
+          :partner="newPartner"
+          @done="isNew = false"
+          @cancel="isNew = false"
+        />
         <PartnerItem
           v-for="p of partner.partners"
           :key="p.id"
