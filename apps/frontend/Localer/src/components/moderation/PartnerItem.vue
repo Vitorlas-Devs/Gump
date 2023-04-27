@@ -12,6 +12,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'done'): void
+  (e: 'cancel'): void
   (e: 'delete'): void
 }>()
 
@@ -135,7 +136,7 @@ onMounted(() => {
           color="crimson-500"
           text="Cancel"
           ml="4"
-          @click="state = 'default'"
+          @click="state === 'new' ? emit('cancel') : (state = 'default')"
         />
         <SimpleButton
           type="solid"
