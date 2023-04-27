@@ -110,7 +110,7 @@ const deleteButtonClick = async () => {
         <SimpleButton
           type="solid"
           color="orange-500"
-          text="Modify"
+          text="Done"
           ml="4"
           @click="finalizeModify()"
         />
