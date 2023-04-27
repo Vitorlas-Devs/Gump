@@ -1,25 +1,24 @@
 import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
 
-export interface IPartner {
+export interface IAdvert {
   id: number
-  name: string
-  contactUrl: string
-  apiUrl: string
-  ads: number[]
+  partner: number
+  title: string
+  image: number
 }
 
-export const usePartnerStore = defineStore(
-  'partner',
+export const useAdvertStore = defineStore(
+  'advert',
   () => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
     const state = reactive({
-      partners: [] as IPartner[]
+      adverts: [] as IAdvert[]
     })
 
-    const fetchAllPartners = async () => {
-      const response = await fetch(`${backendUrl}/partner`, {
+    const fetchAllAdverts = async () => {
+      const response = await fetch(`${backendUrl}/advert`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -30,20 +29,20 @@ export const usePartnerStore = defineStore(
       })
       const data = await response.json()
 
-      data.sort((a: IPartner, b: IPartner) => {
-        if ((<string>a.name).toLowerCase() < (<string>b.name).toLowerCase()) {
+      data.sort((a: IAdvert, b: IAdvert) => {
+        if ((<string>a.title).toLowerCase() < (<string>b.title).toLowerCase()) {
           return -1
         }
-        if ((<string>a.name).toLowerCase() > (<string>b.name).toLowerCase()) {
+        if ((<string>a.title).toLowerCase() > (<string>b.title).toLowerCase()) {
           return 1
         }
         return 0
       })
 
-      state.partners = data
+      state.adverts = data
     }
 
-    const insertPartner = async (partner: IPartner): Promise<IPartner> => {
+    const insertAdvert = async (partner: IAdvert): Promise<IAdvert> => {
       const response = await fetch(`${backendUrl}/partner/create`, {
         method: 'POST',
         headers: {
@@ -56,12 +55,11 @@ export const usePartnerStore = defineStore(
       })
       const data = parseInt(await response.text(), 10)
       partner.id = data
-      partner.ads = []
-      state.partners.unshift(partner)
+      state.adverts.unshift(partner)
       return partner
     }
 
-    const updatePartner = async (partner: IPartner) => {
+    const updateAdvert = async (partner: IAdvert) => {
       await fetch(`${backendUrl}/partner/update`, {
         method: 'PATCH',
         headers: {
@@ -74,7 +72,7 @@ export const usePartnerStore = defineStore(
       })
     }
 
-    const deletePartner = async (id: number) => {
+    const deleteAdvert = async (id: number) => {
       await fetch(`${backendUrl}/partner/delete/${id}`, {
         method: 'DELETE',
         headers: {
@@ -87,10 +85,10 @@ export const usePartnerStore = defineStore(
 
     return {
       ...toRefs(state),
-      fetchAllPartners,
-      insertPartner,
-      updatePartner,
-      deletePartner
+      fetchAllAdverts,
+      insertAdvert,
+      updateAdvert,
+      deleteAdvert
     }
   },
   {
