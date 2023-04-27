@@ -22,14 +22,20 @@ onMounted(() => {
 <template>
   <main flex="~ col" w="full" h="full" p="2 md:6" pl="4 md:10" mt="2" mr="-5">
     <custom-scrollbar :auto-expand="false" h="screen" w="full" pb="25">
-      <div flex="~" gap="4">
-        <h1 text="3xl" mb="4" font="bold">Partners</h1>
-        <SimpleButton type="solid" color="green" text="Add" h="10" @click="isNew = !isNew" />
+      <div flex="~" gap="4" mb="4">
+        <h1 text="3xl" font="bold">Partners</h1>
+        <SimpleButton type="solid" color="green" text="Add" @click="isNew = !isNew" />
       </div>
       <div flex="~ wrap" gap="4">
-        <PartnerItem v-if="isNew" :partner="newPartner" />
-        <PartnerItem v-for="p of partner.partners" :key="p.id" :partner="p" />
+        <PartnerItem v-if="isNew" :partner="newPartner" @done="isNew = false" />
+        <PartnerItem
+          v-for="p of partner.partners"
+          :key="p.id"
+          :partner="p"
+          @delete="partner.partners = partner.partners.filter((x) => x.id !== p.id)"
+        />
       </div>
     </custom-scrollbar>
+    <div bg="green" display="none" />
   </main>
 </template>

@@ -11,6 +11,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
+  (e: 'done'): void
   (e: 'delete'): void
 }>()
 
@@ -37,13 +38,19 @@ const finalizeModify = async () => {
   state.value = 'default'
 }
 
+const insert = async () => {
+  emit('done')
+  await partnerStore.insertPartner(modified)
+  state.value = 'default'
+}
+
 const deleteButtonClick = async () => {
-  //   await partnerStore.deletePartner(props.partner.id)
+  await partnerStore.deletePartner(props.partner.id)
   emit('delete')
 }
 
 onMounted(() => {
-  if (props.partner.id === 0) state.value = 'modify'
+  if (props.partner.id === 0) state.value = 'new'
 })
 </script>
 
@@ -66,7 +73,7 @@ onMounted(() => {
       </div>
     </div>
     <div
-      v-if="state === 'modify'"
+      v-if="state === 'modify' || state === 'new'"
       flex="~ col"
       p="4"
       w="120"
@@ -135,7 +142,7 @@ onMounted(() => {
           color="orange-500"
           text="Done"
           ml="4"
-          @click="finalizeModify()"
+          @click="state === 'new' ? insert() : finalizeModify()"
         />
       </div>
     </div>

@@ -43,6 +43,27 @@ export const usePartnerStore = defineStore(
       state.partners = data
     }
 
+    const insertPartner = async (partner: IPartner): Promise<IPartner> => {
+      const response = await fetch(`${backendUrl}/partner/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${
+            JSON.parse(localStorage.getItem('gumpUser') ?? '')?.sessionToken
+          }`
+        },
+        body: JSON.stringify(partner)
+      }).catch((error) => {
+        console.error(error)
+        throw error
+      })
+      const data = parseInt(await response.text())
+      partner.id = data
+      partner.ads = []
+      state.partners.unshift(partner)
+      return partner
+    }
+
     const updatePartner = async (partner: IPartner) => {
       await fetch(`${backendUrl}/partner/update`, {
         method: 'PATCH',
@@ -56,10 +77,23 @@ export const usePartnerStore = defineStore(
       })
     }
 
+    const deletePartner = async (id: number) => {
+      await fetch(`${backendUrl}/partner/delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+          authorization: `Bearer ${
+            JSON.parse(localStorage.getItem('gumpUser') ?? '')?.sessionToken
+          }`
+        }
+      })
+    }
+
     return {
       ...toRefs(state),
       fetchAllPartners,
-      updatePartner
+      insertPartner,
+      updatePartner,
+      deletePartner
     }
   },
   {
