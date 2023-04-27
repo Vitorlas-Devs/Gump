@@ -29,10 +29,10 @@ onMounted(() => {
         absolute bottom-10 left-0 right-0 m-auto h-max items-center justify-evenly rounded-full bg-crimson-50 py-4 text-2xl font-bold
       >
         <RouterLink :to="localePath('/login')" text-crimson-500 decoration-none text-shadow-crimson>
-          Sign in
+          {{ $t('WelcomeSignIn') }}
         </RouterLink>
         <RouterLink :to="localePath('/register')" border-3 border-crimson-500 rounded-full border-solid px-3 py-2 text-crimson-500 decoration-none text-shadow-crimson>
-          Register
+          {{ $t('WelcomeSignUp') }}
         </RouterLink>
       </div>
     </div>
