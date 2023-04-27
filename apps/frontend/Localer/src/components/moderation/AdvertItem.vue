@@ -4,7 +4,6 @@ import { useAdvertStore, type IAdvert } from '@/stores/advertStore'
 import { usePartnerStore } from '@/stores/partnerStore'
 import SimpleButton from './SimpleButton.vue'
 import { useFileDialog } from '@vueuse/core'
-import { type } from 'os'
 
 const advertStore = useAdvertStore()
 const partnerStore = usePartnerStore()
@@ -17,8 +16,22 @@ onChange((files: any) => {
 
   const reader = new FileReader()
   reader.readAsDataURL(files[0])
-  reader.onload = () => {
-    console.log('WIP...')
+
+  reader.onload = async () => {
+    const base64 = reader.result as string
+
+    const data = await fetch(`${import.meta.env.VITE_BACKEND_URL}/image`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('gumpUser') ?? '')?.sessionToken}`
+      },
+      body: JSON.stringify({
+        image: base64
+      })
+    }).then((res) => res.text())
+
+    modified.image = parseInt(data, 10)
   }
 })
 
@@ -52,7 +65,10 @@ const modifyButtonClick = async () => {
 const finalizeModify = async () => {
   await advertStore.updateAdvert(modified)
   const storedAdvert = advertStore.adverts.find((p) => p.id === props.advert.id)
-  if (storedAdvert) storedAdvert.title = modified.title
+  if (storedAdvert) {
+    storedAdvert.title = modified.title
+    storedAdvert.image = modified.image
+  }
   state.value = 'default'
 }
 
@@ -126,12 +142,7 @@ onMounted(() => {
             type="text"
             color="crimson-500"
             text="Select"
-            @click="
-              open({
-                multiple: false,
-                accept: 'image/png'
-              })
-            "
+            @click="open({ multiple: false, accept: 'image/png' })"
           />
         </div>
       </div>
@@ -164,6 +175,7 @@ onMounted(() => {
             shadow="inner"
             rounded="8px"
             p="2"
+            :disabled="state === 'modify'"
           />
         </div>
       </div>

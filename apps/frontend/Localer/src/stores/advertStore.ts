@@ -42,8 +42,8 @@ export const useAdvertStore = defineStore(
       state.adverts = data
     }
 
-    const insertAdvert = async (partner: IAdvert): Promise<IAdvert> => {
-      const response = await fetch(`${backendUrl}/partner/create`, {
+    const insertAdvert = async (advert: IAdvert): Promise<IAdvert> => {
+      const response = await fetch(`${backendUrl}/advert/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,16 +51,16 @@ export const useAdvertStore = defineStore(
             JSON.parse(localStorage.getItem('gumpUser') ?? '')?.sessionToken
           }`
         },
-        body: JSON.stringify(partner)
+        body: JSON.stringify(advert)
       })
       const data = parseInt(await response.text(), 10)
-      partner.id = data
-      state.adverts.unshift(partner)
-      return partner
+      advert.id = data
+      state.adverts.unshift(advert)
+      return advert
     }
 
-    const updateAdvert = async (partner: IAdvert) => {
-      await fetch(`${backendUrl}/partner/update`, {
+    const updateAdvert = async (advert: IAdvert) => {
+      await fetch(`${backendUrl}/advert/update`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -68,12 +68,12 @@ export const useAdvertStore = defineStore(
             JSON.parse(localStorage.getItem('gumpUser') ?? '')?.sessionToken
           }`
         },
-        body: JSON.stringify(partner)
+        body: JSON.stringify(advert)
       })
     }
 
     const deleteAdvert = async (id: number) => {
-      await fetch(`${backendUrl}/partner/delete/${id}`, {
+      await fetch(`${backendUrl}/advert/delete/${id}`, {
         method: 'DELETE',
         headers: {
           authorization: `Bearer ${
