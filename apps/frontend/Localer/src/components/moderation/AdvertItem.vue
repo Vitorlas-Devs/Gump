@@ -3,10 +3,24 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { useAdvertStore, type IAdvert } from '@/stores/advertStore'
 import { usePartnerStore } from '@/stores/partnerStore'
 import SimpleButton from './SimpleButton.vue'
+import { useFileDialog } from '@vueuse/core'
+import { type } from 'os'
 
 const advertStore = useAdvertStore()
 const partnerStore = usePartnerStore()
 const state = ref('default')
+
+const { open, onChange } = useFileDialog()
+
+onChange((files: any) => {
+  if (files[0].type !== 'image/png') return
+
+  const reader = new FileReader()
+  reader.readAsDataURL(files[0])
+  reader.onload = () => {
+    console.log('WIP...')
+  }
+})
 
 const props = defineProps<{
   advert: IAdvert
@@ -96,7 +110,7 @@ onMounted(() => {
         <div w="30" align="right">
           <label for="modifyImage" text="20px">Image</label>
         </div>
-        <div flex="~" w="78">
+        <div flex="~" w="78" gap="4">
           <input
             id="modifyImage"
             v-model="modified.image"
@@ -107,12 +121,17 @@ onMounted(() => {
             p="2"
             disabled
           />
+          <input ref="file" type="file" style="display: none" />
           <SimpleButton
             type="text"
             color="crimson-500"
-            text="Delete"
-            ml="4"
-            @click="modified.image = 1"
+            text="Select"
+            @click="
+              open({
+                multiple: false,
+                accept: 'image/png'
+              })
+            "
           />
         </div>
       </div>
@@ -134,13 +153,13 @@ onMounted(() => {
       </div>
       <div flex="~" justify="between" items="center">
         <div w="30" align="right">
-          <label for="modifyTitle" text="20px">Title</label>
+          <label for="modifyPartner" text="20px">Partner</label>
         </div>
         <div flex="~" w="78">
           <input
-            id="modifyTitle"
-            v-model="modified.title"
-            type="text"
+            id="modifyPartner"
+            v-model="modified.partner"
+            type="number"
             w="full"
             shadow="inner"
             rounded="8px"
