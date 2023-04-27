@@ -5,6 +5,15 @@ export interface IIngredient {
   linkedRecipe: number
 }
 
+export type IngredientCreate = Pick<IIngredient, 'name' | 'value' | 'volume'>
+
+export const ingredientEmpty = {
+  name: '',
+  value: 0,
+  volume: '',
+  linkedRecipe: 0,
+}
+
 export interface IRecipe {
   id: number
   title: string
@@ -37,7 +46,7 @@ export const recipeEmpty = {
   serves: 0,
   categories: [],
   tags: [],
-  ingredients: [],
+  ingredients: [ingredientEmpty],
   steps: [],
   viewCount: 0,
   saveCount: 0,

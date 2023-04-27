@@ -1,21 +1,21 @@
 <script setup lang="ts">
+import { useUIStore } from '~/stores/ui'
 
+const ui = useUIStore()
+
+function addItem() {
+  ui.addEmptyIngredient()
+}
 </script>
 
 <template>
   <ion-page bg-crimson-50>
     <CreateHeader />
-    <div grow>
-      <h1 text-crimson-500 text-shadow-crimson>
-        {{ $t('CreateNav') }}
-      </h1>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil voluptatum similique explicabo suscipit eum alias doloremque quidem iure corrupti pariatur. Explicabo neque assumenda ipsa, error accusamus vel recusandae aliquid doloremque.
-      <br>
-      <div mt-5 class="orangeGradient">
-        <div class="i-fa6-solid-box-tissue" />
-      </div>
-      <InfoView />
+    <CreateSubHeader variant="ingredients" />
+    <div h-50vh grow overflow-y-auto>
+      <IngredientsView :is-edting="true" />
     </div>
+    <MainButton color="crimson" :title="$t('CreateItemButton')" @click="addItem" />
     <TheNavbar />
   </ion-page>
 </template>
