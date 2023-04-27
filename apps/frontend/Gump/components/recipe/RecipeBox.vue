@@ -19,7 +19,7 @@ const isSaved = ref(false)
   <div flex="~ col" shadow-orangeBox m-4 h-262px rounded-2xl bg-orange-50>
     <img
       :src="`https://api.gump.live/image/${imgId + 3}`"
-      h="367/593" w-full self-center rounded-t-2xl object-fill
+      h="367/593" w-full self-center rounded-t-2xl object-cover
     >
     <div flex="~ col" shadow-orangeImage px-1 text-center text-shadow>
       <p my-1 truncate text-xl>
