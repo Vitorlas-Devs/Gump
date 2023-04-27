@@ -5,6 +5,8 @@ import AdvertItem from '@/components/moderation/AdvertItem.vue'
 import SimpleButton from '@/components/moderation/SimpleButton.vue'
 
 const advert = useAdvertStore()
+
+const partnerId = ref('')
 const isNew = ref(false)
 const newAdvert = reactive<IAdvert>({
   id: 0,
@@ -24,6 +26,16 @@ onMounted(() => {
       <div flex="~" gap="4" mb="4">
         <h1 text="3xl" font="bold">Adverts</h1>
         <SimpleButton type="solid" color="green" text="Add" @click="isNew = true" />
+        <input
+          id="modifyImage"
+          v-model="partnerId"
+          placeholder="Filter by partner"
+          type="number"
+          w="50"
+          shadow="inner"
+          rounded="8px"
+          p="2"
+        />
       </div>
       <div flex="~ wrap" gap="4">
         <AdvertItem
@@ -33,7 +45,9 @@ onMounted(() => {
           @cancel="isNew = false"
         />
         <AdvertItem
-          v-for="p of advert.adverts"
+          v-for="p of advert.adverts.filter(
+            (x) => partnerId === '' || x.partner.toString() == partnerId
+          )"
           :key="p.id"
           :advert="p"
           @delete="advert.adverts = advert.adverts.filter((x) => x.id !== p.id)"
