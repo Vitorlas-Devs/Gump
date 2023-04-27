@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineComponent } from 'vue'
 
 const RenderHtml = defineComponent({

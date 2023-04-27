@@ -46,7 +46,7 @@ watch(
         element.innerHTML = colorSpecialCharacters(data)
         fetchCount++
       }
-      resize({ target: element } as Event)
+      resize({ target: element } as unknown as Event)
     })
     if (fetchCount === locales.value.length) {
       updateIsFromFetch.value = false
@@ -62,7 +62,7 @@ onMounted(() => {
     router.push({ name: 'not-found' })
   }
   locales.value.forEach((locale) => {
-    resize({ target: document.getElementById(locale) } as Event)
+    resize({ target: document.getElementById(locale) } as unknown as Event)
   })
 })
 
