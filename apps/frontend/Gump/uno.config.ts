@@ -65,6 +65,7 @@ export default defineConfig({
       crimsonUp: '0px -6px 15px -5px rgba(209, 44, 95, 0.3)',
       blue: '0px 8px 10px -4px rgba(8, 66, 160, 0.5)',
       inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)',
+      innerCrimson: 'inset 0px 2px 12px -4px rgb(209, 44, 95)',
       grey: '0px 2px 6px rgba(0, 0, 0, 0.5)',
     },
   },

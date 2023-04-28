@@ -5,6 +5,8 @@ node_modules
 .cache
 .output
 .env
+.env.production
+.env.development
 dist
 .DS_Store
 package-lock.json
