@@ -202,11 +202,6 @@ namespace Gump.Data.Repositories
 				Update(following);
 			}
 
-			if (user.ProfilePictureId != 1)
-			{
-				ImageRepository.Delete(user.ProfilePictureId);
-			}
-
 			// Delete Likes list in RecipeRepository what the user liked
 			foreach (var recipeId in user.Likes)
 			{

@@ -267,12 +267,6 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 			throw new RestrictedException("Recipe can only be archived, because it has saves");
 		}
 
-		if (recipe.ImageId != 1)
-		{
-			var image = ImageRepository.GetById(recipe.ImageId);
-			ImageRepository.Delete(image.Id);
-		}
-
 		try
 		{
 			Collection.DeleteOne(x => x.Id == id);
