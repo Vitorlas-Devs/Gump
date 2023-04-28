@@ -15,7 +15,7 @@ function addItem() {
     <div h-50vh grow overflow-y-auto>
       <IngredientsView :is-edting="true" />
     </div>
-    <MainButton color="crimson" :title="$t('CreateItemButton')" @click="addItem" />
+    <MainButton fixed color="crimson" :title="$t('CreateItemButton')" @click="addItem" />
     <TheNavbar />
   </ion-page>
 </template>

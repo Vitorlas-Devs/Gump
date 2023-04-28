@@ -8,7 +8,7 @@ const canLogin = ref(false)
 
 onMounted(() => {
   if (user.token)
-    navigateTo('/home')
+    navigateTo(localePath('/home'))
   else
     canLogin.value = true
 })

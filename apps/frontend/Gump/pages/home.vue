@@ -24,7 +24,7 @@ const ui = useUIStore()
         :options="ui.currentRecipe.tags"
         mode="tags"
       />
-      <MainButton color="orange" icon-type="create" title="Create recipe" />
+      <MainButton fixed color="orange" icon-type="create" title="Create recipe" />
     </div>
     <TheNavbar />
   </ion-page>
