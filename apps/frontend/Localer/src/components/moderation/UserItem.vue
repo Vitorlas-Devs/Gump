@@ -43,7 +43,7 @@ const finalizeModify = async () => {
 }
 
 const deleteButtonClick = async () => {
-  await userStore.deleteUser(userStore.id)
+  await userStore.deleteUser(props.user.id)
   emit('delete')
 }
 </script>
