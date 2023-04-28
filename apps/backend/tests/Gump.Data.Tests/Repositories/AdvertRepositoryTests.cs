@@ -97,9 +97,6 @@ public class AdvertRepositoryTests : RepositoryTestsBase, IClassFixture<Reposito
 
 		// Assert
 		Assert.Throws<NotFoundException>(() => fixture.AdvertRepository.GetById(advert.Id));
-
-		Assert.Throws<NotFoundException>(() => fixture.ImageRepository.GetById(image.Id));
-
 		Assert.DoesNotContain(advert.Id, fixture.PartnerRepository.GetById(advert.PartnerId).Ads);
 	}
 

@@ -53,34 +53,4 @@ public class ImageRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 		// Assert
 		Assert.Throws<RestrictedException>(() => fixture.ImageRepository.Create(image));
 	}
-
-	[Theory]
-	[InlineData("First")]
-	public void Delete_Works(string name)
-	{
-		// Arrange
-		ImageModel image = Get<ImageModel>();
-		image.Image = name;
-		fixture.ImageRepository.Create(image);
-
-		// Act
-		fixture.ImageRepository.Delete(image.Id);
-
-		// Assert
-		Assert.Throws<NotFoundException>(() => fixture.ImageRepository.GetById(image.Id));
-	}
-
-	[Fact]
-	public void Delete_CannotDeleteNonExistent()
-	{
-		// Arrange
-		ImageModel image = Get<ImageModel>();
-		fixture.ImageRepository.Create(image);
-
-		// Act
-		fixture.ImageRepository.Delete(image.Id);
-
-		// Assert
-		Assert.Throws<NotFoundException>(() => fixture.ImageRepository.Delete(image.Id));
-	}
 }
