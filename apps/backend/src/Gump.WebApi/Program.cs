@@ -72,8 +72,8 @@ if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();
+	app.UseCors("EnableCors");
 }
-app.UseCors("EnableCors");
 
 app.UseAuthentication();
 app.UseAuthorization();
