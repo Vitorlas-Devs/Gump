@@ -7,7 +7,7 @@ const config: CapacitorConfig = {
   bundledWebRuntime: false,
   server: {
     hostname: 'gump.live',
-  }
+  },
 }
 
 export default config
