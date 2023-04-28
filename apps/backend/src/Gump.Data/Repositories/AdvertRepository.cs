@@ -87,9 +87,6 @@ public class AdvertRepository : RepositoryBase<AdvertModel>
 		partner.Ads.Remove(id);
 		PartnerRepository.Update(partner);
 
-		var image = ImageRepository.GetById(advert.ImageId);
-		ImageRepository.Delete(image.Id);
-
 		try
 		{
 			Collection.DeleteOne(x => x.Id == id);

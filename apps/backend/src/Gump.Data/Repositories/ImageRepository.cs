@@ -35,18 +35,4 @@ public class ImageRepository : RepositoryBase<ImageModel>
 
 		return image;
 	}
-
-	public void Delete(ulong id)
-	{
-		var image = GetById(id);
-
-		try
-		{
-			Collection.DeleteOne(x => x.Id == id);
-		}
-		catch (MongoException ex)
-		{
-			throw new AggregateException($"Error while deleting {nameof(image)}", ex);
-		}
-	}
 }

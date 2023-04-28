@@ -47,7 +47,7 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 	public BadgeModel Update(BadgeModel badge)
 	{
 		GetById(badge.Id);
-		
+
 		ValidateAllFields(badge);
 
 		ImageRepository.GetById(badge.ImageId);
@@ -81,9 +81,6 @@ public class BadgeRepository : RepositoryBase<BadgeModel>
 			user.Badges.Remove(id);
 			UserRepository.Update(user);
 		}
-
-		var image = ImageRepository.GetById(badge.ImageId);
-		ImageRepository.Delete(image.Id);
 
 		try
 		{
