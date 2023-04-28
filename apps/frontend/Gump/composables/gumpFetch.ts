@@ -1,16 +1,14 @@
-// import { createFetch } from '@vueuse/core'
+import { createFetch, useLocalStorage } from '@vueuse/core'
 
-// export const gumpFetch = createFetch({
-//   baseUrl: 'https://api.gump.live/api',
-//   options: {
-//     async beforeFetch({ options }) {
-//       const myToken = await getMyToken()
-//       options.headers.Authorization = `Bearer ${myToken}`
+const token = useLocalStorage('token', '')
 
-//       return { options }
-//     },
-//   },
-//   fetchOptions: {
-//     mode: 'cors',
-//   },
-// })
+export const gumpFetch = createFetch({
+  baseUrl: 'http://localhost:5135/api/',
+  fetchOptions: {
+    headers: {
+      'Authorization': `Bearer ${token.value}`,
+      'Content-Type': 'application/json',
+    },
+    mode: 'cors',
+  },
+})

@@ -70,7 +70,7 @@
   "ProfileFollowing": "Követett",
   "RecipeViewInfo": "Infó",
   "RecipeViewUseRecipe": "Recept hozzáadása",
-  "WelcomSignIn": "Bejelentkezés",
-  "WelcomSignUp": "Regisztráció",
+  "WelcomeSignIn": "Bejelentkezés",
+  "WelcomeSignUp": "Regisztráció",
   "SearchTip": "Tipp: használd a {'@'} karaktert, hogy felhasználókra keress"
 }
