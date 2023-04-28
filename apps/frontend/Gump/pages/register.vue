@@ -38,6 +38,7 @@ async function handleRegister() {
         >
       </div>
       <MainButton
+        transform-none
         :title="$t('WelcomeSignUp')"
         color="crimson"
         @click="handleRegister"

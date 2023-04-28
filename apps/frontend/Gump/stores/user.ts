@@ -6,7 +6,9 @@ interface IUserState {
   token: string
 }
 
-export type UserData = Omit<IUserState, 'token' | 'id'>
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
+
+export type UserData = Omit<Optional<IUserState, 'email'>, 'token' | 'id'>
 
 export const useUserStore = defineStore('user', () => {
   // state
@@ -39,11 +41,24 @@ export const useUserStore = defineStore('user', () => {
       return error.value
   }
 
+  const login = async (userData: UserData) => {
+    const { data, error } = await gumpFetch<{ token: string; id: number }>('auth/login', {
+      headers: {},
+      method: 'POST',
+      body: JSON.stringify(userData),
+    })
+    if (data.value)
+      state.token = data.value.token
+    if (error.value)
+      return error.value
+  }
+
   return {
     ...toRefs(state),
     getUser,
     getToken,
     register,
+    login,
   }
 },
 {

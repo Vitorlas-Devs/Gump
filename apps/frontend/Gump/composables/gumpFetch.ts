@@ -3,7 +3,7 @@ import { createFetch, useLocalStorage } from '@vueuse/core'
 const token = useLocalStorage('token', '')
 
 export const gumpFetch = createFetch({
-  baseUrl: 'http://localhost:5135/api/',
+  baseUrl: 'https://api.gump.live/',
   fetchOptions: {
     headers: {
       'Authorization': `Bearer ${token.value}`,
