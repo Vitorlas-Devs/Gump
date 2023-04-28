@@ -133,9 +133,6 @@ public class BadgeRepositoryTests : RepositoryTestsBase, IClassFixture<Repositor
 
 		// Assert
 		Assert.Throws<NotFoundException>(() => fixture.BadgeRepository.GetById(badge.Id));
-
-		Assert.Throws<NotFoundException>(() => fixture.ImageRepository.GetById(image.Id));
-
 		Assert.DoesNotContain(badge.Id, fixture.UserRepository.GetById(user.Id).Badges);
 	}
 

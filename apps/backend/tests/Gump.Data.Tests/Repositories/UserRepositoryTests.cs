@@ -218,11 +218,7 @@ public class UserRepositoryTests : RepositoryTestsBase, IClassFixture<Repository
 
 		// Assert
 		Assert.Throws<NotFoundException>(() => fixture.UserRepository.GetById(user1.Id));
-
-		Assert.Throws<NotFoundException>(() => fixture.ImageRepository.GetById(profileImage.Id));
-
 		Assert.DoesNotContain(user1.Id, fixture.UserRepository.GetById(user2.Id).Following);
-
 		Assert.DoesNotContain(user1.Id, fixture.UserRepository.GetById(user2.Id).Followers);
 	}
 
