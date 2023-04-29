@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { LocaleObject } from '@nuxtjs/i18n/dist/runtime/composables'
-import { type Tab, tabData, useUIStore } from '~/stores/ui'
+import { tabData } from '~/stores/ui'
 
 const { locales } = useI18n()
 const switchLocalePath = useSwitchLocalePath()

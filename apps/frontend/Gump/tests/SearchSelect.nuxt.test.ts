@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { type VueWrapper, mount } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
-import SearchSelect from '~/components/SearchSelect.vue'
+import SearchSelect from '~/components/search/SearchSelect.vue'
 
-interface ISearchSelectProps {
+type ISearchSelectProps = {
   model: string[]
   options: string[]
   mode: 'multiple' | 'tags'

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useUIStore } from '~/stores/ui'
-
 defineProps<{
   variant: 'ingredients' | 'steps'
 }>()

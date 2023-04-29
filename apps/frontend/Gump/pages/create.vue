@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { useUIStore } from '~/stores/ui'
-
-const ui = useUIStore()
+const recipe = useRecipeStore()
 
 function addItem() {
-  ui.addEmptyIngredient()
+  recipe.addEmptyIngredient()
 }
 </script>
 

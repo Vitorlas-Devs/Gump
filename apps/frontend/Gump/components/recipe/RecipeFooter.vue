@@ -40,13 +40,13 @@ function saveClick() {
         {{ formatNumber(viewCount) }}
       </div>
     </div>
-    <div :class="{ heartbeat: isLiking }" flex="~ row" cursor-pointer items-center @click="likeClick">
+    <div id="likeButton" :class="{ heartbeat: isLiking }" flex="~ row" cursor-pointer items-center @click="likeClick">
       <div class="crimsonIcon" :class="isLiked ? 'i-ph-heart-fill' : 'i-ph-heart-bold'" />
       <div ml-1 text-crimson-500>
         {{ formatNumber(likeCount) }}
       </div>
     </div>
-    <div :class="{ heartbeat: isSaving }" flex="~ row" cursor-pointer items-center @click="saveClick">
+    <div id="saveButton" :class="{ heartbeat: isSaving }" flex="~ row" cursor-pointer items-center @click="saveClick">
       <div shadow-blue class="blueIcon" :class="isSaved ? 'i-ph-bookmark-simple-fill' : 'i-ph-bookmark-simple-bold'" />
       <div ml-1 text-blue-500>
         {{ formatNumber(saveCount) }}

@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { type UserData, useUserStore } from '~/stores/user'
-
 const user = useUserStore()
 const localePath = useLocalePath()
 
-const userData = reactive<UserData>({
+const userDto = reactive<UserDto>({
   username: '',
   password: '',
 })
 
 async function handleLogin() {
-  const error = await user.login(userData)
+  const error = await user.login(userDto)
   if (error)
     console.log(error)
   else
@@ -26,12 +24,12 @@ async function handleLogin() {
       <h1 flex-1 text-4xl text-crimson-500 text-shadow-crimson>
         {{ $t('WelcomeSignIn') }}
       </h1>
-      <div v-for="(field, index) in Object.keys(userData)" :key="index" flex="~ col" items-center justify-center gap-2>
+      <div v-for="(field, index) in Object.keys(userDto)" :key="index" flex="~ col" items-center justify-center gap-2>
         <h2 text-2xl text-crimson-500 text-shadow-crimson>
           {{ $t(`Profile${field.charAt(0).toUpperCase() + field.slice(1)}`) }}
         </h2>
         <input
-          v-model="userData[field as keyof UserData]"
+          v-model="userDto[field as keyof UserDto]"
           :type="field === 'password' ? 'password' : 'text'"
           shadow-innerCrimson h-10 border-0 rounded-full px-3 font-normal
         >
