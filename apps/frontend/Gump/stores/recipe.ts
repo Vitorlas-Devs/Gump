@@ -28,6 +28,15 @@ export const useRecipeStore = defineStore('recipe', {
         })
       }
     },
+    addRecipe(recipeId: number) {
+      this.ingredients.push({
+        name: '',
+        value: 0,
+        volume: '',
+        linkedRecipe: recipeId,
+      })
+    },
+
   },
   persist: true,
 })
