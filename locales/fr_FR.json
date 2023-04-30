@@ -16,5 +16,11 @@
   "HomeTitleTop": "Meilleur,-e",
   "SearchTip": "Conseil: utilise {'@'} pour rechercher des utilisateurs",
   "WelcomeError5": "Le nom d'utilisateur ou le mot de passe est incorrect.",
-  "CreateTitle": "Le titre"
+  "CreateTitle": "Le titre",
+  "CreateVisibility": "Visibilité",
+  "CreateVisibilityPrivateTitle": "Privé,-e",
+  "CreateVisibilityPrivateDesc": "Seulement tu et les personnes avec qui tu la partage pouvez voir ta recette",
+  "CreateDesign": "Planification",
+  "CreateRaw": "Cru,-e",
+  "CreateItemButton": "Ajouter un item"
 }
