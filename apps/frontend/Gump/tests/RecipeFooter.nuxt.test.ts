@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { type VueWrapper, mount } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
-import RecipeFooter from '~/components/RecipeFooter.vue'
+import RecipeFooter from '~/components/recipe/RecipeFooter.vue'
 
-interface IRecipeFooterProps {
+type IRecipeFooterProps = {
   viewCount: number
   likeCount: number
   saveCount: number
@@ -57,8 +57,8 @@ describe('RecipeFooter', () => {
   })
 
   it('should emit an event when the icons are clicked', async () => {
-    const likeButton = wrapper.find('.cursor-pointer:nth-child(0)')
-    const saveButton = wrapper.find('.cursor-pointer:nth-child(1)')
+    const likeButton = wrapper.find('#likeButton')
+    const saveButton = wrapper.find('#saveButton')
 
     await likeButton.trigger('click')
     await saveButton.trigger('click')

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { tabData, useUIStore } from '~/stores/ui'
+import { tabData } from '~/stores/ui'
 
 const ui = useUIStore()
 const localePath = useLocalePath()

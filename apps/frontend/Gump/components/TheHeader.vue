@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { sorts, useUIStore } from '~/stores/ui'
+import { sorts } from '~/stores/ui'
 
 withDefaults(defineProps<{
   title: string

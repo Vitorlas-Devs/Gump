@@ -10,6 +10,10 @@ export default defineNuxtConfig({
     '@nuxtjs/ionic',
     'nuxt-vitest',
   ],
+  imports: {
+    // Auto-import these:
+    dirs: ['stores'],
+  },
   components: [
     {
       path: '~/components',

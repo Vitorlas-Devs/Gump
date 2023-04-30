@@ -1,8 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { type VueWrapper, mount } from '@vue/test-utils'
 import { createI18n } from 'vue-i18n'
-import SearchDropdown from '~/components/SearchDropdown.vue'
-import { useUIStore } from '~/stores/ui'
+import SearchDropdown from '~/components/search/SearchDropdown.vue'
 
 describe('SearchDropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof SearchDropdown>>

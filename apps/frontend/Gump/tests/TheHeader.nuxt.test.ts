@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import TheHeader from '~/components/TheHeader.vue'
-import { useUIStore } from '~/stores/ui'
 
 describe('TheHeader', () => {
   const mockStore = useUIStore()

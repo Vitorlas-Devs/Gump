@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { useUIStore } from '~/stores/ui'
-
-const ui = useUIStore()
+const { currentRecipe } = toRefs(useRecipeStore())
 </script>
 
 <template>
-  <div h-full w-full flex="~ col">
+  <div v-if="currentRecipe" h-full w-full flex="~ col">
     <div flex="~ row" items-center justify-between>
       <p my-1>
         {{ `${$t('CreateVisibility')}:` }}
       </p>
       <p my-1>
-        {{ ui.currentRecipe.isPrivate ? $t('CreateVisibilityPrivateTitle') : $t('CreateVisibilityPublicTitle') }}
+        {{ currentRecipe.isPrivate ? $t('CreateVisibilityPrivateTitle') : $t('CreateVisibilityPublicTitle') }}
       </p>
     </div>
     <div flex="~ row" justify-between>
@@ -19,7 +17,7 @@ const ui = useUIStore()
         {{ `${$t('CreateLanguage')}:` }}
       </p>
       <p my-1>
-        {{ ui.currentRecipe.language }}
+        {{ currentRecipe.language }}
       </p>
     </div>
     <div flex="~ col">
@@ -27,7 +25,7 @@ const ui = useUIStore()
         {{ `${$t('CreateCategory')}:` }}
       </p>
       <div flex="~ row" flex-wrap gap-2>
-        <p v-for="category in ui.currentRecipe.categories" :key="category" my-1>
+        <p v-for="category in currentRecipe.categories" :key="category" my-1>
           {{ category }}
         </p>
       </div>
@@ -37,7 +35,7 @@ const ui = useUIStore()
         {{ `${$t('CreateTags')}:` }}
       </p>
       <div flex="~ row" flex-wrap gap-2>
-        <p v-for="tag in ui.currentRecipe.tags" :key="tag" my-1>
+        <p v-for="tag in currentRecipe.tags" :key="tag" my-1>
           {{ `#${tag}` }}
         </p>
       </div>

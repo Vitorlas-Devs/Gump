@@ -3,7 +3,7 @@ import { type VueWrapper, mount } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
 import TextInput from '~/components/TextInput.vue'
 
-interface ITextInputProps {
+type ITextInputProps = {
   text: string
   type?: 'email' | 'password'
 }

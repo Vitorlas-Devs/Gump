@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useUIStore } from '~/stores/ui'
-
 const route = useRoute()
 const ui = useUIStore()
 
