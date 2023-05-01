@@ -6,10 +6,11 @@ defineProps<{
 const recipe = useRecipeStore()
 const ui = useUIStore()
 
-const inputs = ref<HTMLInputElement[]>([])
+const inputs = ref<HTMLElement[]>([])
 
 function handleEnter(e: Event, index: number) {
-  (e?.target as HTMLInputElement).blur()
+  (e?.target as HTMLElement).blur()
+  e.preventDefault()
   recipe.addEmptyStep(index)
   nextTick(() => {
     inputs.value[index + 1]?.focus()
@@ -17,12 +18,23 @@ function handleEnter(e: Event, index: number) {
 }
 
 function handleBackspace(e: Event, index: number) {
-  if ((e?.target as HTMLInputElement).value === '') {
+  if ((e?.target as HTMLElement).textContent === '') {
     e.preventDefault()
     recipe.removeStep(index)
     inputs.value[index - 1]?.focus()
   }
 }
+
+const specialValues = computed(() => {
+  return {
+    ...recipe.ingredients?.reduce((acc, ingredient) => {
+      acc[ingredient.name] = 'text-orange-500 font-bold'
+      acc[ingredient.volume] = 'text-crimson-500'
+      acc[ingredient.value] = 'text-crimson-500'
+      return acc
+    }, {} as Record<string, string>),
+  }
+})
 </script>
 
 <template>
@@ -30,20 +42,21 @@ function handleBackspace(e: Event, index: number) {
     <div v-if="ui.createMode === 'design'" flex="~ col" items-center justify-between gap-2 px-1>
       <div
         v-for="(step, index) in recipe.currentRecipe?.steps" :key="index"
-        flex="~ row" h-full w-full items-center justify-between rounded-2xl bg-orange-100 px-2
+        flex="~ row" h-full w-full items-center gap-1 rounded-2xl bg-orange-100 px-2
       >
         <p my-1 font-bold>
           {{ index + 1 }}.
         </p>
-        <input
+        <XInput
           v-if="recipe.currentRecipe"
           ref="inputs"
-          v-model="recipe.currentRecipe.steps[index]"
-          :readonly="!isEdting"
+          :text="recipe.currentRecipe.steps[index]"
+          :special-values="specialValues"
           h-max w-full border-0 rounded-xl p-2
+          @input="recipe.currentRecipe.steps[index] = $event"
           @keydown.enter="handleEnter($event, index)"
           @keydown.backspace="handleBackspace($event, index)"
-        >
+        />
       </div>
     </div>
   </div>

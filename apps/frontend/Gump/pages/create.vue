@@ -2,7 +2,7 @@
 const recipe = useRecipeStore()
 
 function addItem() {
-  // recipe.addEmptyIngredient()
+  recipe.addEmptyIngredient()
   recipe.addEmptyStep()
 }
 </script>
