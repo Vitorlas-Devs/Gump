@@ -36,6 +36,18 @@ export const useRecipeStore = defineStore('recipe', {
         linkedRecipe: recipeId,
       })
     },
+    async showRecipe(id: number) {
+      const { data, error } = await gumpFetch(`recipe/${id}`, {
+        headers: {},
+        method: 'GET',
+      })
+      if (data.value)
+        console.log('data', data.value)
+      if (error.value) {
+        console.log('error', error.value)
+        return error.value
+      }
+    },
 
   },
   persist: true,

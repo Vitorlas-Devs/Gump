@@ -1,32 +1,36 @@
 <script setup lang="ts">
 defineProps<{
-  title: string
-  authorId: number
-  imgId: number
+  recipe: Recipe
 }>()
 
 const image = useImageStore()
-const user = useUserStore()
 const ui = useUIStore()
-const recipe = useRecipeStore()
+const recipeStore = useRecipeStore()
 
 function addRecipe(recipeId: number) {
-  recipe.addRecipe(recipeId)
+  recipeStore.addRecipe(recipeId)
+}
+
+function viewRecipe(recipeId: number) {
+  ui.setActiveNav('Recipes')
+  navigateTo(`/recipes/${recipeId}`)
 }
 </script>
 
 <template>
-  <div flex="~" shadow-orangebox m-4 max-h-35 w-auto rounded-2xl bg-orange-50>
-    <img :src="image.getImage(imgId)" w="1/3" rounded-s-2xl object-cover>
-    <div grow self-center text-shadow>
-      <p m-3 text-xl>
-        {{ title }}
-      </p>
-      <p m-3 text-lg>
-        {{ user.username }}
-      </p>
+  <div flex="~ justify-between" shadow-orangebox m-4 max-h-35 w-auto rounded-2xl bg-orange-50>
+    <div flex="~" @click="viewRecipe(recipe.id)">
+      <img :src="image.getImage(recipe.image)" w="1/3" rounded-s-2xl object-cover>
+      <div grow self-center text-shadow>
+        <p m-3 text-xl>
+          {{ recipe.title }}
+        </p>
+        <p m-3 text-lg>
+          {{ recipe.author }}
+        </p>
+      </div>
     </div>
-    <img v-if="ui.activeNav === 'Create'" src="~assets/PlusSign.svg" m-3 @click="addRecipe(1)">
+    <img v-if="ui.activeNav === 'Create'" src="~assets/PlusSign.svg" m-3 @click="addRecipe(recipe.id)">
   </div>
 </template>
 
