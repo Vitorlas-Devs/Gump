@@ -6,6 +6,7 @@ defineProps<{
 const image = useImageStore()
 const ui = useUIStore()
 const recipeStore = useRecipeStore()
+const localePath = useLocalePath()
 
 function addRecipe(recipeId: number) {
   recipeStore.addRecipe(recipeId)
@@ -13,7 +14,7 @@ function addRecipe(recipeId: number) {
 
 function viewRecipe(recipeId: number) {
   ui.setActiveNav('Recipes')
-  navigateTo(`/recipes/${recipeId}`)
+  navigateTo(localePath(`/recipes/${recipeId}`))
 }
 </script>
 
