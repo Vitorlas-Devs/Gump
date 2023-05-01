@@ -12,5 +12,12 @@
   "HomeTitleNew": "최신",
   "HomeTitleTop": "상위",
   "SearchRecent": "최신",
-  "SearchTip": "팁: 사용자를 검색하려면 {'@'}를 사용하세요"
+  "SearchTip": "팁: 사용자를 검색하려면 {'@'}를 사용하세요",
+  "CreateTitle": "제목",
+  "CreateVisibility": "보이기",
+  "CreateVisibilityPublicTitle": "공개",
+  "CreateVisibilityPrivateTitle": "비공개",
+  "CreateLanguage": "언어",
+  "CreateDesign": "설계",
+  "CreateRaw": "원본"
 }

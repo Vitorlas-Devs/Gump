@@ -9,5 +9,14 @@
   "HomeTitleNew": "The home page's title changes between \"Hot\", \"New\" and \"Top\" according to the sorting method the user selected. New recipes go here.",
   "HomeTitleTop": "The home page's title changes between \"Hot\", \"New\" and \"Top\" according to the sorting method the user selected. \"Top\" is the place of the absolute most popular recipes.",
   "SearchRecent": "A small label that appears when you start typing in the search bar. Just shows your previous searches.",
-  "SearchTip": "Small tip to let users know about a special character to query users and not recipes. The {'@'} symbol needs to be escaped, that's why it's written like this."
+  "SearchTip": "Small tip to let users know about a special character to query users and not recipes. The {'@'} symbol needs to be escaped, that's why it's written like this.",
+  "CreateTitle": "This label is for the title of the recipe.",
+  "CreateVisibility": "Below this label users can set a recipe public or private, so control its visibility.",
+  "CreateVisibilityPublicTitle": "This label means that a recipe is publicly visible to everyone.",
+  "CreateVisibilityPublicDesc": "Small tooltip to show info about setting your recipe public",
+  "CreateVisibilityPrivateTitle": "This label means that only you can edit the recipe, and you can also control who can view it",
+  "CreateVisibilityPrivateDesc": "Small tooltip to show info about setting your recipe private",
+  "CreateLanguage": "Language literally",
+  "CreateDesign": "This mode is called \"Design\" because users can \"build\" recipes using smaller recipes",
+  "CreateRaw": "This mode is the arch-nemesis of Design, you just write your recipe into a textarea"
 }
