@@ -6,7 +6,7 @@
   "CreateLanguage": "La langue",
   "RecipesNav": "Les recettes (la)",
   "HomeTitleNew": "Nouvelles Recettes",
-  "CreateVisibilityPublicDesc": "Tout le monde peut voir ta recette, mais tu seul peux la modifier.",
+  "CreateVisibilityPublicDesc": "tout le monde peut voir ta recette, mais tu seul peux la modifier",
   "HomeNav": "Page d'accueil",
   "SearchNav": "Recherche",
   "hoarderBadgeName": "Thésauriseur de recettes",
@@ -22,5 +22,7 @@
   "CreateVisibilityPrivateDesc": "Seulement tu et les personnes avec qui tu la partage pouvez voir ta recette",
   "CreateDesign": "Planification",
   "CreateRaw": "Cru,-e",
-  "CreateItemButton": "Ajouter un item"
+  "CreateItemButton": "Ajouter un item",
+  "CreateYourRecipes": " ",
+  "WelcomeSignUp": "가입하기"
 }
