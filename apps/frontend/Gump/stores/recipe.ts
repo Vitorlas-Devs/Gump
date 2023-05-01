@@ -28,6 +28,14 @@ export const useRecipeStore = defineStore('recipe', {
         })
       }
     },
+    addRecipe(recipe: Recipe) {
+      this.ingredients.push({
+        name: recipe.title,
+        value: recipe.serves,
+        volume: 'adag',
+        linkedRecipe: recipe.id,
+      })
+    },
   },
   persist: true,
 })
