@@ -33,5 +33,16 @@
   "CreateManageAccessTitle": "접근 관리",
   "CreateManageAccessDesc": "다른 사용자들이 당신의 레시피를 볼 수 있게 하세요",
   "CreateCategory": "카테고리",
-  "CreateTags": "태그"
+  "CreateTags": "태그",
+  "CreateRecipeButton": "레시피 만들기",
+  "cookbookBadgeName": "조리법의 전체 요리 책 가치",
+  "cookbookBadgeDesc": "최소 100개 레시피를 만드세요.",
+  "explorerBadgeName": "부엌에서 길을 잃은 걸",
+  "explorerBadgeDesc": "내비게이션 바를 1000번 사용하세요.",
+  "firstBadgeName": "역사 이전에 무슨 일이 있었습니까?",
+  "firstBadgeDesc": "최초의 레시피를 찾아보세요.",
+  "lengthyBadgeName": "넥스트 페이지",
+  "lengthyBadgeDesc": "10단계 이상 레시피를 만드세요.",
+  "celebrityBadgeName": "연예인 셰프",
+  "celebrityBadgeDesc": "최소 1000개 좋아요를 받으세요."
 }

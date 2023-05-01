@@ -30,5 +30,7 @@
   "CreateManageAccessTitle": "Under this label users can add others to share their private recipes with them",
   "CreateManageAccessDesc": "Small description under \"Manage Access\", showing users who can view your private recipe. We explicitly say \"other users\" because you cannot just share recipes across platforms.",
   "CreateCategory": "The category of a recipe: soups, desserts, for lunch, etc.",
-  "CreateTags": "Tags for a recipe. There is a subtle difference between this and category, that I'm not able to comprehend. #chicken #foodiesofinstragram #sorrynotsorry"
+  "CreateTags": "Tags for a recipe. There is a subtle difference between this and category, that I'm not able to comprehend. #chicken #foodiesofinstragram #sorrynotsorry",
+  "CreateRecipeButton": "Button to press when you feel like creating a new recipe",
+  "cookbookBadgeName": "You can publish your cookbook now"
 }
