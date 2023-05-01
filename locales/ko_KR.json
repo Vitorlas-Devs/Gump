@@ -27,5 +27,11 @@
   "CreatePublicRecipes": "공개 레시피",
   "CreateSteps": "단계",
   "CreateStepsTipOrange": "주황색",
-  "CreateStepsTip": " @:CreateStepsTipOrange 아이템을 클릭하면 설명을 볼 수 있습니다"
+  "CreateStepsTip": " @:CreateStepsTipOrange 아이템을 클릭하면 설명을 볼 수 있습니다",
+  "CreateServingsTitle": "인분",
+  "CreateServingsDesc": "이 레시피는 몇 인분이 나올까요?",
+  "CreateManageAccessTitle": "접근 관리",
+  "CreateManageAccessDesc": "다른 사용자들이 당신의 레시피를 볼 수 있게 하세요",
+  "CreateCategory": "카테고리",
+  "CreateTags": "태그"
 }

@@ -24,5 +24,11 @@
   "CreateYourRecipes": "Your own recipes that you've created",
   "CreatePublicRecipes": "Other user's recipes that you can view because they are public",
   "CreateSteps": "Steps or instructions for a recipe",
-  "CreateStepsTipOrange": "This text will be included in this sentence: Click on the \"orange\" items to see their instructions"
+  "CreateStepsTipOrange": "This text will be included in this sentence: Click on the \"orange\" items to see their instructions",
+  "CreateServingsTitle": "Portion for a recipe",
+  "CreateServingsDesc": "This means “How many servings will this recipe yield?” or “How many people can this recipe feed?”",
+  "CreateManageAccessTitle": "Under this label users can add others to share their private recipes with them",
+  "CreateManageAccessDesc": "Small description under \"Manage Access\", showing users who can view your private recipe. We explicitly say \"other users\" because you cannot just share recipes across platforms.",
+  "CreateCategory": "The category of a recipe: soups, desserts, for lunch, etc.",
+  "CreateTags": "Tags for a recipe. There is a subtle difference between this and category, that I'm not able to comprehend. #chicken #foodiesofinstragram #sorrynotsorry"
 }
