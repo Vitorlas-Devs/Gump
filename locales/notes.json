@@ -32,5 +32,18 @@
   "CreateCategory": "The category of a recipe: soups, desserts, for lunch, etc.",
   "CreateTags": "Tags for a recipe. There is a subtle difference between this and category, that I'm not able to comprehend. #chicken #foodiesofinstragram #sorrynotsorry",
   "CreateRecipeButton": "Button to press when you feel like creating a new recipe",
-  "cookbookBadgeName": "You can publish your cookbook now"
+  "cookbookBadgeName": "You can publish your cookbook now",
+  "RecipesOthersTitle": "This is page displays a users recipes. All of them",
+  "RecipesYourTitle": "This page displays your recipes, the recipes you liked, and the recipes you saved",
+  "RecipesSortOwned": "Recipes that you've created yourself",
+  "RecipesSortLiked": "Recipes that you liked",
+  "RecipesSortSaved": "Recipes that you saved (bookmark)",
+  "ProfileModerator": "Moderators can edit or delete a recipe if they find it spammy, offensive, or harmful to the community.",
+  "ProfileUsername": "A user's name 🤷‍♂️",
+  "ProfileLanguage": "Label for the language selector. Language for the app, UI language, Display language.",
+  "ProfileBadges": "Label for the badges you've been translating all day .-.",
+  "ProfileFollowers": "Users that follow you. The word for \"Follower\" should not be too strong and religious for the context of social media.",
+  "ProfileFollowing": "Users you follow",
+  "RecipeViewInfo": "Some basic stuff about a recipe",
+  "RecipeViewUseRecipe": "This button is displayed on a recipe's page. You can click on it to use it in your own recipe."
 }
