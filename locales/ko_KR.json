@@ -7,5 +7,10 @@
   "AppError": "예기치 못한 오류가 발생했습니다.",
   "CreateNav": "창조",
   "RecipesNav": "레시피",
-  "ProfileNav": "프로필"
+  "ProfileNav": "프로필",
+  "HomeTitleHot": "인기",
+  "HomeTitleNew": "최신",
+  "HomeTitleTop": "상위",
+  "SearchRecent": "최신",
+  "SearchTip": "팁: 사용자를 검색하려면 {'@'}를 사용하세요"
 }
