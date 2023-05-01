@@ -45,5 +45,8 @@
   "ProfileFollowers": "Users that follow you. The word for \"Follower\" should not be too strong and religious for the context of social media.",
   "ProfileFollowing": "Users you follow",
   "RecipeViewInfo": "Some basic stuff about a recipe",
-  "RecipeViewUseRecipe": "This button is displayed on a recipe's page. You can click on it to use it in your own recipe."
+  "RecipeViewUseRecipe": "This button is displayed on a recipe's page. You can click on it to use it in your own recipe.",
+  "WelcomeSignIn": "Log in, you have an account",
+  "WelcomeSignUp": "Register, you don't have an account yet",
+  "WelcomeError1": "o.0"
 }

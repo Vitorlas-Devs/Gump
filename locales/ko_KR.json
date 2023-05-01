@@ -62,5 +62,8 @@
   "ProfileFollowers": "팔로워",
   "ProfileFollowing": "팔로잉",
   "RecipeViewInfo": "정보",
-  "RecipeViewUseRecipe": "이 레시피를 사용해보자"
+  "RecipeViewUseRecipe": "이 레시피를 사용해보자",
+  "WelcomeSignIn": "로그인 하기",
+  "WelcomeError1": "오류",
+  "WelcomeError5": "잘못된 사용자 이름 또는 비밀번호입니다."
 }
