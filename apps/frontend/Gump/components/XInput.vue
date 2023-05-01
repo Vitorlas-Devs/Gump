@@ -3,11 +3,21 @@ const props = defineProps<{
   text: string
   // 1. what text to replace, 2. what class to add
   specialValues: Record<string, string>
+  // the special value keys to track
+  track?: string | string[]
   readonly?: boolean
 }>()
 
-const emit = defineEmits(['input'])
+const emit = defineEmits<{
+  (event: 'input', value: string): void
+  (event: 'trackedKeys', keys: string[]): void
+}>()
+
 const inputElement = ref<HTMLDivElement | null>(null)
+const trackedKeys = ref<string[]>([]) // this holds the keys that are found
+const track = computed(() =>
+  Array.isArray(props.track) ? props.track : [props.track],
+)
 
 function ColorSpecialValues() {
   const specialValues = props.specialValues
@@ -15,6 +25,11 @@ function ColorSpecialValues() {
   const keys = Object.keys(specialValues).sort((a, b) => b.length - a.length)
   const regex = new RegExp(keys.join('|'), 'g')
   return text.replace(regex, (match) => {
+    // if (track.value && track.value.includes(match) && !trackedKeys.value.includes(match)) {
+    //   trackedKeys.value.push(match)
+    //   emit('trackedKeys', trackedKeys.value)
+    //   console.log('trackedKeys.value', trackedKeys.value)
+    // }
     if (specialValues[match])
       return `<span class="${specialValues[match]}">${match}</span>`
     else

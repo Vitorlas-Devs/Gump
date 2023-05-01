@@ -35,6 +35,8 @@ const specialValues = computed(() => {
     }, {} as Record<string, string>),
   }
 })
+
+const trackedKeys = ref<string[]>([])
 </script>
 
 <template>
@@ -50,14 +52,17 @@ const specialValues = computed(() => {
         <XInput
           v-if="recipe.currentRecipe"
           ref="inputs"
+          :track="recipe.ingredients?.map(ingredient => ingredient.name)"
           :text="recipe.currentRecipe.steps[index]"
           :special-values="specialValues"
           h-max w-full border-0 rounded-xl p-2
           @input="recipe.currentRecipe.steps[index] = $event"
+          @tracked-keys="trackedKeys = $event"
           @keydown.enter="handleEnter($event, index)"
           @keydown.backspace="handleBackspace($event, index)"
         />
       </div>
+      {{ trackedKeys }}
     </div>
   </div>
 </template>
