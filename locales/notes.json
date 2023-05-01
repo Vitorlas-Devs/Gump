@@ -18,5 +18,11 @@
   "CreateVisibilityPrivateDesc": "Small tooltip to show info about setting your recipe private",
   "CreateLanguage": "Language literally",
   "CreateDesign": "This mode is called \"Design\" because users can \"build\" recipes using smaller recipes",
-  "CreateRaw": "This mode is the arch-nemesis of Design, you just write your recipe into a textarea"
+  "CreateRaw": "This mode is the arch-nemesis of Design, you just write your recipe into a textarea",
+  "CreateItemButton": "This button adds a new ingredient or step to a recipe, so it has a generic name \"item\"",
+  "CreateIngredients": "A recipe's ingredients",
+  "CreateYourRecipes": "Your own recipes that you've created",
+  "CreatePublicRecipes": "Other user's recipes that you can view because they are public",
+  "CreateSteps": "Steps or instructions for a recipe",
+  "CreateStepsTipOrange": "This text will be included in this sentence: Click on the \"orange\" items to see their instructions"
 }

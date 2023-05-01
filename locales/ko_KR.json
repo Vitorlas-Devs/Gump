@@ -19,5 +19,13 @@
   "CreateVisibilityPrivateTitle": "비공개",
   "CreateLanguage": "언어",
   "CreateDesign": "설계",
-  "CreateRaw": "원본"
+  "CreateRaw": "원본",
+  "CreateItemButton": "아이템 추가",
+  "CreateIngredients": "재료",
+  "CreateIngredientsTip": "새 아이템을 추가하려면 입력을 시작하세요",
+  "CreateYourRecipes": "사용자의 레시피",
+  "CreatePublicRecipes": "공개 레시피",
+  "CreateSteps": "단계",
+  "CreateStepsTipOrange": "주황색",
+  "CreateStepsTip": " @:CreateStepsTipOrange 아이템을 클릭하면 설명을 볼 수 있습니다"
 }

@@ -22,5 +22,6 @@
   "CreateVisibilityPrivateDesc": "Seulement tu et les personnes avec qui tu la partage pouvez voir ta recette",
   "CreateDesign": "Planification",
   "CreateRaw": "Cru,-e",
-  "CreateItemButton": "Ajouter un item"
+  "CreateItemButton": "Ajouter un item",
+  "CreateYourRecipes": " "
 }
