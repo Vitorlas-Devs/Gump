@@ -32,7 +32,7 @@
     "nuxt-vitest": "^0.6.10"
   },
   "dependencies": {
-    "@capacitor/android": "4.7.3",
+    "@capacitor/android": "4.8.0",
     "@capacitor/app": "4.1.1",
     "@capacitor/core": "4.7.3",
     "@capacitor/haptics": "4.1.0",
