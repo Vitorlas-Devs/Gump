@@ -28,27 +28,14 @@ export const useRecipeStore = defineStore('recipe', {
         })
       }
     },
-    addRecipe(recipeId: number) {
+    addRecipe(recipe: Recipe) {
       this.ingredients.push({
-        name: '',
+        name: recipe.title,
         value: 0,
         volume: '',
-        linkedRecipe: recipeId,
+        linkedRecipe: recipe.id,
       })
     },
-    async showRecipe(id: number) {
-      const { data, error } = await gumpFetch(`recipe/${id}`, {
-        headers: {},
-        method: 'GET',
-      })
-      if (data.value)
-        console.log('data', data.value)
-      if (error.value) {
-        console.log('error', error.value)
-        return error.value
-      }
-    },
-
   },
   persist: true,
 })

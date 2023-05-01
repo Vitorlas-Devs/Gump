@@ -8,8 +8,8 @@ const ui = useUIStore()
 const recipeStore = useRecipeStore()
 const localePath = useLocalePath()
 
-function addRecipe(recipeId: number) {
-  recipeStore.addRecipe(recipeId)
+function addRecipe(recipe: Recipe) {
+  recipeStore.addRecipe(recipe)
 }
 
 function viewRecipe(recipeId: number) {
@@ -31,8 +31,6 @@ function viewRecipe(recipeId: number) {
         </p>
       </div>
     </div>
-    <img v-if="ui.activeNav === 'Create'" src="~assets/PlusSign.svg" m-3 @click="addRecipe(recipe.id)">
+    <img v-if="ui.activeNav === 'Create'" src="~assets/PlusSign.svg" m-3 @click="addRecipe(recipe)">
   </div>
 </template>
-
-<style scoped></style>
