@@ -102,7 +102,7 @@ function render() {
       contenteditable: !props.readonly,
       ref: inputElement,
       // class: 'h-max w-100 shadow-inner bg-crimson-50 rounded-3xl p-3 min-h-12 overflow-hidden',
-      style: 'white-space: -moz-pre-space',
+      style: 'white-space: -moz-pre-space; white-space: pre-wrap;',
       onInput: handleInput,
     },
   )
