@@ -5,6 +5,8 @@ export const useUserStore = defineStore('user', {
     password: '',
     email: '',
     token: '',
+    likes: [] as number[],
+    recipes: [] as number[],
   }),
   getters: {},
   actions: {
@@ -26,6 +28,29 @@ export const useUserStore = defineStore('user', {
       })
       if (data.value)
         this.token = data.value.token
+      if (error.value)
+        return error.value
+    },
+    async getAuthorNameById(id: number) {
+      const { data, error } = await gumpFetch<User>(`user/${id}`, {
+        headers: {},
+        method: 'GET',
+      }).json()
+      if (data.value)
+        return data.value.username
+      if (error.value)
+        return error.value
+    },
+    async getUserData() {
+      const { data, error } = await gumpFetch<User>('user/me', {
+        method: 'GET',
+      }).json()
+      if (data.value) {
+        this.username = data.value.username
+        this.email = data.value.email
+        this.likes = data.value.likes
+        this.recipes = data.value.recipes
+      }
       if (error.value)
         return error.value
     },

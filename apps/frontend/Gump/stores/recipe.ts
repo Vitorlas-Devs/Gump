@@ -10,7 +10,16 @@ export const useRecipeStore = defineStore('recipe', {
     },
   },
   actions: {
-    async getRecipes() {},
+    async getRecipes(searchTerm: string) {
+      const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?sort=${searchTerm}`, {
+        headers: {},
+        method: 'GET',
+      }).json()
+      if (data.value)
+        this.recipes = data.value
+      if (error.value)
+        return error.value
+    },
     addEmptyIngredient() {
       this.ingredients.push({
         name: '',
@@ -35,6 +44,37 @@ export const useRecipeStore = defineStore('recipe', {
         volume: 'adag',
         linkedRecipe: recipe.id,
       })
+    },
+    async likeRecipe(recipeId: number) {
+      const { data, error } = await gumpFetch(`recipe/like/${recipeId}`, {
+        method: 'PATCH',
+      })
+      if (data.value)
+        return data.value
+
+      if (error.value)
+        return error.value
+    },
+    async saveRecipe(recipeId: number) {
+      const { data, error } = await gumpFetch(`recipe/save/${recipeId}`, {
+        method: 'PATCH',
+      })
+      if (data.value)
+        return data.value
+
+      if (error.value)
+        return error.value
+    },
+    async getRecipeById(recipeId: number) {
+      const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
+        headers: {},
+        method: 'GET',
+      }).json()
+      if (data.value)
+        return data.value
+
+      if (error.value)
+        return error.value
     },
   },
   persist: true,
