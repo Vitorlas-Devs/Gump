@@ -13,8 +13,7 @@ function addRecipe(recipe: Recipe) {
 }
 
 function viewRecipe(recipeId: number) {
-  ui.setActiveNav('Recipes')
-  navigateTo(localePath(`/recipes/${recipeId}`))
+  navigateTo(localePath(`/recipe/${recipeId}`))
 }
 </script>
 
