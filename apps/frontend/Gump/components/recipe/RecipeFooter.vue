@@ -1,10 +1,11 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   viewCount: number
   likeCount: number
   saveCount: number
   isLiked: boolean
   isSaved: boolean
+  id: number
 }>()
 
 const emit = defineEmits<{
@@ -12,10 +13,22 @@ const emit = defineEmits<{
   (event: 'save'): void
 }>()
 
+const recipe = useRecipeStore()
+
 const isLiking = ref(false)
 const isSaving = ref(false)
 
-function likeClick() {
+async function likeClick() {
+  await recipe.likeRecipe(props.id)
+  const recipeToModify = recipe.recipes.find(r => r.id === props.id)
+
+  if (recipeToModify) {
+    if (props.isLiked)
+      recipeToModify.likeCount--
+    else
+      recipeToModify.likeCount++
+  }
+
   isLiking.value = true
   setTimeout(() => {
     isLiking.value = false
@@ -23,7 +36,17 @@ function likeClick() {
   emit('like')
 }
 
-function saveClick() {
+async function saveClick() {
+  await recipe.saveRecipe(props.id)
+  const recipeToModify = recipe.recipes.find(r => r.id === props.id)
+
+  if (recipeToModify) {
+    if (props.isSaved)
+      recipeToModify.saveCount--
+    else
+      recipeToModify.saveCount++
+  }
+
   isSaving.value = true
   setTimeout(() => {
     isSaving.value = false
@@ -60,15 +83,19 @@ function saveClick() {
   0% {
     transform: scale(1);
   }
+
   14% {
     transform: scale(1.3);
   }
+
   28% {
     transform: scale(1);
   }
+
   42% {
     transform: scale(1.3);
   }
+
   70% {
     transform: scale(1);
   }
