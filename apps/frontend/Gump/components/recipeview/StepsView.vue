@@ -95,6 +95,7 @@ function toggleCaret(index: number) {
             :track="recipe.currentRecipe.ingredients?.map(ingredient => ingredient.name)"
             :text="step"
             :special-values="specialValues"
+            :readonly="!isEdting"
             h-full w-full self-center border-0 rounded-xl p-2
             @input="recipe.currentRecipe.steps[index] = $event"
             @tracked-keys="trackedKeys[index] = $event"
@@ -103,7 +104,7 @@ function toggleCaret(index: number) {
           />
           <div
             :class="trackedKeys[index] && trackedKeys[index].length > 0 ? toggledCarets[index] ? 'visible i-fa6-solid-caret-up' : 'visible i-fa6-solid-caret-down' : 'invisible'"
-            orangeicon h-5 w-5 cursor-pointer px-4
+            orangeIcon h-5 w-5 cursor-pointer px-4
             @click="showLinkedRecipe(index); toggleCaret(index)"
           />
         </div>
@@ -118,13 +119,13 @@ function toggleCaret(index: number) {
             <div
               v-if="foundRecipe.index === index && foundRecipe.displayed"
               transform="rotate--90"
-              mx-a my-5 w-7 border-2 border-orange-200 rounded-full border-dashed
+              mx-a my-3 w-5 border-2 border-orange-200 rounded-full border-dashed
             />
             <div
               v-if="foundRecipe.index === index && foundRecipe.displayed"
-              flex="~ col" gap-1 rounded-2xl bg-orange-50 px-2
+              flex="~ col" gap-1 rounded-2xl bg-orange-50 px-2 py-1
             >
-              <p my-1 font-bold text-orange-500>
+              <p my-0 font-bold text-orange-500>
                 {{ foundRecipe.trackedKey }}
               </p>
               <p
