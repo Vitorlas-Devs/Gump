@@ -220,7 +220,17 @@ public class RecipeController : ControllerBase
 			recipe.Likes.Add(user.Id);
 		}
 
+		if (user.Likes.Contains(recipe.Id))
+		{
+			user.Likes.Remove(recipe.Id);
+		}
+		else
+		{
+			user.Likes.Add(recipe.Id);
+		}
+
 		recipeRepository.Update(recipe);
+		userRepository.Update(user);
 
 		if (recipe.Likes.Count == 1000)
 		{

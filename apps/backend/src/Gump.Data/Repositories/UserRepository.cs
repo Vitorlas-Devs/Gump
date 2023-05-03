@@ -161,22 +161,6 @@ namespace Gump.Data.Repositories
 				throw new AggregateException($"Error while updating {nameof(user)}", ex);
 			}
 
-			// Update Likes list in RecipeRepository that the user liked
-			foreach (var recipeId in user.Likes)
-			{
-				var currentRecipe = RecipeRepository.GetById(recipeId);
-				if (currentRecipe.Likes.Contains(user.Id))
-				{
-					currentRecipe.Likes.Remove(user.Id);
-					RecipeRepository.Update(currentRecipe);
-				}
-				else
-				{
-					currentRecipe.Likes.Add(user.Id);
-					RecipeRepository.Update(currentRecipe);
-				}
-			}
-
 			return CopyExcept(user, "Password", "Token");
 		}
 
