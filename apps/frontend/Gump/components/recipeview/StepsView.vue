@@ -27,16 +27,53 @@ function handleBackspace(e: Event, index: number) {
 
 const specialValues = computed(() => {
   return {
-    ...recipe.ingredients?.reduce((acc, ingredient) => {
+    ...recipe.currentRecipe?.ingredients?.reduce((acc, ingredient) => {
       acc[ingredient.name] = 'text-orange-500 font-bold'
-      acc[ingredient.volume] = 'text-crimson-500'
-      acc[ingredient.value] = 'text-crimson-500'
+      acc[ingredient.volume] = 'text-crimson-500 font-bold'
+      acc[ingredient.value] = 'text-crimson-500 font-bold'
       return acc
     }, {} as Record<string, string>),
   }
 })
 
-const trackedKeys = ref<string[]>([])
+const trackedKeys = ref<string[][]>([])
+
+const foundRecipesList: { steps: string[]; trackedKey: string; index: number; displayed: boolean }[] = reactive([])
+
+const toggledCarets = ref<boolean[]>([])
+
+const computedfoundRecipes = computed(() => {
+  if (!recipe.currentRecipe?.ingredients)
+    return
+
+  foundRecipesList.splice(0, foundRecipesList.length)
+  toggledCarets.value = []
+
+  trackedKeys.value.forEach((trackedKeys, index) => {
+    const foundIngredients = recipe.currentRecipe?.ingredients?.filter(ingredient => trackedKeys.includes(ingredient.name))
+    if (foundIngredients?.length) {
+      const foundRecipesIds = foundIngredients.map(ingredient => ingredient.linkedRecipe)
+      const foundRecipes = recipe.recipes.filter(recipe => foundRecipesIds.includes(recipe.id))
+      const foundSteps = foundRecipes.map(recipe => recipe.steps)
+      foundSteps.forEach((steps, stepIndex) => {
+        foundRecipesList.push({ steps, index, trackedKey: trackedKeys[stepIndex], displayed: false })
+      })
+    }
+  })
+
+  return foundRecipesList
+})
+
+function showLinkedRecipe(index: number) {
+  computedfoundRecipes.value?.forEach((foundRecipe) => {
+    if (foundRecipe.index === index)
+      foundRecipe.displayed = !foundRecipe.displayed
+  })
+}
+
+function toggleCaret(index: number) {
+  toggledCarets.value[index] = !toggledCarets.value[index]
+}
 </script>
 
 <template>
@@ -44,25 +81,62 @@ const trackedKeys = ref<string[]>([])
     <div v-if="ui.createMode === 'design'" flex="~ col" items-center justify-between gap-2 px-1>
       <div
         v-for="(step, index) in recipe.currentRecipe?.steps" :key="index"
-        flex="~ row" h-full w-full items-center gap-1 rounded-2xl bg-orange-100 px-2
+        flex="~ col" h-full w-full items-center gap-0 px-1
       >
-        <p my-1 font-bold>
-          {{ index + 1 }}.
-        </p>
-        <XInput
-          v-if="recipe.currentRecipe"
-          ref="inputs"
-          :track="recipe.ingredients?.map(ingredient => ingredient.name)"
-          :text="recipe.currentRecipe.steps[index]"
-          :special-values="specialValues"
-          h-max w-full border-0 rounded-xl p-2
-          @input="recipe.currentRecipe.steps[index] = $event"
-          @tracked-keys="trackedKeys = $event"
-          @keydown.enter="handleEnter($event, index)"
-          @keydown.backspace="handleBackspace($event, index)"
-        />
+        <div
+          flex="~ row" h-full w-full items-center gap-1 rounded-2xl bg-orange-50 px-2
+        >
+          <p my-1 font-bold>
+            {{ index + 1 }}.
+          </p>
+          <XInput
+            v-if="recipe.currentRecipe"
+            ref="inputs"
+            :track="recipe.currentRecipe.ingredients?.map(ingredient => ingredient.name)"
+            :text="step"
+            :special-values="specialValues"
+            h-full w-full self-center border-0 rounded-xl p-2
+            @input="recipe.currentRecipe.steps[index] = $event"
+            @tracked-keys="trackedKeys[index] = $event"
+            @keydown.enter="handleEnter($event, index)"
+            @keydown.backspace="handleBackspace($event, index)"
+          />
+          <div
+            :class="trackedKeys[index] && trackedKeys[index].length > 0 ? toggledCarets[index] ? 'visible i-fa6-solid-caret-up' : 'visible i-fa6-solid-caret-down' : 'invisible'"
+            orangeicon h-5 w-5 cursor-pointer px-4
+            @click="showLinkedRecipe(index); toggleCaret(index)"
+          />
+        </div>
+        <div
+          v-if="computedfoundRecipes"
+          w-full
+        >
+          <div
+            v-for="foundRecipe in computedfoundRecipes"
+            :key="foundRecipe.index"
+          >
+            <div
+              v-if="foundRecipe.index === index && foundRecipe.displayed"
+              transform="rotate--90"
+              mx-a my-5 w-7 border-2 border-orange-200 rounded-full border-dashed
+            />
+            <div
+              v-if="foundRecipe.index === index && foundRecipe.displayed"
+              flex="~ col" gap-1 rounded-2xl bg-orange-50 px-2
+            >
+              <p my-1 font-bold text-orange-500>
+                {{ foundRecipe.trackedKey }}
+              </p>
+              <p
+                v-for="(subSstep, subIndex) in foundRecipe.steps"
+                :key="subIndex" my-0 ml-4
+              >
+                {{ subIndex + 1 }}. {{ subSstep }}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      {{ trackedKeys }}
     </div>
   </div>
 </template>

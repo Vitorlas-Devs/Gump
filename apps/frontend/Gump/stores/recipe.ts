@@ -41,12 +41,12 @@ export const useRecipeStore = defineStore('recipe', {
   },
   actions: {
     async getRecipes() {},
-    addEmptyIngredient() {
-      this.ingredients.push({
+    addEmptyIngredient(id?: number) {
+      this.currentRecipe?.ingredients.push({
         name: '',
         value: 0,
         volume: '',
-        linkedRecipe: this.currentRecipe?.id ?? 0,
+        linkedRecipe: id || 0,
       })
     },
     addEmptyStep(index?: number) {

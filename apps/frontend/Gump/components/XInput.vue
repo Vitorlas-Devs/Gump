@@ -24,12 +24,22 @@ function ColorSpecialValues() {
   const text = props.text ?? ''
   const keys = Object.keys(specialValues).sort((a, b) => b.length - a.length)
   const regex = new RegExp(keys.join('|'), 'g')
+  const matches = text.match(regex)
+  if (matches) {
+    const tracked = matches.filter(match => track.value.includes(match))
+    if (tracked.length > 0) {
+      trackedKeys.value = tracked
+      emit('trackedKeys', trackedKeys.value)
+    }
+  }
+  if (trackedKeys.value.length > 0) {
+    const tracked = trackedKeys.value.filter(key => text.includes(key))
+    if (tracked.length === 0) {
+      trackedKeys.value = []
+      emit('trackedKeys', trackedKeys.value)
+    }
+  }
   return text.replace(regex, (match) => {
-    // if (track.value && track.value.includes(match) && !trackedKeys.value.includes(match)) {
-    //   trackedKeys.value.push(match)
-    //   emit('trackedKeys', trackedKeys.value)
-    //   console.log('trackedKeys.value', trackedKeys.value)
-    // }
     if (specialValues[match])
       return `<span class="${specialValues[match]}">${match}</span>`
     else
@@ -101,7 +111,7 @@ function render() {
     {
       contenteditable: !props.readonly,
       ref: inputElement,
-      // class: 'h-max w-100 shadow-inner bg-crimson-50 rounded-3xl p-3 min-h-12 overflow-hidden',
+      class: 'p-3 overflow-hidden w-full',
       style: 'white-space: -moz-pre-space; white-space: pre-wrap;',
       onInput: handleInput,
     },

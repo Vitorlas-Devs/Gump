@@ -1,9 +1,12 @@
 <script setup lang="ts">
+// import { emptyRecipe } from '~/stores/recipe'
+
 const recipe = useRecipeStore()
 
 function addItem() {
   recipe.addEmptyIngredient()
   recipe.addEmptyStep()
+  // recipe.recipes.push(emptyRecipe)
 }
 </script>
 
