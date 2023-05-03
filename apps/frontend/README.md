@@ -10,7 +10,7 @@ A teszteket a NuxtDevTools segítségével lehet futtatni, ami `npm run dev` ut�
 
 ![image](https://user-images.githubusercontent.com/19333627/235911850-aa1a26a4-3caf-4d1e-b788-3f984380d2a7.png)
 
-Ezután az oldalsó navigácós sávon lejebb görgetve a VitestMenüpont alatt találhatóak a tesztek.
+Ezután az oldalsó navigácós sávon lejebb görgetve a Vitest Menüpont alatt találhatóak a tesztek.
 
 ![image](https://user-images.githubusercontent.com/19333627/235912929-8e2ef10e-45e0-4ffb-955e-8264c93ddca4.png)
 
