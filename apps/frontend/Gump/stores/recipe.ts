@@ -73,6 +73,14 @@ export const useRecipeStore = defineStore('recipe', {
       if (this.currentRecipe)
         this.currentRecipe.steps.splice(index, 1)
     },
+    addRecipe(recipe: Recipe) {
+      this.ingredients.push({
+        name: recipe.title,
+        value: recipe.serves,
+        volume: 'adag',
+        linkedRecipe: recipe.id,
+      })
+    },
   },
   persist: true,
 })

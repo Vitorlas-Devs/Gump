@@ -17,6 +17,7 @@ const user = useUserStore()
       Change username:
       <input v-model="user.username">
     </div>
+
     <TheNavbar />
   </ion-page>
 </template>
