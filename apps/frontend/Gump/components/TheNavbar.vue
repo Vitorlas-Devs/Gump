@@ -10,7 +10,10 @@ const localePath = useLocalePath()
     <RouterLink v-for="tab in tabData" :key="tab.name" :to="localePath(tab.path)" w-full flex="~ col" items-center gap-2 decoration-none @click="ui.setActiveNav(tab.tab)">
       <div mb-8 flex="~ row" items-center justify-center>
         <img src="~assets/hexagon.svg">
-        <img :src="`/_nuxt/assets/${tab.name}.svg`" :mb="tab.tab === 'Home' ? 4 : 0" absolute>
+        <img
+          :src="`/${tab.name}.svg`"
+          :mb="tab.tab === 'Home' ? 4 : 0" absolute
+        >
       </div>
       <div
         h="1/2" text-1xl absolute bottom-0 text-center font-bold text-crimson-500 text-shadow-crimson
