@@ -16,7 +16,7 @@ const router = useRouter()
 
 const code = router.currentRoute.value.query.code
 
-if (!token.value) {
+if (!token.value && token.value === 'bad_verification_code') {
   axios
     .get(import.meta.env.VITE_API_URL + 'github/access_token/', {
       params: {
