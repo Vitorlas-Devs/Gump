@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const recipe = useRecipeStore()
 const ui = useUIStore()
+const user = useUserStore()
 
 watch(
   () => ui.activeSort,
@@ -9,6 +10,10 @@ watch(
 )
 
 ui.activeNav = 'Home'
+
+onMounted(async () => {
+  await user.getUserData()
+})
 </script>
 
 <template>

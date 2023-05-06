@@ -14,6 +14,7 @@ const emit = defineEmits<{
 }>()
 
 const recipe = useRecipeStore()
+const user = useUserStore()
 
 const isLiking = ref(false)
 const isSaving = ref(false)
@@ -23,10 +24,13 @@ async function likeClick() {
   const recipeToModify = recipe.recipes.find(r => r.id === props.id)
 
   if (recipeToModify) {
-    if (props.isLiked)
+    if (props.isLiked) {
       recipeToModify.likeCount--
-    else
+      user.likes = user.likes.filter(l => l !== props.id)
+    } else {
       recipeToModify.likeCount++
+      user.likes.push(props.id)
+    }
   }
 
   isLiking.value = true
@@ -41,10 +45,13 @@ async function saveClick() {
   const recipeToModify = recipe.recipes.find(r => r.id === props.id)
 
   if (recipeToModify) {
-    if (props.isSaved)
+    if (props.isSaved) {
       recipeToModify.saveCount--
-    else
+      user.recipes = user.recipes.filter(r => r !== props.id)
+    } else {
       recipeToModify.saveCount++
+      user.recipes.push(props.id)
+    }
   }
 
   isSaving.value = true

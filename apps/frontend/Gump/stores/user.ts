@@ -39,7 +39,7 @@ export const useUserStore = defineStore('user', {
       if (data.value)
         return data.value.username
       if (error.value)
-        return error.value
+        return '¯⁠\\_(⁠ツ⁠)_/⁠¯'
     },
     async getUserData() {
       const { data, error } = await gumpFetch<User>('user/me', {

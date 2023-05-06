@@ -13,7 +13,6 @@ const image = useImageStore()
 const localePath = useLocalePath()
 const ui = useUIStore()
 const user = useUserStore()
-const recipe = useRecipeStore()
 
 const isLiked = ref(false)
 const isSaved = ref(false)
@@ -26,7 +25,7 @@ async function viewRecipe(recipeId: number) {
 
 onMounted(async () => {
   authorName.value = await user.getAuthorNameById(props.authorId)
-  isLiked.value = await recipe.getRecipeById(props.id).then(r => r.isLiked)
+  isLiked.value = user.likes.includes(props.id)
   isSaved.value = user.recipes.includes(props.id)
 })
 </script>
