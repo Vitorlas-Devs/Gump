@@ -10,6 +10,10 @@ function handleSearch() {
   nextTick(() => searchInput.value?.focus())
 }
 
+function sendSearch() {
+  ui.addSearchHistory(ui.searchValue)
+}
+
 onClickOutside(searchBox, () => {
   ui.searchToggled = false
   ui.dropdownToggled = false
@@ -33,7 +37,7 @@ onClickOutside(searchBox, () => {
       v-model="ui.searchValue"
       h-10 w-full border-0 text-lg text-orange-500
       @focus="ui.dropdownToggled = true"
-      @keydown.enter="ui.addSearchHistory(ui.searchValue)"
+      @keydown.enter="sendSearch"
     >
     <SearchDropdown v-if="ui.dropdownToggled" />
   </div>

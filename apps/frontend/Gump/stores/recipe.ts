@@ -40,8 +40,18 @@ export const useRecipeStore = defineStore('recipe', {
     },
   },
   actions: {
-    async getRecipes(searchTerm: string) {
-      const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?sort=${searchTerm}`, {
+    async getRecipesBySort(sort: string) {
+      const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?sort=${sort}`, {
+        headers: {},
+        method: 'GET',
+      }).json()
+      if (data.value)
+        this.recipes = data.value
+      if (error.value)
+        return error.value
+    },
+    async searchRecipes(searchTerm: string) {
+      const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?search=${searchTerm}`, {
         headers: {},
         method: 'GET',
       }).json()

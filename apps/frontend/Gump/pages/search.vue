@@ -13,7 +13,3 @@ const ui = useUIStore()
     />
   </ion-page>
 </template>
-
-<style scoped>
-
-</style>
