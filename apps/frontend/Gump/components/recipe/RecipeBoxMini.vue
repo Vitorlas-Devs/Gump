@@ -1,21 +1,28 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   recipe: Recipe
 }>()
 
 const image = useImageStore()
 const ui = useUIStore()
 const recipeStore = useRecipeStore()
+const user = useUserStore()
 const localePath = useLocalePath()
+
+const authorName = ref('')
 
 function addRecipe(recipe: Recipe) {
   recipeStore.addRecipe(recipe)
 }
 
-function viewRecipe(recipeId: number) {
-  ui.setActiveNav('Recipes')
-  navigateTo(localePath(`/recipes/${recipeId}`))
+async function viewRecipe(recipeId: number) {
+  ui.activeNav = 'Recipes'
+  await navigateTo(localePath(`/recipe/${recipeId}`))
 }
+
+onMounted(async () => {
+  authorName.value = await user.getAuthorNameById(props.recipe.author)
+})
 </script>
 
 <template>
@@ -27,7 +34,7 @@ function viewRecipe(recipeId: number) {
           {{ recipe.title }}
         </p>
         <p m-3 text-lg>
-          {{ recipe.author }}
+          {{ authorName }}
         </p>
       </div>
     </div>

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   viewCount: number
   likeCount: number
   saveCount: number
   isLiked: boolean
   isSaved: boolean
+  id: number
 }>()
 
 const emit = defineEmits<{
@@ -12,10 +13,26 @@ const emit = defineEmits<{
   (event: 'save'): void
 }>()
 
+const recipe = useRecipeStore()
+const user = useUserStore()
+
 const isLiking = ref(false)
 const isSaving = ref(false)
 
-function likeClick() {
+async function likeClick() {
+  await recipe.likeRecipe(props.id)
+  const recipeToModify = recipe.recipes.find(r => r.id === props.id)
+
+  if (recipeToModify) {
+    if (props.isLiked) {
+      recipeToModify.likeCount--
+      user.likes = user.likes.filter(l => l !== props.id)
+    } else {
+      recipeToModify.likeCount++
+      user.likes.push(props.id)
+    }
+  }
+
   isLiking.value = true
   setTimeout(() => {
     isLiking.value = false
@@ -23,7 +40,20 @@ function likeClick() {
   emit('like')
 }
 
-function saveClick() {
+async function saveClick() {
+  await recipe.saveRecipe(props.id)
+  const recipeToModify = recipe.recipes.find(r => r.id === props.id)
+
+  if (recipeToModify) {
+    if (props.isSaved) {
+      recipeToModify.saveCount--
+      user.recipes = user.recipes.filter(r => r !== props.id)
+    } else {
+      recipeToModify.saveCount++
+      user.recipes.push(props.id)
+    }
+  }
+
   isSaving.value = true
   setTimeout(() => {
     isSaving.value = false
@@ -60,15 +90,19 @@ function saveClick() {
   0% {
     transform: scale(1);
   }
+
   14% {
     transform: scale(1.3);
   }
+
   28% {
     transform: scale(1);
   }
+
   42% {
     transform: scale(1.3);
   }
+
   70% {
     transform: scale(1);
   }
