@@ -1,10 +1,16 @@
 <script setup lang="ts">
 const ui = useUIStore()
+const recipe = useRecipeStore()
+
+const isSearched = ref(false)
 </script>
 
 <template>
   <ion-page bg-crimson-50>
-    <SearchHeader z-2 />
+    <SearchHeader z-2 @search="isSearched = true" />
+    <div v-if="isSearched" h-76vh grow overflow-y-auto>
+      <RecipeBox v-for="r of recipe.recipes" :id="r.id" :key="r.id" :title="r.title" :author-id="r.author" :img-id="r.image" :views="r.viewCount" :likes="r.likeCount" :saves="r.saveCount" />
+    </div>
     <div grow />
     <TheNavbar z-2 />
     <div

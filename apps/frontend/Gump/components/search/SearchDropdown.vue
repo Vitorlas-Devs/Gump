@@ -4,6 +4,10 @@ const props = defineProps<{
   showResults?: boolean
 }>()
 
+const emit = defineEmits<{
+  (event: 'search'): void
+}>()
+
 const ui = useUIStore()
 const topPosition = computed(() => {
   if (props.topPosition && props.topPosition > 310)
@@ -31,7 +35,7 @@ const topPosition = computed(() => {
         <div class="i-fa6-solid-clock-rotate-left orangeIcon" />
         <p
           my-2 text-xl
-          @click="ui.searchValue = search; ui.addSearchHistory(search); ui.dropdownToggled = false"
+          @click="ui.searchValue = search; ui.addSearchHistory(search); ui.dropdownToggled = false; emit('search')"
         >
           {{ search }}
         </p>

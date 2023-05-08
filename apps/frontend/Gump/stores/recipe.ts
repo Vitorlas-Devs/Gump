@@ -51,7 +51,7 @@ export const useRecipeStore = defineStore('recipe', {
         return error.value
     },
     async searchRecipes(searchTerm: string) {
-      const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?search=${searchTerm}`, {
+      const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?searchTerm=${searchTerm}`, {
         headers: {},
         method: 'GET',
       }).json()
