@@ -60,7 +60,7 @@ async function saveClick() {
 </script>
 
 <template>
-  <div v-if="currentRecipe" flex="~ row" mx-3 justify-between font-mono text-xl>
+  <div v-if="currentRecipe" flex="~ row" mx-2 justify-between text-left font-mono text-xl>
     <div flex="~ row" items-center>
       <div class="i-fa6-solid-eye orangeIcon" />
       <div ml-1 text-orange-500>

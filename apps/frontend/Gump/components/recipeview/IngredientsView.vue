@@ -2,7 +2,7 @@
 import { debounce } from 'lodash-es'
 
 defineProps<{
-  isEdting: boolean
+  isEdting?: boolean
 }>()
 
 const ui = useUIStore()

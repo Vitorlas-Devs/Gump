@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  isEdting: boolean
+  isEdting?: boolean
 }>()
 
 const recipe = useRecipeStore()

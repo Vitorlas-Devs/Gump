@@ -9,8 +9,8 @@
  * formatNumber(123456) // 123k
  */
 export function formatNumber(value: number): string {
-  const ending = [' ', 'k', 'M', 'B', 'T']
-  const suffix = Math.floor((`${value}`).length / 4)
-  const shortValue = parseFloat((suffix !== 0 ? (value / 1000 ** suffix) : value).toPrecision(3))
-  return shortValue + ending[suffix]
+  const suffixes = ['', 'k', 'M', 'B', 'T']
+  const suffixNum = Math.floor(Math.log10(value) / 3)
+  const shortValue = parseFloat((suffixNum !== 0 ? (value / 1000 ** suffixNum) : value).toPrecision(3))
+  return shortValue + suffixes[suffixNum]
 }
