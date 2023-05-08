@@ -43,7 +43,7 @@
     "@types/lodash-es": "4.17.7",
     "@vueform/multiselect": "2.6.2",
     "lodash-es": "4.17.21",
-    "pinia": "2.0.34"
+    "pinia": "2.0.35"
   },
   "overrides": {
     "vue": "latest"
