@@ -26,6 +26,7 @@ export const useUIStore = defineStore('ui', {
     createHeaderStates: [false, false, false, false],
     createMode: 'design' as 'design' | 'raw',
     createYScroll: 0,
+    params: {} as Record<RouteName, number>,
   }),
   getters: {
     getSearchHistory(state) {
@@ -36,6 +37,9 @@ export const useUIStore = defineStore('ui', {
     },
   },
   actions: {
+    setParams(routeName: RouteName, id: number) {
+      this.params[routeName as RouteName] = id
+    },
     setActiveNav(nav: Tab) {
       this.activeNav = nav
     },

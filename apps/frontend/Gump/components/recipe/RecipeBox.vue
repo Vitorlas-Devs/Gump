@@ -24,7 +24,7 @@ async function viewRecipe(recipeId: number) {
 }
 
 onMounted(async () => {
-  authorName.value = await user.getAuthorNameById(props.authorId)
+  authorName.value = await user.getAuthorNameById(props.authorId) ?? ''
   isLiked.value = user.likes.includes(props.id)
   isSaved.value = user.recipes.includes(props.id)
 })

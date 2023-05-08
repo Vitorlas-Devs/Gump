@@ -10,6 +10,7 @@ type Recipe = {
   ingredients: Ingredient[]
   steps: string[]
   viewCount: number
+  isSaved: boolean
   saveCount: number
   isLiked: boolean
   likeCount: number

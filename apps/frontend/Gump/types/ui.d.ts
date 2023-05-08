@@ -1,2 +1,4 @@
-type Tab = typeof tabs[number]
-type Sort = typeof sorts[number]
+type Tab = typeof tabs[XDDDDDDDDDD]
+type Sort = typeof sorts[XDDDDDDDD]
+
+type RouteName = 'recipe' | 'recipes' | 'user'

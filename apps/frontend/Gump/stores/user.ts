@@ -31,7 +31,7 @@ export const useUserStore = defineStore('user', {
       if (error.value)
         return error.value
     },
-    async getAuthorNameById(id: number) {
+    async getAuthorNameById(id: number): Promise<string | undefined> {
       const { data, error } = await gumpFetch<User>(`user/${id}`, {
         headers: {},
         method: 'GET',

@@ -1,10 +1,5 @@
 <script setup lang="ts">
 const props = defineProps<{
-  viewCount: number
-  likeCount: number
-  saveCount: number
-  isLiked: boolean
-  isSaved: boolean
   id: number
 }>()
 
@@ -16,22 +11,24 @@ const emit = defineEmits<{
 const recipe = useRecipeStore()
 const user = useUserStore()
 
+const currentRecipe = computed(() => recipe.recipes.find(r => r.id === props.id))
+
 const isLiking = ref(false)
 const isSaving = ref(false)
 
 async function likeClick() {
   await recipe.likeRecipe(props.id)
-  const recipeToModify = recipe.recipes.find(r => r.id === props.id)
+  // const recipeToModify = recipe.recipes.find(r => r.id === props.id)
 
-  if (recipeToModify) {
-    if (props.isLiked) {
-      recipeToModify.likeCount--
-      user.likes = user.likes.filter(l => l !== props.id)
-    } else {
-      recipeToModify.likeCount++
-      user.likes.push(props.id)
-    }
-  }
+  // if (recipeToModify) {
+  //   if (props.isLiked) {
+  //     recipeToModify.likeCount--
+  //     user.likes = user.likes.filter(l => l !== props.id)
+  //   } else {
+  //     recipeToModify.likeCount++
+  //     user.likes.push(props.id)
+  //   }
+  // }
 
   isLiking.value = true
   setTimeout(() => {
@@ -45,7 +42,7 @@ async function saveClick() {
   const recipeToModify = recipe.recipes.find(r => r.id === props.id)
 
   if (recipeToModify) {
-    if (props.isSaved) {
+    if (currentRecipe.value?.isSaved) {
       recipeToModify.saveCount--
       user.recipes = user.recipes.filter(r => r !== props.id)
     } else {
@@ -63,23 +60,23 @@ async function saveClick() {
 </script>
 
 <template>
-  <div flex="~ row" mx-3 justify-between font-mono text-xl>
+  <div v-if="currentRecipe" flex="~ row" mx-3 justify-between font-mono text-xl>
     <div flex="~ row" items-center>
       <div class="i-fa6-solid-eye orangeIcon" />
       <div ml-1 text-orange-500>
-        {{ formatNumber(viewCount) }}
+        {{ formatNumber(currentRecipe.viewCount) }}
       </div>
     </div>
     <div id="likeButton" :class="{ heartbeat: isLiking }" flex="~ row" cursor-pointer items-center @click="likeClick">
-      <div class="crimsonIcon" :class="isLiked ? 'i-ph-heart-fill' : 'i-ph-heart-bold'" />
+      <div class="crimsonIcon" :class="currentRecipe.isLiked ? 'i-ph-heart-fill' : 'i-ph-heart-bold'" />
       <div ml-1 text-crimson-500>
-        {{ formatNumber(likeCount) }}
+        {{ formatNumber(currentRecipe.likeCount) }}
       </div>
     </div>
     <div id="saveButton" :class="{ heartbeat: isSaving }" flex="~ row" cursor-pointer items-center @click="saveClick">
-      <div shadow-blue class="blueIcon" :class="isSaved ? 'i-ph-bookmark-simple-fill' : 'i-ph-bookmark-simple-bold'" />
+      <div shadow-blue class="blueIcon" :class="currentRecipe.isSaved ? 'i-ph-bookmark-simple-fill' : 'i-ph-bookmark-simple-bold'" />
       <div ml-1 text-blue-500>
-        {{ formatNumber(saveCount) }}
+        {{ formatNumber(currentRecipe.saveCount) }}
       </div>
     </div>
   </div>

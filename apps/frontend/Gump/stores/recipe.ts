@@ -17,6 +17,7 @@ export const emptyRecipe: Recipe = {
   ingredients: [],
   steps: [],
   viewCount: 0,
+  isSaved: false,
   saveCount: 0,
   isLiked: false,
   likeCount: 0,
@@ -98,11 +99,38 @@ export const useRecipeStore = defineStore('recipe', {
       return this.recipes.filter(recipe => recipe.title.toLowerCase().includes(query.toLowerCase()))
     },
     async likeRecipe(recipeId: number) {
+      // const recipeToModify = recipe.recipes.find(r => r.id === props.id)
+
+      // if (recipeToModify) {
+      //   if (props.isLiked) {
+      //     recipeToModify.likeCount--
+      //     user.likes = user.likes.filter(l => l !== props.id)
+      //   } else {
+      //     recipeToModify.likeCount++
+      //     user.likes.push(props.id)
+      //   }
+      // }
+      const user = useUserStore()
+
       const { data, error } = await gumpFetch(`recipe/like/${recipeId}`, {
         method: 'PATCH',
       })
-      if (data.value)
+
+      if (data.value) {
+        const recipeToModify = this.recipes.find(r => r.id === recipeId)
+        if (recipeToModify) {
+          if (recipeToModify.isLiked) {
+            recipeToModify.likeCount--
+            recipeToModify.isLiked = false
+            user.likes = user.likes.filter(l => l !== recipeId)
+          } else {
+            recipeToModify.likeCount++
+            recipeToModify.isLiked = true
+            user.likes.push(recipeId)
+          }
+        }
         return data.value
+      }
 
       if (error.value)
         return error.value
@@ -117,7 +145,7 @@ export const useRecipeStore = defineStore('recipe', {
       if (error.value)
         return error.value
     },
-    async getRecipeById(recipeId: number) {
+    async getRecipeById(recipeId: number): Promise<Recipe | undefined> {
       const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
         headers: {},
         method: 'GET',
