@@ -19,8 +19,8 @@ function viewRecipe(recipeId: number) {
 </script>
 
 <template>
-  <div flex="~ justify-between" shadow-orangebox m-4 max-h-35 w-auto cursor-pointer rounded-2xl bg-orange-50>
-    <div flex="~" @click="viewRecipe(recipe.id)">
+  <div flex="~ row" shadow-orangeBox max-h-25 w-full cursor-pointer justify-between rounded-2xl bg-orange-50>
+    <div w-full flex="~ row" @click="viewRecipe(recipe.id)">
       <img :src="image.getImage(recipe.image)" w="1/3" rounded-s-2xl object-cover>
       <div grow self-center text-shadow>
         <p m-3 text-xl>

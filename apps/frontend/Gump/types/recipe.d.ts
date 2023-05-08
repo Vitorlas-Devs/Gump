@@ -25,7 +25,7 @@ type Ingredient = {
   name: string
   value: number
   volume: string
-  linkedRecipe: number
+  linkedRecipe: number | null
 }
 
 type IngredientCreate = Omit<Ingredient, 'linkedRecipe'>
