@@ -42,7 +42,3 @@ const { currentRecipe } = toRefs(useRecipeStore())
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

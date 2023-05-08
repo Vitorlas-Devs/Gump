@@ -26,5 +26,3 @@ const localePath = useLocalePath()
     </RouterLink>
   </div>
 </template>
-
-<style scoped></style>

@@ -51,7 +51,3 @@ onClickOutside(searchBox, () => {
     <SearchDropdown v-if="ui.dropdownToggled" @search="sendSearch" />
   </div>
 </template>
-
-<style scoped>
-
-</style>

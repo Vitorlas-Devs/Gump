@@ -26,7 +26,3 @@ function setActive() {
     </NuxtLink>
   </div>
 </template>
-
-<style scoped>
-
-</style>

@@ -89,7 +89,3 @@ watch(() => recipe.ingredients, () => {
     />
   </div>
 </template>
-
-<style scoped>
-
-</style>

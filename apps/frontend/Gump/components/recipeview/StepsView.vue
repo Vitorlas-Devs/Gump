@@ -141,7 +141,3 @@ function toggleCaret(index: number) {
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

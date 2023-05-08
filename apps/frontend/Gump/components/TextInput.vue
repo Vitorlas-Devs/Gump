@@ -18,7 +18,3 @@ defineEmits<{
     @input="$emit('update:text', ($event.target as HTMLInputElement).value)"
   >
 </template>
-
-<style scoped>
-
-</style>
