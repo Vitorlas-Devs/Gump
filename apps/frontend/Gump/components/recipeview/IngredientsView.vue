@@ -81,6 +81,14 @@ function handleBackspace(e: Event, index: number) {
     ingredientInputs.value[index - 1]?.focus()
   }
 }
+
+const recipesById = computed(() => {
+  const result: Record<number, Recipe> = {}
+  recipe.recipes.forEach((recipe) => {
+    result[recipe.id] = recipe
+  })
+  return result
+})
 </script>
 
 <template>
@@ -133,7 +141,7 @@ function handleBackspace(e: Event, index: number) {
           w-full
         >
           <div
-            v-for="(subIngredient, subIndex) in recipe.recipes[ingredient.linkedRecipe].ingredients"
+            v-for="(subIngredient, subIndex) in recipesById[ingredient.linkedRecipe].ingredients"
             :key="subIndex"
             flex="~ row" ml-6 items-center justify-between gap-2
           >
