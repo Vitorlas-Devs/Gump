@@ -10,7 +10,6 @@ const recipe = useRecipeStore()
 
 const rawInput = ref<HTMLTextAreaElement>()
 const ingredientInputs = ref<HTMLInputElement[]>([])
-const lastFocusedInput = ref<HTMLInputElement>()
 const inputField = ref<HTMLDivElement>()
 const toggleDropdown = ref(false)
 const toggleResults = ref(false)
@@ -18,7 +17,6 @@ const dropdownTop = ref(0)
 
 function handleInputFocus(e: FocusEvent) {
   const inputTop = (e.target as HTMLInputElement).getBoundingClientRect().top
-  lastFocusedInput.value = e.target as HTMLInputElement
   toggleDropdown.value = true
   dropdownTop.value = inputTop + 35
   toggleResults.value = false
