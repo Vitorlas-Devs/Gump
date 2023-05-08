@@ -13,7 +13,7 @@ async function handleRegister() {
   if (error)
     console.log(error)
   else
-    navigateTo(localePath('/home'))
+    await navigateTo(localePath('/home'))
 }
 </script>
 
