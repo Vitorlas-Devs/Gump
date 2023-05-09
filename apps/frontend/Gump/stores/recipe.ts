@@ -2,7 +2,7 @@ export const emptyIngredient: Ingredient = {
   name: '',
   value: 0,
   volume: '',
-  linkedRecipe: 0,
+  linkedRecipe: null,
 }
 
 export const emptyRecipe: Recipe = {
@@ -55,7 +55,7 @@ export const useRecipeStore = defineStore('recipe', {
         name: '',
         value: 0,
         volume: '',
-        linkedRecipe: id || 0,
+        linkedRecipe: id || null,
       })
     },
     addEmptyStep(index?: number) {
@@ -82,13 +82,20 @@ export const useRecipeStore = defineStore('recipe', {
       if (this.currentRecipe)
         this.currentRecipe.steps.splice(index, 1)
     },
+    removeIngredient(index: number) {
+      if (this.currentRecipe)
+        this.currentRecipe.ingredients.splice(index, 1)
+    },
     addRecipe(recipe: Recipe) {
-      this.ingredients.push({
+      this.currentRecipe?.ingredients.push({
         name: recipe.title,
         value: recipe.serves,
         volume: 'adag',
         linkedRecipe: recipe.id,
       })
+    },
+    searchRecipes(query: string): Recipe[] {
+      return this.recipes.filter(recipe => recipe.title.toLowerCase().includes(query.toLowerCase()))
     },
     async likeRecipe(recipeId: number) {
       const { data, error } = await gumpFetch(`recipe/like/${recipeId}`, {

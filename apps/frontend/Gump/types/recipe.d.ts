@@ -25,7 +25,7 @@ type Ingredient = {
   name: string
   value: number
   volume: string
-  linkedRecipe: number
+  linkedRecipe: number | null // id of the recipe that this ingredient is linked to
 }
 
 type IngredientCreate = Omit<Ingredient, 'linkedRecipe'>
