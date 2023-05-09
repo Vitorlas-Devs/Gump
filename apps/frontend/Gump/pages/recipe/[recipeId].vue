@@ -10,6 +10,7 @@ const id = ui.params.recipe
 ui.activeNav = 'Recipes'
 
 const currentRecipe = await recipe.getRecipeById(id)
+
 const authorName = await user.getAuthorNameById(currentRecipe?.author as number)
 
 const isLiked = ref<boolean>(user.current.likes.includes(currentRecipe?.id as number))

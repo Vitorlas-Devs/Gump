@@ -9,6 +9,7 @@ export const emptyCurrentUser: CurrentUser = {
   badges: [],
   language: '',
   isModerator: false,
+  token: '',
 }
 
 export const useUserStore = defineStore('user', {
@@ -40,6 +41,18 @@ export const useUserStore = defineStore('user', {
       if (error.value)
         return error.value
     },
+    async getUserData() {
+      const { data, error } = await gumpFetch<CurrentUser>('user/me', {
+        method: 'GET',
+      }).json()
+      if (data.value) {
+        const { token, ...rest } = this.current
+        this.current = rest
+        this.current.token = token
+      }
+      if (error.value)
+        return error.value
+    },
     async getAuthorNameById(id: number): Promise<string | undefined> {
       const { data, error } = await gumpFetch<User>(`user/${id}`, {
         headers: {},
@@ -49,19 +62,6 @@ export const useUserStore = defineStore('user', {
         return data.value.username
       if (error.value)
         return '¯⁠\\_(⁠ツ⁠)_/⁠¯'
-    },
-    async getUserData() {
-      const { data, error } = await gumpFetch<CurrentUser>('user/me', {
-        headers: {
-          Authorization: `Bearer ${this.current.token}`,
-        },
-        method: 'GET',
-      }).json()
-      if (data.value)
-        this.current = data.value
-
-      if (error.value)
-        return error.value
     },
   },
   persist: true,

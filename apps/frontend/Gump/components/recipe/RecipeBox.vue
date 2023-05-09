@@ -14,6 +14,7 @@ const authorName = ref('')
 
 async function viewRecipe(recipeId: number) {
   ui.activeNav = 'Recipes'
+  ui.setParams('recipe', recipeId)
   await navigateTo(localePath(`/recipe/${recipeId}`))
 }
 

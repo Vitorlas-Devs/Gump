@@ -21,12 +21,6 @@ onMounted(async () => {
     <TheHeader show-icons :title="$t('HomeNav')" />
     <div v-if="recipe.searchRecipes" grow overflow-y-auto pb-30>
       <RecipeBox v-for="r of recipe.searchRecipes" :key="r.id" :recipe="r" />
-      <br><br>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil voluptatum similique explicabo suscipit eum alias doloremque quidem iure corrupti pariatur. Explicabo neque assumenda ipsa, error accusamus vel recusandae aliquid doloremque.
-      <br>
-      <div mt-5 class="crimsonBtn">
-        <div class="i-fa6-solid-box-tissue" />
-      </div>
       <MainButton fixed color="orange" icon-type="create" title="Create recipe" />
     </div>
     <TheNavbar />

@@ -42,13 +42,15 @@ export const useRecipeStore = defineStore('recipe', {
     },
   },
   actions: {
-    async getSearchRecipes(searchTerm: string): Promise<SearchRecipe[] | undefined> {
-      const { data, error } = await gumpFetch<SearchRecipe[]>(`recipe/search?sort=${searchTerm}`, {
+    async getSearchRecipes(searchTerm: string) {
+      const { data, error } = await gumpFetch(`recipe/search?sort=${searchTerm}`, {
         headers: {},
         method: 'GET',
       }).json()
-      if (data.value)
+      if (data.value) {
+        console.log(data.value)
         this.searchRecipes = data.value
+      }
       if (error.value)
         return error.value
     },
@@ -100,38 +102,11 @@ export const useRecipeStore = defineStore('recipe', {
       return this.recipes.filter(recipe => recipe.title.toLowerCase().includes(query.toLowerCase()))
     },
     async likeRecipe(recipeId: number) {
-      // const recipeToModify = recipe.recipes.find(r => r.id === props.id)
-
-      // if (recipeToModify) {
-      //   if (props.isLiked) {
-      //     recipeToModify.likeCount--
-      //     user.likes = user.likes.filter(l => l !== props.id)
-      //   } else {
-      //     recipeToModify.likeCount++
-      //     user.likes.push(props.id)
-      //   }
-      // }
-      const user = useUserStore()
-
       const { data, error } = await gumpFetch(`recipe/like/${recipeId}`, {
         method: 'PATCH',
       })
-
-      if (data.value) {
-        const recipeToModify = this.recipes.find(r => r.id === recipeId)
-        if (recipeToModify) {
-          if (recipeToModify.isLiked) {
-            recipeToModify.likeCount--
-            recipeToModify.isLiked = false
-            user.current.likes = user.current.likes.filter(l => l !== recipeId)
-          } else {
-            recipeToModify.likeCount++
-            recipeToModify.isLiked = true
-            user.current.likes.push(recipeId)
-          }
-        }
+      if (data.value)
         return data.value
-      }
 
       if (error.value)
         return error.value

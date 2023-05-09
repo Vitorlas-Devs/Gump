@@ -9,24 +9,24 @@ const emit = defineEmits<{
 }>()
 
 const recipe = useRecipeStore()
-// const user = useUserStore()
+const user = useUserStore()
 
 const isLiking = ref(false)
 const isSaving = ref(false)
 
 async function likeClick() {
   await recipe.likeRecipe(props.recipe.id)
-  // const recipeToModify = recipe.recipes.find(r => r.id === props.id)
+  const recipeToModify = recipe.recipes.find(r => r.id === props.recipe.id)
 
-  // if (recipeToModify) {
-  //   if (props.isLiked) {
-  //     recipeToModify.likeCount--
-  //     user.likes = user.likes.filter(l => l !== props.id)
-  //   } else {
-  //     recipeToModify.likeCount++
-  //     user.likes.push(props.id)
-  //   }
-  // }
+  if (recipeToModify) {
+    if (props.recipe.isLiked) {
+      recipeToModify.likeCount--
+      user.current.likes = user.current.likes.filter(l => l !== props.recipe.id)
+    } else {
+      recipeToModify.likeCount++
+      user.current.likes.push(props.recipe.id)
+    }
+  }
 
   isLiking.value = true
   setTimeout(() => {
@@ -37,17 +37,17 @@ async function likeClick() {
 
 async function saveClick() {
   await recipe.saveRecipe(props.recipe.id)
-  // const recipeToModify = recipe.recipes.find(r => r.id === props.id)
+  const recipeToModify = recipe.recipes.find(r => r.id === props.recipe.id)
 
-  // if (recipeToModify) {
-  //   if (currentRecipe.value?.isSaved) {
-  //     recipeToModify.saveCount--
-  //     user.recipes = user.recipes.filter(r => r !== props.id)
-  //   } else {
-  //     recipeToModify.saveCount++
-  //     user.recipes.push(props.id)
-  //   }
-  // }
+  if (recipeToModify) {
+    if (props.recipe.isSaved) {
+      recipeToModify.saveCount--
+      user.current.recipes = user.current.recipes.filter(r => r !== props.recipe.id)
+    } else {
+      recipeToModify.saveCount++
+      user.current.recipes.push(props.recipe.id)
+    }
+  }
 
   isSaving.value = true
   setTimeout(() => {
@@ -58,23 +58,23 @@ async function saveClick() {
 </script>
 
 <template>
-  <div v-if="recipe" flex="~ row" mx-2 justify-between text-left font-mono text-xl>
+  <div v-if="props.recipe" flex="~ row" mx-2 justify-between text-left font-mono text-xl>
     <div flex="~ row" items-center>
       <div class="i-fa6-solid-eye orangeIcon" />
       <div ml-1 text-orange-500 text-shadow-orange>
-        {{ formatNumber(recipe.viewCount) }}
+        {{ formatNumber(props.recipe.viewCount) }}
       </div>
     </div>
     <div id="likeButton" :class="{ heartbeat: isLiking }" flex="~ row" cursor-pointer items-center @click="likeClick">
-      <div class="crimsonIcon" :class="recipe.isLiked ? 'i-ph-heart-fill' : 'i-ph-heart-bold'" />
+      <div class="crimsonIcon" :class="props.recipe.isLiked ? 'i-ph-heart-fill' : 'i-ph-heart-bold'" />
       <div ml-1 text-crimson-500 text-shadow-crimson>
-        {{ formatNumber(recipe.likeCount) }}
+        {{ formatNumber(props.recipe.likeCount) }}
       </div>
     </div>
     <div id="saveButton" :class="{ heartbeat: isSaving }" flex="~ row" cursor-pointer items-center @click="saveClick">
-      <div shadow-blue class="blueIcon" :class="recipe.isSaved ? 'i-ph-bookmark-simple-fill' : 'i-ph-bookmark-simple-bold'" />
+      <div shadow-blue class="blueIcon" :class="props.recipe.isSaved ? 'i-ph-bookmark-simple-fill' : 'i-ph-bookmark-simple-bold'" />
       <div ml-1 text-blue-500 text-shadow-blue>
-        {{ formatNumber(recipe.saveCount) }}
+        {{ formatNumber(props.recipe.saveCount) }}
       </div>
     </div>
   </div>
