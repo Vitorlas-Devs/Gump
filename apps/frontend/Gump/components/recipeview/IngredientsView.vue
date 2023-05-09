@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { debounce } from 'lodash-es'
 
-defineProps<{
+const props = defineProps<{
   isEdting?: boolean
+  currentRecipe?: Recipe
 }>()
 
 const ui = useUIStore()
 const recipe = useRecipeStore()
+
+const currentRecipe = computed(() => {
+  return props.currentRecipe ? props.currentRecipe : recipe.currentRecipe
+})
 
 const rawInput = ref<HTMLTextAreaElement>()
 const ingredientInputs = ref<HTMLInputElement[]>([])
@@ -47,8 +52,8 @@ function handleInput(e: Event) {
 
 function handleHistoryClick(search: string) {
   recipe.addEmptyIngredient()
-  if (recipe.currentRecipe)
-    recipe.currentRecipe.ingredients[recipe.currentRecipe.ingredients.length - 1].name = search
+  if (currentRecipe.value)
+    currentRecipe.value.ingredients[currentRecipe.value.ingredients.length - 1].name = search
 
   toggleDropdown.value = false
   toggleResults.value = false
@@ -95,7 +100,7 @@ const recipesById = computed(() => {
   <div flex="~ col" mb-90 h-full w-full>
     <div v-if="ui.createMode === 'design'" ref="inputField" flex="~ col" items-center justify-between>
       <div
-        v-for="(ingredient, index) in recipe.currentRecipe?.ingredients" :key="index"
+        v-for="(ingredient, index) in currentRecipe?.ingredients" :key="index"
         flex="~ col" mx-1 h-full w-full items-center justify-between gap-2
         :class="ingredient.linkedRecipe === null ? '' : 'recipeInput border-b-2 border-orange-200 border-b-solid'"
       >
@@ -137,7 +142,7 @@ const recipesById = computed(() => {
           />
         </div>
         <div
-          v-if="dropdowns[index] && ingredient.linkedRecipe !== null"
+          v-if="dropdowns[index] && ingredient.linkedRecipe !== null && recipesById[ingredient.linkedRecipe]"
           w-full
         >
           <div

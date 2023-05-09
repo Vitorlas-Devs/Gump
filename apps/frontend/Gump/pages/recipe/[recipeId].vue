@@ -13,9 +13,6 @@ const currentRecipe = await recipe.getRecipeById(id)
 
 const authorName = await user.getAuthorNameById(currentRecipe?.author as number)
 
-const isLiked = ref<boolean>(user.current.likes.includes(currentRecipe?.id as number))
-const isSaved = ref<boolean>(user.current.recipes.includes(currentRecipe?.id as number))
-
 type RecipeTabType = Record<RecipeTab, { component: DefineComponent<{}, {}, any>; translation: string }>
 
 const recipeTabData: RecipeTabType = {
@@ -32,13 +29,33 @@ const recipeTabData: RecipeTabType = {
     translation: 'CreateSteps',
   },
 }
+
+function handleLiked() {
+  if (currentRecipe) {
+    currentRecipe.isLiked = !currentRecipe.isLiked
+    currentRecipe.likeCount += currentRecipe.isLiked ? 1 : -1
+    // recipe.$patch({
+    //   recipes: recipe.recipes.map(r => r.id === id ? currentRecipe : r),
+    // })
+  }
+}
+
+function handleSaved() {
+  if (currentRecipe) {
+    currentRecipe.isSaved = !currentRecipe.isSaved
+    currentRecipe.saveCount += currentRecipe.isSaved ? 1 : -1
+    // recipe.$patch({
+    //   recipes: recipe.recipes.map(r => r.id === id ? currentRecipe : r),
+    // })
+  }
+}
 </script>
 
 <template>
   <ion-page v-if="currentRecipe" bg-crimson-50>
     <TheHeader title-color="brown" :subtitle="authorName" :title="currentRecipe.title" />
     <img :src="image.getImage(currentRecipe.image)" h-40 w-full object-cover>
-    <RecipeFooter :recipe="currentRecipe" @like="isLiked = !isLiked" @save="isSaved = !isSaved" />
+    <RecipeFooter :recipe="currentRecipe" @like="handleLiked" @save="handleSaved" />
     <div
       flex="~ row" items-center justify-center space-x-4
     >
@@ -53,7 +70,7 @@ const recipeTabData: RecipeTabType = {
       </div>
     </div>
     <div grow overflow-y-auto>
-      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" :recipe="currentRecipe" />
+      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" :current-recipe="currentRecipe" />
     </div>
     <TheNavbar />
   </ion-page>

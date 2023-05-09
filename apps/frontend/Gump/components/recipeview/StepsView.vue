@@ -1,10 +1,15 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   isEdting?: boolean
+  currentRecipe?: Recipe
 }>()
 
 const recipe = useRecipeStore()
 const ui = useUIStore()
+
+const currentRecipe = computed(() => {
+  return props.currentRecipe ? props.currentRecipe : recipe.currentRecipe
+})
 
 const inputs = ref<HTMLElement[]>([])
 
@@ -27,7 +32,7 @@ function handleBackspace(e: Event, index: number) {
 
 const specialValues = computed(() => {
   return {
-    ...recipe.currentRecipe?.ingredients?.reduce((acc, ingredient) => {
+    ...currentRecipe.value?.ingredients?.reduce((acc, ingredient) => {
       acc[ingredient.name] = 'text-orange-500 font-bold'
       acc[ingredient.volume] = 'text-crimson-500 font-bold'
       acc[ingredient.value] = 'text-crimson-500 font-bold'
@@ -43,14 +48,14 @@ const foundRecipesList: { steps: string[]; trackedKey: string; index: number; di
 const toggledCarets = ref<boolean[]>([])
 
 const computedfoundRecipes = computed(() => {
-  if (!recipe.currentRecipe?.ingredients)
+  if (!currentRecipe.value?.ingredients)
     return
 
   foundRecipesList.splice(0, foundRecipesList.length)
   toggledCarets.value = []
 
   trackedKeys.value.forEach((trackedKeys, index) => {
-    const foundIngredients = recipe.currentRecipe?.ingredients?.filter(ingredient => trackedKeys.includes(ingredient.name))
+    const foundIngredients = currentRecipe.value?.ingredients?.filter(ingredient => trackedKeys.includes(ingredient.name))
     if (foundIngredients?.length) {
       const foundRecipesIds = foundIngredients.map(ingredient => ingredient.linkedRecipe)
       const foundRecipes = recipe.recipes.filter(recipe => foundRecipesIds.includes(recipe.id))
@@ -80,7 +85,7 @@ function toggleCaret(index: number) {
   <div flex="~ col" mb-90 h-full w-full>
     <div v-if="ui.createMode === 'design'" flex="~ col" items-center justify-between gap-2 px-1>
       <div
-        v-for="(step, index) in recipe.currentRecipe?.steps" :key="index"
+        v-for="(step, index) in currentRecipe?.steps" :key="index"
         flex="~ col" h-full w-full items-center gap-0 px-1
       >
         <div
@@ -90,14 +95,14 @@ function toggleCaret(index: number) {
             {{ index + 1 }}.
           </p>
           <XInput
-            v-if="recipe.currentRecipe"
+            v-if="currentRecipe"
             ref="inputs"
-            :track="recipe.currentRecipe.ingredients?.map(ingredient => ingredient.name)"
+            :track="currentRecipe.ingredients?.map(ingredient => ingredient.name)"
             :text="step"
             :special-values="specialValues"
             :readonly="!isEdting"
             h-full w-full self-center border-0 rounded-xl p-2
-            @input="recipe.currentRecipe.steps[index] = $event"
+            @input="currentRecipe.steps[index] = $event"
             @tracked-keys="trackedKeys[index] = $event"
             @keydown.enter="handleEnter($event, index)"
             @keydown.backspace="handleBackspace($event, index)"

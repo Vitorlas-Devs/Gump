@@ -1,17 +1,17 @@
 <script setup lang="ts">
 defineProps<{
-  currentRrecipe?: Recipe
+  currentRecipe?: Recipe
 }>()
 </script>
 
 <template>
-  <div v-if="currentRrecipe" h-full w-full flex="~ col">
+  <div v-if="currentRecipe" h-full w-full flex="~ col">
     <div flex="~ row" items-center justify-between>
       <p my-1>
         {{ `${$t('CreateVisibility')}:` }}
       </p>
       <p my-1>
-        {{ currentRrecipe.isPrivate ? $t('CreateVisibilityPrivateTitle') : $t('CreateVisibilityPublicTitle') }}
+        {{ currentRecipe.isPrivate ? $t('CreateVisibilityPrivateTitle') : $t('CreateVisibilityPublicTitle') }}
       </p>
     </div>
     <div flex="~ row" justify-between>
@@ -19,7 +19,7 @@ defineProps<{
         {{ `${$t('CreateLanguage')}:` }}
       </p>
       <p my-1>
-        {{ currentRrecipe.language }}
+        {{ currentRecipe.language }}
       </p>
     </div>
     <div flex="~ col">
@@ -27,7 +27,7 @@ defineProps<{
         {{ `${$t('CreateCategory')}:` }}
       </p>
       <div flex="~ row" flex-wrap gap-2>
-        <p v-for="category in currentRrecipe.categories" :key="category" my-1>
+        <p v-for="category in currentRecipe.categories" :key="category" my-1>
           {{ category }}
         </p>
       </div>
@@ -37,7 +37,7 @@ defineProps<{
         {{ `${$t('CreateTags')}:` }}
       </p>
       <div flex="~ row" flex-wrap gap-2>
-        <p v-for="tag in currentRrecipe.tags" :key="tag" my-1>
+        <p v-for="tag in currentRecipe.tags" :key="tag" my-1>
           {{ `#${tag}` }}
         </p>
       </div>

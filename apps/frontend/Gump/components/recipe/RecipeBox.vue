@@ -3,13 +3,16 @@ const props = defineProps<{
   recipe: SearchRecipe | Recipe
 }>()
 
+defineEmits<{
+  (event: 'like'): void
+  (event: 'save'): void
+}>()
+
 const image = useImageStore()
 const localePath = useLocalePath()
 const ui = useUIStore()
 const user = useUserStore()
 
-const isLiked = ref(false)
-const isSaved = ref(false)
 const authorName = ref('')
 
 async function viewRecipe(recipeId: number) {
@@ -20,19 +23,7 @@ async function viewRecipe(recipeId: number) {
 
 onMounted(async () => {
   authorName.value = await user.getAuthorNameById(props.recipe.author) ?? ''
-  console.log('box likes', user.current.likes)
-  console.log('props.recipe.id', props.recipe.id)
-  isLiked.value = user.current.likes.includes(props.recipe.id)
-  isSaved.value = user.current.recipes.includes(props.recipe.id)
 })
-
-function handleLike() {
-  isLiked.value = !isLiked.value
-}
-
-function handleSave() {
-  isSaved.value = !isSaved.value
-}
 </script>
 
 <template>
@@ -47,7 +38,7 @@ function handleSave() {
           {{ authorName }}
         </p>
       </div>
-      <RecipeFooter :recipe="recipe" @like="handleLike" @save="handleSave" />
+      <RecipeFooter :recipe="recipe" @like="$emit('like')" @save="$emit('save')" />
     </div>
   </div>
 </template>

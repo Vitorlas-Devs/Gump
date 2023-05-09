@@ -48,10 +48,13 @@ export const useRecipeStore = defineStore('recipe', {
         method: 'GET',
       }).json()
       if (data.value) {
+        const user = useUserStore()
+
         this.searchRecipes = data.value
+
         this.searchRecipes.forEach((recipe) => {
-          recipe.isSaved = false
-          recipe.isLiked = false
+          recipe.isLiked = user.current.likes.includes(recipe.id)
+          recipe.isSaved = user.current.recipes.includes(recipe.id)
         })
       }
       if (error.value)
@@ -125,15 +128,26 @@ export const useRecipeStore = defineStore('recipe', {
         return error.value
     },
     async getRecipeById(recipeId: number): Promise<Recipe | undefined> {
-      const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
-        headers: {},
-        method: 'GET',
-      }).json()
-      if (data.value)
-        return data.value
+      const recipe = this.recipes.find(recipe => recipe.id === recipeId)
+      if (recipe) {
+        return recipe
+      } else {
+        const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
+          headers: {},
+          method: 'GET',
+        }).json()
+        if (data.value) {
+          const user = useUserStore()
 
-      if (error.value)
-        return error.value
+          data.value.isLiked = user.current.likes.includes(data.value.id)
+
+          this.recipes.push(data.value)
+          return data.value
+        }
+
+        if (error.value)
+          return error.value
+      }
     },
   },
   persist: true,
