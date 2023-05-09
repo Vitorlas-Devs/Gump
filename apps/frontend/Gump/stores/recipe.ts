@@ -42,14 +42,17 @@ export const useRecipeStore = defineStore('recipe', {
     },
   },
   actions: {
-    async getSearchRecipes(searchTerm: string) {
-      const { data, error } = await gumpFetch(`recipe/search?sort=${searchTerm}`, {
+    async getSearchRecipes(searchTerm: string): Promise<SearchRecipe[] | undefined> {
+      const { data, error } = await gumpFetch<SearchRecipe[]>(`recipe/search?sort=${searchTerm}`, {
         headers: {},
         method: 'GET',
       }).json()
       if (data.value) {
-        console.log(data.value)
         this.searchRecipes = data.value
+        this.searchRecipes.forEach((recipe) => {
+          recipe.isSaved = false
+          recipe.isLiked = false
+        })
       }
       if (error.value)
         return error.value
@@ -98,7 +101,7 @@ export const useRecipeStore = defineStore('recipe', {
         linkedRecipe: recipe.id,
       })
     },
-    searchRecipes(query: string): Recipe[] {
+    search(query: string): Recipe[] {
       return this.recipes.filter(recipe => recipe.title.toLowerCase().includes(query.toLowerCase()))
     },
     async likeRecipe(recipeId: number) {

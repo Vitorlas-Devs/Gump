@@ -20,9 +20,19 @@ async function viewRecipe(recipeId: number) {
 
 onMounted(async () => {
   authorName.value = await user.getAuthorNameById(props.recipe.author) ?? ''
+  console.log('box likes', user.current.likes)
+  console.log('props.recipe.id', props.recipe.id)
   isLiked.value = user.current.likes.includes(props.recipe.id)
   isSaved.value = user.current.recipes.includes(props.recipe.id)
 })
+
+function handleLike() {
+  isLiked.value = !isLiked.value
+}
+
+function handleSave() {
+  isSaved.value = !isSaved.value
+}
 </script>
 
 <template>
@@ -37,7 +47,7 @@ onMounted(async () => {
           {{ authorName }}
         </p>
       </div>
-      <RecipeFooter :recipe="recipe" @like="isLiked = !isLiked" @save="isSaved = !isSaved" />
+      <RecipeFooter :recipe="recipe" @like="handleLike" @save="handleSave" />
     </div>
   </div>
 </template>

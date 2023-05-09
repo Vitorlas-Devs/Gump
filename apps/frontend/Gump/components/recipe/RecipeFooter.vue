@@ -16,15 +16,22 @@ const isSaving = ref(false)
 
 async function likeClick() {
   await recipe.likeRecipe(props.recipe.id)
-  const recipeToModify = recipe.recipes.find(r => r.id === props.recipe.id)
+  // const recipeToModify = recipe.searchRecipes.find(r => r.id === props.recipe.id)
+  // get recipeToModify from recipes if recipe is type Recipe
+  // get recipeToModify from searchRecipes if recipe is type SearchRecipe
+  const recipeToModify = recipe.searchRecipes.find(r => r.id === props.recipe.id) ?? recipe.recipes.find(r => r.id === props.recipe.id)
+  console.log('recipeToModify', recipeToModify)
 
   if (recipeToModify) {
+    console.log('isLiked', props.recipe.isLiked)
     if (props.recipe.isLiked) {
       recipeToModify.likeCount--
       user.current.likes = user.current.likes.filter(l => l !== props.recipe.id)
+      console.log('footer likes', user.current.likes)
     } else {
       recipeToModify.likeCount++
       user.current.likes.push(props.recipe.id)
+      console.log('footer likes', user.current.likes)
     }
   }
 
@@ -37,7 +44,7 @@ async function likeClick() {
 
 async function saveClick() {
   await recipe.saveRecipe(props.recipe.id)
-  const recipeToModify = recipe.recipes.find(r => r.id === props.recipe.id)
+  const recipeToModify = recipe.searchRecipes.find(r => r.id === props.recipe.id)
 
   if (recipeToModify) {
     if (props.recipe.isSaved) {
