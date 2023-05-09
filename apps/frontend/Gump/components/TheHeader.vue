@@ -21,7 +21,7 @@ const icons = ['i-fa6-solid-fire', 'i-ion-sparkles', 'i-fa6-solid-trophy']
 <template>
   <div flex="~ col" relative z-10 h-20 w-full justify-center bg-crimson-50 p-2 px-3 shadow-orange>
     <div flex="~ row" h-20 w-full items-center justify-between>
-      <h1 my-0 text-2xl font-bold :class="`text-${titleColor}-500 text-shadow-${titleColor}`">
+      <h1 my-0 truncate text-2xl font-bold :class="`text-${titleColor}-500 text-shadow-${titleColor}`">
         {{ title }}
       </h1>
       <h2 v-if="showModerator" text-xl font-bold text-blue-500 text-shadow-blue>
@@ -38,7 +38,7 @@ const icons = ['i-fa6-solid-fire', 'i-ion-sparkles', 'i-fa6-solid-trophy']
         />
       </div>
     </div>
-    <div v-if="subtitle" text-lg font-bold text-brown-500>
+    <div v-if="subtitle" truncate text-lg font-bold text-brown-500>
       {{ subtitle }}
     </div>
   </div>

@@ -12,5 +12,15 @@ type User = {
   followingCount: number
   followerCount: number
   badges: number[]
-  likes: number[]
 }
+
+type CurrentUser = Omit<User, 'followingCount' | 'followerCount'> & {
+  language: string
+  likes: number[]
+  following: number[]
+  follower: number[]
+  isModerator: boolean
+  token?: string
+}
+
+type SearchUser = Pick<User, 'id' | 'username' | 'profilePicture'>

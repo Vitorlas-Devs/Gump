@@ -32,6 +32,7 @@ export const emptyRecipe: Recipe = {
 export const useRecipeStore = defineStore('recipe', {
   state: () => ({
     recipes: [] as Recipe[],
+    searchRecipes: [] as SearchRecipe[],
     ingredients: [] as Ingredient[],
     currentRecipe: null as Recipe | null,
   }),
@@ -41,13 +42,13 @@ export const useRecipeStore = defineStore('recipe', {
     },
   },
   actions: {
-    async getRecipes(searchTerm: string) {
-      const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?sort=${searchTerm}`, {
+    async getSearchRecipes(searchTerm: string): Promise<SearchRecipe[] | undefined> {
+      const { data, error } = await gumpFetch<SearchRecipe[]>(`recipe/search?sort=${searchTerm}`, {
         headers: {},
         method: 'GET',
       }).json()
       if (data.value)
-        this.recipes = data.value
+        this.searchRecipes = data.value
       if (error.value)
         return error.value
     },
@@ -122,11 +123,11 @@ export const useRecipeStore = defineStore('recipe', {
           if (recipeToModify.isLiked) {
             recipeToModify.likeCount--
             recipeToModify.isLiked = false
-            user.likes = user.likes.filter(l => l !== recipeId)
+            user.current.likes = user.current.likes.filter(l => l !== recipeId)
           } else {
             recipeToModify.likeCount++
             recipeToModify.isLiked = true
-            user.likes.push(recipeId)
+            user.current.likes.push(recipeId)
           }
         }
         return data.value

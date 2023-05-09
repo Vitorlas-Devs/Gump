@@ -1,12 +1,20 @@
+export const emptyCurrentUser: CurrentUser = {
+  id: 0,
+  username: '',
+  profilePicture: 0,
+  recipes: [],
+  likes: [],
+  following: [],
+  follower: [],
+  badges: [],
+  language: '',
+  isModerator: false,
+}
+
 export const useUserStore = defineStore('user', {
   state: () => ({
-    id: 0,
-    username: '',
-    password: '',
-    email: '',
-    token: '',
-    likes: [] as number[],
-    recipes: [] as number[],
+    current: emptyCurrentUser,
+    all: [] as User[],
   }),
   getters: {},
   actions: {
@@ -16,7 +24,7 @@ export const useUserStore = defineStore('user', {
         body: JSON.stringify(userDto),
       }).text().post()
       if (data.value)
-        this.id = parseInt(data.value, 10)
+        this.current.id = parseInt(data.value, 10)
       if (error.value)
         return error.value
     },
@@ -25,9 +33,10 @@ export const useUserStore = defineStore('user', {
         headers: {},
         method: 'POST',
         body: JSON.stringify(userDto),
-      })
+      }).json()
       if (data.value)
-        this.token = data.value.token
+        this.current.token = data.value.token
+
       if (error.value)
         return error.value
     },
@@ -42,15 +51,15 @@ export const useUserStore = defineStore('user', {
         return '¯⁠\\_(⁠ツ⁠)_/⁠¯'
     },
     async getUserData() {
-      const { data, error } = await gumpFetch<User>('user/me', {
+      const { data, error } = await gumpFetch<CurrentUser>('user/me', {
+        headers: {
+          Authorization: `Bearer ${this.current.token}`,
+        },
         method: 'GET',
       }).json()
-      if (data.value) {
-        this.username = data.value.username
-        this.email = data.value.email
-        this.likes = data.value.likes
-        this.recipes = data.value.recipes
-      }
+      if (data.value)
+        this.current = data.value
+
       if (error.value)
         return error.value
     },

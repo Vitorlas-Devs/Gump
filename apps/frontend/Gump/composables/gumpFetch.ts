@@ -1,12 +1,16 @@
-import { createFetch, useLocalStorage } from '@vueuse/core'
+import { createFetch } from '@vueuse/core'
+import { useCookies } from '@vueuse/integrations/useCookies'
 
-const user = useCookie('user')
-const token = useLocalStorage('token', '')
-console.log('user', user.value)
-console.log('token', token.value)
+const cookies = useCookies(['user'])
+
+const token = ref('')
+if (cookies.get('user'))
+  token.value = cookies.get('user').current.token
+
+console.log(token.value)
 
 export const gumpFetch = createFetch({
-  baseUrl: 'https://api.gump.live/',
+  baseUrl: 'http://localhost:5135/api', // https://api.gump.live/ // http://localhost:5135/api
   fetchOptions: {
     headers: {
       'Authorization': `Bearer ${token.value}`,

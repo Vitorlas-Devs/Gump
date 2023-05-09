@@ -5,7 +5,7 @@ const user = useUserStore()
 
 watch(
   () => ui.activeSort,
-  async () => await recipe.getRecipes(ui.activeSort),
+  async () => await recipe.getSearchRecipes(ui.activeSort),
   { immediate: true },
 )
 
@@ -19,8 +19,8 @@ onMounted(async () => {
 <template>
   <ion-page bg-crimson-50>
     <TheHeader show-icons :title="$t('HomeNav')" />
-    <div v-if="recipe.recipes" grow overflow-y-auto pb-30>
-      <RecipeBox v-for="r of recipe.recipes" :id="r.id" :key="r.id" :title="r.title" :author-id="r.author" :img-id="r.image" :views="r.viewCount" :likes="r.likeCount" :saves="r.saveCount" />
+    <div v-if="recipe.searchRecipes" grow overflow-y-auto pb-30>
+      <RecipeBox v-for="r of recipe.searchRecipes" :key="r.id" :recipe="r" />
       <br><br>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil voluptatum similique explicabo suscipit eum alias doloremque quidem iure corrupti pariatur. Explicabo neque assumenda ipsa, error accusamus vel recusandae aliquid doloremque.
       <br>

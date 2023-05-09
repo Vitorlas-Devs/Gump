@@ -5,7 +5,7 @@ const localePath = useLocalePath()
 const canLogin = ref(false)
 
 onMounted(async () => {
-  if (user.token)
+  if (user.current.token)
     await navigateTo(localePath('/home'))
   else
     canLogin.value = true

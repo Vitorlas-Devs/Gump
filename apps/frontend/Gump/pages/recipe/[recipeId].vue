@@ -12,8 +12,8 @@ ui.activeNav = 'Recipes'
 const currentRecipe = await recipe.getRecipeById(id)
 const authorName = await user.getAuthorNameById(currentRecipe?.author as number)
 
-const isLiked = ref<boolean>(user.likes.includes(currentRecipe?.id as number))
-const isSaved = ref<boolean>(user.recipes.includes(currentRecipe?.id as number))
+const isLiked = ref<boolean>(user.current.likes.includes(currentRecipe?.id as number))
+const isSaved = ref<boolean>(user.current.recipes.includes(currentRecipe?.id as number))
 
 type RecipeTabType = Record<RecipeTab, { component: DefineComponent<{}, {}, any>; translation: string }>
 
@@ -36,23 +36,23 @@ const recipeTabData: RecipeTabType = {
 <template>
   <ion-page v-if="currentRecipe" bg-crimson-50>
     <TheHeader title-color="brown" :subtitle="authorName" :title="currentRecipe.title" />
-    <div grow>
-      <img :src="image.getImage(currentRecipe.image)" h-40 w-full object-cover>
-      <RecipeFooter :id="id" @like="isLiked = !isLiked" @save="isSaved = !isSaved" />
+    <img :src="image.getImage(currentRecipe.image)" h-40 w-full object-cover>
+    <RecipeFooter :recipe="currentRecipe" @like="isLiked = !isLiked" @save="isSaved = !isSaved" />
+    <div
+      flex="~ row" items-center justify-center space-x-4
+    >
       <div
-        flex="~ row" items-center justify-center space-x-4
+        v-for="(tab, key, index) in recipeTabData"
+        :key="index"
+        cursor-pointer text-center text-2xl font-bold
+        :class="ui.activeRecipeTab === key ? 'text-crimson-500' : 'text-brown-500'"
+        @click="ui.activeRecipeTab = key"
       >
-        <div
-          v-for="(tab, key, index) in recipeTabData"
-          :key="index"
-          cursor-pointer text-center text-2xl font-bold
-          :class="ui.activeRecipeTab === key ? 'text-crimson-500' : 'text-brown-500'"
-          @click="ui.activeRecipeTab = key"
-        >
-          {{ $t(tab.translation) }}
-        </div>
+        {{ $t(tab.translation) }}
       </div>
-      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" />
+    </div>
+    <div grow overflow-y-auto>
+      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" :recipe="currentRecipe" />
     </div>
     <TheNavbar />
   </ion-page>

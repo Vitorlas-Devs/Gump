@@ -30,3 +30,8 @@ type Ingredient = {
 }
 
 type IngredientCreate = Omit<Ingredient, 'linkedRecipe'>
+
+type SearchRecipe = Pick<
+  Recipe,
+  'id' | 'title' | 'author' | 'image' | 'viewCount' | 'saveCount' | 'likeCount' | 'isPrivate' | 'isLiked' | 'isSaved'
+>
