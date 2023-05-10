@@ -1,7 +1,7 @@
-*                 @Rettend @Sylvester2003 @MAttila42
+*                         @Rettend @Sylvester2003 @MAttila42
 
-*.vue             @Rettend
+*.vue                     @Rettend
 
-*.cs              @MAttila42 @Sylvester2003
+*.cs                      @MAttila42 @Sylvester2003
 
-/apps/Localer/    @Rettend
+/apps/frontend/Localer/   @Rettend
