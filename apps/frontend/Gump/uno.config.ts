@@ -67,6 +67,10 @@ export default defineConfig({
       inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)',
       innerCrimson: 'inset 0px 2px 12px -4px rgb(209, 44, 95)',
       grey: '0px 2px 6px rgba(0, 0, 0, 0.5)',
+      leftActive: 'inset 10px 10px 12px -10px rgba(243, 88, 39, 0.4), inset -10px 20px 12px -20px rgba(243, 88, 39, 0.4);',
+      midActive: 'inset -10px 20px 12px -20px rgba(243, 88, 39, 0.4), inset 10px 20px 12px -20px rgba(243, 88, 39, 0.4);',
+      rightActive: 'inset -10px 10px 12px -10px rgba(243, 88, 39, 0.4), inset 10px 20px 12px -20px rgba(243, 88, 39, 0.4);',
+      inactive: '0px 8px 12px -8px rgba(243, 88, 39, 0.4)',
     },
   },
   shortcuts: [

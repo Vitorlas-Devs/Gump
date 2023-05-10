@@ -34,9 +34,9 @@ function handleLiked() {
   if (currentRecipe) {
     currentRecipe.isLiked = !currentRecipe.isLiked
     currentRecipe.likeCount += currentRecipe.isLiked ? 1 : -1
-    // recipe.$patch({
-    //   recipes: recipe.recipes.map(r => r.id === id ? currentRecipe : r),
-    // })
+    recipe.$patch({
+      searchRecipes: recipe.searchRecipes.map(r => r.id === id ? currentRecipe : r),
+    })
   }
 }
 
@@ -44,9 +44,9 @@ function handleSaved() {
   if (currentRecipe) {
     currentRecipe.isSaved = !currentRecipe.isSaved
     currentRecipe.saveCount += currentRecipe.isSaved ? 1 : -1
-    // recipe.$patch({
-    //   recipes: recipe.recipes.map(r => r.id === id ? currentRecipe : r),
-    // })
+    recipe.$patch({
+      searchRecipes: recipe.searchRecipes.map(r => r.id === id ? currentRecipe : r),
+    })
   }
 }
 </script>
@@ -56,21 +56,45 @@ function handleSaved() {
     <TheHeader title-color="brown" :subtitle="authorName" :title="currentRecipe.title" />
     <img :src="image.getImage(currentRecipe.image)" h-40 w-full object-cover>
     <RecipeFooter :recipe="currentRecipe" @like="handleLiked" @save="handleSaved" />
-    <div
-      flex="~ row" items-center justify-center space-x-4
-    >
+    <div m-2 grow overflow-y-auto>
       <div
-        v-for="(tab, key, index) in recipeTabData"
-        :key="index"
-        cursor-pointer text-center text-2xl font-bold
-        :class="ui.activeRecipeTab === key ? 'text-crimson-500' : 'text-brown-500'"
-        @click="ui.activeRecipeTab = key"
+        flex="~ row" absolute left-2 right-2 z-5 m-a items-center justify-center bg-crimson-50
       >
-        {{ $t(tab.translation) }}
+        <!-- if left is active, the one to it's right should have rounded-bl-5 -->
+        <!-- if middle is active the one to it's right should have rounded-bl-5 and the one to it's left should have rounded-br-5 -->
+        <!-- if right is active the one to it's left should have rounded-br-5 -->
+        <div
+          v-for="(tab, key, index) in recipeTabData"
+          :key="index"
+          flex-1 cursor-pointer px-5 py-1 text-center text-xl font-bold
+          :class="ui.activeRecipeTab === key
+            ? index === 0
+              ? 'shadow-leftActive'
+              : index === Object.keys(recipeTabData).length - 1
+                ? 'shadow-rightActive'
+                : 'shadow-midActive'
+            : 'shadow-inactive'"
+
+          :rounded="ui.activeRecipeTab === key
+            ? 't-5' : index === 0
+              ? ui.activeRecipeTab === Object.keys(recipeTabData)[1]
+                ? 'br-5'
+                : ''
+              : index === Object.keys(recipeTabData).length - 1
+                ? ui.activeRecipeTab === Object.keys(recipeTabData)[index - 1]
+                  ? 'bl-5'
+                  : ''
+                : ui.activeRecipeTab === Object.keys(recipeTabData)[index - 1]
+                  ? 'bl-5'
+                  : ui.activeRecipeTab === Object.keys(recipeTabData)[index + 1]
+                    ? 'br-5'
+                    : ''"
+          @click="ui.activeRecipeTab = key"
+        >
+          {{ $t(tab.translation) }}
+        </div>
       </div>
-    </div>
-    <div grow overflow-y-auto>
-      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" :current-recipe="currentRecipe" />
+      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" pt-15 :current-recipe="currentRecipe" />
     </div>
     <TheNavbar />
   </ion-page>

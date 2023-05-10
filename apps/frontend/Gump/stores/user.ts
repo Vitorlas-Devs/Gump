@@ -46,8 +46,8 @@ export const useUserStore = defineStore('user', {
         method: 'GET',
       }).json()
       if (data.value) {
-        const { token, ...rest } = this.current
-        this.current = rest
+        const { token } = this.current
+        this.current = data.value
         this.current.token = token
       }
       if (error.value)

@@ -176,7 +176,7 @@ const recipesById = computed(() => {
         </div>
       </div>
       <SearchDropdown
-        v-if="toggleDropdown"
+        v-if="toggleDropdown && !readonly"
         :top-position="dropdownTop" :show-results="toggleResults"
         @handle-history-click="handleHistoryClick"
       />

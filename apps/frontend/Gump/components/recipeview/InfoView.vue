@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <div v-if="currentRecipe" h-full w-full flex="~ col">
+  <div v-if="currentRecipe" flex="~ col" rounded-b-4 px-4 pb-2 shadow-inner>
     <div flex="~ row" items-center justify-between>
       <p my-1>
         {{ `${$t('CreateVisibility')}:` }}
