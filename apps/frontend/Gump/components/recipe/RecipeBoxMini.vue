@@ -17,11 +17,12 @@ function addRecipe(recipe: Recipe) {
 
 async function viewRecipe(recipeId: number) {
   ui.activeNav = 'Recipes'
+  ui.setParams('recipe', recipeId)
   await navigateTo(localePath(`/recipe/${recipeId}`))
 }
 
 onMounted(async () => {
-  authorName.value = await user.getAuthorNameById(props.recipe.author)
+  authorName.value = await user.getAuthorNameById(props.recipe.author) ?? ''
 })
 </script>
 

@@ -14,10 +14,17 @@ export const tabData = tabs.map(tab => ({
 
 export const sorts = ['hot', 'new', 'top'] as const
 
+export const recipeTabs = [
+  'Info',
+  'Ingredients',
+  'Steps',
+] as const
+
 export const useUIStore = defineStore('ui', {
   state: () => ({
     activeNav: 'Home' as Tab,
     activeSort: 'hot' as Sort,
+    activeRecipeTab: 'Info' as RecipeTab,
     searchToggled: false,
     dropdownToggled: false,
     searchValue: '',
@@ -26,6 +33,7 @@ export const useUIStore = defineStore('ui', {
     createHeaderStates: [false, false, false, false],
     createMode: 'design' as 'design' | 'raw',
     createYScroll: 0,
+    params: {} as Record<RouteName, number>,
   }),
   getters: {
     getSearchHistory(state) {
@@ -36,6 +44,9 @@ export const useUIStore = defineStore('ui', {
     },
   },
   actions: {
+    setParams(routeName: RouteName, id: number) {
+      this.params[routeName] = id
+    },
     setActiveNav(nav: Tab) {
       this.activeNav = nav
     },

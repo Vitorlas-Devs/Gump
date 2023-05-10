@@ -10,6 +10,7 @@ type Recipe = {
   ingredients: Ingredient[]
   steps: string[]
   viewCount: number
+  isSaved: boolean
   saveCount: number
   isLiked: boolean
   likeCount: number
@@ -29,3 +30,8 @@ type Ingredient = {
 }
 
 type IngredientCreate = Omit<Ingredient, 'linkedRecipe'>
+
+type SearchRecipe = Pick<
+  Recipe,
+  'id' | 'title' | 'author' | 'image' | 'viewCount' | 'saveCount' | 'likeCount' | 'isPrivate' | 'isLiked' | 'isSaved'
+>

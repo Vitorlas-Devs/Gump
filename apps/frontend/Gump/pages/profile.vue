@@ -15,7 +15,7 @@ const user = useUserStore()
       <LanguageSwitcher />
       <br><br>
       Change username:
-      <input v-model="user.username">
+      <input v-model="user.current.username">
     </div>
 
     <TheNavbar />

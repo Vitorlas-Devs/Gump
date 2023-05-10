@@ -17,6 +17,7 @@ export const emptyRecipe: Recipe = {
   ingredients: [],
   steps: [],
   viewCount: 0,
+  isSaved: false,
   saveCount: 0,
   isLiked: false,
   likeCount: 0,
@@ -31,6 +32,7 @@ export const emptyRecipe: Recipe = {
 export const useRecipeStore = defineStore('recipe', {
   state: () => ({
     recipes: [] as Recipe[],
+    searchRecipes: [] as SearchRecipe[],
     ingredients: [] as Ingredient[],
     currentRecipe: null as Recipe | null,
   }),
@@ -40,13 +42,21 @@ export const useRecipeStore = defineStore('recipe', {
     },
   },
   actions: {
-    async getRecipes(searchTerm: string) {
-      const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?sort=${searchTerm}`, {
+    async getSearchRecipes(searchTerm: string): Promise<SearchRecipe[] | undefined> {
+      const { data, error } = await gumpFetch<SearchRecipe[]>(`recipe/search?sort=${searchTerm}`, {
         headers: {},
         method: 'GET',
       }).json()
-      if (data.value)
-        this.recipes = data.value
+      if (data.value) {
+        const user = useUserStore()
+
+        this.searchRecipes = data.value
+
+        this.searchRecipes.forEach((recipe) => {
+          recipe.isLiked = user.current.likes.includes(recipe.id)
+          recipe.isSaved = user.current.recipes.includes(recipe.id)
+        })
+      }
       if (error.value)
         return error.value
     },
@@ -94,7 +104,7 @@ export const useRecipeStore = defineStore('recipe', {
         linkedRecipe: recipe.id,
       })
     },
-    searchRecipes(query: string): Recipe[] {
+    search(query: string): Recipe[] {
       return this.recipes.filter(recipe => recipe.title.toLowerCase().includes(query.toLowerCase()))
     },
     async likeRecipe(recipeId: number) {
@@ -117,16 +127,27 @@ export const useRecipeStore = defineStore('recipe', {
       if (error.value)
         return error.value
     },
-    async getRecipeById(recipeId: number) {
-      const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
-        headers: {},
-        method: 'GET',
-      }).json()
-      if (data.value)
-        return data.value
+    async getRecipeById(recipeId: number): Promise<Recipe | undefined> {
+      const recipe = this.recipes.find(r => r.id === recipeId)
+      if (recipe) {
+        return recipe
+      } else {
+        const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
+          headers: {},
+          method: 'GET',
+        }).json()
+        if (data.value) {
+          const user = useUserStore()
 
-      if (error.value)
-        return error.value
+          data.value.isLiked = user.current.likes.includes(data.value.id)
+
+          this.recipes.push(data.value)
+          return data.value
+        }
+
+        if (error.value)
+          return error.value
+      }
     },
   },
   persist: true,

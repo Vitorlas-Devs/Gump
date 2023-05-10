@@ -1,12 +1,21 @@
+export const emptyCurrentUser: CurrentUser = {
+  id: 0,
+  username: '',
+  profilePicture: 0,
+  recipes: [],
+  likes: [],
+  following: [],
+  follower: [],
+  badges: [],
+  language: '',
+  isModerator: false,
+  token: '',
+}
+
 export const useUserStore = defineStore('user', {
   state: () => ({
-    id: 0,
-    username: '',
-    password: '',
-    email: '',
-    token: '',
-    likes: [] as number[],
-    recipes: [] as number[],
+    current: emptyCurrentUser,
+    all: [] as User[],
   }),
   getters: {},
   actions: {
@@ -16,7 +25,7 @@ export const useUserStore = defineStore('user', {
         body: JSON.stringify(userDto),
       }).text().post()
       if (data.value)
-        this.id = parseInt(data.value, 10)
+        this.current.id = parseInt(data.value, 10)
       if (error.value)
         return error.value
     },
@@ -25,13 +34,26 @@ export const useUserStore = defineStore('user', {
         headers: {},
         method: 'POST',
         body: JSON.stringify(userDto),
-      })
+      }).json()
       if (data.value)
-        this.token = data.value.token
+        this.current.token = data.value.token
+
       if (error.value)
         return error.value
     },
-    async getAuthorNameById(id: number) {
+    async getUserData() {
+      const { data, error } = await gumpFetch<CurrentUser>('user/me', {
+        method: 'GET',
+      }).json()
+      if (data.value) {
+        const { token } = this.current
+        this.current = data.value
+        this.current.token = token
+      }
+      if (error.value)
+        return error.value
+    },
+    async getAuthorNameById(id: number): Promise<string | undefined> {
       const { data, error } = await gumpFetch<User>(`user/${id}`, {
         headers: {},
         method: 'GET',
@@ -40,19 +62,6 @@ export const useUserStore = defineStore('user', {
         return data.value.username
       if (error.value)
         return '¯⁠\\_(⁠ツ⁠)_/⁠¯'
-    },
-    async getUserData() {
-      const { data, error } = await gumpFetch<User>('user/me', {
-        method: 'GET',
-      }).json()
-      if (data.value) {
-        this.username = data.value.username
-        this.email = data.value.email
-        this.likes = data.value.likes
-        this.recipes = data.value.recipes
-      }
-      if (error.value)
-        return error.value
     },
   },
   persist: true,
