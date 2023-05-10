@@ -99,8 +99,8 @@ export const useRecipeStore = defineStore('recipe', {
     addRecipe(recipe: Recipe) {
       this.currentRecipe?.ingredients.push({
         name: recipe.title,
-        value: recipe.serves,
-        volume: 'adag',
+        value: 1,
+        volume: '',
         linkedRecipe: recipe.id,
       })
     },
