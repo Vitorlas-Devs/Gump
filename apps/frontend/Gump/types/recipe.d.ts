@@ -29,12 +29,6 @@ type Ingredient = {
   linkedRecipe: number // id of the recipe that this ingredient is linked to (0 if not linked)
 }
 
-type CachedRecipe = {
-  hot: Recipe[]
-  new: Recipe[]
-  top: Recipe[]
-}
-
 type IngredientCreate = Omit<Ingredient, 'linkedRecipe'>
 
 type SearchRecipe = Pick<

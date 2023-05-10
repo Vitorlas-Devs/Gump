@@ -5,18 +5,15 @@ const user = useUserStore()
 
 ui.activeNav = 'Home'
 
+const recipes = ref<SearchRecipe[] | undefined>(undefined)
+
 watch(
   () => ui.activeSort,
-  async () => await recipe.getRecipes(ui.activeSort),
+  async () => recipes.value = await recipe.getRecipes(ui.activeSort),
+  { immediate: true },
 )
 
 onMounted(async () => {
-  recipe.cachedRecipes = {
-    hot: [],
-    new: [],
-    top: [],
-  }
-  await recipe.getRecipes(ui.activeSort)
   await user.getUserData()
 })
 
@@ -38,8 +35,8 @@ function handleSaved(r: SearchRecipe) {
 <template>
   <ion-page bg-crimson-50>
     <TheHeader show-icons :title="$t('HomeNav')" />
-    <div v-if="recipe.searchRecipes" grow overflow-y-auto pb-30>
-      <RecipeBox v-for="r of recipe.searchRecipes" :key="r.id" :recipe="r" @like="handleLiked(r)" @save="handleSaved(r)" />
+    <div v-if="recipes" grow overflow-y-auto pb-30>
+      <RecipeBox v-for="r of recipes" :key="r.id" :recipe="r" @like="handleLiked(r)" @save="handleSaved(r)" />
       <MainButton fixed color="orange" icon-type="create" title="Create recipe" />
     </div>
     <TheNavbar />

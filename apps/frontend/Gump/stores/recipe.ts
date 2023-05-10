@@ -35,7 +35,7 @@ export const useRecipeStore = defineStore('recipe', {
     searchRecipes: [] as SearchRecipe[],
     ingredients: [] as Ingredient[],
     currentRecipe: null as Recipe | null,
-    cachedRecipes: { hot: [], new: [], top: [] } as CachedRecipe,
+    cachedRecipes: {} as Record<Sort, Recipe[]>,
   }),
   getters: {
     getEmptyIngredients(): Ingredient[] {
@@ -43,18 +43,18 @@ export const useRecipeStore = defineStore('recipe', {
     },
   },
   actions: {
-    async getRecipes(searchTerm: 'hot' | 'new' | 'top') {
-      if (this.cachedRecipes && this.cachedRecipes[searchTerm].length > 0) {
-        this.recipes = this.cachedRecipes[searchTerm]
+    async getRecipes(sort: Sort): Promise<Recipe[] | undefined> {
+      if (this.cachedRecipes && this.cachedRecipes[sort].length > 0) {
+        this.recipes = this.cachedRecipes[sort]
         return this.recipes
       }
 
-      const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?sort=${searchTerm}`, {
+      const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?sort=${sort}`, {
         headers: {},
         method: 'GET',
       }).json()
       if (data.value) {
-        this.cachedRecipes[searchTerm] = data.value
+        this.cachedRecipes[sort] = data.value
         this.recipes = data.value
         return this.recipes
       }
