@@ -15,7 +15,7 @@ function addItem() {
     <CreateHeader />
     <CreateSubHeader variant="ingredients" />
     <div h-50vh grow overflow-y-auto>
-      <IngredientsView :is-edting="true" />
+      <IngredientsView :is-editing="true" />
     </div>
     <MainButton fixed color="crimson" :title="$t('CreateItemButton')" @click="addItem" />
     <TheNavbar />

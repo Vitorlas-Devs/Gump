@@ -1,8 +1,7 @@
 <script setup lang="ts">
-const route = useRoute()
 const ui = useUIStore()
 
-const id = route.params.recipeId
+const id = ui.params.recipes
 
 ui.activeNav = 'Recipes'
 </script>

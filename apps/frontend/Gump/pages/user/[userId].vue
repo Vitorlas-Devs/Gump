@@ -1,8 +1,7 @@
 <script setup lang="ts">
-const route = useRoute()
 const ui = useUIStore()
 
-const id = route.params.userId
+const id = ui.params.user
 
 ui.activeNav = 'Profile'
 </script>

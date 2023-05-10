@@ -19,9 +19,9 @@ const icons = ['i-fa6-solid-fire', 'i-ion-sparkles', 'i-fa6-solid-trophy']
 </script>
 
 <template>
-  <div flex="~ col" relative z-10 h-20 w-full bg-crimson-50 p-2 px-3 shadow-orange>
-    <div flex="~ row" :h="subtitle ? 10 : 'max'" w-full items-center justify-between>
-      <h1 text-2xl font-bold :class="`text-${titleColor}-500 text-shadow-${titleColor}`">
+  <div flex="~ col" relative z-10 h-20 w-full justify-center bg-crimson-50 p-2 px-3 shadow-orange>
+    <div flex="~ row" h-20 w-full items-center justify-between>
+      <h1 my-0 text-2xl font-bold :class="`text-${titleColor}-500 text-shadow-${titleColor}`">
         {{ title }}
       </h1>
       <h2 v-if="showModerator" text-xl font-bold text-blue-500 text-shadow-blue>

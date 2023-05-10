@@ -24,7 +24,7 @@ watch(() => props.showResults, (showResults) => {
   if (showResults) {
     const searchValue = ui.searchValue.trim()
     if (searchValue.length > 2)
-      foundRecipes.value = recipe.searchRecipes(searchValue)
+      foundRecipes.value = recipe.search(searchValue)
   }
 })
 
@@ -37,7 +37,7 @@ function handleHistoryClick(search: string) {
   } else {
     const searchValue = ui.searchValue.trim()
     if (searchValue.length > 2)
-      foundRecipes.value = recipe.searchRecipes(searchValue)
+      foundRecipes.value = recipe.search(searchValue)
   }
 }
 </script>
