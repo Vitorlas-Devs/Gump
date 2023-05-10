@@ -102,7 +102,7 @@ const recipesById = computed(() => {
       <div
         v-for="(ingredient, index) in currentRecipe?.ingredients" :key="index"
         flex="~ col" mx-1 h-full w-full items-center justify-between gap-2
-        :class="ingredient.linkedRecipe === null ? '' : 'recipeInput border-b-2 border-orange-200 border-b-solid'"
+        :class="ingredient.linkedRecipe === 0 ? '' : 'recipeInput border-b-2 border-orange-200 border-b-solid'"
       >
         <div flex="~ row" h-full w-full items-center justify-between gap-2>
           <input
@@ -110,14 +110,14 @@ const recipesById = computed(() => {
             v-model="ingredient.name"
             :placeholder="`${$t('CreateIngredientsTip')}...`"
             w-full flex-1 border-0 p-2
-            :class="ingredient.linkedRecipe === null ? 'border-b-1 border-orange-500' : ''"
+            :class="ingredient.linkedRecipe === 0 ? 'border-b-1 border-orange-500' : ''"
             :readonly="!isEditing"
             @input="recipe.checkEmptyIngredients(); handleInput($event)"
             @focus="handleInputFocus($event)"
             @keydown.enter="handleInputBlur($event)"
             @keydown.backspace="handleBackspace($event, index)"
           >
-          <div v-if="ingredient.linkedRecipe === null" flex="~ row" gap-2>
+          <div v-if="ingredient.linkedRecipe === 0" flex="~ row" gap-2>
             <input
               v-model="ingredient.value"
               type="number"
@@ -142,7 +142,7 @@ const recipesById = computed(() => {
           />
         </div>
         <div
-          v-if="dropdowns[index] && ingredient.linkedRecipe !== null && recipesById[ingredient.linkedRecipe]"
+          v-if="dropdowns[index] && ingredient.linkedRecipe !== 0 && recipesById[ingredient.linkedRecipe]"
           w-full
         >
           <div
