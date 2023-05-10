@@ -3,15 +3,20 @@ const recipe = useRecipeStore()
 const ui = useUIStore()
 const user = useUserStore()
 
+ui.activeNav = 'Home'
+
 watch(
   () => ui.activeSort,
   async () => await recipe.getRecipes(ui.activeSort),
-  { immediate: true },
 )
 
-ui.activeNav = 'Home'
-
 onMounted(async () => {
+  recipe.cachedRecipes = {
+    hot: [],
+    new: [],
+    top: [],
+  }
+  await recipe.getRecipes(ui.activeSort)
   await user.getUserData()
 })
 </script>
