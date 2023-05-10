@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  isEdting?: boolean
+  isEditing?: boolean
   currentRecipe?: Recipe
 }>()
 
@@ -100,7 +100,7 @@ function toggleCaret(index: number) {
             :track="currentRecipe.ingredients?.map(ingredient => ingredient.name)"
             :text="step"
             :special-values="specialValues"
-            :readonly="!isEdting"
+            :readonly="!isEditing"
             h-full w-full self-center border-0 rounded-xl p-2
             @input="currentRecipe.steps[index] = $event"
             @tracked-keys="trackedKeys[index] = $event"

@@ -60,9 +60,6 @@ function handleSaved() {
       <div
         flex="~ row" absolute left-2 right-2 z-5 m-a items-center justify-center bg-crimson-50
       >
-        <!-- if left is active, the one to it's right should have rounded-bl-5 -->
-        <!-- if middle is active the one to it's right should have rounded-bl-5 and the one to it's left should have rounded-br-5 -->
-        <!-- if right is active the one to it's left should have rounded-br-5 -->
         <div
           v-for="(tab, key, index) in recipeTabData"
           :key="index"

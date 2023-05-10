@@ -2,7 +2,7 @@
 import { debounce } from 'lodash-es'
 
 const props = defineProps<{
-  isEdting?: boolean
+  isEditing?: boolean
   currentRecipe?: Recipe
 }>()
 
@@ -111,7 +111,7 @@ const recipesById = computed(() => {
             :placeholder="`${$t('CreateIngredientsTip')}...`"
             w-full flex-1 border-0 p-2
             :class="ingredient.linkedRecipe === null ? 'border-b-1 border-orange-500' : ''"
-            :readonly="!isEdting"
+            :readonly="!isEditing"
             @input="recipe.checkEmptyIngredients(); handleInput($event)"
             @focus="handleInputFocus($event)"
             @keydown.enter="handleInputBlur($event)"
@@ -123,14 +123,14 @@ const recipesById = computed(() => {
               type="number"
               placeholder="0"
               w-10 border-0 border-b-1 border-orange-500 p-2
-              :readonly="!isEdting"
+              :readonly="!isEditing"
               @input="recipe.checkEmptyIngredients"
             >
             <input
               v-model="ingredient.volume"
               placeholder="cup"
               w-18 border-0 border-b-1 border-orange-500 p-2
-              :readonly="!isEdting"
+              :readonly="!isEditing"
               @input="recipe.checkEmptyIngredients"
             >
           </div>
@@ -176,7 +176,7 @@ const recipesById = computed(() => {
         </div>
       </div>
       <SearchDropdown
-        v-if="toggleDropdown && !readonly"
+        v-if="toggleDropdown && isEditing"
         :top-position="dropdownTop" :show-results="toggleResults"
         @handle-history-click="handleHistoryClick"
       />

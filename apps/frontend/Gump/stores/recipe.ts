@@ -128,7 +128,7 @@ export const useRecipeStore = defineStore('recipe', {
         return error.value
     },
     async getRecipeById(recipeId: number): Promise<Recipe | undefined> {
-      const recipe = this.recipes.find(recipe => recipe.id === recipeId)
+      const recipe = this.recipes.find(r => r.id === recipeId)
       if (recipe) {
         return recipe
       } else {

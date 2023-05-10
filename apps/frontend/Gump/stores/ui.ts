@@ -45,7 +45,7 @@ export const useUIStore = defineStore('ui', {
   },
   actions: {
     setParams(routeName: RouteName, id: number) {
-      this.params[routeName as RouteName] = id
+      this.params[routeName] = id
     },
     setActiveNav(nav: Tab) {
       this.activeNav = nav
