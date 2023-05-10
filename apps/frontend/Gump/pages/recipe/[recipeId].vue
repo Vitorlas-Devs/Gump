@@ -5,6 +5,7 @@ const ui = useUIStore()
 const recipe = useRecipeStore()
 const user = useUserStore()
 const image = useImageStore()
+const localePath = useLocalePath()
 
 const id = ui.params.recipe
 ui.activeNav = 'Recipes'
@@ -47,6 +48,20 @@ function handleSaved() {
     recipe.$patch({
       searchRecipes: recipe.searchRecipes.map(r => r.id === id ? currentRecipe : r),
     })
+  }
+}
+
+async function addRecipe() {
+  if (recipe.currentRecipe && currentRecipe) {
+    recipe.currentRecipe.ingredients.push({
+      name: currentRecipe.title,
+      value: 1,
+      volume: '',
+      linkedRecipe: currentRecipe.id,
+    })
+    ui.activeNav = 'Create'
+    ui.activeRecipeTab = 'Ingredients'
+    await navigateTo(localePath('/create'))
   }
 }
 </script>
@@ -93,6 +108,7 @@ function handleSaved() {
       </div>
       <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" pt-15 :current-recipe="currentRecipe" />
     </div>
+    <MainButton fixed color="orange" icon-type="create" :title="$t('RecipeViewUseRecipe')" @click="addRecipe" />
     <TheNavbar />
   </ion-page>
 </template>

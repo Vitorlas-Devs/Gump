@@ -2,7 +2,7 @@ export const emptyIngredient: Ingredient = {
   name: '',
   value: 0,
   volume: '',
-  linkedRecipe: null,
+  linkedRecipe: 0,
 }
 
 export const emptyRecipe: Recipe = {
@@ -65,7 +65,7 @@ export const useRecipeStore = defineStore('recipe', {
         name: '',
         value: 0,
         volume: '',
-        linkedRecipe: id || null,
+        linkedRecipe: id || 0,
       })
     },
     addEmptyStep(index?: number) {
