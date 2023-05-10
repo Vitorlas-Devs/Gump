@@ -44,9 +44,13 @@ export const useRecipeStore = defineStore('recipe', {
   },
   actions: {
     async getRecipes(sort: Sort): Promise<Recipe[] | undefined> {
-      if (this.cachedRecipes && this.cachedRecipes[sort].length > 0) {
-        this.recipes = this.cachedRecipes[sort]
-        return this.recipes
+      if (this.cachedRecipes && !this.cachedRecipes[sort]) {
+        this.cachedRecipes[sort] = []
+      } else {
+        if (this.cachedRecipes[sort].length > 0) {
+          this.recipes = this.cachedRecipes[sort]
+          return this.recipes
+        }
       }
 
       const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?sort=${sort}`, {
