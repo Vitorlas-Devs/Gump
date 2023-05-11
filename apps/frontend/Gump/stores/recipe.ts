@@ -35,6 +35,7 @@ export const useRecipeStore = defineStore('recipe', {
     searchRecipes: [] as SearchRecipe[],
     ingredients: [] as Ingredient[],
     currentRecipe: null as Recipe | null,
+    cachedRecipes: {} as Record<Sort, Recipe[]>,
   }),
   getters: {
     getEmptyIngredients(): Ingredient[] {
@@ -42,21 +43,26 @@ export const useRecipeStore = defineStore('recipe', {
     },
   },
   actions: {
-    async getSearchRecipes(searchTerm: string): Promise<SearchRecipe[] | undefined> {
-      const { data, error } = await gumpFetch<SearchRecipe[]>(`recipe/search?sort=${searchTerm}`, {
+    async getRecipes(sort: Sort): Promise<Recipe[] | undefined> {
+      if (this.cachedRecipes && !this.cachedRecipes[sort]) {
+        this.cachedRecipes[sort] = []
+      } else {
+        if (this.cachedRecipes[sort].length > 0) {
+          this.recipes = this.cachedRecipes[sort]
+          return this.recipes
+        }
+      }
+
+      const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?sort=${sort}`, {
         headers: {},
         method: 'GET',
       }).json()
       if (data.value) {
-        const user = useUserStore()
-
-        this.searchRecipes = data.value
-
-        this.searchRecipes.forEach((recipe) => {
-          recipe.isLiked = user.current.likes.includes(recipe.id)
-          recipe.isSaved = user.current.recipes.includes(recipe.id)
-        })
+        this.cachedRecipes[sort] = data.value
+        this.recipes = data.value
+        return this.recipes
       }
+
       if (error.value)
         return error.value
     },

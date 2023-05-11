@@ -3,13 +3,13 @@ const recipe = useRecipeStore()
 const ui = useUIStore()
 const user = useUserStore()
 
+ui.activeNav = 'Home'
+
 watch(
   () => ui.activeSort,
-  async () => await recipe.getSearchRecipes(ui.activeSort),
+  async () => await recipe.getRecipes(ui.activeSort),
   { immediate: true },
 )
-
-ui.activeNav = 'Home'
 
 onMounted(async () => {
   await user.getUserData()
@@ -33,8 +33,8 @@ function handleSaved(r: SearchRecipe) {
 <template>
   <ion-page bg-crimson-50>
     <TheHeader show-icons :title="$t('HomeNav')" />
-    <div v-if="recipe.searchRecipes" grow overflow-y-auto pb-30>
-      <RecipeBox v-for="r of recipe.searchRecipes" :key="r.id" :recipe="r" @like="handleLiked(r)" @save="handleSaved(r)" />
+    <div v-if="recipe.recipes" grow overflow-y-auto pb-30>
+      <RecipeBox v-for="r of recipe.recipes" :key="r.id" :recipe="r" @like="handleLiked(r)" @save="handleSaved(r)" />
       <MainButton fixed color="orange" icon-type="create" title="Create recipe" />
     </div>
     <TheNavbar />
