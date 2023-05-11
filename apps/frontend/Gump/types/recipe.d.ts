@@ -5,7 +5,7 @@ type Recipe = {
   image: number
   language: string
   serves: number
-  categories: string[]
+  categories: number[]
   tags: string[]
   ingredients: Ingredient[]
   steps: string[]
@@ -20,6 +20,7 @@ type Recipe = {
   originalRecipe: number
   isPrivate: boolean
   forks: number[]
+  visibleTo: number[]
 }
 
 type Ingredient = {

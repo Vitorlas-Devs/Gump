@@ -63,6 +63,7 @@ export const useUserStore = defineStore('user', {
       if (error.value)
         return '¯⁠\\_(⁠ツ⁠)_/⁠¯'
     },
+    // async searchUser(search: string): Promise<User[] | undefined> {
   },
   persist: true,
 })

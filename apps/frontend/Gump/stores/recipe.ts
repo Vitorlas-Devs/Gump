@@ -27,6 +27,7 @@ export const emptyRecipe: Recipe = {
   originalRecipe: 0,
   isPrivate: false,
   forks: [],
+  visibleTo: [],
 }
 
 export const useRecipeStore = defineStore('recipe', {
@@ -34,7 +35,7 @@ export const useRecipeStore = defineStore('recipe', {
     recipes: [] as Recipe[],
     searchRecipes: [] as SearchRecipe[],
     ingredients: [] as Ingredient[],
-    currentRecipe: null as Recipe | null,
+    currentRecipe: undefined as Recipe | undefined,
     cachedRecipes: {} as Record<Sort, Recipe[]>,
   }),
   getters: {
