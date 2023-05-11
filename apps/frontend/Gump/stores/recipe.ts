@@ -44,11 +44,20 @@ export const useRecipeStore = defineStore('recipe', {
   },
   actions: {
     async getRecipes(sort: Sort): Promise<Recipe[] | undefined> {
+      const user = useUserStore()
+
+      if (user.current.id === 0)
+        await user.getUserData()
+
       if (this.cachedRecipes && !this.cachedRecipes[sort]) {
         this.cachedRecipes[sort] = []
       } else {
         if (this.cachedRecipes[sort].length > 0) {
           this.recipes = this.cachedRecipes[sort]
+          this.recipes.forEach((recipe) => {
+            recipe.isLiked = user.current.likes.includes(recipe.id)
+            recipe.isSaved = user.current.recipes.includes(recipe.id)
+          })
           return this.recipes
         }
       }
@@ -60,6 +69,10 @@ export const useRecipeStore = defineStore('recipe', {
       if (data.value) {
         this.cachedRecipes[sort] = data.value
         this.recipes = data.value
+        this.recipes.forEach((recipe) => {
+          recipe.isLiked = user.current.likes.includes(recipe.id)
+          recipe.isSaved = user.current.recipes.includes(recipe.id)
+        })
         return this.recipes
       }
 
