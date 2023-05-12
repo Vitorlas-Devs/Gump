@@ -3,9 +3,6 @@ import type {
   Store, StoreDefinition,
 } from 'pinia'
 import type {
-  PickActions,
-  PickGetters,
-  PickState,
   PiniaActionTree,
   PiniaActions, PiniaGetterTree, PiniaGetters,
   PiniaState, PiniaStateTree, PiniaStore, StoreId,
@@ -27,10 +24,9 @@ import type {
 
 // 👀 This Generic Store is also extendable!
 
-type BaseStore<T> = Store<'Base', BaseState<T>, BaseGetters, BaseActions<T>>
+export type BaseStore<T> = Store<'Base', BaseState<T>, BaseGetters, BaseActions<T>>
 type ExtendedBaseStore<T, S extends Store> = Store<StoreId<S>, BaseState<T>, BaseGetters, BaseActions<T>>
 type ExtendedBaseStoreDefinition<T, S extends Store> = StoreDefinition<StoreId<S>, BaseState<T>, BaseGetters, BaseActions<T>>
-export type PartialStore<T, TStore extends Store, S, G, A> = TStore extends Store<infer Id, infer State, infer Getters, infer Actions> ? Store<Id, State & S, Getters & G, Actions & A> : ExtendedBaseStore<T, TStore>
 
 // types for Base State, Getters, Actions
 

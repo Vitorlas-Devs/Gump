@@ -36,3 +36,7 @@ type PiniaStore<TStore extends Store> = {
 }
 
 type StoreId<TStore extends Store> = TStore extends Store<infer Id extends string, PiniaStateTree, PiniaGetterTree, PiniaActionTree> ? Id : never
+
+type ExtractStoreType<T extends Store> = T extends Store<string, infer S, infer G, infer A>
+  ? { state: S; getters: G; actions: A }
+  : never
