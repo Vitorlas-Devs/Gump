@@ -46,6 +46,7 @@ const test: Recipe = {
   viewCount: 1,
   saveCount: 0,
   isLiked: false,
+  isSaved: false,
   likeCount: 0,
   referenceCount: 1,
   isArchived: false,
@@ -54,24 +55,22 @@ const test: Recipe = {
   isPrivate: false,
   forks: [],
 }
+
+const recipeSort = ref('owned')
 </script>
 
 <template>
   <ion-page bg-crimson-50>
     <TheHeader :title="$t('RecipesNav')" />
-    <div grow>
-      <CreateSubHeader variant="ingredients" />
-      <CreateSubHeader variant="steps" />
-      <h1 text-crimson-500 text-shadow-crimson>
-        {{ $t('RecipesNav') }}
-      </h1>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil voluptatum similique explicabo suscipit eum alias doloremque quidem iure corrupti pariatur. Explicabo neque assumenda ipsa, error accusamus vel recusandae aliquid doloremque.
-      <br>
-      <div mt-5 class="orangeGradient" shadow="orange">
-        <div class="i-fa6-solid-box-tissue" />
+    <div flex="~ row" items-center justify-around>
+      <div :class="recipeSort === 'owned' ? 'bg-orange-500 text-white-500 drop-shadow-sm b-rd-25 drop-shadow-color-orange-500' : 'text-orange-500 text-shadow-orange'" cursor-pointer px-4 py-1 text-6 @click="recipeSort = 'owned'">
+        Owned
       </div>
-      <div mt-5 class="crimsonGradient" shadow="crimson">
-        <div class="i-fa6-solid-brush" />
+      <div :class="recipeSort === 'likes' ? 'bg-crimson-500 text-white-500 drop-shadow-sm b-rd-25 drop-shadow-color-crimson-500' : 'text-crimson-500 text-shadow-crimson'" cursor-pointer px-4 py-1 text-6 @click="recipeSort = 'likes'">
+        Likes
+      </div>
+      <div :class="recipeSort === 'saved' ? 'bg-blue-500 text-white-500 drop-shadow-sm b-rd-25 drop-shadow-color-blue-500' : 'text-blue-500 text-shadow-blue'" cursor-pointer px-4 py-1 text-6 @click="recipeSort = 'saved'">
+        Saved
       </div>
     </div>
     <RecipeBoxMini :recipe="test" />
