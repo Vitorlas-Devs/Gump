@@ -3,7 +3,7 @@ const ui = useUIStore()
 </script>
 
 <template>
-  <div flex="~ row" h-20 w-full items-center justify-center gap-10 bg-crimson-50 p-2 px-3 shadow-orange>
+  <div flex="~ row" h-20 w-full items-center justify-around gap-10 bg-crimson-50 p-2 px-3 shadow-orange>
     <div v-for="(state, index) in ui.createHeaderStates" :key="index" cursor-pointer :class="[ui.createHeaderStates[index] ? 'done' : 'empty']" @click="ui.createHeaderIndex = index">
       <div v-if="index === ui.createHeaderIndex" class="active" />
     </div>
