@@ -4,7 +4,7 @@ const ui = useUIStore()
 const user = useUserStore()
 const category = useCategoryStore()
 
-console.log(category.$state)
+category.get(1)
 
 function checkDone() {
   if (recipe.currentRecipe) {

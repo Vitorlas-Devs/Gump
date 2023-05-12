@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   ],
   imports: {
     // Auto-import these:
-    dirs: ['stores'],
+    dirs: ['stores', 'stores/shared'],
   },
   components: [
     {

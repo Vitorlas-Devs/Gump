@@ -1,6 +1,7 @@
 // https://github.com/vuejs/pinia/discussions/1324#discussioncomment-2833464
 
 import type { StateTree, Store } from 'pinia'
+import type { PersistedStateOptions } from 'pinia-plugin-persistedstate'
 
 type PiniaStateTree = StateTree
 type PiniaGetterTree = Record<string, (...args: any) => any>
@@ -11,6 +12,7 @@ type PickActions<TStore extends Store> = TStore extends Store<string, PiniaState
 type PickGetters<TStore extends Store> = TStore extends Store<string, PiniaStateTree, infer TGetters, PiniaActionTree> ? TGetters : never
 
 type CompatiblePiniaState<TState> = () => TState
+
 type CompatiblePiniaGetter<TGetter extends (...args: any) => any, TStore extends Store> = (this: TStore, state: PickState<TStore>) => ReturnType<TGetter>
 type CompatiblePiniaGetters<TGetters extends PiniaGetterTree, TStore extends Store> = {
   [Key in keyof TGetters]: CompatiblePiniaGetter<TGetters[Key], CompatibleStore<TStore>>;
@@ -30,4 +32,7 @@ type PiniaStore<TStore extends Store> = {
   state: PiniaState<TStore>
   getters: PiniaGetters<TStore>
   actions: PiniaActions<TStore>
+  persist?: boolean | PersistedStateOptions | PersistedStateOptions[]
 }
+
+type StoreId<TStore extends Store> = TStore extends Store<infer Id extends string, PiniaStateTree, PiniaGetterTree, PiniaActionTree> ? Id : never

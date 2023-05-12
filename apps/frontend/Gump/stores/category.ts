@@ -1,18 +1,44 @@
 // export const useCategoryStore = useStore<Category>('category', true)
 
-const store = defineStore('category', {
-  state: () => ({
-    selected: null as Category | null,
-  }),
-  actions: {
-    select(category: Category) {
-      this.selected = category
-    },
-  },
-})
+import type { Store } from 'pinia'
+import type { PiniaActionTree, PiniaActions, PiniaGetterTree, PiniaGetters, PiniaState, PiniaStateTree } from './shared/piniaTypes'
 
-export const useCategoryStore = useStore<Category>(
+type CategoryStore = Store<'category', CategoryState, CategoryGetters, CategoryActions<Category>>
+
+type CategoryState = {
+  currencySymbol: string
+} & PiniaStateTree
+
+type CategoryGetters = {
+  countWithCurrency(): string
+} & PiniaGetterTree
+
+type CategoryActions<T> = {
+  addEmpty(item: T): void
+} & PiniaActionTree
+
+const state: PiniaState<CategoryStore> = () => {
+  return {
+    currencySymbol: '$',
+  }
+}
+
+const getters: PiniaGetters<CategoryStore> = {
+  countWithCurrency(state) {
+    return `1000 ${state.currencySymbol}`
+  },
+}
+
+const actions: PiniaActions<CategoryStore> = {
+  addEmpty(item) {
+    console.log('addEmpty', item)
+  },
+}
+
+export const useCategoryStore = useStore<Category, CategoryStore>(
   'category',
-  store,
+  state,
+  getters,
+  actions,
   true,
 )
