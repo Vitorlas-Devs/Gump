@@ -95,8 +95,6 @@ export function useStore<
   },
   persist?: boolean,
 ) {
-  const { state, getters, actions } = store
-
   const baseState = createState<T>(() => ({
     current: null,
     all: ref<T[]>([]) as Ref<T[]>,
@@ -142,6 +140,8 @@ export function useStore<
         return error.value
     },
   })
+
+  const { state, getters, actions } = store
 
   const extendedStore: PiniaStore<ExtendedBaseStore<T, S>> = {
     state: () => ({
