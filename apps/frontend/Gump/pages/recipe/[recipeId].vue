@@ -12,7 +12,7 @@ ui.activeNav = 'Recipes'
 
 const currentRecipe = await recipe.getRecipeById(id)
 
-const authorName = await user.getAuthorNameById(currentRecipe?.author as number)
+const authorName = await user.getAuthorById(currentRecipe?.author as number)
 
 type RecipeTabType = Record<RecipeTab, { component: DefineComponent<{}, {}, any>; translation: string }>
 

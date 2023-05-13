@@ -6,6 +6,7 @@ const prop = defineProps<{
   model: string | string[]
   options: string[]
   mode: 'single' | 'multiple' | 'tags'
+  queryFunction?: (query: string) => Promise<any>
 }>()
 
 const emit = defineEmits<{
@@ -30,15 +31,15 @@ function handleBackspace(e: KeyboardEvent) {
   if (e.key === 'Backspace' && (e.target as HTMLInputElement).value === '' && !(prop.mode === 'single'))
     emit('update:model', prop.model.slice(0, -1))
 }
-
-const option = ['pizza', 'pasta', 'salad', 'soup', 'dessert', 'drink']
 </script>
 
 <template>
-  <div mx-2 w-60>
+  <div mx-2>
     <Multiselect
       :value="model"
-      :options="!(mode === 'multiple') ? options : option"
+      :options="mode === 'multiple' && queryFunction !== undefined ? async (query: string) => {
+        return await queryFunction!(query)
+      } : options"
       :multiple="!(mode === 'single')"
       :taggable="!(mode === 'single')"
       :create-option="mode === 'tags'"
@@ -47,6 +48,9 @@ const option = ['pizza', 'pasta', 'salad', 'soup', 'dessert', 'drink']
       :close-on-select="mode === 'single'"
       :close-on-deselect="false"
       :mode="mode === 'single' ? 'single' : 'tags'"
+      :allow-absent="true"
+      :delay="1"
+      :min-chars="1"
       class="select"
       @tag="addTag"
       @select="addTag"

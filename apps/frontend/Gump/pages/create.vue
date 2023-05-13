@@ -5,6 +5,7 @@ import type { DefineComponent } from 'nuxt/dist/app/compat/vue-demi'
 
 const recipe = useRecipeStore()
 const category = useCategoryStore()
+const ui = useUIStore()
 
 // onMounted, get all categories
 onMounted(async () => {
@@ -14,10 +15,10 @@ onMounted(async () => {
 type CreateTabType = Record<CreateTab, DefineComponent<{}, {}, any>>
 
 const createTabData: CreateTabType = {
-  Info: defineAsyncComponent(() => import('~/components/recipeview/CreateInfoView.vue')),
+  Info: defineAsyncComponent(() => import('~/components/create/CreateInfoView.vue')),
   Ingredients: defineAsyncComponent(() => import('~/components/recipeview/IngredientsView.vue')),
   Steps: defineAsyncComponent(() => import('~/components/recipeview/StepsView.vue')),
-  Details: defineAsyncComponent(() => import('~/components/recipeview/CreateDetailsView.vue')),
+  Details: defineAsyncComponent(() => import('~/components/create/CreateDetailsView.vue')),
 }
 
 function addItem() {
@@ -25,17 +26,30 @@ function addItem() {
   recipe.addEmptyStep()
   // recipe.recipes.push(emptyRecipe)
 }
+
+function createRecipe() {
+
+}
 </script>
 
 <template>
   <ion-page bg-crimson-50>
     <CreateHeader />
-    <!-- <CreateSubHeader variant="ingredients" /> -->
+    <CreateSubHeader
+      v-if="ui.activeCreateTab === 'Ingredients' || ui.activeCreateTab === 'Steps'"
+      :variant="ui.activeCreateTab === 'Ingredients' ? 'ingredients' : 'steps'"
+    />
     <div h-50vh grow overflow-y-auto pb-60 pt-5>
-      <CreateDetailsView :current-recipe="recipe.currentRecipe" />
+      <component :is="createTabData[ui.activeCreateTab]" :is-editing="true" :current-recipe="recipe.currentRecipe" />
     </div>
-    <!-- <MainButton fixed color="crimson" :title="$t('CreateItemButton')" @click="addItem" /> -->
-    <MainButton fixed color="orange" :title="$t('CreateRecipeButton')" @click="addItem" />
+    <MainButton
+      v-if="ui.activeCreateTab === 'Ingredients' || ui.activeCreateTab === 'Steps'"
+      fixed color="crimson" :title="$t('CreateItemButton')" @click="addItem"
+    />
+    <MainButton
+      v-else-if="ui.activeCreateTab === 'Details'"
+      fixed color="orange" :title="$t('CreateRecipeButton')" @click="createRecipe"
+    />
     <TheNavbar />
   </ion-page>
 </template>

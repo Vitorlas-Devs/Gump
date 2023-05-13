@@ -76,6 +76,7 @@ function checkDone() {
       </p>
       <SearchSelect
         v-model:model="recipe.currentRecipe.language"
+        w-60
         :options="['English', 'French', 'Spanish']"
         mode="single"
         @update:model="checkDone()"

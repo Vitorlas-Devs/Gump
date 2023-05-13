@@ -3,30 +3,39 @@ import type { Action, Getter, State, StoreFactory } from './shared/generic'
 type CategoryStore = StoreFactory<'category', Category, CategoryState, CategoryGetters, CategoryActions>
 
 type CategoryState = {
-  currencySymbol: string
 } & State
 
 type CategoryGetters = {
-  countWithCurrency(): string
+  getCategoryNameById(): (id: number) => string
+  getCategoryIdByName(): (name: string) => number
 } & Getter
 
 type CategoryActions = {
-  addEmpty(item: Category): void
+  getAllString(): Promise<string[] | undefined>
 } & Action
 
 const state = createState<Category, CategoryStore>(() => ({
-  currencySymbol: '$',
 }))
 
 const getters = createGetters<Category, CategoryStore>({
-  countWithCurrency(state) {
-    return `1000 ${state.currencySymbol}`
+  getCategoryNameById() {
+    return (id: number) => {
+      const category = this.all?.find(category => category.id === id)
+      return category?.name || ''
+    }
+  },
+  getCategoryIdByName() {
+    return (name: string) => {
+      const category = this.all?.find(category => category.name === name)
+      return category?.id || 0
+    }
   },
 })
 
 const actions = createActions<Category, CategoryStore>({
-  addEmpty(item) {
-    this.all?.push(item)
+  async getAllString() {
+    const categories = await this.getAll?.()
+    return categories?.map(category => category.name) || []
   },
 })
 

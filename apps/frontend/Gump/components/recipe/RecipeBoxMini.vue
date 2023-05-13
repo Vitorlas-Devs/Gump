@@ -22,7 +22,7 @@ async function viewRecipe(recipeId: number) {
 }
 
 onMounted(async () => {
-  authorName.value = await user.getAuthorNameById(props.recipe.author) ?? ''
+  authorName.value = await user.getAuthorById(props.recipe.author) ?? ''
 })
 </script>
 

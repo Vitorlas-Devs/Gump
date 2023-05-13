@@ -28,7 +28,7 @@ import type {
 
 type BaseStore<T> = Store<'Base', BaseState<T>, BaseGetters, BaseActions<T>>
 type ExtendedBaseStore<T, S extends Store> = Store<StoreId<S>, BaseState<T>, BaseGetters, BaseActions<T>>
-type ExtendedBaseStoreDefinition<T, S extends Store> = StoreDefinition<StoreId<S>, BaseState<T>, BaseGetters, BaseActions<T>>
+type ExtendedBaseStoreDefinition<T, S extends Store> = StoreDefinition<StoreId<S>, BaseState<T> & ExtractStoreType<S>['state'], BaseGetters & ExtractStoreType<S>['getters'], BaseActions<T> & ExtractStoreType<S>['actions']>
 
 // Helper functions to create state, getters, actions
 

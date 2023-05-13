@@ -14,6 +14,8 @@ export const tabData = tabs.map(tab => ({
 
 export const sorts = ['hot', 'new', 'top'] as const
 
+export const createTabs = ['Info', 'Ingredients', 'Steps', 'Details'] as const
+
 export const useUIStore = defineStore('ui', {
   state: () => ({
     activeNav: 'Home' as Tab,
