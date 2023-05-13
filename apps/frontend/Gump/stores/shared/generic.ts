@@ -3,9 +3,11 @@ import type {
   Store, StoreDefinition,
 } from 'pinia'
 import type {
-  PiniaActionTree,
-  PiniaActions, PiniaGetterTree, PiniaGetters,
-  PiniaState, PiniaStateTree, PiniaStore, StoreId,
+  ExtractStoreType,
+  PiniaActionTree, PiniaActions,
+  PiniaGetterTree, PiniaGetters,
+  PiniaState, PiniaStateTree,
+  PiniaStore, StoreId,
 } from './piniaTypes'
 
 // ⚡ Two ways to define the generic state:
@@ -24,23 +26,54 @@ import type {
 
 // 👀 This Generic Store is also extendable!
 
-export type BaseStore<T> = Store<'Base', BaseState<T>, BaseGetters, BaseActions<T>>
+type BaseStore<T> = Store<'Base', BaseState<T>, BaseGetters, BaseActions<T>>
 type ExtendedBaseStore<T, S extends Store> = Store<StoreId<S>, BaseState<T>, BaseGetters, BaseActions<T>>
 type ExtendedBaseStoreDefinition<T, S extends Store> = StoreDefinition<StoreId<S>, BaseState<T>, BaseGetters, BaseActions<T>>
 
+// Helper functions to create state, getters, actions
+
+export function createState<T, S extends Store = BaseStore<T>>(
+  state: PiniaState<S>,
+): PiniaState<S> {
+  return state
+}
+
+export function createGetters<T, S extends Store = BaseStore<T>>(
+  getters: PiniaGetters<S>,
+): PiniaGetters<S> {
+  return getters
+}
+
+export function createActions<T, S extends Store = BaseStore<T>>(
+  actions: PiniaActions<S>,
+): PiniaActions<S> {
+  return actions
+}
+
+export type StoreFactory<Id extends string, T, S, G, A> = Store<
+  Id,
+  S & Partial<ExtractStoreType<BaseStore<T>>['state']>,
+  G & Partial<ExtractStoreType<BaseStore<T>>['getters']>,
+  A & Partial<ExtractStoreType<BaseStore<T>>['actions']>
+>
+
+export type State = PiniaStateTree
+export type Getter = PiniaGetterTree
+export type Action = PiniaActionTree
+
 // types for Base State, Getters, Actions
 
-export type BaseState<T> = {
+type BaseState<T> = {
   current: T | null
   all: Ref<T[]>
 } & PiniaStateTree
 
-export type BaseGetters = {
+type BaseGetters = {
   getLength(): number
   getName(): string | undefined
 } & PiniaGetterTree
 
-export type BaseActions<T> = {
+type BaseActions<T> = {
   addEmpty(item: T): void
   get(id: number): Promise<UnwrapRef<T> | undefined>
   getAll(): Promise<T[] | undefined>
@@ -53,19 +86,21 @@ export function useStore<
   T extends { id: number }, S extends Store,
 >(
   name: string,
-  state: PiniaState<S>,
-  getters: PiniaGetters<S>,
-  actions: PiniaActions<S>,
+  store: {
+    state?: PiniaState<S>
+    getters?: PiniaGetters<S>
+    actions?: PiniaActions<S>
+  },
   persist?: boolean,
 ) {
-  const storeName: StoreId<S> = name as StoreId<S>
+  const { state, getters, actions } = store
 
-  const baseState: PiniaState<BaseStore<T>> = () => ({
+  const baseState = createState<T>(() => ({
     current: null,
     all: ref<T[]>([]) as Ref<T[]>,
-  })
+  }))
 
-  const baseGetters: PiniaGetters<BaseStore<T>> = {
+  const baseGetters = createGetters<T>({
     getLength(state) {
       return (<T[]>state.all).length
     },
@@ -73,9 +108,9 @@ export function useStore<
       if (state.current && hasName(state.current))
         return state.current.name
     },
-  }
+  })
 
-  const baseActions: PiniaActions<BaseStore<T>> = {
+  const baseActions = createActions<T>({
     addEmpty(item: T) {
       (<T[]> this.all).push(item)
     },
@@ -104,12 +139,12 @@ export function useStore<
       if (error.value)
         return error.value
     },
-  }
+  })
 
   const extendedStore: PiniaStore<ExtendedBaseStore<T, S>> = {
     state: () => ({
       ...baseState(),
-      ...state(),
+      ...state?.(),
     }),
     getters: {
       ...baseGetters,
@@ -122,7 +157,7 @@ export function useStore<
     persist,
   }
 
-  const extended = defineStore(storeName, extendedStore) as ExtendedBaseStoreDefinition<T, S>
+  const extended = defineStore(name, extendedStore) as ExtendedBaseStoreDefinition<T, S>
 
   return extended
 }
