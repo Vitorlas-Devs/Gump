@@ -20,14 +20,14 @@ export const useUserStore = defineStore('user', {
   getters: {
     getUserNameById() {
       return (id: number) => {
-        const user = this.all?.find(user => user.id === id)
-        return user?.username || ''
+        const foundUser = this.all?.find(user => user.id === id)
+        return foundUser?.username || ''
       }
     },
     getUserIdByName() {
       return (name: string) => {
-        const user = this.all?.find(user => user.username === name)
-        return user?.id || 1
+        const foundUser = this.all?.find(user => user.username === name)
+        return foundUser?.id || 1
       }
     },
   },
@@ -77,9 +77,9 @@ export const useUserStore = defineStore('user', {
         return '¯⁠\\_(⁠ツ⁠)_/⁠¯'
     },
     async getUserById(id: number): Promise<User | undefined> {
-      const user = this.all.find(user => user.id === id)
-      if (user) {
-        return user
+      const foundUser = this.all.find(user => user.id === id)
+      if (foundUser) {
+        return foundUser
       } else {
         const { data, error } = await gumpFetch<User>(`user/${id}`, {
           headers: {},

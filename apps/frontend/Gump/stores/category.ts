@@ -20,13 +20,13 @@ const state = createState<Category, CategoryStore>(() => ({
 const getters = createGetters<Category, CategoryStore>({
   getCategoryNameById() {
     return (id: number) => {
-      const category = this.all?.find(category => category.id === id)
+      const category = this.all?.find(c => c.id === id)
       return category?.name || ''
     }
   },
   getCategoryIdByName() {
     return (name: string) => {
-      const category = this.all?.find(category => category.name === name)
+      const category = this.all?.find(c => c.name === name)
       return category?.id || 0
     }
   },

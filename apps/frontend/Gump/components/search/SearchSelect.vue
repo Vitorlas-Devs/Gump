@@ -7,7 +7,6 @@ const prop = defineProps<{
   options: string[]
   mode: 'single' | 'multiple' | 'tags'
   queryFunction?: (query: string) => Promise<any>
-  resolveOnLoad?: boolean
 }>()
 
 const emit = defineEmits<{
