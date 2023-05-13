@@ -79,6 +79,19 @@ function showLinkedRecipe(index: number) {
 function toggleCaret(index: number) {
   toggledCarets.value[index] = !toggledCarets.value[index]
 }
+
+function checkDone() {
+  if (recipe.currentRecipe) {
+    if (recipe.currentRecipe.steps.every(step => step.length > 0))
+      ui.createHeaderStates[2] = true
+    else
+      ui.createHeaderStates[2] = false
+  }
+}
+
+watch(() => recipe.currentRecipe?.steps, () => {
+  checkDone()
+}, { immediate: true, deep: true })
 </script>
 
 <template>

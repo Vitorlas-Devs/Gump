@@ -7,6 +7,7 @@ const prop = defineProps<{
   options: string[]
   mode: 'single' | 'multiple' | 'tags'
   queryFunction?: (query: string) => Promise<any>
+  resolveOnLoad?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -49,7 +50,7 @@ function handleBackspace(e: KeyboardEvent) {
       :close-on-deselect="false"
       :mode="mode === 'single' ? 'single' : 'tags'"
       :allow-absent="true"
-      :delay="1"
+      :delay="mode === 'multiple' ? 0 : -1"
       :min-chars="1"
       class="select"
       @tag="addTag"

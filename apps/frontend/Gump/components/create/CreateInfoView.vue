@@ -23,6 +23,22 @@ function checkDone() {
       ui.createHeaderStates[0] = false
   }
 }
+
+const langs = computed({
+  get: () => {
+    // get language by code and return name of language
+    const lang = useLanguages.find(lang => lang.code === recipe.currentRecipe!.language)
+    return lang ? lang.name : ''
+  },
+  set: (value: string) => {
+    // get language by name and return code of language
+    const lang = useLanguages.find(lang => lang.name === value)
+    if (lang)
+      recipe.currentRecipe!.language = lang.code
+    else
+      recipe.currentRecipe!.language = ''
+  },
+})
 </script>
 
 <template>
@@ -75,9 +91,9 @@ function checkDone() {
         {{ $t('CreateLanguage') }}
       </p>
       <SearchSelect
-        v-model:model="recipe.currentRecipe.language"
+        v-model:model="langs"
         w-60
-        :options="['English', 'French', 'Spanish']"
+        :options="useLanguages.map(lang => lang.name)"
         mode="single"
         @update:model="checkDone()"
       />

@@ -94,6 +94,19 @@ const recipesById = computed(() => {
   })
   return result
 })
+
+function checkDone() {
+  if (recipe.currentRecipe) {
+    if (recipe.currentRecipe.ingredients.every(ingredient => ingredient.name.length > 0 && ingredient.value && ingredient.volume.length > 0))
+      ui.createHeaderStates[1] = true
+    else
+      ui.createHeaderStates[1] = false
+  }
+}
+
+watch(() => recipe.currentRecipe?.ingredients, () => {
+  checkDone()
+}, { immediate: true, deep: true })
 </script>
 
 <template>

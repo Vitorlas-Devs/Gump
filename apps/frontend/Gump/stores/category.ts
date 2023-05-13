@@ -1,4 +1,4 @@
-import type { Action, Getter, State, StoreFactory } from './shared/generic'
+import type { Actions, Getters, State, StoreFactory } from './shared/generic'
 
 type CategoryStore = StoreFactory<'category', Category, CategoryState, CategoryGetters, CategoryActions>
 
@@ -8,11 +8,11 @@ type CategoryState = {
 type CategoryGetters = {
   getCategoryNameById(): (id: number) => string
   getCategoryIdByName(): (name: string) => number
-} & Getter
+} & Getters
 
 type CategoryActions = {
   getAllString(): Promise<string[] | undefined>
-} & Action
+} & Actions
 
 const state = createState<Category, CategoryStore>(() => ({
 }))

@@ -69,7 +69,7 @@ async function addRecipe() {
 <template>
   <ion-page v-if="currentRecipe" bg-crimson-50>
     <TheHeader title-color="brown" :subtitle="authorName" :title="currentRecipe.title" />
-    <img :src="image.getImage(currentRecipe.image)" h-40 w-full object-cover>
+    <img :src="image.getImageUrl(currentRecipe.image)" h-40 w-full object-cover>
     <RecipeFooter :recipe="currentRecipe" @like="handleLiked" @save="handleSaved" />
     <div m-2 grow overflow-y-auto>
       <div

@@ -3,15 +3,15 @@ const recipe = useRecipeStore()
 const ui = useUIStore()
 const user = useUserStore()
 const category = useCategoryStore()
+const image = useImageStore()
 
-function checkDone() {
-  if (recipe.currentRecipe) {
-    if (recipe.currentRecipe.serves > 0 && recipe.currentRecipe.categories.length > 0 && recipe.currentRecipe.tags.length > 0)
-      ui.createHeaderStates[3] = true
-    else
-      ui.createHeaderStates[3] = false
-  }
-}
+const { files, open, reset, onChange } = useFileDialog()
+
+onChange((files) => {
+  checkDone()
+  if (files && files.length > 0)
+    image.uploadImage(files)
+})
 
 const serves = computed({
   get: () => {
@@ -43,6 +43,15 @@ const categories = computed({
 const categoryOptions = computed(() => {
   return category.all.map(c => c.name)
 })
+
+function checkDone() {
+  if (recipe.currentRecipe) {
+    if (recipe.currentRecipe.serves > 0 && recipe.currentRecipe.categories.length > 0 && recipe.currentRecipe.tags.length > 0 && recipe.currentRecipe.image)
+      ui.createHeaderStates[3] = true
+    else
+      ui.createHeaderStates[3] = false
+  }
+}
 </script>
 
 <template>
@@ -100,6 +109,24 @@ const categoryOptions = computed(() => {
         mode="tags"
         @update:model="checkDone()"
       />
+    </div>
+    <div flex="~ col" w-full justify-between gap-2>
+      <div flex="~ row" items-center space-x-xl>
+        <p my-1 text-4xl>
+          📸
+        </p>
+        <p v-if="files && files.length > 0" my-1 mb-2 self-end font-bold>
+          {{ files[0].name }}
+        </p>
+      </div>
+      <div flex="~ row" w-full space-x-xl>
+        <button type="button" class="orangeBtn" @click="open({ multiple: false, accept: 'image/png' })">
+          Choose image
+        </button>
+        <div class="crimsonBtn">
+          <div class="i-ph-camera-slash-bold whiteIcon" @click="reset(); recipe.currentRecipe.image = 0; checkDone()" />
+        </div>
+      </div>
     </div>
   </div>
 </template>

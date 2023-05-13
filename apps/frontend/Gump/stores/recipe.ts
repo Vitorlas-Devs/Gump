@@ -156,6 +156,32 @@ export const useRecipeStore = defineStore('recipe', {
           return error.value
       }
     },
+    async createRecipe(recipe?: Optional<Recipe, 'id'>): Promise<void> {
+      const thisRecipe = recipe || this.currentRecipe
+
+      if (thisRecipe)
+        delete thisRecipe.id
+
+      if (thisRecipe) {
+        // set author to current user
+        const user = useUserStore()
+        thisRecipe.author = user.current.id
+
+        const { data, error } = await gumpFetch('recipe/create', {
+          body: JSON.stringify(thisRecipe),
+        }).text().post()
+        if (data.value) {
+          const id = parseInt(data.value, 10)
+          this.recipes.push({
+            id,
+            ...thisRecipe,
+          })
+        }
+
+        if (error.value)
+          return error.value
+      }
+    },
   },
   persist: true,
 })

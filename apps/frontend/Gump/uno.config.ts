@@ -18,6 +18,7 @@ export default defineConfig({
   theme: {
     colors: {
       crimson: {
+        DEFAULT: '#D12C5F',
         50: '#FFF3F6',
         100: '#FFDAE5',
         200: '#FCC8D8',
@@ -78,7 +79,7 @@ export default defineConfig({
       coolOl:
       'my-2 pl-6 list-outside list-disc space-y-2 leading-relaxed',
     },
-    [/^([a-z]+)Btn$/, ([, c]) => `w-max rounded-full bg-${c}-500 px-6 py-4 font-bold text-white-500 shadow-${c}`],
+    [/^([a-z]+)Btn$/, ([, c]) => `w-max rounded-full bg-${c}-500 px-4 py-2 font-bold text-lg text-white-500 shadow-${c}`],
     [/^([a-z]+)Link$/, ([, c]) => `text-${c}-500 text-shadow-${c} underline underline-offset-5 underline-${c}-500 font-bold`],
     [/^([a-z]+)Icon$/, ([, c]) => `w-6 h-6 text-${c}-500`],
     [/^([a-z]+)Gradient$/, ([, c]) => `bg-gradient-to-rt from-${c}-600 to-${c}-400`],

@@ -22,13 +22,10 @@ const createTabData: CreateTabType = {
 }
 
 function addItem() {
-  recipe.addEmptyIngredient()
-  recipe.addEmptyStep()
-  // recipe.recipes.push(emptyRecipe)
-}
-
-function createRecipe() {
-
+  if (ui.activeCreateTab === 'Ingredients')
+    recipe.addEmptyIngredient()
+  else if (ui.activeCreateTab === 'Steps')
+    recipe.addEmptyStep()
 }
 </script>
 
@@ -40,7 +37,7 @@ function createRecipe() {
       :variant="ui.activeCreateTab === 'Ingredients' ? 'ingredients' : 'steps'"
     />
     <div h-50vh grow overflow-y-auto pb-60 pt-5>
-      <component :is="createTabData[ui.activeCreateTab]" :is-editing="true" :current-recipe="recipe.currentRecipe" />
+      <component :is="createTabData[ui.activeCreateTab]" :is-editing="true" />
     </div>
     <MainButton
       v-if="ui.activeCreateTab === 'Ingredients' || ui.activeCreateTab === 'Steps'"
@@ -48,7 +45,7 @@ function createRecipe() {
     />
     <MainButton
       v-else-if="ui.activeCreateTab === 'Details'"
-      fixed color="orange" :title="$t('CreateRecipeButton')" @click="createRecipe"
+      fixed color="orange" :title="$t('CreateRecipeButton')" @click="recipe.createRecipe()"
     />
     <TheNavbar />
   </ion-page>

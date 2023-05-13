@@ -50,7 +50,9 @@ export function createActions<T, S extends Store = BaseStore<T>>(
   return actions
 }
 
-export type StoreFactory<Id extends string, T, S, G, A> = Store<
+export type StoreFactory<
+  Id extends string, T, S = Partial<BaseState<T>>, G = Partial<BaseGetters>, A = Partial<BaseActions<T>>,
+> = Store<
   Id,
   S & Partial<ExtractStoreType<BaseStore<T>>['state']>,
   G & Partial<ExtractStoreType<BaseStore<T>>['getters']>,
@@ -58,8 +60,8 @@ export type StoreFactory<Id extends string, T, S, G, A> = Store<
 >
 
 export type State = PiniaStateTree
-export type Getter = PiniaGetterTree
-export type Action = PiniaActionTree
+export type Getters = PiniaGetterTree
+export type Actions = PiniaActionTree
 
 // types for Base State, Getters, Actions
 
@@ -83,7 +85,7 @@ type BaseActions<T> = {
 
 // define a store factory that takes a generic type and a name and returns a store
 export function useStore<
-  T extends { id: number }, S extends Store,
+  T extends { id: number }, S extends Store = BaseStore<T>,
 >(
   name: string,
   store: {

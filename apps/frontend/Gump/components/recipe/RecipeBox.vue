@@ -28,7 +28,7 @@ onMounted(async () => {
 
 <template>
   <div flex="~ col" shadow-orangeBox m-4 h-262px rounded-2xl bg-orange-50>
-    <img :src="image.getImage(recipe.image)" h="367/593" w-full cursor-pointer self-center rounded-t-2xl object-cover @click="viewRecipe(recipe.id)">
+    <img :src="image.getImageUrl(recipe.image)" h="367/593" w-full cursor-pointer self-center rounded-t-2xl object-cover @click="viewRecipe(recipe.id)">
     <div flex="~ col" shadow-orangeImage px-1 text-center text-shadow>
       <div cursor-pointer @click="viewRecipe(recipe.id)">
         <p my-1 truncate text-xl>
