@@ -1,4 +1,7 @@
-# Gump
+<h1 align="left">
+  Gump
+  <img align="right" height="200px" src="https://github.com/14A-A-Lyedlik-Devs/Gump/assets/36823200/572a0571-d466-4390-8adc-fbbfbceb168d" />
+</h1>
 
 Localer: <https://gump.live>
 Backend: <https://api.gump.live>
