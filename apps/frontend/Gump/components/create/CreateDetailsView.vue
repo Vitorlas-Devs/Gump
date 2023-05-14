@@ -121,6 +121,11 @@ watch(() => recipe.currentRecipe?.image, () => {
         <p v-if="files && files.length > 0" my-1 mb-2 self-end font-bold>
           {{ files[0].name }}
         </p>
+        <p
+          v-else-if="recipe.currentRecipe.image" my-1 mb-2 self-end font-bold
+        >
+          image id: {{ recipe.currentRecipe.image }}
+        </p>
       </div>
       <div flex="~ row" w-full space-x-xl>
         <button type="button" class="orangeBtn" @click="open({ multiple: false, accept: 'image/png' })">

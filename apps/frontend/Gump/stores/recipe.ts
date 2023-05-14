@@ -147,6 +147,8 @@ export const useRecipeStore = defineStore('recipe', {
           const user = useUserStore()
 
           data.value.isLiked = user.current.likes.includes(data.value.id)
+          data.value.isSaved = user.current.recipes.includes(data.value.id)
+          data.value.visibleTo = []
 
           if (recipe)
             this.recipes.splice(this.recipes.indexOf(recipe), 1, data.value)

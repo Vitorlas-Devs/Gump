@@ -12,13 +12,26 @@ const image = useImageStore()
 const localePath = useLocalePath()
 const ui = useUIStore()
 const user = useUserStore()
+const recipeStore = useRecipeStore()
 
 const authorName = ref('')
 
 async function viewRecipe(recipeId: number) {
-  ui.activeNav = 'Recipes'
-  ui.setParams('recipe', recipeId)
-  await navigateTo(localePath(`/recipe/${recipeId}`))
+  // check if the current user is the owner of the recipe
+  if (user.current.id === props.recipe.author) {
+    ui.activeNav = 'Create'
+    ui.createHeaderStates = [true, true, true, true]
+    if ('ingredients' in props.recipe)
+      recipeStore.currentRecipe = props.recipe
+    else
+      recipeStore.currentRecipe = await recipeStore.getRecipeById(props.recipe.id)
+
+    await navigateTo(localePath('/create'))
+  } else {
+    ui.activeNav = 'Recipes'
+    ui.setParams('recipe', recipeId)
+    await navigateTo(localePath(`/recipe/${recipeId}`))
+  }
 }
 
 onMounted(async () => {

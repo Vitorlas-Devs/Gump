@@ -82,7 +82,7 @@ function toggleCaret(index: number) {
 
 function checkDone() {
   if (recipe.currentRecipe) {
-    if (recipe.currentRecipe.steps.every(step => step.length > 0))
+    if (recipe.currentRecipe.steps.length > 0 && recipe.currentRecipe.steps.every(step => step.length > 0))
       ui.createHeaderStates[2] = true
     else
       ui.createHeaderStates[2] = false
