@@ -22,7 +22,6 @@ defineEmits<{
     <div
       v-else-if="iconType === 'delete'"
       class="i-fa6-solid-trash-can whiteIcon"
-      mr="2"
     />
     <h1 v-if="title" m-a text-xl font-bold text-white-500 text-shadow-white>
       {{ title }}

@@ -7,7 +7,7 @@ type ImageGetters = {
 } & Getters
 
 type ImageActions = {
-  uploadImage(file: FileList): void
+  uploadImage(file: FileList): Promise<void>
 } & Actions
 
 const getters = createGetters<Image, ImageStore>({
