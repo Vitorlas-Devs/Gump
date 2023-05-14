@@ -89,8 +89,8 @@ function handleBackspace(e: Event, index: number) {
 
 const recipesById = computed(() => {
   const result: Record<number, Recipe> = {}
-  recipe.recipes.forEach((recipe) => {
-    result[recipe.id] = recipe
+  recipe.recipes.forEach((r) => {
+    result[r.id] = r
   })
   return result
 })
@@ -198,7 +198,7 @@ watch(() => recipe.currentRecipe?.ingredients, () => {
       v-else
       ref="rawInput"
       class="h-full w-full p-2"
-      placeholder="Enter ingredients here..."
+      placeholder="Don't type here... 👻"
       border-0 bg-crimson-50 shadow-inner
     />
   </div>

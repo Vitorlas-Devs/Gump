@@ -36,6 +36,9 @@ export default defineNuxtConfig({
       ['defineStore', 'definePiniaStore'],
     ],
   },
+  piniaPersistedstate: {
+    storage: 'localStorage',
+  },
   i18n: {
     locales: [
       {

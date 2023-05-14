@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-expressions, no-shadow */
 
 // nodeWalk: walk the element tree, stop when func(node) returns false
 function nodeWalk(node: Node, func: (node: Node) => boolean): boolean {

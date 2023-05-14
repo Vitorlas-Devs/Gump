@@ -27,18 +27,33 @@ function checkDone() {
 const langs = computed({
   get: () => {
     // get language by code and return name of language
-    const lang = useLanguages.find(lang => lang.code === recipe.currentRecipe!.language)
-    return lang ? lang.name : ''
+    const language = useLanguages.find(lang => lang.code === recipe.currentRecipe!.language)
+    return language ? language.name : ''
   },
   set: (value: string) => {
     // get language by name and return code of language
-    const lang = useLanguages.find(lang => lang.name === value)
-    if (lang)
-      recipe.currentRecipe!.language = lang.code
+    const language = useLanguages.find(lang => lang.name === value)
+    if (language)
+      recipe.currentRecipe!.language = language.code
     else
       recipe.currentRecipe!.language = ''
   },
 })
+
+const confirmDelete = ref(false)
+
+function deleteRecipe() {
+  if (confirmDelete.value) {
+    recipe.currentRecipe = undefined
+    ui.createHeaderStates = [false, false, false, false]
+    ui.createHeaderIndex = 0
+  } else {
+    confirmDelete.value = true
+    setTimeout(() => {
+      confirmDelete.value = false
+    }, 3000)
+  }
+}
 </script>
 
 <template>
@@ -98,6 +113,11 @@ const langs = computed({
         @update:model="checkDone()"
       />
     </div>
+    <MainButton
+      mt-10 transform-none self-center
+      :title="confirmDelete ? 'Click again to confirm' : ''"
+      color="crimson" icon-type="delete" @click="deleteRecipe()"
+    />
   </div>
 </template>
 

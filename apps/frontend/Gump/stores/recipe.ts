@@ -130,7 +130,7 @@ export const useRecipeStore = defineStore('recipe', {
       this.currentRecipe?.ingredients.push({
         name: recipe.title,
         value: 1,
-        volume: '',
+        volume: 'piece',
         linkedRecipe: recipe.id,
       })
     },
@@ -180,14 +180,17 @@ export const useRecipeStore = defineStore('recipe', {
       }
     },
     async createRecipe(recipe?: Optional<Recipe, 'id'>): Promise<void> {
+      const user = useUserStore()
+      const ui = useUIStore()
+      if (ui.createHeaderStates.some(state => !state))
+        return
+
       const thisRecipe = recipe || this.currentRecipe
 
       if (thisRecipe)
         delete thisRecipe.id
 
       if (thisRecipe) {
-        // set author to current user
-        const user = useUserStore()
         thisRecipe.author = user.current.id
 
         const { data, error } = await gumpFetch('recipe/create', {
@@ -199,6 +202,11 @@ export const useRecipeStore = defineStore('recipe', {
             id,
             ...thisRecipe,
           })
+          this.currentRecipe = emptyRecipe
+
+          user.current.recipes.push(id)
+          ui.createHeaderIndex = 0
+          ui.createHeaderStates = [false, false, false, false]
         }
 
         if (error.value)
