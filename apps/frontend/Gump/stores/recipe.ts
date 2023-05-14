@@ -27,6 +27,7 @@ export const emptyRecipe: Recipe = {
   originalRecipe: 0,
   isPrivate: false,
   forks: [],
+  visibleTo: [],
 }
 
 export const useRecipeStore = defineStore('recipe', {
@@ -34,7 +35,7 @@ export const useRecipeStore = defineStore('recipe', {
     recipes: [] as Recipe[],
     searchRecipes: [] as SearchRecipe[],
     ingredients: [] as Ingredient[],
-    currentRecipe: null as Recipe | null,
+    currentRecipe: undefined as Recipe | undefined,
     cachedRecipes: {} as Record<Sort, Recipe[]>,
   }),
   getters: {
@@ -118,8 +119,8 @@ export const useRecipeStore = defineStore('recipe', {
     addRecipe(recipe: Recipe) {
       this.currentRecipe?.ingredients.push({
         name: recipe.title,
-        value: recipe.serves,
-        volume: 'adag',
+        value: 1,
+        volume: '',
         linkedRecipe: recipe.id,
       })
     },
@@ -162,6 +163,32 @@ export const useRecipeStore = defineStore('recipe', {
 
           this.recipes.push(data.value)
           return data.value
+        }
+
+        if (error.value)
+          return error.value
+      }
+    },
+    async createRecipe(recipe?: Optional<Recipe, 'id'>): Promise<void> {
+      const thisRecipe = recipe || this.currentRecipe
+
+      if (thisRecipe)
+        delete thisRecipe.id
+
+      if (thisRecipe) {
+        // set author to current user
+        const user = useUserStore()
+        thisRecipe.author = user.current.id
+
+        const { data, error } = await gumpFetch('recipe/create', {
+          body: JSON.stringify(thisRecipe),
+        }).text().post()
+        if (data.value) {
+          const id = parseInt(data.value, 10)
+          this.recipes.push({
+            id,
+            ...thisRecipe,
+          })
         }
 
         if (error.value)

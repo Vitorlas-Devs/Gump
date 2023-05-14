@@ -14,17 +14,14 @@ export const tabData = tabs.map(tab => ({
 
 export const sorts = ['hot', 'new', 'top'] as const
 
-export const recipeTabs = [
-  'Info',
-  'Ingredients',
-  'Steps',
-] as const
+export const createTabs = ['Info', 'Ingredients', 'Steps', 'Details'] as const
 
 export const useUIStore = defineStore('ui', {
   state: () => ({
     activeNav: 'Home' as Tab,
     activeSort: 'hot' as Sort,
     activeRecipeTab: 'Info' as RecipeTab,
+    activeCreateTab: 'Info' as CreateTab,
     searchToggled: false,
     dropdownToggled: false,
     searchValue: '',

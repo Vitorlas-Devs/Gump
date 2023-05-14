@@ -17,7 +17,20 @@ export const useUserStore = defineStore('user', {
     current: emptyCurrentUser,
     all: [] as User[],
   }),
-  getters: {},
+  getters: {
+    getUserNameById() {
+      return (id: number) => {
+        const foundUser = this.all?.find(user => user.id === id)
+        return foundUser?.username || ''
+      }
+    },
+    getUserIdByName() {
+      return (name: string) => {
+        const foundUser = this.all?.find(user => user.username === name)
+        return foundUser?.id || 1
+      }
+    },
+  },
   actions: {
     async register(userDto: UserDto) {
       const { data, error } = await gumpFetch('user/create', {
@@ -53,7 +66,7 @@ export const useUserStore = defineStore('user', {
       if (error.value)
         return error.value
     },
-    async getAuthorNameById(id: number): Promise<string | undefined> {
+    async getAuthorById(id: number): Promise<string | undefined> {
       const { data, error } = await gumpFetch<User>(`user/${id}`, {
         headers: {},
         method: 'GET',
@@ -62,6 +75,54 @@ export const useUserStore = defineStore('user', {
         return data.value.username
       if (error.value)
         return '¯⁠\\_(⁠ツ⁠)_/⁠¯'
+    },
+    async getUserById(id: number): Promise<User | undefined> {
+      const foundUser = this.all.find(user => user.id === id)
+      if (foundUser) {
+        return foundUser
+      } else {
+        const { data, error } = await gumpFetch<User>(`user/${id}`, {
+          headers: {},
+          method: 'GET',
+        }).json()
+        if (data.value) {
+          this.all.push(data.value)
+          return data.value
+        }
+        if (error.value)
+          return error.value
+      }
+    },
+    async searchUser(search: string): Promise<SearchUser[] | undefined> {
+      const { data, error } = await gumpFetch<SearchUser[]>(`user/search?searchTerm=${search}`, {
+        headers: {},
+        method: 'GET',
+      }).json()
+      if (data.value) {
+        const promises = data.value.map(async (user: SearchUser) => await this.getUserById(user.id))
+
+        await Promise.all(promises)
+
+        return data.value
+      }
+      if (error.value)
+        return error.value
+    },
+    async searchUserName(search: string): Promise<string[] | undefined> {
+      const { data, error } = await gumpFetch<SearchUser[]>(`user/search?searchTerm=${search}`, {
+        headers: {},
+        method: 'GET',
+      }).json()
+      if (data.value) {
+        const promises = data.value.map(async (user: SearchUser) => await this.getUserById(user.id))
+
+        await Promise.all(promises)
+
+        return data.value.map((user: SearchUser) => user.username)
+      }
+
+      if (error.value)
+        return error.value
     },
   },
   persist: true,
