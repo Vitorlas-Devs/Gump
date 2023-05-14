@@ -7,7 +7,7 @@ const test: Recipe = {
   language: 'hu_HU',
   serves: 4,
   categories: [
-    'd',
+    1,
   ],
   tags: [
     'főtt',
@@ -53,6 +53,8 @@ const test: Recipe = {
   originalRecipe: 0,
   isPrivate: false,
   forks: [],
+  isSaved: false,
+  visibleTo: [],
 }
 </script>
 
