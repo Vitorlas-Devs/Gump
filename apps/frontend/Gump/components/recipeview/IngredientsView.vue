@@ -41,7 +41,6 @@ const debouncedDropdown = debounce(() => {
 }, 1000)
 
 function handleInput(e: Event) {
-  // e is to be used in the future (to send the data)
   if ((e.target as HTMLInputElement).value.length > 2) {
     toggleDropdown.value = true
     toggleResults.value = false

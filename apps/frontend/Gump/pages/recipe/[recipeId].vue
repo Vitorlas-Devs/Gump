@@ -106,7 +106,7 @@ async function addRecipe() {
           {{ $t(tab.translation) }}
         </div>
       </div>
-      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" pt-15 :current-recipe="currentRecipe" />
+      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" mb-10 pt-15 :current-recipe="currentRecipe" />
     </div>
     <MainButton fixed color="orange" icon-type="create" :title="$t('RecipeViewUseRecipe')" @click="addRecipe" />
     <TheNavbar />

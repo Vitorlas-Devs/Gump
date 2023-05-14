@@ -136,7 +136,7 @@ export const useRecipeStore = defineStore('recipe', {
     },
     async getRecipeById(recipeId: number): Promise<Recipe | undefined> {
       const recipe = this.recipes.find(r => r.id === recipeId)
-      if (recipe) {
+      if (recipe && recipe.ingredients) {
         return recipe
       } else {
         const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
@@ -148,7 +148,17 @@ export const useRecipeStore = defineStore('recipe', {
 
           data.value.isLiked = user.current.likes.includes(data.value.id)
 
-          this.recipes.push(data.value)
+          if (recipe)
+            this.recipes.splice(this.recipes.indexOf(recipe), 1, data.value)
+          else
+            this.recipes.push(data.value)
+
+          // for every ingredient in the recipe, check if it has a non-zero linkedRecipe and call getRecipeById on them
+          data.value.ingredients.forEach(async (ingredient: Ingredient) => {
+            if (ingredient.linkedRecipe)
+              await this.getRecipeById(ingredient.linkedRecipe)
+          })
+
           return data.value
         }
 
