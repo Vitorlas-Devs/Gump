@@ -21,6 +21,7 @@ async function viewRecipe(recipeId: number) {
   if (user.current.id === props.recipe.author) {
     ui.activeNav = 'Create'
     ui.createHeaderStates = [true, true, true, true]
+    ui.createIsEditing = true
     if ('ingredients' in props.recipe)
       recipeStore.currentRecipe = props.recipe
     else

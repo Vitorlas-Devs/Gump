@@ -202,6 +202,41 @@ export const useRecipeStore = defineStore('recipe', {
           return error.value
       }
     },
+    async updateRecipe(id: number, recipe: Partial<Recipe>): Promise<void> {
+      const { error } = await gumpFetch('recipe/update', {
+        method: 'PATCH',
+        body: JSON.stringify(recipe),
+      })
+
+      if (!error.value) {
+        const foundRecipe = this.recipes.find(r => r.id === id)
+        if (foundRecipe) {
+          // update each changed property of the recipe with the new values
+          Object.keys(recipe).forEach((prop) => {
+            const key = prop as keyof Recipe
+            if (foundRecipe[key] !== recipe[key])
+              setValues(foundRecipe, key, recipe[key] as Recipe[keyof Recipe])
+          })
+        }
+      }
+
+      if (error.value)
+        return error.value
+    },
+    async deleteRecipe(recipeId: number): Promise<void> {
+      const { data, error } = await gumpFetch(`recipe/delete/${recipeId}`, {
+        method: 'DELETE',
+      })
+      console.log(data.value)
+      if (data.value) {
+        const recipe = this.recipes.find(r => r.id === recipeId)
+        if (recipe)
+          this.recipes.splice(this.recipes.indexOf(recipe), 1)
+      }
+
+      if (error.value)
+        return error.value
+    },
   },
   persist: true,
 })

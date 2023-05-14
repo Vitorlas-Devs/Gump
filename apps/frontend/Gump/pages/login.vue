@@ -3,8 +3,8 @@ const user = useUserStore()
 const localePath = useLocalePath()
 
 const userDto = reactive<UserDto>({
-  username: '',
-  password: '',
+  username: 'TestUser',
+  password: 'secret',
 })
 
 async function handleLogin() {

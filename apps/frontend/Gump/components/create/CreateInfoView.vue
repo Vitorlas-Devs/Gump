@@ -1,6 +1,9 @@
 <script setup lang="ts">
+// import { debounce } from 'lodash-es'
+
 const recipe = useRecipeStore()
 const ui = useUIStore()
+const localePath = useLocalePath()
 
 const visibilityData = computed(() => {
   return {
@@ -15,12 +18,29 @@ const visibilityData = computed(() => {
   }
 })
 
-function checkDone() {
+// const changedRecipe = { ...recipe.currentRecipe }
+
+// const debouncedUpdate = debounce((changed: Partial<Recipe>) => {
+//   recipe.updateRecipe(recipe.currentRecipe!.id, changed)
+// }, 1500)
+
+async function checkDone() {
   if (recipe.currentRecipe) {
-    if (recipe.currentRecipe.title.length > 0 && recipe.currentRecipe.language.length > 0)
+    if (recipe.currentRecipe.title.length > 0 && recipe.currentRecipe.language.length > 0) {
       ui.createHeaderStates[0] = true
-    else
+      // find changed values
+      // for (const prop in recipe.currentRecipe) {
+      //   const key = prop as keyof Recipe
+
+      //   if (recipe.currentRecipe[key] !== changedRecipe[key]) {
+      //     setValues(changedRecipe, key, recipe.currentRecipe[key])
+      //     debouncedUpdate(changedRecipe)
+      //   }
+      // }
+      debouncedRecipeUpdate(recipe.currentRecipe)
+    } else {
       ui.createHeaderStates[0] = false
+    }
   }
 }
 
@@ -42,11 +62,15 @@ const langs = computed({
 
 const confirmDelete = ref(false)
 
-function deleteRecipe() {
+async function deleteRecipe() {
   if (confirmDelete.value) {
-    recipe.currentRecipe = undefined
+    if (ui.createIsEditing)
+      await recipe.deleteRecipe(recipe.currentRecipe!.id)
+
     ui.createHeaderStates = [false, false, false, false]
     ui.createHeaderIndex = 0
+    recipe.currentRecipe = undefined
+    await navigateTo(localePath('/home'))
   } else {
     confirmDelete.value = true
     setTimeout(() => {
@@ -79,7 +103,7 @@ function deleteRecipe() {
         >
           <div
             flex="~ col" cursor-pointer items-center justify-between
-            @click="recipe.currentRecipe.isPrivate = !recipe.currentRecipe.isPrivate"
+            @click="recipe.currentRecipe.isPrivate = !recipe.currentRecipe.isPrivate; checkDone()"
           >
             <div
               h-10 w-10

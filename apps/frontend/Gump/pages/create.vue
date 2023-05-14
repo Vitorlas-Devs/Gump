@@ -46,7 +46,7 @@ if (!recipe.currentRecipe)
       fixed color="crimson" :title="$t('CreateItemButton')" @click="addItem"
     />
     <MainButton
-      v-else-if="ui.activeCreateTab === 'Details'"
+      v-else-if="ui.activeCreateTab === 'Details' && !ui.createIsEditing"
       fixed color="orange" :title="$t('CreateRecipeButton')" @click="recipe.createRecipe()"
     />
     <TheNavbar />
