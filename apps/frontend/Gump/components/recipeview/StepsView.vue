@@ -54,14 +54,14 @@ const computedfoundRecipes = computed(() => {
   foundRecipesList.splice(0, foundRecipesList.length)
   toggledCarets.value = []
 
-  trackedKeys.value.forEach((trackedKeys, index) => {
-    const foundIngredients = currentRecipe.value?.ingredients?.filter(ingredient => trackedKeys.includes(ingredient.name))
+  trackedKeys.value.forEach((trackedKey, index) => {
+    const foundIngredients = currentRecipe.value?.ingredients?.filter(ingredient => trackedKey.includes(ingredient.name))
     if (foundIngredients?.length) {
       const foundRecipesIds = foundIngredients.map(ingredient => ingredient.linkedRecipe)
-      const foundRecipes = recipe.recipes.filter(recipe => foundRecipesIds.includes(recipe.id))
-      const foundSteps = foundRecipes.map(recipe => recipe.steps)
+      const foundRecipes = recipe.recipes.filter(r => foundRecipesIds.includes(r.id))
+      const foundSteps = foundRecipes.map(r => r.steps)
       foundSteps.forEach((steps, stepIndex) => {
-        foundRecipesList.push({ steps, index, trackedKey: trackedKeys[stepIndex], displayed: false })
+        foundRecipesList.push({ steps, index, trackedKey: trackedKey[stepIndex], displayed: false })
       })
     }
   })
@@ -159,7 +159,3 @@ watch(() => recipe.currentRecipe?.steps, () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

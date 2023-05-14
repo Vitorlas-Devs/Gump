@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { DefineComponent } from 'nuxt/dist/app/compat/vue-demi'
-
-// import { emptyRecipe } from '~/stores/recipe'
+import { emptyRecipe } from '~/stores/recipe'
 
 const recipe = useRecipeStore()
 const category = useCategoryStore()
@@ -27,6 +26,9 @@ function addItem() {
   else if (ui.activeCreateTab === 'Steps')
     recipe.addEmptyStep()
 }
+
+if (!recipe.currentRecipe)
+  recipe.currentRecipe = emptyRecipe
 </script>
 
 <template>

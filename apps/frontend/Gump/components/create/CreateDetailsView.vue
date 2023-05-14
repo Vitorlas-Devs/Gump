@@ -7,10 +7,9 @@ const image = useImageStore()
 
 const { files, open, reset, onChange } = useFileDialog()
 
-onChange((files) => {
-  checkDone()
-  if (files && files.length > 0)
-    image.uploadImage(files)
+onChange((fileList) => {
+  if (fileList && fileList.length > 0)
+    image.uploadImage(fileList)
 })
 
 const serves = computed({
@@ -52,6 +51,10 @@ function checkDone() {
       ui.createHeaderStates[3] = false
   }
 }
+
+watch(() => recipe.currentRecipe?.image, () => {
+  checkDone()
+}, { immediate: true, deep: true })
 </script>
 
 <template>
