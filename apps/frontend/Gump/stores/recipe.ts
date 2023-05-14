@@ -17,6 +17,7 @@ export const emptyRecipe: Recipe = {
   ingredients: [],
   steps: [],
   viewCount: 0,
+  isSaved: false,
   saveCount: 0,
   isLiked: false,
   likeCount: 0,
@@ -26,13 +27,16 @@ export const emptyRecipe: Recipe = {
   originalRecipe: 0,
   isPrivate: false,
   forks: [],
+  visibleTo: [],
 }
 
 export const useRecipeStore = defineStore('recipe', {
   state: () => ({
     recipes: [] as Recipe[],
+    searchRecipes: [] as SearchRecipe[],
     ingredients: [] as Ingredient[],
-    currentRecipe: null as Recipe | null,
+    currentRecipe: undefined as Recipe | undefined,
+    cachedRecipes: {} as Record<Sort, Recipe[]>,
   }),
   getters: {
     getEmptyIngredients(): Ingredient[] {
@@ -40,13 +44,39 @@ export const useRecipeStore = defineStore('recipe', {
     },
   },
   actions: {
-    async getRecipesBySort(sort: string) {
+    async getRecipesBySort(sort: Sort): Promise<Recipe[] | undefined> {
+      const user = useUserStore()
+
+      if (user.current.id === 0)
+        await user.getUserData()
+
+      if (this.cachedRecipes && !this.cachedRecipes[sort]) {
+        this.cachedRecipes[sort] = []
+      } else {
+        if (this.cachedRecipes[sort].length > 0) {
+          this.recipes = this.cachedRecipes[sort]
+          this.recipes.forEach((recipe) => {
+            recipe.isLiked = user.current.likes.includes(recipe.id)
+            recipe.isSaved = user.current.recipes.includes(recipe.id)
+          })
+          return this.recipes
+        }
+      }
+
       const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?sort=${sort}`, {
         headers: {},
         method: 'GET',
       }).json()
-      if (data.value)
+      if (data.value) {
+        this.cachedRecipes[sort] = data.value
         this.recipes = data.value
+        this.recipes.forEach((recipe) => {
+          recipe.isLiked = user.current.likes.includes(recipe.id)
+          recipe.isSaved = user.current.recipes.includes(recipe.id)
+        })
+        return this.recipes
+      }
+
       if (error.value)
         return error.value
     },
@@ -92,13 +122,20 @@ export const useRecipeStore = defineStore('recipe', {
       if (this.currentRecipe)
         this.currentRecipe.steps.splice(index, 1)
     },
+    removeIngredient(index: number) {
+      if (this.currentRecipe)
+        this.currentRecipe.ingredients.splice(index, 1)
+    },
     addRecipe(recipe: Recipe) {
-      this.ingredients.push({
+      this.currentRecipe?.ingredients.push({
         name: recipe.title,
-        value: recipe.serves,
-        volume: 'adag',
+        value: 1,
+        volume: '',
         linkedRecipe: recipe.id,
       })
+    },
+    search(query: string): Recipe[] {
+      return this.recipes.filter(recipe => recipe.title.toLowerCase().includes(query.toLowerCase()))
     },
     async likeRecipe(recipeId: number) {
       const { data, error } = await gumpFetch(`recipe/like/${recipeId}`, {
@@ -120,16 +157,53 @@ export const useRecipeStore = defineStore('recipe', {
       if (error.value)
         return error.value
     },
-    async getRecipeById(recipeId: number) {
-      const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
-        headers: {},
-        method: 'GET',
-      }).json()
-      if (data.value)
-        return data.value
+    async getRecipeById(recipeId: number): Promise<Recipe | undefined> {
+      const recipe = this.recipes.find(r => r.id === recipeId)
+      if (recipe) {
+        return recipe
+      } else {
+        const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
+          headers: {},
+          method: 'GET',
+        }).json()
+        if (data.value) {
+          const user = useUserStore()
 
-      if (error.value)
-        return error.value
+          data.value.isLiked = user.current.likes.includes(data.value.id)
+
+          this.recipes.push(data.value)
+          return data.value
+        }
+
+        if (error.value)
+          return error.value
+      }
+    },
+    async createRecipe(recipe?: Optional<Recipe, 'id'>): Promise<void> {
+      const thisRecipe = recipe || this.currentRecipe
+
+      if (thisRecipe)
+        delete thisRecipe.id
+
+      if (thisRecipe) {
+        // set author to current user
+        const user = useUserStore()
+        thisRecipe.author = user.current.id
+
+        const { data, error } = await gumpFetch('recipe/create', {
+          body: JSON.stringify(thisRecipe),
+        }).text().post()
+        if (data.value) {
+          const id = parseInt(data.value, 10)
+          this.recipes.push({
+            id,
+            ...thisRecipe,
+          })
+        }
+
+        if (error.value)
+          return error.value
+      }
     },
   },
   persist: true,

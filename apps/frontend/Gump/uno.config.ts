@@ -18,6 +18,7 @@ export default defineConfig({
   theme: {
     colors: {
       crimson: {
+        DEFAULT: '#D12C5F',
         50: '#FFF3F6',
         100: '#FFDAE5',
         200: '#FCC8D8',
@@ -67,6 +68,10 @@ export default defineConfig({
       inner: 'inset 0px 2px 12px -4px rgb(243, 88, 39)',
       innerCrimson: 'inset 0px 2px 12px -4px rgb(209, 44, 95)',
       grey: '0px 2px 6px rgba(0, 0, 0, 0.5)',
+      leftActive: 'inset 10px 10px 12px -10px rgba(243, 88, 39, 0.4), inset -10px 20px 12px -20px rgba(243, 88, 39, 0.4);',
+      midActive: 'inset -10px 20px 12px -20px rgba(243, 88, 39, 0.4), inset 10px 20px 12px -20px rgba(243, 88, 39, 0.4);',
+      rightActive: 'inset -10px 10px 12px -10px rgba(243, 88, 39, 0.4), inset 10px 20px 12px -20px rgba(243, 88, 39, 0.4);',
+      inactive: '0px 8px 12px -8px rgba(243, 88, 39, 0.4)',
     },
   },
   shortcuts: [
@@ -74,7 +79,7 @@ export default defineConfig({
       coolOl:
       'my-2 pl-6 list-outside list-disc space-y-2 leading-relaxed',
     },
-    [/^([a-z]+)Btn$/, ([, c]) => `w-max rounded-full bg-${c}-500 px-6 py-4 font-bold text-white-500 shadow-${c}`],
+    [/^([a-z]+)Btn$/, ([, c]) => `w-max rounded-full bg-${c}-500 px-4 py-2 font-bold text-lg text-white-500 shadow-${c}`],
     [/^([a-z]+)Link$/, ([, c]) => `text-${c}-500 text-shadow-${c} underline underline-offset-5 underline-${c}-500 font-bold`],
     [/^([a-z]+)Icon$/, ([, c]) => `w-6 h-6 text-${c}-500`],
     [/^([a-z]+)Gradient$/, ([, c]) => `bg-gradient-to-rt from-${c}-600 to-${c}-400`],

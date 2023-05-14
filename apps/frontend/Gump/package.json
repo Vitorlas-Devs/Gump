@@ -42,8 +42,10 @@
     "@pinia/nuxt": "0.4.8",
     "@types/lodash-es": "4.17.7",
     "@vueform/multiselect": "2.6.2",
+    "@vueuse/integrations": "^10.1.2",
     "lodash-es": "4.17.21",
-    "pinia": "2.0.34"
+    "pinia": "2.0.34",
+    "universal-cookie": "^4.0.4"
   },
   "overrides": {
     "vue": "latest"

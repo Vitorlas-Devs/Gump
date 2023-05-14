@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import Multiselect from '@vueform/multiselect'
+import { isArray } from 'lodash-es'
 
 const prop = defineProps<{
-  model: string[]
+  model: string | string[]
   options: string[]
-  mode: 'multiple' | 'tags'
+  mode: 'single' | 'multiple' | 'tags'
+  queryFunction?: (query: string) => Promise<any>
 }>()
 
 const emit = defineEmits<{
@@ -12,40 +14,49 @@ const emit = defineEmits<{
 }>()
 
 function addTag(tag: string) {
-  emit('update:model', [...prop.model, tag])
+  if (isArray(prop.model))
+    emit('update:model', [...prop.model, tag])
+  else
+    emit('update:model', tag)
 }
 
 function removeTag(tag: string) {
-  emit('update:model', prop.model.filter(t => t !== tag))
+  if (isArray(prop.model))
+    emit('update:model', prop.model.filter(t => t !== tag))
+  else
+    emit('update:model', '')
 }
 
 function handleBackspace(e: KeyboardEvent) {
-  if (e.key === 'Backspace' && (e.target as HTMLInputElement).value === '')
+  if (e.key === 'Backspace' && (e.target as HTMLInputElement).value === '' && !(prop.mode === 'single'))
     emit('update:model', prop.model.slice(0, -1))
 }
-
-const option = ['pizza', 'pasta', 'salad', 'soup', 'dessert', 'drink']
 </script>
 
 <template>
-  <div mx-2 w-60>
+  <div mx-2>
     <Multiselect
       :value="model"
-      :options="mode === 'tags' ? options : option"
-      :multiple="true"
-      :taggable="true"
+      :options="mode === 'multiple' && queryFunction !== undefined ? async (query: string) => {
+        return await queryFunction!(query)
+      } : options"
+      :multiple="!(mode === 'single')"
+      :taggable="!(mode === 'single')"
       :create-option="mode === 'tags'"
-      :show-options="mode === 'multiple'"
+      :show-options="!(mode === 'tags')"
       :searchable="true" :append-new-option="false"
-      :close-on-select="false"
+      :close-on-select="mode === 'single'"
       :close-on-deselect="false"
-      mode="tags"
+      :mode="mode === 'single' ? 'single' : 'tags'"
+      :allow-absent="true"
+      :delay="mode === 'multiple' ? 0 : -1"
+      :min-chars="1"
       class="select"
       @tag="addTag"
       @select="addTag"
       @deselect="removeTag"
       @keydown="handleBackspace"
-      @clear="$emit('update:model', [])"
+      @clear="mode === 'single' ? $emit('update:model', '') : $emit('update:model', [])"
     />
   </div>
 </template>
