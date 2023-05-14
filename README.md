@@ -4,6 +4,7 @@
 </h1>
 
 Localer: <https://gump.live>
+
 Backend: <https://api.gump.live>
 
 Webes és mobilos alkalmazás, mely lehetővé teszi a receptek moduláris összeállítását,
