@@ -62,15 +62,25 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 			.Take(limit);
 	}
 
-	private static bool FilterLogic(
+	private bool FilterLogic(
 		RecipeModel recipe, ulong authorId, ulong categoryId)
 	{
-		if (authorId != 0 && recipe.AuthorId != authorId ||
-			categoryId != 0 && !recipe.Categories.Contains(categoryId))
+		UserModel recipeAuthor = UserRepository.GetById(recipe.AuthorId);
+
+		bool isNewestVersion = recipeAuthor.Recipes
+			.Select(GetById)
+			.Where(r => r.AuthorId == recipeAuthor.Id && r.Title == recipe.Title)
+			.Max(r => r.Id) == recipe.Id;
+
+		bool isCorrectAuthor = authorId == 0 || recipe.AuthorId == authorId;
+		bool isCorrectCategory = categoryId == 0 || recipe.Categories.Contains(categoryId);
+
+		if (isNewestVersion && isCorrectAuthor && isCorrectCategory && !recipe.IsPrivate)
 		{
-			return false;
+			return true;
 		}
-		return true;
+
+		return false;
 	}
 
 	private static double CalculatePopularity(RecipeModel recipe)
@@ -121,6 +131,10 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 				Update(linkedRecipe);
 			}
 		}
+
+		var author = UserRepository.GetById(recipe.AuthorId);
+		author.Recipes.Add(recipe.Id);
+		UserRepository.Update(author);
 
 		try
 		{
