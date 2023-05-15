@@ -295,7 +295,7 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 		foreach (var user in users)
 		{
 			user.Likes.Remove(id);
-
+			user.Recipes.Remove(id);
 			UserRepository.Update(user);
 		}
 	}
