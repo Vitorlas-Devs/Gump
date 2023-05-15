@@ -1,6 +1,9 @@
 <script setup lang="ts">
+// import { debounce } from 'lodash-es'
+
 const recipe = useRecipeStore()
 const ui = useUIStore()
+const localePath = useLocalePath()
 
 const visibilityData = computed(() => {
   return {
@@ -15,12 +18,15 @@ const visibilityData = computed(() => {
   }
 })
 
-function checkDone() {
+async function checkDone() {
   if (recipe.currentRecipe) {
-    if (recipe.currentRecipe.title.length > 0 && recipe.currentRecipe.language.length > 0)
+    if (recipe.currentRecipe.title.length > 0 && recipe.currentRecipe.language.length > 0) {
+      if (ui.createIsEditing)
+        debouncedRecipeUpdate(recipe.currentRecipe)
       ui.createHeaderStates[0] = true
-    else
+    } else {
       ui.createHeaderStates[0] = false
+    }
   }
 }
 
@@ -42,11 +48,15 @@ const langs = computed({
 
 const confirmDelete = ref(false)
 
-function deleteRecipe() {
+async function deleteRecipe() {
   if (confirmDelete.value) {
-    recipe.currentRecipe = undefined
+    if (ui.createIsEditing)
+      await recipe.deleteRecipe(recipe.currentRecipe!.id)
+
     ui.createHeaderStates = [false, false, false, false]
     ui.createHeaderIndex = 0
+    recipe.currentRecipe = undefined
+    await navigateTo(localePath('/home'))
   } else {
     confirmDelete.value = true
     setTimeout(() => {
@@ -79,7 +89,7 @@ function deleteRecipe() {
         >
           <div
             flex="~ col" cursor-pointer items-center justify-between
-            @click="recipe.currentRecipe.isPrivate = !recipe.currentRecipe.isPrivate"
+            @click="recipe.currentRecipe.isPrivate = !recipe.currentRecipe.isPrivate; checkDone()"
           >
             <div
               h-10 w-10

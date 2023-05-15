@@ -8,15 +8,15 @@ const emit = defineEmits<{
   (event: 'save'): void
 }>()
 
-const recipe = useRecipeStore()
+const recipeStore = useRecipeStore()
 const user = useUserStore()
 
 const isLiking = ref(false)
 const isSaving = ref(false)
 
 async function likeClick() {
-  await recipe.likeRecipe(props.recipe.id)
-  const recipeToModify = recipe.recipes.find(r => r.id === props.recipe.id) ?? recipe.recipes.find(r => r.id === props.recipe.id)
+  await recipeStore.likeRecipe(props.recipe.id)
+  const recipeToModify = recipeStore.recipes.find(r => r.id === props.recipe.id) ?? recipeStore.recipes.find(r => r.id === props.recipe.id)
 
   if (recipeToModify) {
     if (props.recipe.isLiked)
@@ -33,8 +33,8 @@ async function likeClick() {
 }
 
 async function saveClick() {
-  await recipe.saveRecipe(props.recipe.id)
-  const recipeToModify = recipe.recipes.find(r => r.id === props.recipe.id) ?? recipe.recipes.find(r => r.id === props.recipe.id)
+  await recipeStore.saveRecipe(props.recipe.id)
+  const recipeToModify = recipeStore.searchRecipes.find(r => r.id === props.recipe.id) ?? recipeStore.recipes.find(r => r.id === props.recipe.id)
 
   if (recipeToModify) {
     if (props.recipe.isSaved)

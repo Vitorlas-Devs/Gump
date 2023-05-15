@@ -41,7 +41,6 @@ const debouncedDropdown = debounce(() => {
 }, 1000)
 
 function handleInput(e: Event) {
-  // e is to be used in the future (to send the data)
   if ((e.target as HTMLInputElement).value.length > 2) {
     toggleDropdown.value = true
     toggleResults.value = false
@@ -97,10 +96,13 @@ const recipesById = computed(() => {
 
 function checkDone() {
   if (recipe.currentRecipe) {
-    if (recipe.currentRecipe.ingredients.every(ingredient => ingredient.name.length > 0 && ingredient.value && ingredient.volume.length > 0))
+    if (recipe.currentRecipe.ingredients.length > 0 && recipe.currentRecipe.ingredients.every(ingredient => ingredient.name.length > 0 && ingredient.value && ingredient.volume.length > 0)) {
+      if (ui.createIsEditing)
+        debouncedRecipeUpdate(recipe.currentRecipe)
       ui.createHeaderStates[1] = true
-    else
+    } else {
       ui.createHeaderStates[1] = false
+    }
   }
 }
 

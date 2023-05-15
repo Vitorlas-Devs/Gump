@@ -161,7 +161,7 @@ export const useRecipeStore = defineStore('recipe', {
     },
     async getRecipeById(recipeId: number): Promise<Recipe | undefined> {
       const recipe = this.recipes.find(r => r.id === recipeId)
-      if (recipe) {
+      if (recipe && recipe.ingredients) {
         return recipe
       } else {
         const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
@@ -172,8 +172,20 @@ export const useRecipeStore = defineStore('recipe', {
           const user = useUserStore()
 
           data.value.isLiked = user.current.likes.includes(data.value.id)
+          data.value.isSaved = user.current.recipes.includes(data.value.id)
+          data.value.visibleTo = []
 
-          this.recipes.push(data.value)
+          if (recipe)
+            this.recipes.splice(this.recipes.indexOf(recipe), 1, data.value)
+          else
+            this.recipes.push(data.value)
+
+          // for every ingredient in the recipe, check if it has a non-zero linkedRecipe and call getRecipeById on them
+          data.value.ingredients.forEach(async (ingredient: Ingredient) => {
+            if (ingredient.linkedRecipe)
+              await this.getRecipeById(ingredient.linkedRecipe)
+          })
+
           return data.value
         }
 
@@ -181,7 +193,7 @@ export const useRecipeStore = defineStore('recipe', {
           return error.value
       }
     },
-    async createRecipe(recipe?: Optional<Recipe, 'id'>): Promise<void> {
+    async createRecipe(recipe?: Optional<Recipe, 'id'>): Promise<number | undefined> {
       const user = useUserStore()
       const ui = useUIStore()
       if (ui.createHeaderStates.some(state => !state))
@@ -200,7 +212,7 @@ export const useRecipeStore = defineStore('recipe', {
         }).text().post()
         if (data.value) {
           const id = parseInt(data.value, 10)
-          this.recipes.push({
+          this.recipes.unshift({
             id,
             ...thisRecipe,
           })
@@ -209,10 +221,49 @@ export const useRecipeStore = defineStore('recipe', {
           user.current.recipes.push(id)
           ui.createHeaderIndex = 0
           ui.createHeaderStates = [false, false, false, false]
+          return id
         }
 
         if (error.value)
           return error.value
+      }
+    },
+    async updateRecipe(id: number, recipe: Partial<Recipe>): Promise<void> {
+      if (!recipe.id)
+        recipe.id = id
+      else if (recipe.id !== id)
+        return
+
+      const { error } = await gumpFetch('recipe/update', {
+        method: 'PATCH',
+        body: JSON.stringify(recipe),
+      })
+
+      if (!error.value) {
+        const foundRecipe = this.recipes.find(r => r.id === id)
+        if (foundRecipe) {
+          // update each changed property of the recipe with the new values
+          Object.keys(recipe).forEach((prop) => {
+            const key = prop as keyof Recipe
+            if (foundRecipe[key] !== recipe[key])
+              setValues(foundRecipe, key, recipe[key] as Recipe[keyof Recipe])
+          })
+        }
+      } else {
+        return error.value
+      }
+    },
+    async deleteRecipe(recipeId: number): Promise<void> {
+      const { error } = await gumpFetch(`recipe/delete/${recipeId}`, {
+        method: 'DELETE',
+      })
+
+      if (!error.value) {
+        const recipe = this.recipes.find(r => r.id === recipeId)
+        if (recipe)
+          this.recipes.splice(this.recipes.indexOf(recipe), 1)
+      } else {
+        return error.value
       }
     },
   },

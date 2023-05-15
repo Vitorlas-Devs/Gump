@@ -18,7 +18,7 @@ async function handleRegister() {
 </script>
 
 <template>
-  <ion-page bg-crimson-50>
+  <ion-page overflow-y-auto bg-crimson-50>
     <div
       flex="~ col" items-center justify-center gap-5 font-bold
     >

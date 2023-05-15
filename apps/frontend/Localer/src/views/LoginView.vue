@@ -9,8 +9,8 @@ const state = reactive({
   error: ''
 })
 
-const username = ref('')
-const password = ref('')
+const username = ref('Moderator')
+const password = ref('moderator001')
 
 const login = () => {
   state.isLoading = true
