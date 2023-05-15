@@ -46,22 +46,6 @@ export const useRecipeStore = defineStore('recipe', {
     async getRecipes(sort: Sort): Promise<Recipe[] | undefined> {
       const user = useUserStore()
 
-      if (user.current.id === 0)
-        await user.getUserData()
-
-      if (this.cachedRecipes && !this.cachedRecipes[sort]) {
-        this.cachedRecipes[sort] = []
-      } else {
-        if (this.cachedRecipes[sort].length > 0) {
-          this.recipes = this.cachedRecipes[sort]
-          this.recipes.forEach((recipe) => {
-            recipe.isLiked = user.current.likes.includes(recipe.id)
-            recipe.isSaved = user.current.recipes.includes(recipe.id)
-          })
-          return this.recipes
-        }
-      }
-
       const { data, error } = await gumpFetch<Recipe[]>(`recipe/search?sort=${sort}`, {
         headers: {},
         method: 'GET',
@@ -167,6 +151,38 @@ export const useRecipeStore = defineStore('recipe', {
         if (error.value)
           return error.value
       }
+    },
+    async getUserRecipes(type: 'owned' | 'liked' | 'saved'): Promise<Recipe[]> {
+      const user = useUserStore()
+      const recipes: Recipe[] = []
+      if (type !== 'liked') {
+        for (const recipeId of user.current.recipes) {
+          const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
+            headers: {},
+            method: 'GET',
+          }).json()
+          if (data.value) {
+            if (type === 'owned' && data.value.author === user.current.id)
+              recipes.push(data.value)
+            else if (type === 'saved' && data.value.author !== user.current.id)
+              recipes.push(data.value)
+          }
+          if (error.value)
+            return error.value
+        }
+      } else {
+        for (const recipeId of user.current.likes) {
+          const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
+            headers: {},
+            method: 'GET',
+          }).json()
+          if (data.value)
+            recipes.push(data.value)
+          if (error.value)
+            return error.value
+        }
+      }
+      return recipes
     },
   },
   persist: true,
