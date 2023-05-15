@@ -131,11 +131,11 @@ watch(() => recipe.currentRecipe?.image, () => {
         </p>
       </div>
       <div flex="~ row" w-full space-x-xl>
-        <button type="button" class="orangeBtn" @click="open({ multiple: false, accept: 'image/png' })">
+        <button type="button" orangeBtn @click="open({ multiple: false, accept: 'image/png' })">
           Choose image
         </button>
-        <div class="crimsonBtn">
-          <div class="i-ph-camera-slash-bold whiteIcon" @click="reset(); recipe.currentRecipe.image = 0; checkDone()" />
+        <div crimsonBtn>
+          <div i-ph-camera-slash-bold whiteIcon @click="reset(); recipe.currentRecipe.image = 0; checkDone()" />
         </div>
       </div>
     </div>

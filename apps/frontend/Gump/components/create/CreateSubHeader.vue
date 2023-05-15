@@ -60,12 +60,11 @@ function toggleMode() {
       </p>
     </div>
     <div
-      absolute cursor-pointer
       :right="variant === 'ingredients' && !toggled ? 2 : 4"
       :h="variant === 'ingredients' && !toggled ? 12 : 8"
       :w="variant === 'ingredients' && !toggled ? 12 : 8"
-      class="orangeIcon"
       :class="toggled ? 'i-ph-x-circle-bold' : variant === 'ingredients' ? 'i-ph-dots-three-bold' : 'i-ph-question-bold'"
+      orangeIcon absolute cursor-pointer
       @click="togglePanel"
     />
   </div>
