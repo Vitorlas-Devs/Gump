@@ -177,7 +177,7 @@ export const useRecipeStore = defineStore('recipe', {
           return error.value
       }
     },
-    async getUserRecipes(type: 'owned' | 'liked' | 'saved'): Promise<Recipe[]> {
+    async getUserRecipes(type: RecipesSort): Promise<Recipe[]> {
       const user = useUserStore()
       const recipes: Recipe[] = []
       if (type !== 'liked') {

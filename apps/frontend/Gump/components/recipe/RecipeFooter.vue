@@ -34,7 +34,7 @@ async function likeClick() {
 
 async function saveClick() {
   await recipeStore.saveRecipe(props.recipe.id)
-  const recipeToModify = recipeStore.searchRecipes.find(r => r.id === props.recipe.id) ?? recipeStore.recipes.find(r => r.id === props.recipe.id)
+  const recipeToModify = recipeStore.recipes.find(r => r.id === props.recipe.id) ?? recipeStore.recipes.find(r => r.id === props.recipe.id)
 
   if (recipeToModify) {
     if (props.recipe.isSaved)

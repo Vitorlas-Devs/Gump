@@ -36,7 +36,7 @@ function handleLiked() {
     currentRecipe.isLiked = !currentRecipe.isLiked
     currentRecipe.likeCount += currentRecipe.isLiked ? 1 : -1
     recipe.$patch({
-      searchRecipes: recipe.searchRecipes.map(r => r.id === id ? currentRecipe : r),
+      searchRecipes: recipe.recipes.map(r => r.id === id ? currentRecipe : r),
     })
   }
 }
@@ -46,7 +46,7 @@ function handleSaved() {
     currentRecipe.isSaved = !currentRecipe.isSaved
     currentRecipe.saveCount += currentRecipe.isSaved ? 1 : -1
     recipe.$patch({
-      searchRecipes: recipe.searchRecipes.map(r => r.id === id ? currentRecipe : r),
+      searchRecipes: recipe.recipes.map(r => r.id === id ? currentRecipe : r),
     })
   }
 }
