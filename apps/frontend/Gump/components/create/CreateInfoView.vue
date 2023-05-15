@@ -18,26 +18,12 @@ const visibilityData = computed(() => {
   }
 })
 
-// const changedRecipe = { ...recipe.currentRecipe }
-
-// const debouncedUpdate = debounce((changed: Partial<Recipe>) => {
-//   recipe.updateRecipe(recipe.currentRecipe!.id, changed)
-// }, 1500)
-
 async function checkDone() {
   if (recipe.currentRecipe) {
     if (recipe.currentRecipe.title.length > 0 && recipe.currentRecipe.language.length > 0) {
+      if (ui.createIsEditing)
+        debouncedRecipeUpdate(recipe.currentRecipe)
       ui.createHeaderStates[0] = true
-      // find changed values
-      // for (const prop in recipe.currentRecipe) {
-      //   const key = prop as keyof Recipe
-
-      //   if (recipe.currentRecipe[key] !== changedRecipe[key]) {
-      //     setValues(changedRecipe, key, recipe.currentRecipe[key])
-      //     debouncedUpdate(changedRecipe)
-      //   }
-      // }
-      debouncedRecipeUpdate(recipe.currentRecipe)
     } else {
       ui.createHeaderStates[0] = false
     }

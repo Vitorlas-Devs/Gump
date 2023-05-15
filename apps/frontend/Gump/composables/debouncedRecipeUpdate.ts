@@ -17,7 +17,6 @@ export function debouncedRecipeUpdate<T extends Recipe>(recipe: T): T {
       changedRecipe: { ...recipe },
     }
   }
-  console.log('changes', debouncedRecipe.changedRecipe)
 
   // Loop over the recipe properties
   for (const prop in recipe) {

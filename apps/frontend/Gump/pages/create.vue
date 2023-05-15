@@ -5,6 +5,7 @@ import { emptyRecipe } from '~/stores/recipe'
 const recipe = useRecipeStore()
 const category = useCategoryStore()
 const ui = useUIStore()
+const localePath = useLocalePath()
 
 // onMounted, get all categories
 onMounted(async () => {
@@ -29,6 +30,33 @@ function addItem() {
 
 if (!recipe.currentRecipe)
   recipe.currentRecipe = emptyRecipe
+
+const isSuccessful = ref(false)
+
+async function createRecipe() {
+  const id = await recipe.createRecipe()
+  if (id) {
+    isSuccessful.value = true
+    setTimeout(() => {
+      isSuccessful.value = false
+      ui.activeCreateTab = 'Info'
+      ui.createIsEditing = false
+      navigateTo(localePath('/home'))
+    }, 2000)
+  }
+}
+
+onBeforeRouteLeave((to, from, next) => {
+  if (ui.createIsEditing) {
+    if (recipe.currentRecipe) {
+      recipe.currentRecipe = emptyRecipe
+      ui.createHeaderStates = [false, false, false, false]
+      ui.createHeaderIndex = 0
+      ui.createIsEditing = false
+    }
+  }
+  next()
+})
 </script>
 
 <template>
@@ -47,8 +75,16 @@ if (!recipe.currentRecipe)
     />
     <MainButton
       v-else-if="ui.activeCreateTab === 'Details' && !ui.createIsEditing"
-      fixed color="orange" :title="$t('CreateRecipeButton')" @click="recipe.createRecipe()"
+      fixed color="orange" :title="$t('CreateRecipeButton')" @click="createRecipe()"
     />
     <TheNavbar />
+    <Transition>
+      <div v-if="isSuccessful" flex="~ row" absolute z-100 h-full w-full items-center justify-center bg-crimson-50>
+        <div
+          class="i-fa6-solid-circle-check"
+          h-20 w-20 from-crimson-500 to-orange-500 bg-gradient-to-rt
+        />
+      </div>
+    </Transition>
   </ion-page>
 </template>

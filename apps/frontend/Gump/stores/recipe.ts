@@ -168,7 +168,7 @@ export const useRecipeStore = defineStore('recipe', {
           return error.value
       }
     },
-    async createRecipe(recipe?: Optional<Recipe, 'id'>): Promise<void> {
+    async createRecipe(recipe?: Optional<Recipe, 'id'>): Promise<number | undefined> {
       const user = useUserStore()
       const ui = useUIStore()
       if (ui.createHeaderStates.some(state => !state))
@@ -187,7 +187,7 @@ export const useRecipeStore = defineStore('recipe', {
         }).text().post()
         if (data.value) {
           const id = parseInt(data.value, 10)
-          this.recipes.push({
+          this.recipes.unshift({
             id,
             ...thisRecipe,
           })
@@ -196,6 +196,7 @@ export const useRecipeStore = defineStore('recipe', {
           user.current.recipes.push(id)
           ui.createHeaderIndex = 0
           ui.createHeaderStates = [false, false, false, false]
+          return id
         }
 
         if (error.value)
@@ -203,6 +204,11 @@ export const useRecipeStore = defineStore('recipe', {
       }
     },
     async updateRecipe(id: number, recipe: Partial<Recipe>): Promise<void> {
+      if (!recipe.id)
+        recipe.id = id
+      else if (recipe.id !== id)
+        return
+
       const { error } = await gumpFetch('recipe/update', {
         method: 'PATCH',
         body: JSON.stringify(recipe),
@@ -218,24 +224,22 @@ export const useRecipeStore = defineStore('recipe', {
               setValues(foundRecipe, key, recipe[key] as Recipe[keyof Recipe])
           })
         }
-      }
-
-      if (error.value)
+      } else {
         return error.value
+      }
     },
     async deleteRecipe(recipeId: number): Promise<void> {
-      const { data, error } = await gumpFetch(`recipe/delete/${recipeId}`, {
+      const { error } = await gumpFetch(`recipe/delete/${recipeId}`, {
         method: 'DELETE',
       })
-      console.log(data.value)
-      if (data.value) {
+
+      if (!error.value) {
         const recipe = this.recipes.find(r => r.id === recipeId)
         if (recipe)
           this.recipes.splice(this.recipes.indexOf(recipe), 1)
-      }
-
-      if (error.value)
+      } else {
         return error.value
+      }
     },
   },
   persist: true,

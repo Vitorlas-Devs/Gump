@@ -82,10 +82,13 @@ function toggleCaret(index: number) {
 
 function checkDone() {
   if (recipe.currentRecipe) {
-    if (recipe.currentRecipe.steps.length > 0 && recipe.currentRecipe.steps.every(step => step.length > 0))
+    if (recipe.currentRecipe.steps.length > 0 && recipe.currentRecipe.steps.every(step => step.length > 0)) {
+      if (ui.createIsEditing)
+        debouncedRecipeUpdate(recipe.currentRecipe)
       ui.createHeaderStates[2] = true
-    else
+    } else {
       ui.createHeaderStates[2] = false
+    }
   }
 }
 
