@@ -2,7 +2,7 @@
 defineProps<{
   title?: string
   iconType?: 'create' | 'delete'
-  color: 'orange' | 'crimson'
+  color: 'orangeGradient' | 'crimsonGradient'
 }>()
 
 defineEmits<{
@@ -12,7 +12,8 @@ defineEmits<{
 
 <template>
   <div
-    left="1/2" transform="translate-x--1/2" flex="~ row" :shadow="`${color}`" :class="`${color}Gradient`" bottom-26 z-20 h-max w-max cursor-pointer items-center gap-2 rounded-full p-2 px-4
+    left="1/2" transform="translate-x--1/2" flex="~ row" :shadow="color === 'orangeGradient' ? 'orange' : 'crimson'"
+    :class="color" bottom-26 z-20 h-max w-max cursor-pointer items-center gap-2 rounded-full p-2 px-4
     @click="$emit('click')"
   >
     <div

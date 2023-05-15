@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { type VueWrapper, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { createI18n } from 'vue-i18n'
 import SearchHeader from '~/components/search/SearchHeader.vue'
 
 describe('SearchHeader', () => {
-  let wrapper: VueWrapper<InstanceType<typeof SearchHeader>>
+  let wrapper: any
 
   beforeEach(() => {
     const i18n = createI18n ({

@@ -39,7 +39,7 @@ async function handleLogin() {
       <MainButton
         transform-none
         :title="$t('WelcomeSignIn')"
-        color="crimson"
+        color="crimsonGradient"
         @click="handleLogin"
       />
     </div>

@@ -68,13 +68,6 @@ const test: Recipe = {
         {{ $t('RecipesNav') }}
       </h1>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil voluptatum similique explicabo suscipit eum alias doloremque quidem iure corrupti pariatur. Explicabo neque assumenda ipsa, error accusamus vel recusandae aliquid doloremque.
-      <br>
-      <div mt-5 class="orangeGradient" shadow="orange">
-        <div class="i-fa6-solid-box-tissue" />
-      </div>
-      <div mt-5 class="crimsonGradient" shadow="crimson">
-        <div class="i-fa6-solid-brush" />
-      </div>
     </div>
     <RecipeBoxMini :recipe="test" />
     <TheNavbar />
