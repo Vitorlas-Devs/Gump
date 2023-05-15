@@ -22,14 +22,14 @@ async function viewRecipe(recipeId: number) {
 }
 
 onMounted(async () => {
-  authorName.value = await user.getAuthorNameById(props.recipe.author) ?? ''
+  authorName.value = await user.getAuthorById(props.recipe.author) ?? ''
 })
 </script>
 
 <template>
   <div flex="~ row" shadow-orangeBox max-h-25 w-full cursor-pointer justify-between rounded-2xl bg-orange-50>
     <div w-full flex="~ row" @click="viewRecipe(recipe.id)">
-      <img :src="image.getImage(recipe.image)" w="1/3" rounded-s-2xl object-cover>
+      <img :src="image.getImageUrl(recipe.image)" w="1/3" rounded-s-2xl object-cover>
       <div grow self-center text-shadow>
         <p m-3 text-xl>
           {{ recipe.title }}

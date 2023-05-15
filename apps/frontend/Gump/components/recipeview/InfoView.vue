@@ -1,7 +1,13 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   currentRecipe?: Recipe
 }>()
+
+const category = useCategoryStore()
+
+const categories = computed(() => {
+  return props.currentRecipe?.categories.map(id => category.getCategoryNameById(id))
+})
 </script>
 
 <template>
@@ -27,8 +33,8 @@ defineProps<{
         {{ `${$t('CreateCategory')}:` }}
       </p>
       <div flex="~ row" flex-wrap gap-2>
-        <p v-for="category in currentRecipe.categories" :key="category" my-1>
-          {{ category }}
+        <p v-for="cat in categories" :key="cat" my-1>
+          {{ cat }}
         </p>
       </div>
     </div>
@@ -44,7 +50,3 @@ defineProps<{
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

@@ -41,7 +41,6 @@ const debouncedDropdown = debounce(() => {
 }, 1000)
 
 function handleInput(e: Event) {
-  // e is to be used in the future (to send the data)
   if ((e.target as HTMLInputElement).value.length > 2) {
     toggleDropdown.value = true
     toggleResults.value = false
@@ -89,11 +88,27 @@ function handleBackspace(e: Event, index: number) {
 
 const recipesById = computed(() => {
   const result: Record<number, Recipe> = {}
-  recipe.recipes.forEach((recipe) => {
-    result[recipe.id] = recipe
+  recipe.recipes.forEach((r) => {
+    result[r.id] = r
   })
   return result
 })
+
+function checkDone() {
+  if (recipe.currentRecipe) {
+    if (recipe.currentRecipe.ingredients.length > 0 && recipe.currentRecipe.ingredients.every(ingredient => ingredient.name.length > 0 && ingredient.value && ingredient.volume.length > 0)) {
+      if (ui.createIsEditing)
+        debouncedRecipeUpdate(recipe.currentRecipe)
+      ui.createHeaderStates[1] = true
+    } else {
+      ui.createHeaderStates[1] = false
+    }
+  }
+}
+
+watch(() => recipe.currentRecipe?.ingredients, () => {
+  checkDone()
+}, { immediate: true, deep: true })
 </script>
 
 <template>
@@ -185,7 +200,7 @@ const recipesById = computed(() => {
       v-else
       ref="rawInput"
       class="h-full w-full p-2"
-      placeholder="Enter ingredients here..."
+      placeholder="Don't type here... 👻"
       border-0 bg-crimson-50 shadow-inner
     />
   </div>

@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   ],
   imports: {
     // Auto-import these:
-    dirs: ['stores'],
+    dirs: ['stores', 'stores/shared'],
   },
   components: [
     {
@@ -35,6 +35,9 @@ export default defineNuxtConfig({
       'storeToRefs',
       ['defineStore', 'definePiniaStore'],
     ],
+  },
+  piniaPersistedstate: {
+    storage: 'localStorage',
   },
   i18n: {
     locales: [

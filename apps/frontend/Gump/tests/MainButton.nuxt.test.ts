@@ -8,7 +8,7 @@ describe('MainButton', () => {
       props: {
         title: 'My Title',
         iconType: 'create',
-        color: 'orange',
+        color: 'orangeGradient',
       },
     })
     expect(wrapper.html()).toContain('My Title')
@@ -19,7 +19,7 @@ describe('MainButton', () => {
       props: {
         title: 'My Title',
         iconType: 'delete',
-        color: 'crimson',
+        color: 'crimsonGradient',
       },
     })
     expect(wrapper.find('.i-fa6-solid-trash-can').exists()).toBe(true)
@@ -30,7 +30,7 @@ describe('MainButton', () => {
       props: {
         title: 'My Title',
         iconType: 'create',
-        color: 'orange',
+        color: 'orangeGradient',
       },
     })
     expect(wrapper.find('.orangeGradient').exists()).toBe(true)

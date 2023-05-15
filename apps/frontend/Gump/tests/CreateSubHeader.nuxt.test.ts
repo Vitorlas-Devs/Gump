@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { type VueWrapper, mount } from '@vue/test-utils'
 import { createI18n } from 'vue-i18n'
-import CreateSubHeader from '~/components/CreateSubHeader.vue'
+import CreateSubHeader from '~/components/create/CreateSubHeader.vue'
 
 describe('CreateSubHeader (ingredients)', () => {
   let wrapper: VueWrapper<InstanceType<typeof CreateSubHeader>>

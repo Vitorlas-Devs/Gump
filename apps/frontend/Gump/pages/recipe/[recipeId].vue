@@ -12,7 +12,7 @@ ui.activeNav = 'Recipes'
 
 const currentRecipe = await recipe.getRecipeById(id)
 
-const authorName = await user.getAuthorNameById(currentRecipe?.author as number)
+const authorName = await user.getAuthorById(currentRecipe?.author as number)
 
 type RecipeTabType = Record<RecipeTab, { component: DefineComponent<{}, {}, any>; translation: string }>
 
@@ -69,7 +69,7 @@ async function addRecipe() {
 <template>
   <ion-page v-if="currentRecipe" bg-crimson-50>
     <TheHeader title-color="brown" :subtitle="authorName" :title="currentRecipe.title" />
-    <img :src="image.getImage(currentRecipe.image)" h-40 w-full object-cover>
+    <img :src="image.getImageUrl(currentRecipe.image)" h-40 w-full object-cover>
     <RecipeFooter :recipe="currentRecipe" @like="handleLiked" @save="handleSaved" />
     <div m-2 grow overflow-y-auto>
       <div
@@ -106,9 +106,9 @@ async function addRecipe() {
           {{ $t(tab.translation) }}
         </div>
       </div>
-      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" pt-15 :current-recipe="currentRecipe" />
+      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" mb-10 pt-15 :current-recipe="currentRecipe" />
     </div>
-    <MainButton fixed color="orange" icon-type="create" :title="$t('RecipeViewUseRecipe')" @click="addRecipe" />
+    <MainButton fixed color="orangeGradient" icon-type="create" :title="$t('RecipeViewUseRecipe')" @click="addRecipe" />
     <TheNavbar />
   </ion-page>
 </template>

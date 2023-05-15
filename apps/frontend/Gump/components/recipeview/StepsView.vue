@@ -54,14 +54,14 @@ const computedfoundRecipes = computed(() => {
   foundRecipesList.splice(0, foundRecipesList.length)
   toggledCarets.value = []
 
-  trackedKeys.value.forEach((trackedKeys, index) => {
-    const foundIngredients = currentRecipe.value?.ingredients?.filter(ingredient => trackedKeys.includes(ingredient.name))
+  trackedKeys.value.forEach((trackedKey, index) => {
+    const foundIngredients = currentRecipe.value?.ingredients?.filter(ingredient => trackedKey.includes(ingredient.name))
     if (foundIngredients?.length) {
       const foundRecipesIds = foundIngredients.map(ingredient => ingredient.linkedRecipe)
-      const foundRecipes = recipe.recipes.filter(recipe => foundRecipesIds.includes(recipe.id))
-      const foundSteps = foundRecipes.map(recipe => recipe.steps)
+      const foundRecipes = recipe.recipes.filter(r => foundRecipesIds.includes(r.id))
+      const foundSteps = foundRecipes.map(r => r.steps)
       foundSteps.forEach((steps, stepIndex) => {
-        foundRecipesList.push({ steps, index, trackedKey: trackedKeys[stepIndex], displayed: false })
+        foundRecipesList.push({ steps, index, trackedKey: trackedKey[stepIndex], displayed: false })
       })
     }
   })
@@ -79,6 +79,22 @@ function showLinkedRecipe(index: number) {
 function toggleCaret(index: number) {
   toggledCarets.value[index] = !toggledCarets.value[index]
 }
+
+function checkDone() {
+  if (recipe.currentRecipe) {
+    if (recipe.currentRecipe.steps.length > 0 && recipe.currentRecipe.steps.every(step => step.length > 0)) {
+      if (ui.createIsEditing)
+        debouncedRecipeUpdate(recipe.currentRecipe)
+      ui.createHeaderStates[2] = true
+    } else {
+      ui.createHeaderStates[2] = false
+    }
+  }
+}
+
+watch(() => recipe.currentRecipe?.steps, () => {
+  checkDone()
+}, { immediate: true, deep: true })
 </script>
 
 <template>
@@ -146,7 +162,3 @@ function toggleCaret(index: number) {
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>
