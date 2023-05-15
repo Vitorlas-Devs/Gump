@@ -5,7 +5,7 @@ import TextInput from '~/components/TextInput.vue'
 
 type ITextInputProps = {
   text: string
-  type?: 'email' | 'password'
+  type?: 'email' | 'password' | 'number'
 }
 
 describe('TextInput', () => {

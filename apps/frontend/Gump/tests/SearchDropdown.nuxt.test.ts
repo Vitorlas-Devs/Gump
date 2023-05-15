@@ -1,10 +1,16 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { type VueWrapper, mount } from '@vue/test-utils'
+import type { ComponentPublicInstance } from 'vue'
 import { createI18n } from 'vue-i18n'
 import SearchDropdown from '~/components/search/SearchDropdown.vue'
 
+type ISeachDropdownProps = {
+  topPosition?: number
+  showResults?: boolean
+}
+
 describe('SearchDropdown', () => {
-  let wrapper: VueWrapper<InstanceType<typeof SearchDropdown>>
+  let wrapper: VueWrapper<ComponentPublicInstance<ISeachDropdownProps>>
 
   beforeEach(() => {
     const i18n = createI18n ({
