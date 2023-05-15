@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "0.38.4",
+    "@antfu/eslint-config": "0.38.6",
     "@capacitor/cli": "4.8.0",
     "@iconify-json/fa6-solid": "1.1.13",
     "@iconify-json/ion": "1.1.9",
