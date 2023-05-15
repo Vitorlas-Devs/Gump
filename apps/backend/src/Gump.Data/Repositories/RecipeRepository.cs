@@ -132,6 +132,10 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 			}
 		}
 
+		var author = UserRepository.GetById(recipe.AuthorId);
+		author.Recipes.Add(recipe.Id);
+		UserRepository.Update(author);
+
 		try
 		{
 			Collection.InsertOne(recipe);
