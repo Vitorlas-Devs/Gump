@@ -27,7 +27,7 @@
     "@vueuse/core": "10.1.0",
     "@vueuse/nuxt": "10.1.0",
     "eslint": "8.38.0",
-    "eslint-plugin-vitest": "0.1.4",
+    "eslint-plugin-vitest": "0.2.2",
     "nuxt": "3.4.0",
     "nuxt-vitest": "0.6.10"
   },
