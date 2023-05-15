@@ -43,15 +43,6 @@ describe('SearchHeader', () => {
     expect(wrapper.find('input').exists()).toBe(true)
   })
 
-  // this breaks vitest and it runs forever
-  // it('should focus on the input when ui.searchToggled is true', async () => {
-  //   const ui = useUIStore()
-  //   ui.searchToggled = true
-  //   await wrapper.vm.$nextTick()
-  //   const input = wrapper.find('input')
-  //   expect(input.element).toBe(document.activeElement)
-  // })
-
   it('should update ui.searchValue with the input value', async () => {
     const ui = useUIStore()
     ui.searchToggled = true

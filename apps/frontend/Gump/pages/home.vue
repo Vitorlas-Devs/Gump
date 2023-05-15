@@ -7,7 +7,7 @@ ui.activeNav = 'Home'
 
 watch(
   () => ui.activeSort,
-  async () => await recipe.getRecipes(ui.activeSort),
+  async () => await recipe.getRecipesBySort(ui.activeSort),
   { immediate: true },
 )
 

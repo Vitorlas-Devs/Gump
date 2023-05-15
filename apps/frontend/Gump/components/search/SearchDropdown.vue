@@ -6,6 +6,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (event: 'handleHistoryClick', search: string): void
+  (event: 'search'): void
 }>()
 
 const ui = useUIStore()
@@ -32,6 +33,7 @@ function handleHistoryClick(search: string) {
   ui.searchValue = search
   ui.addSearchHistory(search)
   emit('handleHistoryClick', search)
+  emit('search')
   if (props.showResults) {
     ui.dropdownToggled = false
   } else {
@@ -71,7 +73,3 @@ function handleHistoryClick(search: string) {
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

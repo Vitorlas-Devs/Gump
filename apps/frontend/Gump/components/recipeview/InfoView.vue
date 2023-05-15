@@ -50,7 +50,3 @@ const categories = computed(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

@@ -24,5 +24,3 @@ const localePath = useLocalePath()
     </NuxtLink>
   </div>
 </template>
-
-<style scoped></style>
