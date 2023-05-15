@@ -125,7 +125,5 @@ export const useUserStore = defineStore('user', {
         return error.value
     },
   },
-  persist: {
-    storage: persistedState.cookies,
-  },
+  persist: true,
 })
