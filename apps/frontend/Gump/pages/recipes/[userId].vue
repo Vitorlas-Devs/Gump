@@ -1,23 +1,28 @@
 <script setup lang="ts">
 const ui = useUIStore()
+const userStore = useUserStore()
+const recipe = useRecipeStore()
 
-const id = ui.params.recipes
+const userId = ui.params.recipes
+const userRecipes = [] as Recipe[]
+
+const user = await userStore.getUserById(userId)
+user?.recipes.forEach(async (r) => {
+  await recipe.getRecipeById(r).then((currentRecipe) => {
+    if (currentRecipe)
+      userRecipes.push(currentRecipe)
+  })
+})
 
 ui.activeNav = 'Recipes'
 </script>
 
 <template>
   <ion-page bg-crimson-50>
-    <TheHeader title-color="brown" subtitle="Bartók Béla" title="Recipes" />
+    <TheHeader :subtitle="user?.username" :title="$t('RecipesNav')" />
     <div grow>
-      <h1 text-crimson-500 text-shadow-crimson>
-        {{ id }}
-      </h1>
+      <RecipeBoxMini v-for="r in userRecipes" :key="r.id" :recipe="r" my-3 />
     </div>
     <TheNavbar />
   </ion-page>
 </template>
-
-<style scoped>
-
-</style>
