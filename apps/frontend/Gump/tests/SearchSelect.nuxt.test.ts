@@ -4,9 +4,10 @@ import type { ComponentPublicInstance } from 'vue'
 import SearchSelect from '~/components/search/SearchSelect.vue'
 
 type ISearchSelectProps = {
-  model: string[]
+  model: string | string[]
   options: string[]
-  mode: 'multiple' | 'tags'
+  mode: 'single' | 'multiple' | 'tags'
+  queryFunction?: (query: string) => Promise<any>
 }
 
 describe('SearchSelect (tags)', () => {

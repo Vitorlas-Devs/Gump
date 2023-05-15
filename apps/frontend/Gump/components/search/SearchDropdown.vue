@@ -6,6 +6,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (event: 'handleHistoryClick', search: string): void
+  (event: 'search'): void
 }>()
 
 const ui = useUIStore()
@@ -32,6 +33,7 @@ function handleHistoryClick(search: string) {
   ui.searchValue = search
   ui.addSearchHistory(search)
   emit('handleHistoryClick', search)
+  emit('search')
   if (props.showResults) {
     ui.dropdownToggled = false
   } else {
@@ -57,7 +59,7 @@ function handleHistoryClick(search: string) {
         </p>
       </div>
       <div v-for="search in ui.getSearchHistory" :key="search" flex="~ row" w-full items-center gap-4>
-        <div class="i-fa6-solid-clock-rotate-left orangeIcon" />
+        <div i-fa6-solid-clock-rotate-left orangeIcon />
         <p
           my-2 cursor-pointer text-xl
           @click="handleHistoryClick(search)"
@@ -71,7 +73,3 @@ function handleHistoryClick(search: string) {
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

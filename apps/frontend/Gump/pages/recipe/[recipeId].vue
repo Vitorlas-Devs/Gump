@@ -36,7 +36,7 @@ function handleLiked() {
     currentRecipe.isLiked = !currentRecipe.isLiked
     currentRecipe.likeCount += currentRecipe.isLiked ? 1 : -1
     recipe.$patch({
-      searchRecipes: recipe.searchRecipes.map(r => r.id === id ? currentRecipe : r),
+      searchRecipes: recipe.recipes.map(r => r.id === id ? currentRecipe : r),
     })
   }
 }
@@ -46,7 +46,7 @@ function handleSaved() {
     currentRecipe.isSaved = !currentRecipe.isSaved
     currentRecipe.saveCount += currentRecipe.isSaved ? 1 : -1
     recipe.$patch({
-      searchRecipes: recipe.searchRecipes.map(r => r.id === id ? currentRecipe : r),
+      searchRecipes: recipe.recipes.map(r => r.id === id ? currentRecipe : r),
     })
   }
 }
@@ -106,9 +106,9 @@ async function addRecipe() {
           {{ $t(tab.translation) }}
         </div>
       </div>
-      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" pt-15 :current-recipe="currentRecipe" />
+      <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" mb-10 pt-15 :current-recipe="currentRecipe" />
     </div>
-    <MainButton fixed color="orange" icon-type="create" :title="$t('RecipeViewUseRecipe')" @click="addRecipe" />
+    <MainButton fixed color="orangeGradient" icon-type="create" :title="$t('RecipeViewUseRecipe')" @click="addRecipe" />
     <TheNavbar />
   </ion-page>
 </template>

@@ -28,6 +28,7 @@ export const useUIStore = defineStore('ui', {
     searchHistory: [] as string[],
     createHeaderIndex: 0,
     createHeaderStates: [false, false, false, false],
+    createIsEditing: false,
     createMode: 'design' as 'design' | 'raw',
     createYScroll: 0,
     params: {} as Record<RouteName, number>,

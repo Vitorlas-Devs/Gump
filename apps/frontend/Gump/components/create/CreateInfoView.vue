@@ -1,6 +1,9 @@
 <script setup lang="ts">
+// import { debounce } from 'lodash-es'
+
 const recipe = useRecipeStore()
 const ui = useUIStore()
+const localePath = useLocalePath()
 
 const visibilityData = computed(() => {
   return {
@@ -15,30 +18,52 @@ const visibilityData = computed(() => {
   }
 })
 
-function checkDone() {
+async function checkDone() {
   if (recipe.currentRecipe) {
-    if (recipe.currentRecipe.title.length > 0 && recipe.currentRecipe.language.length > 0)
+    if (recipe.currentRecipe.title.length > 0 && recipe.currentRecipe.language.length > 0) {
+      if (ui.createIsEditing)
+        debouncedRecipeUpdate(recipe.currentRecipe)
       ui.createHeaderStates[0] = true
-    else
+    } else {
       ui.createHeaderStates[0] = false
+    }
   }
 }
 
 const langs = computed({
   get: () => {
     // get language by code and return name of language
-    const lang = useLanguages.find(lang => lang.code === recipe.currentRecipe!.language)
-    return lang ? lang.name : ''
+    const language = useLanguages.find(lang => lang.code === recipe.currentRecipe!.language)
+    return language ? language.name : ''
   },
   set: (value: string) => {
     // get language by name and return code of language
-    const lang = useLanguages.find(lang => lang.name === value)
-    if (lang)
-      recipe.currentRecipe!.language = lang.code
+    const language = useLanguages.find(lang => lang.name === value)
+    if (language)
+      recipe.currentRecipe!.language = language.code
     else
       recipe.currentRecipe!.language = ''
   },
 })
+
+const confirmDelete = ref(false)
+
+async function deleteRecipe() {
+  if (confirmDelete.value) {
+    if (ui.createIsEditing)
+      await recipe.deleteRecipe(recipe.currentRecipe!.id)
+
+    ui.createHeaderStates = [false, false, false, false]
+    ui.createHeaderIndex = 0
+    recipe.currentRecipe = undefined
+    await navigateTo(localePath('/home'))
+  } else {
+    confirmDelete.value = true
+    setTimeout(() => {
+      confirmDelete.value = false
+    }, 3000)
+  }
+}
 </script>
 
 <template>
@@ -64,7 +89,7 @@ const langs = computed({
         >
           <div
             flex="~ col" cursor-pointer items-center justify-between
-            @click="recipe.currentRecipe.isPrivate = !recipe.currentRecipe.isPrivate"
+            @click="recipe.currentRecipe.isPrivate = !recipe.currentRecipe.isPrivate; checkDone()"
           >
             <div
               h-10 w-10
@@ -98,6 +123,11 @@ const langs = computed({
         @update:model="checkDone()"
       />
     </div>
+    <MainButton
+      mt-10 transform-none self-center
+      :title="confirmDelete ? 'Click again to confirm' : ''"
+      color="crimsonGradient" icon-type="delete" @click="deleteRecipe()"
+    />
   </div>
 </template>
 

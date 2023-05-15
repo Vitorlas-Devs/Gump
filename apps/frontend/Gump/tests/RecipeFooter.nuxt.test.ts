@@ -2,39 +2,34 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { type VueWrapper, mount } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
 import RecipeFooter from '~/components/recipe/RecipeFooter.vue'
+import { emptyRecipe } from '~/stores/recipe'
 
 type IRecipeFooterProps = {
-  viewCount: number
-  likeCount: number
-  saveCount: number
-  isLiked: boolean
-  isSaved: boolean
+  recipe: SearchRecipe | Recipe
 }
 
 describe('RecipeFooter', () => {
   let wrapper: VueWrapper<ComponentPublicInstance<IRecipeFooterProps>>
 
   beforeEach(() => {
+    emptyRecipe.viewCount = 123
+    emptyRecipe.likeCount = 1234
+    emptyRecipe.saveCount = 12345
     wrapper = mount(RecipeFooter, {
       attachTo: document.body,
       props: {
-        viewCount: 123,
-        likeCount: 1234,
-        saveCount: 12345,
-        isLiked: false,
-        isSaved: false,
+        recipe: emptyRecipe,
       },
     })
   })
 
   it('should have the correct props', () => {
     expect(wrapper.props()).toEqual({
-      viewCount: 123,
-      likeCount: 1234,
-      saveCount: 12345,
-      isLiked: false,
-      isSaved: false,
+      recipe: emptyRecipe,
     })
+    expect(wrapper.props('recipe').viewCount).toBe(123)
+    expect(wrapper.props('recipe').likeCount).toBe(1234)
+    expect(wrapper.props('recipe').saveCount).toBe(12345)
   })
 
   it('should render the counts in the correct format', () => {
@@ -50,7 +45,14 @@ describe('RecipeFooter', () => {
     expect(likeIcon.classes()).toContain('i-ph-heart-bold')
     expect(saveIcon.classes()).toContain('i-ph-bookmark-simple-bold')
 
-    await wrapper.setProps({ isLiked: true, isSaved: true })
+    // await wrapper.setProps({ isLiked: true, isSaved: true })
+    await wrapper.setProps({
+      recipe: {
+        isLiked: true,
+        isSaved: true,
+      },
+    })
+    console.log(wrapper.props('recipe'))
 
     expect(likeIcon.classes()).toContain('i-ph-heart-fill')
     expect(saveIcon.classes()).toContain('i-ph-bookmark-simple-fill')

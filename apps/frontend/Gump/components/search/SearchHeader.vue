@@ -1,5 +1,10 @@
 <script setup lang="ts">
+const emit = defineEmits<{
+  (event: 'search'): void
+}>()
+
 const ui = useUIStore()
+const recipe = useRecipeStore()
 
 const searchInput = ref<HTMLElement>()
 const searchBox = ref<HTMLElement>()
@@ -8,6 +13,14 @@ function handleSearch() {
   ui.searchToggled = true
   ui.dropdownToggled = true
   nextTick(() => searchInput.value?.focus())
+}
+
+async function sendSearch() {
+  ui.addSearchHistory(ui.searchValue)
+  await recipe.searchRecipes(ui.searchValue)
+  emit('search')
+  ui.searchToggled = false
+  ui.dropdownToggled = false
 }
 
 onClickOutside(searchBox, () => {
@@ -33,12 +46,8 @@ onClickOutside(searchBox, () => {
       v-model="ui.searchValue"
       h-10 w-full border-0 text-lg text-orange-500
       @focus="ui.dropdownToggled = true"
-      @keydown.enter="ui.addSearchHistory(ui.searchValue)"
+      @keydown.enter="sendSearch"
     >
-    <SearchDropdown v-if="ui.dropdownToggled" />
+    <SearchDropdown v-if="ui.dropdownToggled" @search="sendSearch" />
   </div>
 </template>
-
-<style scoped>
-
-</style>

@@ -3,7 +3,7 @@ const ui = useUIStore()
 </script>
 
 <template>
-  <div flex="~ row" h-20 w-full items-center justify-center bg-crimson-50 p-2 px-3 shadow-orange space-x-xl>
+  <div flex="~ row" h-20 w-full items-center justify-around bg-crimson-50 p-2 px-3 shadow-orange space-x-xl>
     <div v-for="(state, index) in createTabs" :key="index" cursor-pointer :class="[ui.createHeaderStates[index] ? 'done' : 'empty']" @click="ui.activeCreateTab = state; ui.createHeaderIndex = index">
       <div v-if="state === ui.activeCreateTab" class="active" />
     </div>
