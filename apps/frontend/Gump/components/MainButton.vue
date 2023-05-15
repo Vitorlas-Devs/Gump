@@ -18,11 +18,11 @@ defineEmits<{
   >
     <div
       v-if="iconType === 'create'"
-      class="i-fa6-solid-plus whiteIcon"
+      i-fa6-solid-plus whiteIcon
     />
     <div
       v-else-if="iconType === 'delete'"
-      class="i-fa6-solid-trash-can whiteIcon"
+      i-fa6-solid-trash-can whiteIcon
     />
     <h1 v-if="title" m-a text-xl font-bold text-white-500 text-shadow-white>
       {{ title }}

@@ -54,19 +54,19 @@ async function saveClick() {
 <template>
   <div v-if="props.recipe" flex="~ row" mx-2 justify-between text-left font-mono text-xl>
     <div flex="~ row" items-center>
-      <div class="i-fa6-solid-eye orangeIcon" />
+      <div i-fa6-solid-eye orangeIcon />
       <div ml-1 text-orange-500 text-shadow-orange>
         {{ formatNumber(props.recipe.viewCount) }}
       </div>
     </div>
     <div id="likeButton" :class="{ heartbeat: isLiking }" flex="~ row" cursor-pointer items-center @click="likeClick">
-      <div class="crimsonIcon" :class="props.recipe.isLiked ? 'i-ph-heart-fill' : 'i-ph-heart-bold'" />
+      <div crimsonIcon :class="props.recipe.isLiked ? 'i-ph-heart-fill' : 'i-ph-heart-bold'" />
       <div ml-1 text-crimson-500 text-shadow-crimson>
         {{ formatNumber(props.recipe.likeCount) }}
       </div>
     </div>
     <div id="saveButton" :class="{ heartbeat: isSaving }" flex="~ row" cursor-pointer items-center @click="saveClick">
-      <div shadow-blue class="blueIcon" :class="props.recipe.isSaved ? 'i-ph-bookmark-simple-fill' : 'i-ph-bookmark-simple-bold'" />
+      <div blueIcon shadow-blue :class="props.recipe.isSaved ? 'i-ph-bookmark-simple-fill' : 'i-ph-bookmark-simple-bold'" />
       <div ml-1 text-blue-500 text-shadow-blue>
         {{ formatNumber(props.recipe.saveCount) }}
       </div>
