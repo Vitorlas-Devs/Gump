@@ -180,16 +180,16 @@ export const useRecipeStore = defineStore('recipe', {
     async getUserRecipes(type: RecipesSort): Promise<Recipe[]> {
       const user = useUserStore()
       const recipes: Recipe[] = []
-      if (type !== 'liked') {
+      if (type !== 'Liked') {
         for (const recipeId of user.current.recipes) {
           const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
             headers: {},
             method: 'GET',
           }).json()
           if (data.value) {
-            if (type === 'owned' && data.value.author === user.current.id)
+            if (type === 'Owned' && data.value.author === user.current.id)
               recipes.push(data.value)
-            else if (type === 'saved' && data.value.author !== user.current.id)
+            else if (type === 'Saved' && data.value.author !== user.current.id)
               recipes.push(data.value)
           }
           if (error.value)

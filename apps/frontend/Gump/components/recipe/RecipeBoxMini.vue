@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  recipe: Recipe
+  recipe: SearchRecipe | Recipe
 }>()
 
 const image = useImageStore()
@@ -15,10 +15,25 @@ function addRecipe(recipe: Recipe) {
   recipeStore.addRecipe(recipe)
 }
 
+console.log(props.recipe.id)
+
 async function viewRecipe(recipeId: number) {
-  ui.activeNav = 'Recipes'
-  ui.setParams('recipe', recipeId)
-  await navigateTo(localePath(`/recipe/${recipeId}`))
+  // check if the current user is the owner of the recipe
+  if (user.current.id === props.recipe.author) {
+    ui.activeNav = 'Create'
+    ui.createHeaderStates = [true, true, true, true]
+    ui.createIsEditing = true
+    if ('ingredients' in props.recipe)
+      recipeStore.currentRecipe = props.recipe
+    else
+      recipeStore.currentRecipe = await recipeStore.getRecipeById(props.recipe.id)
+
+    await navigateTo(localePath('/create'))
+  } else {
+    ui.activeNav = 'Recipes'
+    ui.setParams('recipe', recipeId)
+    await navigateTo(localePath(`/recipe/${recipeId}`))
+  }
 }
 
 onMounted(async () => {
@@ -39,6 +54,6 @@ onMounted(async () => {
         </p>
       </div>
     </div>
-    <img v-if="ui.activeNav === 'Create'" src="~assets/PlusSign.svg" m-3 @click="addRecipe(recipe)">
+    <img v-if="ui.activeNav === 'Create'" src="~assets/PlusSign.svg" m-3 @click="addRecipe(recipe as Recipe)">
   </div>
 </template>
