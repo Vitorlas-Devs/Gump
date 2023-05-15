@@ -19,7 +19,7 @@ export function debouncedRecipeUpdate<T extends Recipe>(recipe: T): T {
   }
 
   // Loop over the recipe properties
-  for (const prop in recipe) {
+  for (const prop of Object.keys(recipe)) {
     const key = prop as keyof Recipe
 
     // Check if there is a change in the property value
