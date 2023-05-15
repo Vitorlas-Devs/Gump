@@ -34,7 +34,7 @@ function handleSaved(r: SearchRecipe) {
   <ion-page bg-crimson-50>
     <TheHeader show-icons :title="$t('HomeNav')" />
     <div v-if="recipe.recipes" grow overflow-y-auto pb-30>
-      <RecipeBox v-for="r of recipe.recipes" :key="r.id" :recipe="r" @like="handleLiked(r)" @save="handleSaved(r)" />
+      <RecipeBox v-for="r in recipe.recipes" :key="r.id" :recipe="r" @like="handleLiked(r)" @save="handleSaved(r)" />
       <MainButton fixed color="orange" icon-type="create" title="Create recipe" />
     </div>
     <TheNavbar />
