@@ -24,6 +24,7 @@ Blocks: <https://blocks.githubnext.com/14A-A-Lyedlik-Devs/Gump>
 - [Fejlesztői leírás](/docs/dev.md)
 - [ER MODEL](https://app.diagrams.net/#G1BBTGqKAzg2ffcl2lPW3dU6NtK2lj8m1L)
 - [AB MODEL](https://raw.githubusercontent.com/14A-A-Lyedlik-Devs/Gump/main/docs/AB-Model.png)
+- [Postman](https://www.postman.com/security-saganist-93283134/workspace/gump/documentation/26477376-904f2ea0-9352-4122-a3c6-e39b867bd003)
 
 ## Mintabelépések
 
