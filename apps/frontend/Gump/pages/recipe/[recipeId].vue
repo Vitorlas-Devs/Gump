@@ -108,7 +108,7 @@ async function addRecipe() {
       </div>
       <component :is="recipeTabData[ui.activeRecipeTab].component" :is-editing="false" mb-10 pt-15 :current-recipe="currentRecipe" />
     </div>
-    <MainButton fixed color="orange" icon-type="create" :title="$t('RecipeViewUseRecipe')" @click="addRecipe" />
+    <MainButton fixed color="orangeGradient" icon-type="create" :title="$t('RecipeViewUseRecipe')" @click="addRecipe" />
     <TheNavbar />
   </ion-page>
 </template>

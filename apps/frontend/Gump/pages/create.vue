@@ -71,11 +71,11 @@ onBeforeRouteLeave((to, from, next) => {
     </div>
     <MainButton
       v-if="ui.activeCreateTab === 'Ingredients' || ui.activeCreateTab === 'Steps'"
-      fixed color="crimson" :title="$t('CreateItemButton')" @click="addItem"
+      fixed color="crimsonGradient" :title="$t('CreateItemButton')" @click="addItem"
     />
     <MainButton
       v-else-if="ui.activeCreateTab === 'Details' && !ui.createIsEditing"
-      fixed color="orange" :title="$t('CreateRecipeButton')" @click="createRecipe()"
+      fixed color="orangeGradient" :title="$t('CreateRecipeButton')" @click="createRecipe()"
     />
     <TheNavbar />
     <Transition>

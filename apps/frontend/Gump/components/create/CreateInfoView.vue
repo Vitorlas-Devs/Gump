@@ -126,7 +126,7 @@ async function deleteRecipe() {
     <MainButton
       mt-10 transform-none self-center
       :title="confirmDelete ? 'Click again to confirm' : ''"
-      color="crimson" icon-type="delete" @click="deleteRecipe()"
+      color="crimsonGradient" icon-type="delete" @click="deleteRecipe()"
     />
   </div>
 </template>
