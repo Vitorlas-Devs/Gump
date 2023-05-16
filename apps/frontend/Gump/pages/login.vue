@@ -45,7 +45,3 @@ async function handleLogin() {
     </div>
   </ion-page>
 </template>
-
-<style scoped>
-
-</style>

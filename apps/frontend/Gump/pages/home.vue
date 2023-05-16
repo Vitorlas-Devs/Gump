@@ -39,5 +39,3 @@ function handleSaved(r: SearchRecipe) {
     <TheNavbar />
   </ion-page>
 </template>
-
-<style scoped></style>
