@@ -42,39 +42,39 @@ export default defineNuxtConfig({
   i18n: {
     locales: [
       {
-        code: 'en',
+        code: 'en_US',
         file: 'en_US.json',
         name: 'English',
       },
       {
-        code: 'hu',
+        code: 'hu_HU',
         file: 'hu_HU.json',
         name: 'Hungarian',
       },
       {
-        code: 'kr',
+        code: 'ko_KR',
         file: 'ko_KR.json',
         name: 'Korean',
       },
       {
-        code: 'fr',
+        code: 'fr_FR',
         file: 'fr_FR.json',
         name: 'French',
       },
       {
-        code: 'ro',
+        code: 'ro_RO',
         file: 'ro_RO.json',
         name: 'Romanian',
       },
       {
-        code: 'de',
+        code: 'de_DE',
         file: 'de_DE.json',
         name: 'German',
       },
     ],
     lazy: true,
     langDir: '../../../locales/',
-    defaultLocale: 'en',
+    defaultLocale: 'en_US',
   },
   vite: {
     vue: {
