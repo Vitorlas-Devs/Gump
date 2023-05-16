@@ -1,6 +1,7 @@
 export const emptyCurrentUser: CurrentUser = {
   id: 0,
   username: '',
+  email: '',
   profilePicture: 0,
   recipes: [],
   likes: [],
@@ -122,6 +123,44 @@ export const useUserStore = defineStore('user', {
       }
       if (error.value)
         return error.value
+    },
+    async updateUser(userDto: UserDto, profilePicture: number, language: string): Promise<User | undefined> {
+      const requestBody = {
+        ...userDto,
+        id: this.current.id,
+        profilePicture,
+        language,
+      }
+      const { data, error } = await gumpFetch('user/update', {
+        method: 'PATCH',
+        body: JSON.stringify(requestBody),
+      }).json()
+      if (data.value)
+        return data.value
+      if (error.value)
+        return error.value
+    },
+    async getBadgeById(id: number): Promise<Badge | undefined> {
+      const { data, error } = await gumpFetch<Badge>(`badge/${id}`, {
+        headers: {},
+        method: 'GET',
+      }).json()
+      if (data.value)
+        return data.value
+      if (error.value)
+        return error.value
+    },
+    async getBadgesByUser(id: number): Promise<Badge[] | undefined> {
+      const user = await this.getUserById(id)
+      const badges: Badge[] = []
+      if (user) {
+        for (const badgeId of user.badges) {
+          const badge = await this.getBadgeById(badgeId)
+          if (badge)
+            badges.push(badge)
+        }
+      }
+      return badges
     },
   },
   persist: true,

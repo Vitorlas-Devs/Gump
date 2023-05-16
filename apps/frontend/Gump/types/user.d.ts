@@ -16,11 +16,18 @@ type User = {
 
 type CurrentUser = Omit<User, 'followingCount' | 'followerCount'> & {
   language: string
+  email: string
   likes: number[]
   following: number[]
   follower: number[]
   isModerator: boolean
   token?: string
+}
+
+type Badge = {
+  name: string,
+  description: string,
+  image: number,
 }
 
 type SearchUser = Pick<User, 'id' | 'username' | 'profilePicture'>
