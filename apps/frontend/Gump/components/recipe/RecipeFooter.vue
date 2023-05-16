@@ -34,7 +34,7 @@ async function likeClick() {
 
 async function saveClick() {
   await recipeStore.saveRecipe(props.recipe.id)
-  const recipeToModify = recipeStore.searchRecipes.find(r => r.id === props.recipe.id) ?? recipeStore.recipes.find(r => r.id === props.recipe.id)
+  const recipeToModify = recipeStore.recipes.find(r => r.id === props.recipe.id) ?? recipeStore.recipes.find(r => r.id === props.recipe.id)
 
   if (recipeToModify) {
     if (props.recipe.isSaved)
@@ -65,7 +65,7 @@ async function saveClick() {
         {{ formatNumber(props.recipe.likeCount) }}
       </div>
     </div>
-    <div id="saveButton" :class="{ heartbeat: isSaving }" flex="~ row" cursor-pointer items-center @click="saveClick">
+    <div v-if="user.current.id !== props.recipe.author" id="saveButton" :class="{ heartbeat: isSaving }" flex="~ row" cursor-pointer items-center @click="saveClick">
       <div blueIcon shadow-blue :class="props.recipe.isSaved ? 'i-ph-bookmark-simple-fill' : 'i-ph-bookmark-simple-bold'" />
       <div ml-1 text-blue-500 text-shadow-blue>
         {{ formatNumber(props.recipe.saveCount) }}

@@ -120,7 +120,6 @@ export const useUserStore = defineStore('user', {
 
         return data.value.map((user: SearchUser) => user.username)
       }
-
       if (error.value)
         return error.value
     },
