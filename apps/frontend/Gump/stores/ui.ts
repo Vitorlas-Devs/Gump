@@ -32,6 +32,7 @@ export const useUIStore = defineStore('ui', {
     createMode: 'design' as 'design' | 'raw',
     createYScroll: 0,
     params: {} as Record<RouteName, number>,
+    uploadedImage: 0,
   }),
   getters: {
     getSearchHistory(state) {
