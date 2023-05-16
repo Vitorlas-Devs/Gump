@@ -37,11 +37,11 @@ async function createRecipe() {
   const id = await recipe.createRecipe()
   if (id) {
     isSuccessful.value = true
-    setTimeout(() => {
+    setTimeout(async () => {
       isSuccessful.value = false
       ui.activeCreateTab = 'Info'
       ui.createIsEditing = false
-      navigateTo(localePath('/home'))
+      await navigateTo(localePath('/home'))
     }, 2000)
   }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const recipesSort = ref('owned' as RecipesSort)
+const recipesSort = ref<RecipesSort>('Owned')
 const recipe = useRecipeStore()
 const user = useUserStore()
 
