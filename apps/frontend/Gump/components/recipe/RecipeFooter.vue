@@ -54,7 +54,7 @@ async function saveClick() {
 <template>
   <div v-if="props.recipe" flex="~ row" mx-2 justify-between text-left font-mono text-xl>
     <div flex="~ row" items-center>
-      <div orangeicon i-fa6-solid-eye />
+      <div orangeIcon i-fa6-solid-eye />
       <div ml-1 text-orange-500 text-shadow-orange>
         {{ formatNumber(props.recipe.viewCount) }}
       </div>
