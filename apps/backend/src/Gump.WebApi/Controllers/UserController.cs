@@ -54,6 +54,7 @@ public class UserController : ControllerBase
 		{
 			id = user.Id,
 			username = user.Username,
+			email = user.Email,
 			profilePicture = user.ProfilePictureId,
 			language = user.Language,
 			recipes = user.Recipes,
