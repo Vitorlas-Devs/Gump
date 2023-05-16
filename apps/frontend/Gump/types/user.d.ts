@@ -15,6 +15,7 @@ type User = {
 }
 
 type CurrentUser = Omit<User, 'followingCount' | 'followerCount'> & {
+  password: string
   language: string
   likes: number[]
   following: number[]

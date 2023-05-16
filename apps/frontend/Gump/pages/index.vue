@@ -8,6 +8,7 @@ async function skipLogin() {
   user.current = {
     id: 0,
     username: '',
+    password: '',
     profilePicture: 0,
     recipes: [],
     likes: [],
@@ -16,7 +17,7 @@ async function skipLogin() {
     badges: [],
     language: '',
     isModerator: false,
-    token: '',
+    token: 'offline',
   }
   await navigateTo(localePath('/home'))
 }

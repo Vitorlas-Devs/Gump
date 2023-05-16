@@ -1,6 +1,7 @@
 export const emptyCurrentUser: CurrentUser = {
   id: 0,
   username: '',
+  password: '',
   profilePicture: 0,
   recipes: [],
   likes: [],
@@ -48,8 +49,10 @@ export const useUserStore = defineStore('user', {
         method: 'POST',
         body: JSON.stringify(userDto),
       }).json()
-      if (data.value)
+      if (data.value) {
         this.current.token = data.value.token
+        this.current.password = userDto.password
+      }
 
       if (error.value)
         return error.value

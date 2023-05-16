@@ -30,24 +30,35 @@ const actions = createActions<Image, ImageStore>({
     const reader = new FileReader()
     reader.readAsDataURL(file[0])
     reader.onload = async () => {
-      const { data, error } = await gumpFetch('image', {
-        body: JSON.stringify({
-          image: reader.result,
-        }),
-      }).text().post()
+      for (let i = 0; i < 2; i++) {
+        const { data, error, statusCode } = await gumpFetch('image', {
+          body: JSON.stringify({
+            image: reader.result,
+          }),
+        }).text().post()
 
-      if (data.value) {
-        const id = parseInt(data.value, 10)
-        const recipe = useRecipeStore()
-        if (recipe.currentRecipe)
-          recipe.currentRecipe.image = id
+        if (data.value) {
+          const id = parseInt(data.value, 10)
+          const recipe = useRecipeStore()
+          if (recipe.currentRecipe)
+            recipe.currentRecipe.image = id
+          return
+        }
+
+        const user = useUserStore()
+        if (i === 0 && user.current.token !== 'offline' && statusCode.value === 401) {
+          await user.login({
+            username: user.current.username,
+            password: user.current.password,
+          })
+          continue
+        }
+
+        if (error.value)
+          return error.value
       }
-
-      if (error.value)
-        return error.value
     }
   },
-
 })
 
 export const useImageStore = useStore<Image, ImageStore>(
