@@ -2,24 +2,19 @@
 const ui = useUIStore()
 const userStore = useUserStore()
 const recipe = useRecipeStore()
+const localePath = useLocalePath()
 
 const userId = ui.params.recipes
-const userRecipes = [] as Recipe[]
 
 const user = await userStore.getUserById(userId)
-user?.recipes.forEach(async (r) => {
-  await recipe.getRecipeById(r).then((currentRecipe) => {
-    if (currentRecipe)
-      userRecipes.push(currentRecipe)
-  })
-})
+const userRecipes = await recipe.getUserRecipes(userId)
 
 ui.activeNav = 'Recipes'
 </script>
 
 <template>
-  <ion-page bg-crimson-50>
-    <TheHeader :subtitle="user?.username" :title="$t('RecipesNav')" />
+  <ion-page v-if="user" bg-crimson-50>
+    <TheHeader cursor-pointer :subtitle="user.username" :title="$t('RecipesNav')" @click="ui.setParams('user', user.id);navigateTo(localePath(`/user/${user.id}`))" />
     <div grow>
       <RecipeBoxMini v-for="r in userRecipes" :key="r.id" :recipe="r" my-3 />
     </div>

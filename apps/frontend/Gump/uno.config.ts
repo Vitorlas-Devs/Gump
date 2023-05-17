@@ -1,10 +1,25 @@
 import { defineConfig, presetAttributify, presetIcons, presetUno, presetWebFonts, transformerVariantGroup } from 'unocss'
+import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
+import { insertShadow } from 'icon-shadow' // my package ^^
 
 export default defineConfig({
   presets: [
     presetUno(),
     presetAttributify(),
-    presetIcons(),
+    presetIcons({
+      collections: {
+        shadow: FileSystemIconLoader(
+          './assets/icons',
+          svg => insertShadow(svg, {
+            dx: 0,
+            dy: 0,
+            stdDeviation: 2,
+            opacity: 0.3,
+            viewBoxScale: 1.5,
+          }),
+        ),
+      },
+    }),
     presetWebFonts({
       fonts: {
         sans: 'Ubuntu',
@@ -38,15 +53,22 @@ export default defineConfig({
         500: '#912808',
         900: '#2A1700',
       },
-      blue: { 500: '#0842A0' },
+      blue: {
+        200: '#09ADEA',
+        400: '#0ABDFF',
+        500: '#0842A0',
+        600: '#0891C4',
+      },
       grey: {
         700: '#3A3A3A',
         800: '#2A2A2A',
         900: '#1A1A1A',
       },
       red: { 500: '#ce2c2c' },
-      green: { 500: '#3FB950' },
-      purple: { 500: '#A371F7' },
+      pink: { 500: '#FF54F8' },
+      green: { 500: '#2FD12C' },
+      purple: { 500: '#9747FF' },
+      yellow: { 500: '#F3C522' },
       white: { 500: '#FFFFFF' },
     },
     textShadow: {
@@ -81,7 +103,7 @@ export default defineConfig({
     },
     [/^([a-z]+)Btn$/, ([, c]) => `w-max rounded-full bg-${c}-500 px-4 py-2 font-bold text-lg text-white-500 shadow-${c}`],
     [/^([a-z]+)Link$/, ([, c]) => `text-${c}-500 text-shadow-${c} underline underline-offset-5 underline-${c}-500 font-bold`],
-    [/^([a-z]+)Icon$/, ([, c]) => `w-6 h-6 text-${c}-500`],
+    [/^([a-z]+)Icon$/, ([, c]) => `w-8 h-8 text-${c}-500`],
     [/^([a-z]+)Gradient$/, ([, c]) => `bg-gradient-to-rt from-${c}-600 to-${c}-400`],
   ],
 })

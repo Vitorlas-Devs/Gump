@@ -8,6 +8,7 @@
     "no-console": "warn",
     "brace-style": ["error", "1tbs"],
     "no-shadow": "error",
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "@typescript-eslint/brace-style": ["error", "1tbs"],
     "@typescript-eslint/consistent-type-definitions": ["error", "type"]
   }

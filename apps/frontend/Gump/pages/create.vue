@@ -37,11 +37,11 @@ async function createRecipe() {
   const id = await recipe.createRecipe()
   if (id) {
     isSuccessful.value = true
-    setTimeout(() => {
+    setTimeout(async () => {
       isSuccessful.value = false
       ui.activeCreateTab = 'Info'
       ui.createIsEditing = false
-      navigateTo(localePath('/home'))
+      await navigateTo(localePath('/home'))
     }, 2000)
   }
 }
@@ -81,7 +81,7 @@ onBeforeRouteLeave((to, from, next) => {
     <Transition>
       <div v-if="isSuccessful" flex="~ row" absolute z-100 h-full w-full items-center justify-center bg-crimson-50>
         <div
-          i-fa6-solid-circle-check
+          i-shadow:fa6-solid-circle-check
           h-20 w-20 from-crimson-500 to-orange-500 bg-gradient-to-rt
         />
       </div>

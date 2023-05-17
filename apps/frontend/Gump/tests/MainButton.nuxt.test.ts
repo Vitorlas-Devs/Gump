@@ -22,7 +22,7 @@ describe('MainButton', () => {
         color: 'crimsonGradient',
       },
     })
-    expect(wrapper.find('.i-fa6-solid-trash-can').exists()).toBe(true)
+    expect(wrapper.html()).toContain('i-shadow:fa6-solid-trash-can')
   })
 
   it('should render the color prop', () => {

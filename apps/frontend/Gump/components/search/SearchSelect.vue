@@ -34,7 +34,7 @@ function handleBackspace(e: KeyboardEvent) {
 </script>
 
 <template>
-  <div mx-2>
+  <div>
     <Multiselect
       :value="model"
       :options="mode === 'multiple' && queryFunction !== undefined ? async (query: string) => {

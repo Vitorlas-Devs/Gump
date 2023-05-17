@@ -199,7 +199,7 @@ export const useRecipeStore = defineStore('recipe', {
           return error.value
       }
     },
-    async getUserRecipes(type: RecipesSort): Promise<Recipe[]> {
+    async getCurrentUserRecipes(type: RecipesSort): Promise<Recipe[]> {
       const user = useUserStore()
       const recipes: Recipe[] = []
       if (type !== 'Liked') {
@@ -224,6 +224,24 @@ export const useRecipeStore = defineStore('recipe', {
             method: 'GET',
           }).json()
           if (data.value)
+            recipes.push(data.value)
+          if (error.value)
+            return error.value
+        }
+      }
+      return recipes
+    },
+    async getUserRecipes(userId: number): Promise<Recipe[]> {
+      const user = useUserStore()
+      const currentUser = await user.getUserById(userId)
+      const recipes: Recipe[] = []
+      if (currentUser) {
+        for (const recipeId of currentUser.recipes) {
+          const { data, error } = await gumpFetch<Recipe>(`recipe/${recipeId}`, {
+            headers: {},
+            method: 'GET',
+          }).json()
+          if (data.value && data.value.author === userId)
             recipes.push(data.value)
           if (error.value)
             return error.value
