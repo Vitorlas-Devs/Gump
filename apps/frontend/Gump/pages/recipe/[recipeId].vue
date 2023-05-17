@@ -68,7 +68,7 @@ async function addRecipe() {
 
 <template>
   <ion-page v-if="currentRecipe" bg-crimson-50>
-    <TheHeader title-color="brown" :subtitle="authorName" :title="currentRecipe.title" />
+    <TheHeader cursor-pointer title-color="brown" :subtitle="authorName" :title="currentRecipe.title" @click="ui.setParams('user', currentRecipe.author); navigateTo(localePath(`/user/${currentRecipe.author}`))" />
     <img :src="image.getImageUrl(currentRecipe.image)" h-40 w-full object-cover>
     <RecipeFooter :recipe="currentRecipe" @like="handleLiked" @save="handleSaved" />
     <div m-2 grow overflow-y-auto>
