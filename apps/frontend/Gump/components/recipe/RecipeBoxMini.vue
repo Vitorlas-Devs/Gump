@@ -15,8 +15,6 @@ function addRecipe(recipe: Recipe) {
   recipeStore.addRecipe(recipe)
 }
 
-console.log(props.recipe.id)
-
 async function viewRecipe(recipeId: number) {
   // check if the current user is the owner of the recipe
   if (user.current.id === props.recipe.author) {

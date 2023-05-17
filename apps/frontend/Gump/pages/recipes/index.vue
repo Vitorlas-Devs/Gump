@@ -8,7 +8,7 @@ const userRecipes = ref([] as Recipe[])
 watch(
   () => [recipesSort.value, user.current.recipes, user.current.likes],
   async () =>
-    userRecipes.value = await recipe.getUserRecipes(recipesSort.value),
+    userRecipes.value = await recipe.getCurrentUserRecipes(recipesSort.value),
   { immediate: true, deep: true },
 )
 </script>

@@ -39,8 +39,11 @@ const actions = createActions<Image, ImageStore>({
       if (data.value) {
         const id = parseInt(data.value, 10)
         const recipe = useRecipeStore()
-        if (recipe.currentRecipe)
+        const ui = useUIStore()
+        if (recipe.currentRecipe && ui.activeNav !== 'Profile')
           recipe.currentRecipe.image = id
+        if (ui.activeNav === 'Profile')
+          ui.uploadedImage = id
       }
 
       if (error.value)

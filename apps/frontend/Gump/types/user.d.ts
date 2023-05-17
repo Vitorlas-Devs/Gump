@@ -16,6 +16,7 @@ type User = {
 
 type CurrentUser = Omit<User, 'followingCount' | 'followerCount'> & {
   language: string
+  email: string
   likes: number[]
   following: number[]
   follower: number[]

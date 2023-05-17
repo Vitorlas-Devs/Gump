@@ -1,6 +1,7 @@
 export const emptyCurrentUser: CurrentUser = {
   id: 0,
   username: '',
+  email: '',
   profilePicture: 0,
   recipes: [],
   likes: [],
@@ -77,21 +78,16 @@ export const useUserStore = defineStore('user', {
         return '¯⁠\\_(⁠ツ⁠)_/⁠¯'
     },
     async getUserById(id: number): Promise<User | undefined> {
-      const foundUser = this.all.find(user => user.id === id)
-      if (foundUser) {
-        return foundUser
-      } else {
-        const { data, error } = await gumpFetch<User>(`user/${id}`, {
-          headers: {},
-          method: 'GET',
-        }).json()
-        if (data.value) {
-          this.all.push(data.value)
-          return data.value
-        }
-        if (error.value)
-          return error.value
+      const { data, error } = await gumpFetch<User>(`user/${id}`, {
+        headers: {},
+        method: 'GET',
+      }).json()
+      if (data.value) {
+        this.all.push(data.value)
+        return data.value
       }
+      if (error.value)
+        return error.value
     },
     async searchUser(search: string): Promise<SearchUser[] | undefined> {
       const { data, error } = await gumpFetch<SearchUser[]>(`user/search?searchTerm=${search}`, {
@@ -119,6 +115,48 @@ export const useUserStore = defineStore('user', {
         await Promise.all(promises)
 
         return data.value.map((user: SearchUser) => user.username)
+      }
+      if (error.value)
+        return error.value
+    },
+    async updateUser(userDto: UserDto, profilePicture: number, language: string): Promise<User | undefined> {
+      const requestBody = {
+        ...userDto,
+        id: this.current.id,
+        profilePicture,
+        language,
+      }
+      const { data, error } = await gumpFetch('user/update', {
+        method: 'PATCH',
+        body: JSON.stringify(requestBody),
+      }).json()
+      if (data.value)
+        return data.value
+      if (error.value)
+        return error.value
+    },
+    async getFollows(type: FollowsSort): Promise<User[] | undefined> {
+      const users: User[] = []
+
+      const { data, error } = await gumpFetch<CurrentUser>('user/me', {
+        method: 'GET',
+      }).json()
+      if (data.value) {
+        if (type === 'Followers') {
+          for (const userId of data.value.follower) {
+            const user = await this.getUserById(userId)
+            if (user)
+              users.push(user)
+          }
+          return users
+        } else {
+          for (const userId of data.value.following) {
+            const user = await this.getUserById(userId)
+            if (user)
+              users.push(user)
+          }
+          return users
+        }
       }
       if (error.value)
         return error.value

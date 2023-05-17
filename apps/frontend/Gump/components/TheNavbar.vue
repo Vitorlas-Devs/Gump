@@ -4,7 +4,7 @@ const localePath = useLocalePath()
 </script>
 
 <template>
-  <div flex="~ row" relative bottom-0 z-10 h-24 w-full items-center bg-crimson-50 class="shadow-crimsonUp">
+  <div flex="~ row" relative bottom-0 z-12 h-24 w-full items-center bg-crimson-50 class="shadow-crimsonUp">
     <NuxtLink v-for="tab in tabData" :key="tab.name" :to="localePath(tab.path)" w-full flex="~ col" items-center gap-2 decoration-none @click="ui.setActiveNav(tab.tab)">
       <div mb-8 flex="~ row" items-center justify-center>
         <img src="~assets/hexagon.svg">

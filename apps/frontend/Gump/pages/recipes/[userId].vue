@@ -4,15 +4,9 @@ const userStore = useUserStore()
 const recipe = useRecipeStore()
 
 const userId = ui.params.recipes
-const userRecipes = [] as Recipe[]
 
 const user = await userStore.getUserById(userId)
-user?.recipes.forEach(async (r) => {
-  await recipe.getRecipeById(r).then((currentRecipe) => {
-    if (currentRecipe)
-      userRecipes.push(currentRecipe)
-  })
-})
+const userRecipes = await recipe.getUserRecipes(userId)
 
 ui.activeNav = 'Recipes'
 </script>
