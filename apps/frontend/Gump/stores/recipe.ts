@@ -113,11 +113,10 @@ export const useRecipeStore = defineStore('recipe', {
         this.currentRecipe.ingredients.splice(index, 1)
     },
     addRecipe(recipe: Recipe) {
-      const i18n = useI18n()
       this.currentRecipe?.ingredients.push({
         name: recipe.title,
         value: 1,
-        volume: i18n.t('LinkedRecipeVolume'),
+        volume: 'piece',
         linkedRecipe: recipe.id,
       })
     },

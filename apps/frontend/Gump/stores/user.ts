@@ -135,28 +135,6 @@ export const useUserStore = defineStore('user', {
       if (error.value)
         return error.value
     },
-    async getBadgeById(id: number): Promise<Badge | undefined> {
-      const { data, error } = await gumpFetch<Badge>(`badge/${id}`, {
-        headers: {},
-        method: 'GET',
-      }).json()
-      if (data.value)
-        return data.value
-      if (error.value)
-        return error.value
-    },
-    async getBadgesByUser(id: number): Promise<Badge[] | undefined> {
-      const user = await this.getUserById(id)
-      const badges: Badge[] = []
-      if (user) {
-        for (const badgeId of user.badges) {
-          const badge = await this.getBadgeById(badgeId)
-          if (badge)
-            badges.push(badge)
-        }
-      }
-      return badges
-    },
     async getFollows(type: FollowsSort): Promise<User[] | undefined> {
       const users: User[] = []
 

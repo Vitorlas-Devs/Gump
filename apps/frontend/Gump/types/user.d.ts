@@ -24,10 +24,4 @@ type CurrentUser = Omit<User, 'followingCount' | 'followerCount'> & {
   token?: string
 }
 
-type Badge = {
-  name: string,
-  description: string,
-  image: number,
-}
-
 type SearchUser = Pick<User, 'id' | 'username' | 'profilePicture'>

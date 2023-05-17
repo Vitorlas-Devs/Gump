@@ -2,11 +2,12 @@
 const ui = useUIStore()
 const user = useUserStore()
 const image = useImageStore()
+const badgeStore = useBadgeStore()
 const localePath = useLocalePath()
 
 const id = ui.params.user
 const currentUser = await user.getUserById(id)
-const badges = await user.getBadgesByUser(id)
+const badges = await badgeStore.getBadgesByUser(id)
 
 ui.activeNav = 'Profile'
 
@@ -15,8 +16,6 @@ async function openUserRecipes() {
   ui.setParams('recipes', id)
   await navigateTo(localePath(`/recipes/${id}`))
 }
-
-console.log(currentUser)
 </script>
 
 <template>
@@ -41,7 +40,7 @@ console.log(currentUser)
         </div>
       </div>
       <div flex="~ col">
-        <h2 text-2xl font-bold underline @click="openUserRecipes()">
+        <h2 cursor-pointer text-2xl font-bold underline @click="openUserRecipes()">
           {{ $t('RecipesNav') }}
         </h2>
         <h2 text-2xl font-bold>

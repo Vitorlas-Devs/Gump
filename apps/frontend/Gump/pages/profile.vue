@@ -4,10 +4,11 @@ const image = useImageStore()
 const { open, onChange } = useFileDialog()
 const ui = useUIStore()
 const i18n = useI18n()
+const badgeStore = useBadgeStore()
 
 const profilePicture = ref('')
 
-const badges = await user.getBadgesByUser(user.current.id)
+const badges = await badgeStore.getBadgesByUser(user.current.id)
 
 const showModal = ref(false)
 const follows = ref<User[]>([])

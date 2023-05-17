@@ -72,6 +72,5 @@
   "WelcomeError3": "{email} is not valid.",
   "WelcomeError4": "{field} cannot be empty.",
   "WelcomeError5": "Incorrect username or password.",
-  "AppError": "An unexpected error occurred.",
-  "LinkedRecipeVolume": "piece"
+  "AppError": "An unexpected error occurred."
 }
