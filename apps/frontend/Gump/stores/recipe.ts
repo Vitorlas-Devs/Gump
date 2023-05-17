@@ -124,24 +124,46 @@ export const useRecipeStore = defineStore('recipe', {
       return this.recipes.filter(recipe => recipe.title.toLowerCase().includes(query.toLowerCase()))
     },
     async likeRecipe(recipeId: number) {
-      const { data, error } = await gumpFetch(`recipe/like/${recipeId}`, {
-        method: 'PATCH',
-      })
-      if (data.value)
-        return data.value
+      for (let i = 0; i < 2; i++) {
+        const { data, error, statusCode } = await gumpFetch(`recipe/like/${recipeId}`, {
+          method: 'PATCH',
+        })
+        if (data.value)
+          return data.value
 
-      if (error.value)
-        return error.value
+        const user = useUserStore()
+        if (i === 0 && user.current.token !== 'offline' && statusCode.value === 401) {
+          await user.login({
+            username: user.current.username,
+            password: user.current.password,
+          })
+          continue
+        }
+
+        if (error.value)
+          return error.value
+      }
     },
     async saveRecipe(recipeId: number) {
-      const { data, error } = await gumpFetch(`recipe/save/${recipeId}`, {
-        method: 'PATCH',
-      })
-      if (data.value)
-        return data.value
+      for (let i = 0; i < 2; i++) {
+        const { data, error, statusCode } = await gumpFetch(`recipe/save/${recipeId}`, {
+          method: 'PATCH',
+        })
+        if (data.value)
+          return data.value
 
-      if (error.value)
-        return error.value
+        const user = useUserStore()
+        if (i === 0 && user.current.token !== 'offline' && statusCode.value === 401) {
+          await user.login({
+            username: user.current.username,
+            password: user.current.password,
+          })
+          continue
+        }
+
+        if (error.value)
+          return error.value
+      }
     },
     async getRecipeById(recipeId: number): Promise<Recipe | undefined> {
       const recipe = this.recipes.find(r => r.id === recipeId)
@@ -241,25 +263,35 @@ export const useRecipeStore = defineStore('recipe', {
       if (thisRecipe) {
         thisRecipe.author = user.current.id
 
-        const { data, error } = await gumpFetch('recipe/create', {
-          body: JSON.stringify(thisRecipe),
-        }).text().post()
-        if (data.value) {
-          const id = parseInt(data.value, 10)
-          this.recipes.unshift({
-            id,
-            ...thisRecipe,
-          })
-          this.currentRecipe = emptyRecipe
+        for (let i = 0; i < 2; i++) {
+          const { data, error, statusCode } = await gumpFetch('recipe/create', {
+            body: JSON.stringify(thisRecipe),
+          }).text().post()
+          if (data.value) {
+            const id = parseInt(data.value, 10)
+            this.recipes.unshift({
+              id,
+              ...thisRecipe,
+            })
+            this.currentRecipe = emptyRecipe
 
-          user.current.recipes.push(id)
-          ui.createHeaderIndex = 0
-          ui.createHeaderStates = [false, false, false, false]
-          return id
+            user.current.recipes.push(id)
+            ui.createHeaderIndex = 0
+            ui.createHeaderStates = [false, false, false, false]
+            return id
+          }
+
+          if (i === 0 && user.current.token !== 'offline' && statusCode.value === 401) {
+            await user.login({
+              username: user.current.username,
+              password: user.current.password,
+            })
+            continue
+          }
+
+          if (error.value)
+            return error.value
         }
-
-        if (error.value)
-          return error.value
       }
     },
     async updateRecipe(id: number, recipe: Partial<Recipe>): Promise<void> {
@@ -268,36 +300,58 @@ export const useRecipeStore = defineStore('recipe', {
       else if (recipe.id !== id)
         return
 
-      const { error } = await gumpFetch('recipe/update', {
-        method: 'PATCH',
-        body: JSON.stringify(recipe),
-      })
+      for (let i = 0; i < 2; i++) {
+        const { error, statusCode } = await gumpFetch('recipe/update', {
+          method: 'PATCH',
+          body: JSON.stringify(recipe),
+        })
 
-      if (!error.value) {
-        const foundRecipe = this.recipes.find(r => r.id === id)
-        if (foundRecipe) {
-          // update each changed property of the recipe with the new values
-          Object.keys(recipe).forEach((prop) => {
-            const key = prop as keyof Recipe
-            if (foundRecipe[key] !== recipe[key])
-              setValues(foundRecipe, key, recipe[key] as Recipe[keyof Recipe])
+        const user = useUserStore()
+        if (i === 0 && user.current.token !== 'offline' && statusCode.value === 401) {
+          await user.login({
+            username: user.current.username,
+            password: user.current.password,
           })
+          continue
         }
-      } else {
-        return error.value
+
+        if (!error.value) {
+          const foundRecipe = this.recipes.find(r => r.id === id)
+          if (foundRecipe) {
+          // update each changed property of the recipe with the new values
+            Object.keys(recipe).forEach((prop) => {
+              const key = prop as keyof Recipe
+              if (foundRecipe[key] !== recipe[key])
+                setValues(foundRecipe, key, recipe[key] as Recipe[keyof Recipe])
+            })
+          }
+        } else {
+          return error.value
+        }
       }
     },
     async deleteRecipe(recipeId: number): Promise<void> {
-      const { error } = await gumpFetch(`recipe/delete/${recipeId}`, {
-        method: 'DELETE',
-      })
+      for (let i = 0; i < 2; i++) {
+        const { error, statusCode } = await gumpFetch(`recipe/delete/${recipeId}`, {
+          method: 'DELETE',
+        })
 
-      if (!error.value) {
-        const recipe = this.recipes.find(r => r.id === recipeId)
-        if (recipe)
-          this.recipes.splice(this.recipes.indexOf(recipe), 1)
-      } else {
-        return error.value
+        const user = useUserStore()
+        if (i === 0 && user.current.token !== 'offline' && statusCode.value === 401) {
+          await user.login({
+            username: user.current.username,
+            password: user.current.password,
+          })
+          continue
+        }
+
+        if (!error.value) {
+          const recipe = this.recipes.find(r => r.id === recipeId)
+          if (recipe)
+            this.recipes.splice(this.recipes.indexOf(recipe), 1)
+        } else {
+          return error.value
+        }
       }
     },
   },

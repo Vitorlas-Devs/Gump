@@ -44,7 +44,3 @@ async function handleRegister() {
     </div>
   </ion-page>
 </template>
-
-<style scoped>
-
-</style>
