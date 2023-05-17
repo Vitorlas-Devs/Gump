@@ -78,21 +78,16 @@ export const useUserStore = defineStore('user', {
         return '¯⁠\\_(⁠ツ⁠)_/⁠¯'
     },
     async getUserById(id: number): Promise<User | undefined> {
-      const foundUser = this.all.find(user => user.id === id)
-      if (foundUser) {
-        return foundUser
-      } else {
-        const { data, error } = await gumpFetch<User>(`user/${id}`, {
-          headers: {},
-          method: 'GET',
-        }).json()
-        if (data.value) {
-          this.all.push(data.value)
-          return data.value
-        }
-        if (error.value)
-          return error.value
+      const { data, error } = await gumpFetch<User>(`user/${id}`, {
+        headers: {},
+        method: 'GET',
+      }).json()
+      if (data.value) {
+        this.all.push(data.value)
+        return data.value
       }
+      if (error.value)
+        return error.value
     },
     async searchUser(search: string): Promise<SearchUser[] | undefined> {
       const { data, error } = await gumpFetch<SearchUser[]>(`user/search?searchTerm=${search}`, {
@@ -161,6 +156,32 @@ export const useUserStore = defineStore('user', {
         }
       }
       return badges
+    },
+    async getFollows(type: FollowsSort): Promise<User[] | undefined> {
+      const users: User[] = []
+
+      const { data, error } = await gumpFetch<CurrentUser>('user/me', {
+        method: 'GET',
+      }).json()
+      if (data.value) {
+        if (type === 'Followers') {
+          for (const userId of data.value.follower) {
+            const user = await this.getUserById(userId)
+            if (user)
+              users.push(user)
+          }
+          return users
+        } else {
+          for (const userId of data.value.following) {
+            const user = await this.getUserById(userId)
+            if (user)
+              users.push(user)
+          }
+          return users
+        }
+      }
+      if (error.value)
+        return error.value
     },
   },
   persist: true,

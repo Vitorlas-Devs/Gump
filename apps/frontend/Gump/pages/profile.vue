@@ -3,10 +3,15 @@ const user = useUserStore()
 const image = useImageStore()
 const { open, onChange } = useFileDialog()
 const ui = useUIStore()
+const i18n = useI18n()
 
 const profilePicture = ref('')
 
 const badges = await user.getBadgesByUser(user.current.id)
+
+const showModal = ref(false)
+const follows = ref<User[]>([])
+const followsTitle = ref('')
 
 const userDto = reactive<UserDto>({
   username: user.current.username,
@@ -33,7 +38,14 @@ watch(() => [ui.uploadedImage, user.current.language], async () => {
 
 onMounted(async () => {
   profilePicture.value = image.getImageUrl(user.current.profilePicture)
+  ui.uploadedImage = user.current.profilePicture
 })
+
+async function openModal(type: FollowsSort) {
+  follows.value = await user.getFollows(type) as User[]
+  followsTitle.value = type === 'Followers' ? i18n.t('ProfileFollowers') : i18n.t('ProfileFollowing')
+  showModal.value = true
+}
 </script>
 
 <template>
@@ -41,15 +53,15 @@ onMounted(async () => {
     <TheHeader :show-moderator="user.current.isModerator" :title="$t('ProfileNav')" />
     <div mx-4 grow overflow-y-auto>
       <div flex="~ row" my-7 justify-around>
-        <img :src="profilePicture" h-37 w-37 b-rd-xl bg-grey-900 @click="open({ multiple: false, accept: 'image/png' })">
+        <img :src="profilePicture" h-37 w-37 cursor-pointer b-rd-xl bg-grey-900 @click="open({ multiple: false, accept: 'image/png' })">
         <div flex="~ col" justify-between text-center text-6>
-          <div>
+          <div cursor-pointer @click="openModal('Followers')">
             {{ $t('ProfileFollowers') }}
             <div font-bold>
               {{ user.current.follower.length }}
             </div>
           </div>
-          <div>
+          <div cursor-pointer @click="openModal('Following')">
             {{ $t('ProfileFollowing') }}
             <div font-bold>
               {{ user.current.following.length }}
@@ -73,6 +85,7 @@ onMounted(async () => {
         </h2>
         <Badge v-for="badge of badges" :key="badge.name" :badge="badge" my-3 />
       </div>
+      <Modal :show="showModal" :title="followsTitle" :users="follows" @close="showModal = false" />
     </div>
     <TheNavbar />
   </ion-page>
