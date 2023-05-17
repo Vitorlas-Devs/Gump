@@ -48,7 +48,7 @@ onMounted(async () => {
         <p my-1 truncate text-xl>
           {{ recipe.title }}
         </p>
-        <p my-1 truncate text-lg>
+        <p my-1 cursor-pointer truncate text-lg @click="ui.setParams('user', props.recipe.author); navigateTo(localePath(`/user/${props.recipe.author}`))">
           {{ authorName }}
         </p>
       </div>

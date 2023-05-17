@@ -1,18 +1,29 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   title?: string
   iconType?: 'create' | 'delete'
-  color: 'orangeGradient' | 'crimsonGradient'
+  color: 'orangeGradient' | 'crimsonGradient' | 'blueGradient'
 }>()
 
 defineEmits<{
   (event: 'click'): void
 }>()
+
+const shadowColor = computed(() => {
+  switch (props.color) {
+    case 'orangeGradient':
+      return 'orange'
+    case 'crimsonGradient':
+      return 'crimson'
+    case 'blueGradient':
+      return 'blue'
+  }
+})
 </script>
 
 <template>
   <div
-    left="1/2" transform="translate-x--1/2" flex="~ row" :shadow="color === 'orangeGradient' ? 'orange' : 'crimson'"
+    left="1/2" transform="translate-x--1/2" flex="~ row" :shadow="shadowColor"
     :class="color" bottom-26 z-20 h-max w-max cursor-pointer items-center gap-2 rounded-full p-2 px-4
     @click="$emit('click')"
   >
