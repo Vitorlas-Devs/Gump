@@ -1,28 +1,24 @@
-export const useBadgeStore = defineStore('badge', {
-  actions: {
-    async getBadgeById(id: number): Promise<Badge | undefined> {
-      const { data, error } = await gumpFetch<Badge>(`badge/${id}`, {
-        headers: {},
-        method: 'GET',
-      }).json()
-      if (data.value)
-        return data.value
-      if (error.value)
-        return error.value
-    },
-    async getBadgesByUser(id: number): Promise<Badge[] | undefined> {
-      const user = useUserStore()
-      const currentUser = await user.getUserById(id)
-      const badges: Badge[] = []
-      if (currentUser) {
-        for (const badgeId of currentUser.badges) {
-          const badge = await this.getBadgeById(badgeId)
-          if (badge)
-            badges.push(badge)
-        }
-      }
-      return badges
-    },
+import type { Actions, StoreFactory } from './shared/generic'
+
+type BadgeStore = StoreFactory<'badge', Badge, {}, {}, BadgeAcions>
+
+type BadgeAcions = {
+  getBadgesByUser(id: number): Promise<Badge[] | undefined>
+} & Actions
+
+const actions = createActions<Badge, BadgeStore>({
+  async getBadgesByUser(id: number): Promise<Badge[] | undefined> {
+    const user = useUserStore()
+    const currentUser = user.current.id === id ? user.current : await user.getUserById(id)
+
+    return this.all?.filter((badge: Badge) => currentUser?.badges.includes(badge.id))
   },
-  persist: true,
 })
+
+export const useBadgeStore = useStore<Badge, BadgeStore>(
+  'badge',
+  {
+    actions,
+  },
+  true,
+)

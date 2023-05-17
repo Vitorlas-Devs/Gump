@@ -83,7 +83,12 @@ export const useUserStore = defineStore('user', {
         method: 'GET',
       }).json()
       if (data.value) {
-        this.all.push(data.value)
+        const index = this.all.findIndex(user => user.id === id)
+        if (index !== -1)
+          this.all[index] = data.value
+        else
+          this.all.push(data.value)
+
         return data.value
       }
       if (error.value)
@@ -158,6 +163,23 @@ export const useUserStore = defineStore('user', {
           return users
         }
       }
+      if (error.value)
+        return error.value
+    },
+    async followUser(id: number): Promise<boolean | undefined> {
+      const { data, error } = await gumpFetch(`user/follow/${id}`, {
+        method: 'PATCH',
+      }).text()
+      if (data.value) {
+        if (String(data.value) === 'followed') {
+          this.current.following.push(id)
+          return true
+        } else {
+          this.current.following = this.current.following.filter(following => following !== id)
+          return false
+        }
+      }
+
       if (error.value)
         return error.value
     },
