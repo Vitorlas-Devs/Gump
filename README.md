@@ -35,3 +35,7 @@ Blocks: <https://blocks.githubnext.com/14A-A-Lyedlik-Devs/Gump>
 - Localer
   - Felhasználónév: Moderator
   - Jelszó: moderator001
+
+
+![image](https://github.com/14A-A-Lyedlik-Devs/Gump/assets/36823200/b5f84789-08ae-4e6b-8267-3962c510e8a1)
+
