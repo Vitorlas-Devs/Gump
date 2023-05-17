@@ -22,7 +22,6 @@ describe('MainButton', () => {
         color: 'crimsonGradient',
       },
     })
-    console.log(wrapper.html())
     expect(wrapper.html()).toContain('i-shadow:fa6-solid-trash-can')
   })
 
