@@ -67,6 +67,12 @@ public partial class RecipeRepository : RepositoryBase<RecipeModel>
 	{
 		UserModel recipeAuthor = UserRepository.GetById(recipe.AuthorId);
 
+		if (!recipeAuthor.Recipes.Contains(recipe.Id))
+		{
+			recipeAuthor.Recipes.Add(recipe.Id);
+			UserRepository.Update(recipeAuthor);
+		}
+
 		bool isNewestVersion = recipeAuthor.Recipes
 			.Select(GetById)
 			.Where(r => r.AuthorId == recipeAuthor.Id && r.Title == recipe.Title)

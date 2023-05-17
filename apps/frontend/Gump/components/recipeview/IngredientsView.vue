@@ -151,7 +151,7 @@ watch(() => recipe.currentRecipe?.ingredients, () => {
           </div>
           <div
             v-else
-            :class="dropdowns[index] ? 'i-fa6-solid-chevron-up' : 'i-fa6-solid-chevron-down'"
+            :class="dropdowns[index] ? 'i-shadow:fa6-solid-chevron-up' : 'i-shadow:fa6-solid-chevron-down'"
             mr-2 cursor-pointer
             @click="toggleIngredient(index)"
           />
