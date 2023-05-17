@@ -15,7 +15,7 @@ withDefaults(defineProps<{
 
 const ui = useUIStore()
 
-const icons = ['i-fa6-solid-fire', 'i-ion-sparkles', 'i-fa6-solid-trophy']
+const icons = ['i-shadow:fa6-solid-fire', 'i-shadow:ion-sparkles', 'i-shadow:fa6-solid-trophy']
 </script>
 
 <template>

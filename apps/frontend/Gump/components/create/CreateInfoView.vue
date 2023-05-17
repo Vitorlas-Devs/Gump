@@ -8,11 +8,11 @@ const localePath = useLocalePath()
 const visibilityData = computed(() => {
   return {
     Public: {
-      icon: 'i-ph-users-three-fill',
+      icon: 'i-shadow:ph-users-three-fill',
       active: recipe.currentRecipe?.isPrivate === false,
     },
     Private: {
-      icon: 'i-ph-lock-bold',
+      icon: 'i-shadow:ph-lock-simple-bold',
       active: recipe.currentRecipe?.isPrivate === true,
     },
   }
@@ -92,12 +92,12 @@ async function deleteRecipe() {
             @click="recipe.currentRecipe.isPrivate = !recipe.currentRecipe.isPrivate; checkDone()"
           >
             <div
-              h-10 w-10
+              h-12 w-12
               :class="visibility.active ? `${visibility.icon} text-orange-500` : `${visibility.icon} text-brown-500`"
             />
             <div
               :class="visibility.active ? 'visible' : 'invisible'"
-              h-2 w-9 rounded-full bg-orange-500
+              h-1.5 w-9 rounded-full bg-orange-500 shadow-md shadow-orange-500
             />
           </div>
           <div flex="~ col" justify-between>
