@@ -33,7 +33,7 @@ describe('CreateSubHeader (ingredients)', () => {
   })
 
   it('should render the mode switcher', async () => {
-    await wrapper.find('.orangeIcon').trigger('click')
+    await wrapper.find('#togglePanel').trigger('click')
     expect(wrapper.html()).toContain('Raw')
     expect(wrapper.html()).toContain('Design')
   })
@@ -69,7 +69,7 @@ describe('CreateSubHeader (steps)', () => {
   })
 
   it('should render the tip', async () => {
-    await wrapper.find('.orangeIcon').trigger('click')
+    await wrapper.find('#togglePanel').trigger('click')
     expect(wrapper.html()).toContain('CreateStepsTip')
   })
 })

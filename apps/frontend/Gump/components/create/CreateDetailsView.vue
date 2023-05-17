@@ -135,7 +135,7 @@ watch(() => recipe.currentRecipe?.image, () => {
           Choose image
         </button>
         <div crimsonBtn>
-          <div i-ph-camera-slash-bold whiteIcon @click="reset(); recipe.currentRecipe.image = 0; checkDone()" />
+          <div whiteIcon i-shadow:ph-camera-slash-bold @click="reset(); recipe.currentRecipe.image = 0; checkDone()" />
         </div>
       </div>
     </div>

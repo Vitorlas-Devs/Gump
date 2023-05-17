@@ -39,23 +39,19 @@ describe('RecipeFooter', () => {
   })
 
   it('should change the icons when the props change', async () => {
-    const likeIcon = wrapper.find('.crimsonIcon')
-    const saveIcon = wrapper.find('.blueIcon')
+    const likeIcon = wrapper.find('crimsonIcon')
+    const saveIcon = wrapper.find('blueIcon')
 
-    expect(likeIcon.classes()).toContain('i-ph-heart-bold')
-    expect(saveIcon.classes()).toContain('i-ph-bookmark-simple-bold')
+    expect(likeIcon.html()).toContain('i-shadow:ph-heart-bold')
+    expect(saveIcon.html()).toContain('i-shadow:ph-bookmark-simple-bold')
 
-    // await wrapper.setProps({ isLiked: true, isSaved: true })
-    await wrapper.setProps({
-      recipe: {
-        isLiked: true,
-        isSaved: true,
-      },
-    })
-    console.log(wrapper.props('recipe'))
+    emptyRecipe.isLiked = true
+    emptyRecipe.isSaved = true
+    await wrapper.setProps({ recipe: emptyRecipe })
+    await wrapper.vm.$nextTick()
 
-    expect(likeIcon.classes()).toContain('i-ph-heart-fill')
-    expect(saveIcon.classes()).toContain('i-ph-bookmark-simple-fill')
+    expect(likeIcon.html()).toContain('i-shadow:ph-heart-fill')
+    expect(saveIcon.html()).toContain('i-shadow:ph-bookmark-simple-fill')
   })
 
   it('should emit an event when the icons are clicked', async () => {

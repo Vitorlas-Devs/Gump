@@ -59,7 +59,7 @@ function handleHistoryClick(search: string) {
         </p>
       </div>
       <div v-for="search in ui.getSearchHistory" :key="search" flex="~ row" w-full items-center gap-4>
-        <div i-fa6-solid-clock-rotate-left orangeIcon />
+        <div orangeIcon i-shadow:fa6-solid-clock-rotate-left />
         <p
           my-2 cursor-pointer text-xl
           @click="handleHistoryClick(search)"

@@ -124,7 +124,7 @@ watch(() => recipe.currentRecipe?.steps, () => {
             @keydown.backspace="handleBackspace($event, index)"
           />
           <div
-            :class="trackedKeys[index] && trackedKeys[index].length > 0 ? toggledCarets[index] ? 'visible i-fa6-solid-caret-up' : 'visible i-fa6-solid-caret-down' : 'invisible'"
+            :class="trackedKeys[index] && trackedKeys[index].length > 0 ? toggledCarets[index] ? 'visible i-shadow:fa6-solid-caret-up' : 'visible i-shadow:fa6-solid-caret-down' : 'invisible'"
             orangeIcon h-5 w-5 cursor-pointer px-4
             @click="showLinkedRecipe(index); toggleCaret(index)"
           />
