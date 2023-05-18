@@ -8,6 +8,7 @@ async function skipLogin() {
   user.current = {
     id: 0,
     username: '',
+    email: '',
     password: '',
     profilePicture: 0,
     recipes: [],

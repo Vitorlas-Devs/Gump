@@ -44,7 +44,7 @@ export const useUserStore = defineStore('user', {
       if (error.value)
         return error.value
     },
-    async login(userDto: UserDto) {
+    async login(userDto: UserDto): Promise<{ token: string | undefined; error: unknown } | undefined> {
       const { data, error } = await gumpFetch<{ token: string; id: number }>('auth/login', {
         headers: {},
         method: 'POST',
@@ -53,10 +53,11 @@ export const useUserStore = defineStore('user', {
       if (data.value) {
         this.current.token = data.value.token
         this.current.password = userDto.password
+        return { token: data.value.token, error: undefined }
       }
 
       if (error.value)
-        return error.value
+        return { token: undefined, error: error.value }
     },
     async getUserData() {
       const { data, error } = await gumpFetch<CurrentUser>('user/me', {

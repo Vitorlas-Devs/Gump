@@ -10,12 +10,14 @@ const userDto = reactive<UserDto>({
 })
 
 async function handleLogin() {
-  const error = await user.login(userDto)
-  if (error) {
-    console.log(error)
-  } else {
-    await user.getUserData()
-    await navigateTo(localePath('/home', user.current.language))
+  const response = await user.login(userDto)
+  if (response) {
+    if (response.error) {
+      console.log(response.error)
+    } else if (response.token) {
+      await user.getUserData()
+      await navigateTo(localePath('/home', user.current.language))
+    }
   }
 }
 </script>

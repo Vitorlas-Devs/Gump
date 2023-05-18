@@ -124,48 +124,29 @@ export const useRecipeStore = defineStore('recipe', {
       return this.recipes.filter(recipe => recipe.title.toLowerCase().includes(query.toLowerCase()))
     },
     async likeRecipe(recipeId: number) {
-      for (let i = 0; i < 2; i++) {
-        const { data, error, statusCode } = await gumpFetch(`recipe/like/${recipeId}`, {
-          method: 'PATCH',
-        })
-        if (data.value)
-          return data.value
+      const retry = useRetryStore()
+      retry.function = () => this.likeRecipe(recipeId)
 
-        const user = useUserStore()
-        if (i === 0 && user.current.token !== 'offline' && statusCode.value === 401) {
-          await user.login({
-            username: user.current.username,
-            password: user.current.password,
-          })
-          continue
-        }
+      const { error } = await gumpFetch(`recipe/like/${recipeId}`, {
+        method: 'PATCH',
+      })
 
-        if (error.value)
-          return error.value
-      }
+      if (error.value)
+        return error.value
     },
     async saveRecipe(recipeId: number) {
-      for (let i = 0; i < 2; i++) {
-        const { data, error, statusCode } = await gumpFetch(`recipe/save/${recipeId}`, {
-          method: 'PATCH',
-        })
-        if (data.value)
-          return data.value
+      const retry = useRetryStore()
+      retry.function = () => this.saveRecipe(recipeId)
 
-        const user = useUserStore()
-        if (i === 0 && user.current.token !== 'offline' && statusCode.value === 401) {
-          await user.login({
-            username: user.current.username,
-            password: user.current.password,
-          })
-          continue
-        }
+      const { error } = await gumpFetch(`recipe/save/${recipeId}`, {
+        method: 'PATCH',
+      })
 
-        if (error.value)
-          return error.value
-      }
+      if (error.value)
+        return error.value
     },
     async getRecipeById(recipeId: number): Promise<Recipe | undefined> {
+      const user = useUserStore()
       const recipe = this.recipes.find(r => r.id === recipeId)
       if (recipe && recipe.ingredients) {
         return recipe
@@ -175,8 +156,6 @@ export const useRecipeStore = defineStore('recipe', {
           method: 'GET',
         }).json()
         if (data.value) {
-          const user = useUserStore()
-
           data.value.isLiked = user.current.likes.includes(data.value.id)
           data.value.isSaved = user.current.recipes.includes(data.value.id)
           data.value.visibleTo = []
@@ -188,7 +167,7 @@ export const useRecipeStore = defineStore('recipe', {
 
           // for every ingredient in the recipe, check if it has a non-zero linkedRecipe and call getRecipeById on them
           data.value.ingredients.forEach(async (ingredient: Ingredient) => {
-            if (ingredient.linkedRecipe)
+            if (ingredient.linkedRecipe !== 0)
               await this.getRecipeById(ingredient.linkedRecipe)
           })
 
@@ -250,8 +229,11 @@ export const useRecipeStore = defineStore('recipe', {
       return recipes
     },
     async createRecipe(recipe?: Optional<Recipe, 'id'>): Promise<number | undefined> {
-      const user = useUserStore()
       const ui = useUIStore()
+      const user = useUserStore()
+      const retry = useRetryStore()
+      retry.function = () => this.createRecipe(recipe)
+
       if (ui.createHeaderStates.some(state => !state))
         return
 
@@ -263,95 +245,69 @@ export const useRecipeStore = defineStore('recipe', {
       if (thisRecipe) {
         thisRecipe.author = user.current.id
 
-        for (let i = 0; i < 2; i++) {
-          const { data, error, statusCode } = await gumpFetch('recipe/create', {
-            body: JSON.stringify(thisRecipe),
-          }).text().post()
-          if (data.value) {
-            const id = parseInt(data.value, 10)
-            this.recipes.unshift({
-              id,
-              ...thisRecipe,
-            })
-            this.currentRecipe = emptyRecipe
+        const { data, error } = await gumpFetch('recipe/create', {
+          body: JSON.stringify(thisRecipe),
+        }).text().post()
+        if (data.value) {
+          const id = parseInt(data.value, 10)
+          this.recipes.unshift({
+            id,
+            ...thisRecipe,
+          })
+          this.currentRecipe = emptyRecipe
 
-            user.current.recipes.push(id)
-            ui.createHeaderIndex = 0
-            ui.createHeaderStates = [false, false, false, false]
-            return id
-          }
-
-          if (i === 0 && user.current.token !== 'offline' && statusCode.value === 401) {
-            await user.login({
-              username: user.current.username,
-              password: user.current.password,
-            })
-            continue
-          }
-
-          if (error.value)
-            return error.value
+          user.current.recipes.push(id)
+          ui.createHeaderIndex = 0
+          ui.createHeaderStates = [false, false, false, false]
+          return id
         }
+
+        if (error.value)
+          return error.value
       }
     },
     async updateRecipe(id: number, recipe: Partial<Recipe>): Promise<void> {
+      const retry = useRetryStore()
+      retry.function = () => this.updateRecipe(id, recipe)
+
       if (!recipe.id)
         recipe.id = id
       else if (recipe.id !== id)
         return
 
-      for (let i = 0; i < 2; i++) {
-        const { error, statusCode } = await gumpFetch('recipe/update', {
-          method: 'PATCH',
-          body: JSON.stringify(recipe),
-        })
+      const { error } = await gumpFetch('recipe/update', {
+        method: 'PATCH',
+        body: JSON.stringify(recipe),
+      })
 
-        const user = useUserStore()
-        if (i === 0 && user.current.token !== 'offline' && statusCode.value === 401) {
-          await user.login({
-            username: user.current.username,
-            password: user.current.password,
-          })
-          continue
-        }
-
-        if (!error.value) {
-          const foundRecipe = this.recipes.find(r => r.id === id)
-          if (foundRecipe) {
+      if (!error.value) {
+        const foundRecipe = this.recipes.find(r => r.id === id)
+        if (foundRecipe) {
           // update each changed property of the recipe with the new values
-            Object.keys(recipe).forEach((prop) => {
-              const key = prop as keyof Recipe
-              if (foundRecipe[key] !== recipe[key])
-                setValues(foundRecipe, key, recipe[key] as Recipe[keyof Recipe])
-            })
-          }
-        } else {
-          return error.value
+          Object.keys(recipe).forEach((prop) => {
+            const key = prop as keyof Recipe
+            if (foundRecipe[key] !== recipe[key])
+              setValues(foundRecipe, key, recipe[key] as Recipe[keyof Recipe])
+          })
         }
+      } else {
+        return error.value
       }
     },
     async deleteRecipe(recipeId: number): Promise<void> {
-      for (let i = 0; i < 2; i++) {
-        const { error, statusCode } = await gumpFetch(`recipe/delete/${recipeId}`, {
-          method: 'DELETE',
-        })
+      const retry = useRetryStore()
+      retry.function = () => this.deleteRecipe(recipeId)
 
-        const user = useUserStore()
-        if (i === 0 && user.current.token !== 'offline' && statusCode.value === 401) {
-          await user.login({
-            username: user.current.username,
-            password: user.current.password,
-          })
-          continue
-        }
+      const { error } = await gumpFetch(`recipe/delete/${recipeId}`, {
+        method: 'DELETE',
+      })
 
-        if (!error.value) {
-          const recipe = this.recipes.find(r => r.id === recipeId)
-          if (recipe)
-            this.recipes.splice(this.recipes.indexOf(recipe), 1)
-        } else {
-          return error.value
-        }
+      if (!error.value) {
+        const recipe = this.recipes.find(r => r.id === recipeId)
+        if (recipe)
+          this.recipes.splice(this.recipes.indexOf(recipe), 1)
+      } else {
+        return error.value
       }
     },
   },

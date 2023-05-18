@@ -4,12 +4,41 @@ export const gumpFetch = createFetch({
   baseUrl: 'https://api.gump.live/', // https://api.gump.live/ // http://localhost:5135/api
   options: {
     beforeFetch({ options }) {
-      const user = useLocalStorage('user', '')
+      const userStorage = useLocalStorage('user', '')
       const token = ref('')
-      token.value = JSON.parse(user.value).current.token
+      token.value = JSON.parse(userStorage.value).current.token
 
       // @ts-expect-error - ;-;
       options.headers.Authorization = `Bearer ${token.value}`
+    },
+    async onFetchError(ctx) {
+      const user = useUserStore()
+      const retry = useRetryStore()
+      const localPath = useLocalePath()
+      if (ctx.response?.status === 401 && user.current.token !== 'offline') {
+        await user.login({
+          username: user.current.username,
+          password: user.current.password,
+        })
+
+        if (retry.function) {
+          if (retry.function !== retry.last.function) {
+            await retry.function()
+            retry.last.function = retry.function
+            retry.last.times = 0
+          } else {
+            if (retry.last.times < 10) {
+              await retry.function()
+              retry.last.times += 1
+            } else {
+              retry.last.times = 0
+              await navigateTo(localPath('/login'))
+            }
+          }
+          retry.function = undefined
+        }
+      }
+      return ctx
     },
   },
   fetchOptions: {
