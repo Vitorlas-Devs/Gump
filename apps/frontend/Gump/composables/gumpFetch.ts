@@ -15,7 +15,7 @@ export const gumpFetch = createFetch({
       const user = useUserStore()
       const retry = useRetryStore()
       const localPath = useLocalePath()
-      if (ctx.response?.status === 401 && user.current.token !== 'offline') {
+      if (ctx.response?.status === 401 && user.current.token !== 'offline' && user.current.username !== '' && user.current.password !== '') {
         await user.login({
           username: user.current.username,
           password: user.current.password,
@@ -37,6 +37,8 @@ export const gumpFetch = createFetch({
           }
           retry.function = undefined
         }
+      } else if (user.current.token !== 'offline' && (user.current.username === '' || user.current.password === '')) {
+        await navigateTo(localPath('/login'))
       }
       return ctx
     },

@@ -16,7 +16,7 @@ export const emptyCurrentUser: CurrentUser = {
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    current: emptyCurrentUser,
+    current: JSON.parse(JSON.stringify(emptyCurrentUser)) as CurrentUser,
     all: [] as User[],
   }),
   getters: {
@@ -34,6 +34,9 @@ export const useUserStore = defineStore('user', {
     },
   },
   actions: {
+    logout() {
+      this.current = JSON.parse(JSON.stringify(emptyCurrentUser))
+    },
     async register(userDto: UserDto) {
       const { data, error } = await gumpFetch('user/create', {
         headers: {},
@@ -64,8 +67,9 @@ export const useUserStore = defineStore('user', {
         method: 'GET',
       }).json()
       if (data.value) {
-        const { token } = this.current
+        const { token, password } = this.current
         this.current = data.value
+        this.current.password = password
         this.current.token = token
       }
       if (error.value)

@@ -5,21 +5,8 @@ const localePath = useLocalePath()
 const canLogin = ref(false)
 
 async function skipLogin() {
-  user.current = {
-    id: 0,
-    username: '',
-    email: '',
-    password: '',
-    profilePicture: 0,
-    recipes: [],
-    likes: [],
-    following: [],
-    follower: [],
-    badges: [],
-    language: '',
-    isModerator: false,
-    token: 'offline',
-  }
+  user.current = JSON.parse(JSON.stringify(emptyCurrentUser))
+  user.current.token = 'offline'
   await navigateTo(localePath('/home'))
 }
 

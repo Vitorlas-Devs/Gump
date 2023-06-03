@@ -19,9 +19,8 @@ async function handleRegister() {
 
 <template>
   <ion-page overflow-y-auto bg-crimson-50>
-    <div
-      flex="~ col" items-center justify-center gap-5 font-bold
-    >
+    <div flex="~ col" items-center justify-center gap-5 font-bold>
+      <div crimsonIcon i-shadow:fa6-solid-arrow-left absolute left-2 top-2 cursor-pointer @click="navigateTo(localePath('/'))" />
       <h1 flex-1 text-4xl text-crimson-500 text-shadow-crimson>
         {{ $t('WelcomeSignUp') }}
       </h1>

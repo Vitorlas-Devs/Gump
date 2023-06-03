@@ -3,6 +3,7 @@ const user = useUserStore()
 const image = useImageStore()
 const ui = useUIStore()
 const badge = useBadgeStore()
+const localePath = useLocalePath()
 
 const { open, onChange } = useFileDialog()
 const i18n = useI18n()
@@ -16,7 +17,7 @@ const followsTitle = ref('')
 const userDto = reactive<UserDto>({
   username: user.current.username,
   email: user.current.email,
-  password: '',
+  password: user.current.password,
 })
 
 async function modifyUser() {
@@ -49,6 +50,12 @@ async function openModal(type: FollowsSort) {
 }
 
 const userBadges = await badge.getBadgesByUser(user.current.id)
+
+async function logout() {
+  user.logout()
+  ui.activeNav = 'Home'
+  await navigateTo(localePath('/'))
+}
 </script>
 
 <template>
@@ -71,6 +78,14 @@ const userBadges = await badge.getBadgesByUser(user.current.id)
             </div>
           </div>
         </div>
+      </div>
+      <div mx-5 flex="~ row" justify-end>
+        <MainButton
+          transform-none
+          color="crimsonGradient"
+          title="Logout"
+          @click="logout()"
+        />
       </div>
       <div flex="~ col" gap-2>
         <div v-for="(field, index) in Object.keys(userDto)" :key="index" flex="~ col" justify-center gap-2>

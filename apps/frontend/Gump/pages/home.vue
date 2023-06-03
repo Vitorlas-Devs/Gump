@@ -12,7 +12,8 @@ watch(
 )
 
 onMounted(async () => {
-  await user.getUserData()
+  if (user.current.token !== 'offline')
+    await user.getUserData()
 })
 
 function handleLiked(r: SearchRecipe) {
